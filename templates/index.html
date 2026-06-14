@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>AP Equivalent Calculator</title>
+<title>Clinical AP Converter</title>
 </head>
 
 <body>
 
-<h2>Upload Excel File</h2>
+<h2>
+Clinical AP Converter
+</h2>
 
 <form
 action="/upload"
-method="post"
+method="POST"
 enctype="multipart/form-data">
+
+<label>
+Conversion Method
+</label>
+
+<br>
+
+<select name="method">
+
+{% for m in methods %}
+
+<option value="{{m}}">
+{{m}}
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
 
 <input
 type="file"
 name="file"
 required>
 
+<br><br>
+
 <button type="submit">
-Calculate
+Upload
 </button>
 
 </form>

@@ -1,4 +1,6 @@
 flask
 pandas
 openpyxl
+rapidfuzz
+openai
 gunicorn
