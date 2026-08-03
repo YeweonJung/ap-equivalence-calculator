@@ -1,4 +1,6 @@
 __pycache__/
-*.pyc
+*.py[cod]
+.env
+.venv/
 uploads/
 output/

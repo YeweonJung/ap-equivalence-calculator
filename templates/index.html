@@ -1,52 +1,50 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko">
 <head>
-<title>Clinical AP Converter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AP Dose Converter | 항정신병약물 등가용량 계산</title>
+  <style>
+    :root{--navy:#12233f;--blue:#1769e0;--sky:#edf5ff;--ink:#17233a;--muted:#68758a;--line:#dce5f1;--white:#fff;--green:#17805c}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;background:#f7f9fc}
+    .wrap{width:min(1160px,calc(100% - 40px));margin:auto}header{height:72px;background:#fff;border-bottom:1px solid #e7edf5}.nav{height:100%;display:flex;align-items:center;justify-content:space-between}.logo{font-size:18px;font-weight:900;letter-spacing:-.03em}.logo i{font-style:normal;color:var(--blue)}.nav-note{font-size:12px;color:var(--muted)}
+    .hero{padding:68px 0 78px;background:radial-gradient(circle at 78% 15%,#d9eaff 0,transparent 31%),linear-gradient(135deg,#f8fbff,#edf4ff)}.hero-grid{display:grid;grid-template-columns:1fr 500px;gap:72px;align-items:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border-radius:999px;background:#e3efff;color:#155bb7;font-size:12px;font-weight:800}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:#2c7be5}h1{font-size:clamp(42px,5.3vw,68px);line-height:1.08;letter-spacing:-.06em;margin:19px 0 22px}.hero-copy>p{max-width:590px;color:var(--muted);font-size:17px;line-height:1.8;margin:0}.steps{display:flex;gap:24px;margin-top:34px}.step{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:750}.num{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#fff;color:var(--blue);border:1px solid #cbdcf2}
+    .upload-card{background:#fff;border:1px solid #d9e4f3;border-radius:24px;padding:30px;box-shadow:0 25px 65px #173d7720}.upload-card h2{font-size:23px;letter-spacing:-.03em;margin:0 0 7px}.sub{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 22px}.field{margin-top:17px}.field label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;font-weight:800}.field label span{color:#919cad;font-weight:500}select,input[type=file]{width:100%;min-height:50px;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:#fbfcfe;color:var(--ink)}input[type=file]::file-selector-button{margin-right:10px;border:0;padding:9px 12px;border-radius:7px;background:#e9f2ff;color:#1769e0;font-weight:800;cursor:pointer}.actions{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-top:22px}.sample,.submit{min-height:49px;border-radius:11px;font-size:14px;font-weight:850;text-decoration:none;display:grid;place-items:center;cursor:pointer}.sample{border:1px solid #cdd9e9;color:#34506f;background:#fff}.submit{border:0;background:var(--blue);color:#fff;box-shadow:0 10px 22px #1769e039}.submit:hover{background:#1058be}.privacy{margin:14px 0 0!important;text-align:center;color:#8290a3!important;font-size:11px!important}
+    .info{padding:68px 0}.section-title{text-align:center;font-size:31px;letter-spacing:-.045em;margin:0 0 12px}.section-copy{text-align:center;color:var(--muted);margin:0 0 34px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:24px}.card .icon{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;background:var(--sky);font-size:20px}.card h3{font-size:17px;margin:17px 0 9px}.card p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}.format{margin-top:28px;padding:22px 25px;background:var(--navy);color:#fff;border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:20px}.format strong{font-size:14px}.format code{color:#cfe2ff;font-size:13px}.result{color:#a8e9cf;font-size:12px;font-weight:750}footer{padding:24px;text-align:center;color:#8b96a8;font-size:11px;border-top:1px solid #e5ebf3;background:#fff}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:42px}.hero{padding-top:44px}.steps{flex-wrap:wrap}.upload-card{max-width:600px}.cards{grid-template-columns:1fr}.format{align-items:flex-start;flex-direction:column}}@media(max-width:520px){.wrap{width:min(100% - 28px,1160px)}.nav-note{display:none}h1{font-size:42px}.steps{display:grid;gap:13px}.upload-card{padding:22px}.actions{grid-template-columns:1fr}.format code{font-size:11px;word-break:break-all}}
+  </style>
 </head>
-
 <body>
-
-<h2>
-Clinical AP Converter
-</h2>
-
-<form
-action="/upload"
-method="POST"
-enctype="multipart/form-data">
-
-<label>
-Conversion Method
-</label>
-
-<br>
-
-<select name="method">
-
-{% for m in methods %}
-
-<option value="{{m}}">
-{{m}}
-</option>
-
-{% endfor %}
-
-</select>
-
-<br><br>
-
-<input
-type="file"
-name="file"
-required>
-
-<br><br>
-
-<button type="submit">
-Upload
-</button>
-
-</form>
-
+  <header><div class="wrap nav"><div class="logo">AP <i>DOSE</i> CONVERTER</div><div class="nav-note">Antipsychotic equivalence calculator</div></div></header>
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">EXCEL BATCH CONVERSION</div>
+          <h1>데이터를 올리면,<br>계산된 Excel이<br>바로 나옵니다.</h1>
+          <p>환자별 약물 처방 데이터가 담긴 CSV 또는 Excel 파일을 업로드하세요. 약물명과 일일 용량을 분석해 등가용량 결과 파일을 자동으로 생성합니다.</p>
+          <div class="steps"><div class="step"><span class="num">1</span>파일 선택</div><div class="step"><span class="num">2</span>자동 계산</div><div class="step"><span class="num">3</span>Excel 다운로드</div></div>
+        </div>
+        <section class="upload-card" aria-labelledby="upload-title">
+          <h2 id="upload-title">데이터 파일 업로드</h2>
+          <p class="sub">아래에서 환산 방법과 파일을 선택하면 계산 결과가 `.xlsx` 파일로 다운로드됩니다.</p>
+          <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <div class="field"><label for="method">환산 방법 <span>Required</span></label><select id="method" name="method" required>{% for method in methods %}<option value="{{ method }}">{{ method }}</option>{% endfor %}</select></div>
+            <div class="field"><label for="file">환자 데이터 <span>CSV · XLS · XLSX / 최대 100MB</span></label><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></div>
+            <div class="actions"><a class="sample" href="{{ url_for('sample_file') }}">샘플 받기</a><button class="submit" type="submit">계산하고 Excel 받기</button></div>
+          </form>
+          <p class="privacy">업로드 파일은 계산 완료 후 서버에서 삭제됩니다.</p>
+        </section>
+      </div>
+    </section>
+    <section class="info">
+      <div class="wrap">
+        <h2 class="section-title">결과 파일에 포함되는 내용</h2><p class="section-copy">계산 결과뿐 아니라 확인과 검토에 필요한 처리 기록도 함께 제공합니다.</p>
+        <div class="cards"><article class="card"><div class="icon">∑</div><h3>Detailed</h3><p>표준화된 약물명, 단회 용량, 복용 빈도, 일일 용량과 기준 약물 등가용량을 제공합니다.</p></article><article class="card"><div class="icon">✓</div><h3>AuditTrail</h3><p>각 원본 약물 문자열이 어떤 표준 약물명으로 처리되었는지 확인할 수 있습니다.</p></article><article class="card"><div class="icon">!</div><h3>Errors</h3><p>약물명이나 용량을 찾지 못한 행을 별도 시트에 모아 수정하기 쉽게 표시합니다.</p></article></div>
+        <div class="format"><strong>권장 입력 예시</strong><code>patient_id, medication &nbsp;→&nbsp; P001, Risperdal 2mg BID</code><span class="result">결과: AP_equivalence_result.xlsx</span></div>
+      </div>
+    </section>
+  </main>
+  <footer>Research and educational support tool · 결과는 임상 판단을 대체하지 않습니다.</footer>
 </body>
 </html>
