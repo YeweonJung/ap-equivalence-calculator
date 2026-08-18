@@ -1,9 +1,9 @@
 import math
 import re
-from difflib import SequenceMatcher
 from pathlib import Path
 
 import pandas as pd
+from rapidfuzz import fuzz, process
 
 
 ALIAS_FILE = Path(__file__).resolve().parents[1] / "lookup" / "drug_alias.csv"
@@ -15,7 +15,7 @@ alias_map = {
 }
 
 DOSE_RE = re.compile(
-    r"(?<![\d.])(?P<dose>[+-]?\d+(?:\.\d+)?)\s*(?P<unit>mcg|ug|μg|mg|g)\b",
+    r"(?<![\d.])(?P<dose>[+-]?\d+(?:\.\d+)?)\s*(?P<unit>mcg|ug|μg|㎍|mg|㎎|g)(?![a-z])",
     re.IGNORECASE,
 )
 FREQUENCIES = (
@@ -46,22 +46,23 @@ def dictionary_match(text):
     return None
 
 
-def fuzzy_match(text, threshold=88):
+def fuzzy_match(text, threshold=85):
     value = DOSE_RE.sub(" ", str(text).casefold())
+    value = re.sub(r"\b(?:qid|tid|bid|qod|qhs|hs|qam|qd|od|daily|weekly|tab(?:let)?s?|caps?(?:ules?)?)\b", " ", value, flags=re.I)
+    value = re.sub(r"\b\d+(?:\.\d+)?\s*(?:t|tabs?|tablets?|caps?)\b", " ", value, flags=re.I)
     value = re.sub(r"[^\w가-힣]+", " ", value).strip()
     if not value:
         return None
-    best_alias, best_score = None, 0.0
-    for alias in alias_map:
-        score = SequenceMatcher(None, value, alias).ratio() * 100
-        if score > best_score:
-            best_alias, best_score = alias, score
-    return alias_map[best_alias] if best_alias and best_score >= threshold else None
+    candidates = [alias for alias in alias_map if len(alias) >= 4]
+    result = process.extractOne(value, candidates, scorer=fuzz.ratio)
+    if result and result[1] >= threshold:
+        return alias_map[result[0]], float(result[1])
+    return None, None
 
 
 def _dose_to_mg(value, unit):
     unit = unit.casefold()
-    if unit in {"mcg", "ug", "μg"}:
+    if unit in {"mcg", "ug", "μg", "㎍"}:
         return value / 1000.0
     if unit == "g":
         return value * 1000.0
@@ -72,7 +73,11 @@ def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
         raise ValueError("약물 값이 비어 있습니다.")
-    drug = dictionary_match(original) or fuzzy_match(original)
+    drug = dictionary_match(original)
+    match_type, match_score = "exact", 100.0
+    if not drug:
+        drug, match_score = fuzzy_match(original)
+        match_type = "fuzzy" if drug else "unresolved"
     if not drug:
         raise ValueError("약물명을 확인할 수 없습니다.")
     match = DOSE_RE.search(original)
@@ -96,4 +101,7 @@ def parse_medication(text):
         "frequency_per_day": frequency_per_day,
         "daily_dose_mg": round(dose_mg * frequency_per_day, 6),
         "warning": warning,
+        "match_type": match_type,
+        "match_score": match_score,
+        "needs_review": match_type != "exact",
     }

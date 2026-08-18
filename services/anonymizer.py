@@ -1,14 +1,21 @@
 PATIENT_COLUMNS = [
+    "id",
+    "patient_id",
     "name",
     "patient",
     "patient_name",
     "mrn",
     "subject",
-    "participant"
+    "participant",
+    "환자번호",
+    "환자명",
+    "대상자번호",
+    "등록번호",
+    "차트번호",
 ]
 
 
-def anonymize_dataframe(df):
+def anonymize_dataframe(df, columns=None):
 
     df = df.copy()
 
@@ -24,10 +31,8 @@ def anonymize_dataframe(df):
             .strip()
         )
 
-        if any(
-            k in col_lower
-            for k in PATIENT_COLUMNS
-        ):
+        selected = set(columns or [])
+        if col in selected or (not selected and col_lower in PATIENT_COLUMNS):
 
             for value in (
                 df[col]

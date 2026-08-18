@@ -6,8 +6,9 @@ import pandas as pd
 DETAILED_COLUMNS = [
     "sheet", "patient", "original", "drug", "dose_mg", "frequency",
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
+    "match_type", "match_score", "needs_review",
 ]
-AUDIT_COLUMNS = ["sheet", "patient", "original", "parsed", "status"]
+AUDIT_COLUMNS = ["sheet", "patient", "original", "parsed", "match_type", "match_score", "status"]
 ERROR_COLUMNS = ["sheet", "patient", "original", "error"]
 
 
