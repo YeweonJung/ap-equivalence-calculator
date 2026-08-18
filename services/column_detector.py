@@ -4,8 +4,11 @@ import re
 PATIENT_KEYWORDS = ["patient_id", "patient", "subject", "participant", "mrn", "id", "name", "환자번호", "환자", "대상자", "등록번호", "차트번호"]
 
 MEDICATION_KEYWORDS = ["medications", "medication", "prescription", "medicine", "drug", "rx", "처방내역", "처방약", "처방", "투약내역", "투약", "약물정보", "약물명", "약제"]
+DOSE_KEYWORDS = ["daily_dose", "dose_mg", "dosage", "dose", "strength", "일일용량", "1일용량", "투여량", "용량"]
+UNIT_KEYWORDS = ["dose_unit", "unit", "단위"]
+FREQUENCY_KEYWORDS = ["frequency", "freq", "횟수", "복용빈도", "투여빈도", "용법"]
 
-DOSE_VALUE_RE = re.compile(r"\d+(?:\.\d+)?\s*(?:mcg|ug|μg|㎍|mg|㎎|g)\b", re.I)
+DOSE_VALUE_RE = re.compile(r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mcg|ug|μg|㎍|mg|㎎|g)(?=$|[\s,;+/])", re.I)
 
 
 def _name_score(column, keywords):
@@ -46,4 +49,18 @@ def detect_columns(df):
     if best_content == 0 and best_name == 0:
         medication_col = None
 
-    return {"patient_column": patient_col, "medication_column": medication_col}
+    def best_named(keywords, excluded=()):
+        scores = {col: _name_score(col, keywords) for col in df.columns if col not in excluded}
+        return max(scores, key=scores.get) if scores and any(scores.values()) else None
+
+    dose_col = best_named(DOSE_KEYWORDS, excluded=(medication_col,))
+    unit_col = best_named(UNIT_KEYWORDS, excluded=(medication_col, dose_col))
+    frequency_col = best_named(FREQUENCY_KEYWORDS, excluded=(medication_col, dose_col, unit_col))
+
+    return {
+        "patient_column": patient_col,
+        "medication_column": medication_col,
+        "dose_column": dose_col,
+        "unit_column": unit_col,
+        "frequency_column": frequency_col,
+    }

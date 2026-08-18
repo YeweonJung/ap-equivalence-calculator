@@ -4,12 +4,12 @@ import pandas as pd
 
 
 DETAILED_COLUMNS = [
-    "sheet", "patient", "original", "drug", "dose_mg", "frequency",
+    "sheet", "source_row", "medication_column", "patient", "original", "drug", "dose_mg", "frequency",
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
     "match_type", "match_score", "needs_review", "method_warning",
 ]
-AUDIT_COLUMNS = ["sheet", "patient", "original", "parsed", "match_type", "match_score", "status"]
-ERROR_COLUMNS = ["sheet", "patient", "original", "error"]
+AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "match_type", "match_score", "status"]
+ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"]
 METHOD_INFO = [
     {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041", "limitation": "급성 조현병 경구약 임상시험 평균용량 기반이며 개인별 처방 권고가 아님"},
     {"method": "MED", "basis": "Minimum effective dose method", "reference": "Leucht et al. 2014; PMID 24493852", "limitation": "초발성·치료저항성 환자에 일반화할 수 없음"},

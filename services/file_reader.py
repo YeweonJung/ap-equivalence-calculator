@@ -25,7 +25,9 @@ def _read_excel_sheet(filepath, sheet):
             continue
     if not candidates:
         raise ValueError(f"'{sheet}' 시트를 읽을 수 없습니다.")
-    return max(candidates, key=lambda item: (item[0], item[1]))[2]
+    _, negative_header, frame = max(candidates, key=lambda item: (item[0], item[1]))
+    frame.attrs["header_row"] = -negative_header
+    return frame
 
 
 def read_file(filepath):
@@ -37,7 +39,9 @@ def read_file(filepath):
         last_error = None
         for encoding in ("utf-8-sig", "utf-8", "cp949", "euc-kr"):
             try:
-                return {"Sheet1": pd.read_csv(filepath, encoding=encoding, sep=None, engine="python")}
+                frame = pd.read_csv(filepath, encoding=encoding, sep=None, engine="python")
+                frame.attrs["header_row"] = 0
+                return {"Sheet1": frame}
             except (UnicodeDecodeError, pd.errors.ParserError) as exc:
                 last_error = exc
         raise ValueError("CSV 인코딩 또는 구분자를 확인할 수 없습니다.") from last_error

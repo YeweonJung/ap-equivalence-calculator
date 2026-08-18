@@ -17,6 +17,8 @@ PATIENT_COLUMNS = [
 
 def anonymize_dataframe(df, columns=None, mapping=None):
 
+    import pandas as pd
+
     df = df.copy()
 
     mapping = mapping if mapping is not None else {}
@@ -40,17 +42,19 @@ def anonymize_dataframe(df, columns=None, mapping=None):
                 .unique()
             ):
 
-                if value not in mapping:
+                key = str(value).strip()
+                if not key:
+                    continue
+                if key not in mapping:
 
-                    mapping[value] = (
+                    mapping[key] = (
                         f"PATIENT_{counter:05d}"
                     )
 
                     counter += 1
 
-            df[col] = (
-                df[col]
-                .map(mapping)
+            df[col] = df[col].map(
+                lambda value: mapping.get(str(value).strip(), "") if not pd.isna(value) else ""
             )
 
     return df, mapping
