@@ -27,7 +27,7 @@
         </div>
         <section class="upload-card" aria-labelledby="upload-title">
           <h2 id="upload-title">데이터 파일 업로드</h2>
-          <p class="sub">아래에서 환산 방법과 파일을 선택하면 계산 결과가 `.xlsx` 파일로 다운로드됩니다.</p>
+          <p class="sub">아래에서 연구용 환산 방법과 파일을 선택하면 계산 결과가 `.xlsx` 파일로 다운로드됩니다. 환산값은 개인별 처방 또는 약물 변경 지시가 아닙니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
             <div class="field"><label for="method">환산 방법 <span>Required</span></label><select id="method" name="method" required>{% for method in methods %}<option value="{{ method }}">{{ method }}</option>{% endfor %}</select></div>
             <div class="field"><label for="file">환자 데이터 <span>CSV · XLS · XLSX / 최대 100MB</span></label><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></div>
