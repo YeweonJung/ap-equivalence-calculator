@@ -1,6 +1,8 @@
 from pathlib import Path
 
 import pandas as pd
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils import get_column_letter
 
 
 DETAILED_COLUMNS = [
@@ -30,6 +32,25 @@ def _safe_frame(rows, columns):
     return frame.map(_safe_excel_value)
 
 
+def _format_worksheet(worksheet):
+    header_fill = PatternFill("solid", fgColor="DCEBFF")
+    for cell in worksheet[1]:
+        cell.fill = header_fill
+        cell.font = Font(bold=True, color="12233F")
+        cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+    worksheet.row_dimensions[1].height = 30
+    worksheet.freeze_panes = "A2"
+    worksheet.auto_filter.ref = worksheet.dimensions
+
+    wrap_headers = {"original", "warning", "method_warning", "error", "limitation", "reference"}
+    for column_index, cells in enumerate(worksheet.iter_cols(), start=1):
+        header = str(cells[0].value or "")
+        max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)
+        worksheet.column_dimensions[get_column_letter(column_index)].width = min(max(max_length + 2, 11), 55)
+        for cell in cells[1:]:
+            cell.alignment = Alignment(vertical="top", wrap_text=header in wrap_headers)
+
+
 def export_results(detailed_rows, audit_rows, error_rows, directory):
     output_file = Path(directory) / "result.xlsx"
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
@@ -43,4 +64,6 @@ def export_results(detailed_rows, audit_rows, error_rows, directory):
             writer, sheet_name="Errors", index=False
         )
         pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
+        for worksheet in writer.book.worksheets:
+            _format_worksheet(worksheet)
     return output_file
