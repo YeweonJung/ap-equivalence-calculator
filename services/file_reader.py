@@ -1,4 +1,5 @@
 import pandas as pd
+from zipfile import BadZipFile
 
 from services.column_detector import MEDICATION_KEYWORDS
 
@@ -41,8 +42,11 @@ def read_file(filepath):
                 last_error = exc
         raise ValueError("CSV 인코딩 또는 구분자를 확인할 수 없습니다.") from last_error
 
-    with pd.ExcelFile(filepath) as excel:
-        sheet_names = list(excel.sheet_names)
+    try:
+        with pd.ExcelFile(filepath) as excel:
+            sheet_names = list(excel.sheet_names)
+    except (ValueError, OSError, BadZipFile) as exc:
+        raise ValueError("Excel 파일이 손상되었거나 실제 Excel 형식이 아닙니다.") from exc
 
     if len(sheet_names) > MAX_SHEETS:
         raise ValueError(f"Excel 시트는 최대 {MAX_SHEETS}개까지 처리할 수 있습니다.")

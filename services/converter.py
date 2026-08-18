@@ -19,9 +19,26 @@ DEFAULT_TARGETS = {
     "MED": "olanzapine",
 }
 
+METHOD_WARNINGS = {
+    "CMD": "급성 조현병 경구약 임상시험의 평균용량 기반이며 개인별 처방 권고가 아닙니다.",
+    "MED": "초발성 또는 치료저항성 환자에게 일반화할 수 없는 연구용 환산값입니다.",
+    "ED95": "만성 조현병 급성 악화 집단의 평균 효과 기반이며 개인별 권장용량이 아닙니다.",
+    "DDD": "WHO DDD는 약물사용 연구용 기술 단위이며 권장용량 또는 처방용량이 아닙니다.",
+    "CPZ_FGA": "1세대 항정신병약물의 역사적 CPZ 비교값입니다.",
+}
+
 
 def available_methods():
     return sorted(lookup["method_id"].unique().tolist())
+
+
+def method_warning(method, source_drug=None, target_drug=None):
+    method = str(method).strip().upper()
+    warning = METHOD_WARNINGS.get(method, "")
+    drugs = {str(source_drug or "").casefold(), str(target_drug or "").casefold()}
+    if method == "ED95" and "haloperidol" in drugs:
+        warning += " Haloperidol ED95 값은 단일 연구 기반의 제한적 추정치입니다."
+    return warning.strip()
 
 
 def available_targets(method):

@@ -15,13 +15,13 @@ PATIENT_COLUMNS = [
 ]
 
 
-def anonymize_dataframe(df, columns=None):
+def anonymize_dataframe(df, columns=None, mapping=None):
 
     df = df.copy()
 
-    mapping = {}
+    mapping = mapping if mapping is not None else {}
 
-    counter = 1
+    counter = len(mapping) + 1
 
     for col in df.columns:
 

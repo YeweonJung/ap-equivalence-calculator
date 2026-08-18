@@ -23,7 +23,9 @@ FREQUENCIES = (
     (re.compile(r"\b(tid|three\s+times?\s+(?:a\s+)?day|3\s*times?\s+(?:a\s+)?day)\b", re.I), "TID", 3.0),
     (re.compile(r"\b(bid|twice\s+(?:a\s+)?day|two\s+times?\s+(?:a\s+)?day|2\s*times?\s+(?:a\s+)?day)\b", re.I), "BID", 2.0),
     (re.compile(r"\b(qod|every\s+other\s+day)\b", re.I), "QOD", 0.5),
-    (re.compile(r"\b(qhs|hs|qam|qd|od|daily|once\s+(?:a\s+)?day|every\s+day)\b", re.I), "QD", 1.0),
+    (re.compile(r"\b(qhs|hs)\b", re.I), "QHS", 1.0),
+    (re.compile(r"\bqam\b", re.I), "QAM", 1.0),
+    (re.compile(r"\b(qd|od|daily|once\s+(?:a\s+)?day|every\s+day)\b", re.I), "QD", 1.0),
     (re.compile(r"\b(weekly|once\s+(?:a\s+)?week)\b", re.I), "WEEKLY", 1.0 / 7.0),
 )
 
@@ -87,6 +89,11 @@ def parse_medication(text):
     if not math.isfinite(dose_mg) or dose_mg <= 0:
         raise ValueError("용량은 0보다 커야 합니다.")
 
+    if re.search(r"\b(prn|as\s+needed|필요시)\b", original, re.I):
+        raise ValueError("PRN(필요시) 처방은 일일 용량을 확정할 수 없어 자동 환산하지 않습니다.")
+    if re.search(r"\b(lai|depot|injection|injectable|q\d+w|every\s+\d+\s*weeks?)\b|주사|데포", original, re.I):
+        raise ValueError("장기지속형 주사제/주 단위 처방은 경구 일일 용량으로 자동 환산하지 않습니다.")
+
     frequency, frequency_per_day = "ASSUMED_QD", 1.0
     warning = "복용 빈도 없음: 1일 1회로 계산"
     for pattern, label, per_day in FREQUENCIES:
@@ -103,5 +110,5 @@ def parse_medication(text):
         "warning": warning,
         "match_type": match_type,
         "match_score": match_score,
-        "needs_review": match_type != "exact",
+        "needs_review": match_type != "exact" or bool(warning),
     }

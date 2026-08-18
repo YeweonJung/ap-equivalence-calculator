@@ -13,6 +13,16 @@ def _name_score(column, keywords):
     return max((len(word) for word in keywords if word in name), default=0)
 
 
+def _patient_name_score(column):
+    name = str(column).casefold().strip().replace(" ", "_")
+    exact = {word.casefold().replace(" ", "_") for word in PATIENT_KEYWORDS}
+    if name in exact:
+        return 100
+    if any(word in name for word in ("patient", "subject", "participant", "mrn", "환자", "대상자", "등록번호", "차트번호")):
+        return 50
+    return 0
+
+
 def _content_score(series):
     values = [str(value).strip() for value in series.dropna().head(100) if str(value).strip()]
     if not values:
@@ -21,7 +31,7 @@ def _content_score(series):
 
 
 def detect_columns(df):
-    patient_scores = {col: _name_score(col, PATIENT_KEYWORDS) for col in df.columns}
+    patient_scores = {col: _patient_name_score(col) for col in df.columns}
     patient_col = max(patient_scores, key=patient_scores.get) if any(patient_scores.values()) else None
 
     medication_scores = {}
