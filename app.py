@@ -3,7 +3,7 @@ import os
 import tempfile
 from pathlib import Path
 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, jsonify, render_template, request, send_file
 from werkzeug.utils import secure_filename
 
 from services.anonymizer import anonymize_dataframe
@@ -43,6 +43,21 @@ def sample_file():
     )
 
 
+@app.post("/api/parse")
+def parse_text():
+    payload = request.get_json(silent=True) or {}
+    text = str(payload.get("text", "")).strip()
+    if not text:
+        return jsonify({"error": "약물과 용량을 입력해 주세요."}), 400
+    items = []
+    for medication in split_medications(text):
+        try:
+            items.append({"ok": True, **parse_medication(medication)})
+        except ValueError as exc:
+            items.append({"ok": False, "original": medication, "error": str(exc), "needs_review": True})
+    return jsonify({"items": items})
+
+
 @app.post("/upload")
 def upload():
     uploaded_file = request.files.get("file")
@@ -54,8 +69,9 @@ def upload():
     except ValueError as exc:
         return render_template("error.html", message=str(exc)), 400
 
-    filename = secure_filename(uploaded_file.filename) or "upload.xlsx"
-    suffix = Path(filename).suffix.lower()
+    original_suffix = Path(uploaded_file.filename).suffix.lower()
+    filename = secure_filename(uploaded_file.filename) or f"upload{original_suffix}"
+    suffix = original_suffix or Path(filename).suffix.lower()
     detailed_rows, audit_rows, error_rows = [], [], []
 
     try:
@@ -73,7 +89,9 @@ def upload():
                     error_rows.append({"sheet": sheet_name, "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
                     continue
 
-                anonymized, _ = anonymize_dataframe(dataframe)
+                anonymized, _ = anonymize_dataframe(
+                    dataframe, columns=[patient_col] if patient_col is not None else []
+                )
                 for _, row in anonymized.iterrows():
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
                     for medication in split_medications(row.get(medication_col)):
@@ -92,8 +110,11 @@ def upload():
                                 "target_drug": target,
                                 "equivalent_dose_mg": round(equivalent, 4),
                                 "warning": parsed["warning"],
+                                "match_type": parsed["match_type"],
+                                "match_score": round(parsed["match_score"], 1),
+                                "needs_review": parsed["needs_review"],
                             })
-                            audit_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "parsed": parsed["drug"], "status": "converted"})
+                            audit_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
                         except (ValueError, LookupError) as exc:
                             error_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "error": str(exc)})
 
