@@ -1,5 +1,6 @@
 import io
 import os
+import re
 import tempfile
 from pathlib import Path
 
@@ -12,7 +13,7 @@ from services.converter import available_methods, convert_drug, method_warning, 
 from services.exporter import export_results
 from services.file_reader import read_file
 from services.medication_splitter import split_medications
-from services.parser import parse_medication
+from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
 
 
@@ -20,6 +21,26 @@ BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
 METHODS = available_methods()
+
+
+def _cell_text(value):
+    text = "" if value is None else str(value).strip()
+    return "" if text.casefold() in {"", "nan", "none", "null"} else text
+
+
+def _compose_structured_medication(row, drug_text, dose_col, unit_col, frequency_col):
+    dose = _cell_text(row.get(dose_col)) if dose_col is not None else ""
+    unit = _cell_text(row.get(unit_col)) if unit_col is not None else ""
+    frequency = _cell_text(row.get(frequency_col)) if frequency_col is not None else ""
+    dose_header = str(dose_col or "").casefold()
+    if not unit:
+        unit_match = re.search(r"(?:^|[_\s(])(mcg|ug|μg|㎍|mg|㎎|g)(?:$|[_\s)])", dose_header)
+        unit = unit_match.group(1) if unit_match else ""
+    if frequency.replace(".0", "").isdigit():
+        frequency = {"1": "QD", "2": "BID", "3": "TID", "4": "QID"}.get(frequency.replace(".0", ""), frequency)
+    if not frequency and any(word in dose_header for word in ("daily", "일일", "1일")):
+        frequency = "QD"
+    return " ".join(part for part in (drug_text, f"{dose}{unit}" if dose else "", frequency) if part)
 
 
 @app.get("/")
@@ -85,9 +106,12 @@ def upload():
                 detected = detect_columns(dataframe)
                 patient_col = detected["patient_column"]
                 medication_col = detected["medication_column"]
+                dose_col = detected["dose_column"]
+                unit_col = detected["unit_column"]
+                frequency_col = detected["frequency_column"]
 
                 if medication_col is None:
-                    error_rows.append({"sheet": sheet_name, "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
+                    error_rows.append({"sheet": sheet_name, "source_row": "", "medication_column": "", "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
                     continue
 
                 anonymized, patient_mapping = anonymize_dataframe(
@@ -95,14 +119,25 @@ def upload():
                     columns=[patient_col] if patient_col is not None else [],
                     mapping=patient_mapping,
                 )
-                for _, row in anonymized.iterrows():
+                header_row = int(dataframe.attrs.get("header_row", 0))
+                for row_index, row in anonymized.iterrows():
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
-                    for medication in split_medications(row.get(medication_col)):
+                    source_row = int(row_index) + header_row + 2
+                    raw_medication = _cell_text(row.get(medication_col))
+                    medications = split_medications(raw_medication)
+                    if medications and dose_col is not None and not any(DOSE_RE.search(item) for item in medications):
+                        if len(medications) > 1:
+                            error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": raw_medication, "error": "여러 약물이 한 셀에 있고 용량이 별도 열에 있어 자동 결합할 수 없습니다."})
+                            continue
+                        medications = [_compose_structured_medication(row, medications[0], dose_col, unit_col, frequency_col)]
+                    for medication in medications:
                         try:
                             parsed = parse_medication(medication)
                             equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], method, target)
                             detailed_rows.append({
                                 "sheet": sheet_name,
+                                "source_row": source_row,
+                                "medication_column": str(medication_col),
                                 "patient": patient_id,
                                 "original": medication,
                                 "drug": parsed["drug"],
@@ -118,9 +153,9 @@ def upload():
                                 "needs_review": parsed["needs_review"],
                                 "method_warning": method_warning(method, parsed["drug"], target),
                             })
-                            audit_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
+                            audit_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
                         except (ValueError, LookupError) as exc:
-                            error_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "error": str(exc)})
+                            error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "error": str(exc)})
 
             output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
