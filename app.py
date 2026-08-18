@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 from services.anonymizer import anonymize_dataframe
 from services.column_detector import detect_columns
-from services.converter import available_methods, convert_drug, normalize_target
+from services.converter import available_methods, convert_drug, method_warning, normalize_target
 from services.exporter import export_results
 from services.file_reader import read_file
 from services.medication_splitter import split_medications
@@ -80,6 +80,7 @@ def upload():
             uploaded_file.save(upload_path)
             sheets = read_file(str(upload_path))
 
+            patient_mapping = {}
             for sheet_name, dataframe in sheets.items():
                 detected = detect_columns(dataframe)
                 patient_col = detected["patient_column"]
@@ -89,8 +90,10 @@ def upload():
                     error_rows.append({"sheet": sheet_name, "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
                     continue
 
-                anonymized, _ = anonymize_dataframe(
-                    dataframe, columns=[patient_col] if patient_col is not None else []
+                anonymized, patient_mapping = anonymize_dataframe(
+                    dataframe,
+                    columns=[patient_col] if patient_col is not None else [],
+                    mapping=patient_mapping,
                 )
                 for _, row in anonymized.iterrows():
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
@@ -113,6 +116,7 @@ def upload():
                                 "match_type": parsed["match_type"],
                                 "match_score": round(parsed["match_score"], 1),
                                 "needs_review": parsed["needs_review"],
+                                "method_warning": method_warning(method, parsed["drug"], target),
                             })
                             audit_rows.append({"sheet": sheet_name, "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
                         except (ValueError, LookupError) as exc:
