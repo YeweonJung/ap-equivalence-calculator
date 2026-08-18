@@ -1,3 +1,4 @@
+import math
 from pathlib import Path
 
 import pandas as pd
@@ -49,6 +50,17 @@ def _format_worksheet(worksheet):
         worksheet.column_dimensions[get_column_letter(column_index)].width = min(max(max_length + 2, 11), 55)
         for cell in cells[1:]:
             cell.alignment = Alignment(vertical="top", wrap_text=header in wrap_headers)
+
+    headers = {cell.column: str(cell.value or "") for cell in worksheet[1]}
+    for row_index in range(2, worksheet.max_row + 1):
+        required_lines = 1
+        for cell in worksheet[row_index]:
+            if headers.get(cell.column) not in wrap_headers or cell.value is None:
+                continue
+            width = worksheet.column_dimensions[get_column_letter(cell.column)].width or 11
+            visual_length = sum(2 if ord(character) > 127 else 1 for character in str(cell.value))
+            required_lines = max(required_lines, math.ceil(visual_length / max(int(width), 1)))
+        worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), 96)
 
 
 def export_results(detailed_rows, audit_rows, error_rows, directory):
