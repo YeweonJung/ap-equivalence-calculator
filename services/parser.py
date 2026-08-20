@@ -1,15 +1,20 @@
 import math
 import re
+import unicodedata
+from difflib import SequenceMatcher
 from pathlib import Path
 
 import pandas as pd
-from rapidfuzz import fuzz, process
+try:
+    from rapidfuzz import fuzz, process
+except ImportError:  # 개발·검증 환경에서도 동일한 보수적 동작을 유지한다.
+    fuzz = process = None
 
 
 ALIAS_FILE = Path(__file__).resolve().parents[1] / "lookup" / "drug_alias.csv"
 alias_df = pd.read_csv(ALIAS_FILE)
 alias_map = {
-    str(row["alias"]).casefold().strip(): str(row["standard_name"]).casefold().strip()
+    unicodedata.normalize("NFKC", str(row["alias"])).casefold().strip(): str(row["standard_name"]).casefold().strip()
     for _, row in alias_df.iterrows()
     if str(row["alias"]).strip()
 }
@@ -31,6 +36,17 @@ FREQUENCIES = (
 QUANTITY_RE = re.compile(r"\s(?P<count>(?:\d+(?:\.\d+)?|\.\d+))\s*(?:t|tabs?|tablets?|caps?|capsules?|정|캡슐)\b", re.I)
 
 
+def _normalized_text(value):
+    """Unicode, case and decorative punctuation normalization for stable matching."""
+    value = unicodedata.normalize("NFKC", str(value)).casefold()
+    value = re.sub(r"[_·•‧/\\|:;,+()[\]{}'\"`~!@#$%^&*=<>?-]+", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def _compact(value):
+    return re.sub(r"[^a-z0-9가-힣]+", "", _normalized_text(value))
+
+
 def _alias_pattern(alias):
     escaped = re.escape(alias)
     if re.search(r"[a-z0-9]", alias, re.I):
@@ -39,25 +55,39 @@ def _alias_pattern(alias):
 
 
 ALIAS_PATTERNS = [(alias, _alias_pattern(alias)) for alias in sorted(alias_map, key=len, reverse=True)]
+COMPACT_ALIAS_MAP = {_compact(alias): standard for alias, standard in alias_map.items() if _compact(alias)}
+
+
+def _drug_only_text(text):
+    value = DOSE_RE.sub(" ", _normalized_text(text))
+    value = re.sub(r"\b(?:qid|tid|bid|qod|qhs|hs|qam|qd|od|daily|weekly|tab(?:let)?s?|caps?(?:ules?)?)\b", " ", value, flags=re.I)
+    value = re.sub(r"\b\d+(?:\.\d+)?\s*(?:t|tabs?|tablets?|caps?)\b", " ", value, flags=re.I)
+    value = re.sub(r"(?:하루|1일)\s*[1-4]\s*회|매일|\d+(?:\.\d+)?\s*(?:정|캡슐)", " ", value)
+    return re.sub(r"[^a-z0-9가-힣]+", " ", value).strip()
 
 
 def dictionary_match(text):
-    value = str(text).casefold().strip()
+    value = _normalized_text(text)
     for alias, pattern in ALIAS_PATTERNS:
         if pattern.search(value):
             return alias_map[alias]
+    compact_drug = _compact(_drug_only_text(value))
+    if compact_drug in COMPACT_ALIAS_MAP:
+        return COMPACT_ALIAS_MAP[compact_drug]
     return None
 
 
 def fuzzy_match(text, threshold=85):
-    value = DOSE_RE.sub(" ", str(text).casefold())
-    value = re.sub(r"\b(?:qid|tid|bid|qod|qhs|hs|qam|qd|od|daily|weekly|tab(?:let)?s?|caps?(?:ules?)?)\b", " ", value, flags=re.I)
-    value = re.sub(r"\b\d+(?:\.\d+)?\s*(?:t|tabs?|tablets?|caps?)\b", " ", value, flags=re.I)
-    value = re.sub(r"[^\w가-힣]+", " ", value).strip()
+    value = _drug_only_text(text)
     if not value:
         return None
-    candidates = [alias for alias in alias_map if len(alias) >= 4]
-    result = process.extractOne(value, candidates, scorer=fuzz.ratio)
+    candidates = [alias for alias in alias_map if len(_compact(alias)) >= 4]
+    query = _compact(value)
+    if process is not None:
+        result = process.extractOne(query, candidates, scorer=lambda left, right, **_: fuzz.ratio(left, _compact(right)))
+    else:
+        scored = [(candidate, SequenceMatcher(None, query, _compact(candidate)).ratio() * 100) for candidate in candidates]
+        result = max(scored, key=lambda item: item[1]) if scored else None
     if result and result[1] >= threshold:
         return alias_map[result[0]], float(result[1])
     return None, None
