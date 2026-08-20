@@ -30,10 +30,45 @@ FREQUENCIES = (
     (re.compile(r"\b(qod|every\s+other\s+day)\b", re.I), "QOD", 0.5),
     (re.compile(r"\b(qhs|hs)\b", re.I), "QHS", 1.0),
     (re.compile(r"\bqam\b", re.I), "QAM", 1.0),
-    (re.compile(r"\b(qd|od|daily|once\s+(?:a\s+)?day|every\s+day|(?:하루|1일)\s*1\s*회|매일)\b", re.I), "QD", 1.0),
+    (re.compile(r"\b(qd|od|daily|once\s+(?:a\s+)?day|every\s+day|(?:하루|1일)\s*1\s*회|매일)\b|(?:mg|mcg|ug|μg|㎍|㎎|g)\s*/\s*(?:day|d)\b", re.I), "QD", 1.0),
     (re.compile(r"\b(weekly|once\s+(?:a\s+)?week)\b", re.I), "WEEKLY", 1.0 / 7.0),
 )
 QUANTITY_RE = re.compile(r"\s(?P<count>(?:\d+(?:\.\d+)?|\.\d+))\s*(?:t|tabs?|tablets?|caps?|capsules?|정|캡슐)\b", re.I)
+
+
+def _frequency_matches(text):
+    matches = [(label, per_day) for pattern, label, per_day in FREQUENCIES if pattern.search(text)]
+
+    hourly = re.search(r"\bq\s*(\d{1,2})\s*h\b|\bevery\s+(\d{1,2})\s+hours?\b", text, re.I)
+    if hourly:
+        hours = int(hourly.group(1) or hourly.group(2))
+        if hours <= 0 or hours > 24 or 24 % hours:
+            raise ValueError("시간 단위 복용 간격을 정확한 일일 횟수로 환산할 수 없습니다.")
+        per_day = 24.0 / hours
+        label = {1.0: "QD", 2.0: "BID", 3.0: "TID", 4.0: "QID"}.get(per_day, f"Q{hours}H")
+        matches.append((label, per_day))
+
+    times = re.search(r"\b(\d{1,2})\s*times?\s+(?:a\s+)?day\b|(\d{1,2})\s*회\s*/\s*(?:일|day)\b", text, re.I)
+    if times:
+        per_day = float(times.group(1) or times.group(2))
+        if per_day <= 0 or per_day > 24:
+            raise ValueError("일일 복용 횟수는 1~24회 범위여야 합니다.")
+        label = {1.0: "QD", 2.0: "BID", 3.0: "TID", 4.0: "QID"}.get(per_day, f"{int(per_day)}X_DAY")
+        matches.append((label, per_day))
+
+    regimen = re.search(r"(?<![\d.])([0-9](?:\s*-\s*[0-9]){2,3})(?![\d.])", text)
+    if regimen:
+        per_day = float(sum(int(value) for value in re.split(r"\s*-\s*", regimen.group(1))))
+        if per_day <= 0:
+            raise ValueError("복용 일정의 총 투여량은 0보다 커야 합니다.")
+        label = {1.0: "QD", 2.0: "BID", 3.0: "TID", 4.0: "QID"}.get(per_day, regimen.group(1).replace(" ", ""))
+        matches.append((label, per_day))
+
+    deduplicated = []
+    for match in matches:
+        if match not in deduplicated:
+            deduplicated.append(match)
+    return deduplicated
 
 
 def _normalized_text(value):
@@ -120,7 +155,7 @@ def parse_medication(text):
         raise ValueError("한 항목에 용량이 여러 개 있어 일일 용량을 확정할 수 없습니다. 약물별·복용시간별로 행을 분리해 주세요.")
     match = dose_matches[0]
     dose_mg = _dose_to_mg(float(match.group("dose")), match.group("unit"))
-    quantity_match = QUANTITY_RE.search(original, match.end())
+    quantity_match = QUANTITY_RE.search(original)
     if quantity_match:
         quantity = float(quantity_match.group("count"))
         if not math.isfinite(quantity) or quantity <= 0:
@@ -140,7 +175,7 @@ def parse_medication(text):
 
     frequency, frequency_per_day = "ASSUMED_QD", 1.0
     warning = "복용 빈도 없음: 1일 1회로 계산"
-    frequency_matches = [(label, per_day) for pattern, label, per_day in FREQUENCIES if pattern.search(original)]
+    frequency_matches = _frequency_matches(original)
     distinct_frequencies = {label for label, _ in frequency_matches}
     if len(distinct_frequencies) > 1:
         raise ValueError("서로 다른 복용 빈도가 함께 있어 일일 용량을 확정할 수 없습니다.")
