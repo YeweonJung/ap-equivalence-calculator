@@ -38,10 +38,16 @@ def _compose_structured_medication(row, drug_text, dose_col, unit_col, frequency
     if not unit:
         unit_match = re.search(r"(?:^|[_\s(])(mcg|ug|μg|㎍|mg|㎎|g)(?:$|[_\s)])", dose_header)
         unit = unit_match.group(1) if unit_match else ""
-    if frequency.replace(".0", "").isdigit():
-        frequency = {"1": "QD", "2": "BID", "3": "TID", "4": "QID"}.get(frequency.replace(".0", ""), frequency)
-    if not frequency and any(word in dose_header for word in ("daily", "일일", "1일")):
+    is_daily_dose = any(word in dose_header for word in ("daily", "일일", "1일"))
+    if is_daily_dose:
         frequency = "QD"
+    else:
+        normalized_frequency = frequency.replace(".0", "")
+        if normalized_frequency == "0.5":
+            frequency = "QOD"
+        elif normalized_frequency.isdigit():
+            count = int(normalized_frequency)
+            frequency = {1: "QD", 2: "BID", 3: "TID", 4: "QID"}.get(count, f"{count} times a day")
     return " ".join(part for part in (drug_text, f"{dose}{unit}" if dose else "", frequency) if part)
 
 
@@ -161,11 +167,13 @@ def upload():
                         try:
                             parsed = parse_medication(medication)
                             converted_count = 0
+                            unavailable_methods = []
                             for selected_method in selected_methods:
                                 target = normalize_target(selected_method)
                                 try:
                                     equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], selected_method, target)
                                 except LookupError:
+                                    unavailable_methods.append(selected_method)
                                     continue
                                 converted_count += 1
                                 detailed_rows.append({
@@ -189,7 +197,7 @@ def upload():
                                 })
                             if converted_count == 0:
                                 raise LookupError(f"{parsed['drug']}에 사용할 수 있는 환산값이 없습니다.")
-                            audit_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
+                            audit_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted", "unavailable_methods": ", ".join(unavailable_methods)})
                         except (ValueError, LookupError) as exc:
                             error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "error": str(exc)})
 
