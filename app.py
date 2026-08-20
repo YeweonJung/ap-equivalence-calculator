@@ -5,6 +5,8 @@ import tempfile
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_file
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 
 from services.anonymizer import anonymize_dataframe
@@ -55,12 +57,26 @@ def health():
 
 @app.get("/sample")
 def sample_file():
-    sample = "patient_id,medication\nP001,Risperdal 2mg BID\nP002,Abilify 15mg QD\n"
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "입력예시"
+    sheet.append(["patient_id", "drug", "dose", "unit", "frequency"])
+    sheet.append(["P001", "Risperdal", 2, "mg", "BID"])
+    sheet.append(["P002", "Abilify", 15, "mg", "QD"])
+    for cell in sheet[1]:
+        cell.font = Font(bold=True, color="FFFFFF")
+        cell.fill = PatternFill("solid", fgColor="1769E0")
+        cell.alignment = Alignment(horizontal="center")
+    for column, width in {"A": 16, "B": 20, "C": 12, "D": 10, "E": 16}.items():
+        sheet.column_dimensions[column].width = width
+    sample = io.BytesIO()
+    workbook.save(sample)
+    sample.seek(0)
     return send_file(
-        io.BytesIO(sample.encode("utf-8-sig")),
+        sample,
         as_attachment=True,
-        download_name="AP_equivalence_sample.csv",
-        mimetype="text/csv; charset=utf-8",
+        download_name="AP_equivalence_sample.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
 
@@ -73,7 +89,16 @@ def parse_text():
     items = []
     for medication in split_medications(text):
         try:
-            items.append({"ok": True, **parse_medication(medication)})
+            parsed = parse_medication(medication)
+            conversions = []
+            for method in METHODS:
+                try:
+                    target = normalize_target(method)
+                    equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], method, target)
+                    conversions.append({"method": method, "target": target, "value": round(equivalent, 4)})
+                except (ValueError, LookupError):
+                    conversions.append({"method": method, "target": "", "value": None})
+            items.append({"ok": True, **parsed, "conversions": conversions})
         except ValueError as exc:
             items.append({"ok": False, "original": medication, "error": str(exc), "needs_review": True})
     return jsonify({"items": items})
@@ -82,11 +107,13 @@ def parse_text():
 @app.post("/upload")
 def upload():
     uploaded_file = request.files.get("file")
-    method = request.form.get("method", "").strip().upper()
+    method = request.form.get("method", "ALL").strip().upper() or "ALL"
 
     try:
         validate_file(uploaded_file)
-        target = normalize_target(method)
+        selected_methods = METHODS if method == "ALL" else [method]
+        for selected_method in selected_methods:
+            normalize_target(selected_method)
     except ValueError as exc:
         return render_template("error.html", message=str(exc)), 400
 
@@ -133,26 +160,35 @@ def upload():
                     for medication in medications:
                         try:
                             parsed = parse_medication(medication)
-                            equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], method, target)
-                            detailed_rows.append({
-                                "sheet": sheet_name,
-                                "source_row": source_row,
-                                "medication_column": str(medication_col),
-                                "patient": patient_id,
-                                "original": medication,
-                                "drug": parsed["drug"],
-                                "dose_mg": parsed["dose_mg"],
-                                "frequency": parsed["frequency"],
-                                "daily_dose_mg": parsed["daily_dose_mg"],
-                                "method": method,
-                                "target_drug": target,
-                                "equivalent_dose_mg": round(equivalent, 4),
-                                "warning": parsed["warning"],
-                                "match_type": parsed["match_type"],
-                                "match_score": round(parsed["match_score"], 1),
-                                "needs_review": parsed["needs_review"],
-                                "method_warning": method_warning(method, parsed["drug"], target),
-                            })
+                            converted_count = 0
+                            for selected_method in selected_methods:
+                                target = normalize_target(selected_method)
+                                try:
+                                    equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], selected_method, target)
+                                except LookupError:
+                                    continue
+                                converted_count += 1
+                                detailed_rows.append({
+                                    "sheet": sheet_name,
+                                    "source_row": source_row,
+                                    "medication_column": str(medication_col),
+                                    "patient": patient_id,
+                                    "original": medication,
+                                    "drug": parsed["drug"],
+                                    "dose_mg": parsed["dose_mg"],
+                                    "frequency": parsed["frequency"],
+                                    "daily_dose_mg": parsed["daily_dose_mg"],
+                                    "method": selected_method,
+                                    "target_drug": target,
+                                    "equivalent_dose_mg": round(equivalent, 4),
+                                    "warning": parsed["warning"],
+                                    "match_type": parsed["match_type"],
+                                    "match_score": round(parsed["match_score"], 1),
+                                    "needs_review": parsed["needs_review"],
+                                    "method_warning": method_warning(selected_method, parsed["drug"], target),
+                                })
+                            if converted_count == 0:
+                                raise LookupError(f"{parsed['drug']}에 사용할 수 있는 환산값이 없습니다.")
                             audit_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted"})
                         except (ValueError, LookupError) as exc:
                             error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "error": str(exc)})
