@@ -91,6 +91,22 @@ def test_weekly_oral_schedule_is_not_averaged_into_a_daily_dose():
     assert item["ok"] is False and "주사제/주 단위" in item["error"]
 
 
+def test_hourly_korean_and_regimen_frequencies_are_calculated_explicitly():
+    text = "Risperdal 2mg q12h, Risperdal 2mg 2회/일, Risperdal 2mg 1-0-1, Risperdal 2mg q8h"
+    items = app.test_client().post("/api/parse", json={"text": text}).get_json()["items"]
+    assert [item["daily_dose_mg"] for item in items] == [4, 4, 4, 6]
+    assert [item["frequency"] for item in items] == ["BID", "BID", "BID", "TID"]
+    assert all(item["needs_review"] is False for item in items)
+
+
+def test_daily_unit_and_quantity_before_strength_are_not_miscalculated():
+    items = app.test_client().post(
+        "/api/parse", json={"text": "Risperdal 4mg/day, Risperdal 2정 2mg BID"}
+    ).get_json()["items"]
+    assert items[0]["daily_dose_mg"] == 4 and items[0]["frequency"] == "QD"
+    assert items[1]["dose_mg"] == 4 and items[1]["daily_dose_mg"] == 8
+
+
 def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
     workbook = io.BytesIO()
     with pd.ExcelWriter(workbook, engine="openpyxl") as writer:
@@ -152,6 +168,14 @@ def test_dose_unit_is_inferred_from_header_and_daily_dose_is_not_multiplied():
     assert detailed.loc[0, "daily_dose_mg"] == 4
 
 
+def test_daily_dose_column_is_not_multiplied_by_a_separate_frequency_column():
+    csv_bytes = b"patient_id,drug,daily_dose_mg,frequency\nP01,risperidone,4,2\n"
+    response = _upload(app.test_client(), csv_bytes, "daily_with_frequency.csv")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    assert detailed.loc[0, "original"] == "risperidone 4mg QD"
+    assert detailed.loc[0, "daily_dose_mg"] == 4
+
+
 def test_patient_identifier_normalization_is_consistent_across_sheets():
     workbook = io.BytesIO()
     with pd.ExcelWriter(workbook, engine="openpyxl") as writer:
@@ -169,6 +193,18 @@ def test_all_methods_are_exported_when_site_uses_all():
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
     assert {"CMD", "MED", "ED95", "DDD"}.issubset(set(detailed["method"]))
     assert detailed["equivalent_dose_mg"].notna().all()
+    audit = pd.read_excel(io.BytesIO(response.data), sheet_name="AuditTrail")
+    assert "CPZ_FGA" in audit.loc[0, "unavailable_methods"]
+
+
+def test_common_korean_structured_column_names_are_detected():
+    csv_bytes = "환자ID,제품명,1회용량,용량단위,일일횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
+    response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
+    assert response.status_code == 200
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    assert detailed.loc[0, "drug"] == "risperidone"
+    assert detailed.loc[0, "daily_dose_mg"] == 4
+    assert detailed.loc[0, "medication_column"] == "제품명"
 
 
 def test_case_punctuation_and_curated_korean_typos_are_normalized():
