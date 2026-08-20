@@ -3,10 +3,10 @@ import re
 
 PATIENT_KEYWORDS = ["patient_id", "patient", "subject", "participant", "mrn", "id", "name", "환자번호", "환자", "대상자", "등록번호", "차트번호"]
 
-MEDICATION_KEYWORDS = ["medications", "medication", "prescription", "medicine", "drug", "rx", "처방내역", "처방약", "처방", "투약내역", "투약", "약물정보", "약물명", "약제"]
-DOSE_KEYWORDS = ["daily_dose", "dose_mg", "dosage", "dose", "strength", "일일용량", "1일용량", "투여량", "용량"]
-UNIT_KEYWORDS = ["dose_unit", "unit", "단위"]
-FREQUENCY_KEYWORDS = ["frequency", "freq", "횟수", "복용빈도", "투여빈도", "용법"]
+MEDICATION_KEYWORDS = ["medications", "medication", "prescription", "medicine", "drug", "rx", "처방내역", "처방약", "처방", "투약내역", "투약", "약물정보", "약물명", "약품명", "제품명", "성분명", "의약품명", "약제"]
+DOSE_KEYWORDS = ["daily_dose", "dose_mg", "dosage", "dose", "strength", "일일용량", "1일용량", "1회용량", "투약량", "투여량", "함량", "용량"]
+UNIT_KEYWORDS = ["dose_unit", "unit", "용량단위", "단위"]
+FREQUENCY_KEYWORDS = ["frequency", "freq", "일일횟수", "복용횟수", "투약횟수", "투여횟수", "횟수", "복용빈도", "투여빈도", "용법"]
 
 DOSE_VALUE_RE = re.compile(r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mcg|ug|μg|㎍|mg|㎎|g)(?=$|[\s,;+/])", re.I)
 
