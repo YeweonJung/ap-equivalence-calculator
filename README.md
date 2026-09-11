@@ -68,3 +68,8 @@ python app.py
 - Frame의 source_start/source_end는 original이 추출된 파싱 입력의 문자 위치(0 기반, 끝 제외)입니다. 별도 열을 결합한 경우 결합 문자열 기준입니다.
 
 검증: `python -B -m pytest tests -q -p no:cacheprovider`
+
+## 셀별 환산 합계
+동일 셀의 약물을 각각 환산하고 웹 화면과 Excel CellTotals 시트에 환산법·기준 약물별 합계를 표시합니다. 미환산 약물이 있으면 총합은 빈값이고 계산된 약물만 부분합으로 표시합니다. RIS,OLZ처럼 용량이 없으면 합계를 계산하지 않습니다. 환산 대상이 아닌 병용약은 제외 건수로 기록합니다. 서로 다른 행이나 약물 열은 합치지 않습니다.
+
+별도 열에서 drug=`Risperdal,OLA`, dose=`6,5`, unit=`MG`, frequency=`BID`를 입력하면 순서대로 연결하고 공통 단위·빈도를 적용합니다. 약물과 용량 개수가 다르면 검토 대상으로 남깁니다. B 등 미지원 빈도는 QD로 가정하지 않습니다.

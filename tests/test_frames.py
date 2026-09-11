@@ -99,3 +99,49 @@ def test_unit_typo_candidates_are_not_conversion_factors():
     result = items('olz 15gm')[0]
     assert result['unit'] == 'gm' and result['unit_candidates']
     assert result['daily_dose_mg'] is None and result['conversions'] == []
+
+
+def test_cell_totals_complete_partial_and_absent_doses():
+    for text, complete in [('RIS 2mg, OLZ 5mg', True), ('RIS 2mg, OLZ', False), ('RIS,OLZ', False)]:
+        data = app.test_client().post('/api/parse', json={'text': text}).get_json()
+        total = next(t for t in data['totals'] if t['method'] == 'CMD')
+        assert (total['status'] == 'complete') is complete
+        if complete:
+            from services.converter import convert_drug
+            assert total['total_equivalent_dose_mg'] == round(convert_drug('risperidone', 2) + convert_drug('olanzapine', 5), 4)
+        else:
+            assert total['total_equivalent_dose_mg'] is None
+    data = app.test_client().post('/api/parse', json={'text': 'RIS 2mg, lithium 600mg'}).get_json()
+    total = next(t for t in data['totals'] if t['method'] == 'CMD')
+    assert total['status'] == 'complete' and total['excluded_count'] == 1
+
+
+def test_excel_totals_stay_with_source_cell():
+    csv = 'patient_id,medication\nP1,"RIS 2mg, OLZ 5mg"\nP1,"RIS, OLZ"\n'
+    response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'totals.csv')})
+    sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
+    assert len(sheets['Detailed']) == 2
+    totals = sheets['CellTotals']
+    assert totals['status'].tolist() == ['complete', 'incomplete']
+    assert pd.isna(totals.loc[1, 'total_equivalent_dose_mg'])
+
+
+def test_parallel_drug_dose_columns_and_frequency_validation():
+    for frequency, status in [('BID', 'complete'), ('B', 'incomplete')]:
+        csv = f'patient_id,drug,dose,unit,frequency\nP003,"Risperdal,OLA","6,5",MG,{frequency}\n'
+        response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'parallel.csv')})
+        sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
+        assert sheets['AuditTrail']['dose_mg'].tolist() == [6,5]
+        assert sheets['CellTotals'].loc[0,'status'] == status
+        if frequency == 'BID':
+            assert sheets['Detailed']['daily_dose_mg'].tolist() == [12,10]
+        else:
+            assert sheets['Detailed'].empty
+
+
+def test_parallel_counts_do_not_broadcast_one_dose_to_two_drugs():
+    csv = 'patient_id,drug,dose,unit,frequency\nP1,"RIS,OLZ",2,mg,BID\n'
+    response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'mismatch.csv')})
+    sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
+    assert sheets['Detailed'].empty
+    assert sheets['CellTotals'].loc[0,'status'] == 'incomplete'

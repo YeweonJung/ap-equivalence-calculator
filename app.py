@@ -17,7 +17,8 @@ from services.file_reader import read_file
 from services.medication_splitter import split_medications
 from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
-from services.frames import parse_frames, convert_frame
+from services.frames import parse_frames, convert_frame, summarize_frames
+from services.structured import structured_frames
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -94,7 +95,7 @@ def parse_text():
     if not text:
         return jsonify({"error": "약물과 용량을 입력해 주세요."}), 400
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
-    return jsonify({"items": items})
+    return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 
 
 @app.post("/upload")
@@ -113,7 +114,7 @@ def upload():
     original_suffix = Path(uploaded_file.filename).suffix.lower()
     filename = secure_filename(uploaded_file.filename) or f"upload{original_suffix}"
     suffix = original_suffix or Path(filename).suffix.lower()
-    detailed_rows, audit_rows, error_rows = [], [], []
+    detailed_rows, audit_rows, error_rows, total_rows = [], [], [], []
 
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -150,15 +151,11 @@ def upload():
                         raw_medication = _cell_text(row.get(medication_col))
                         if not raw_medication:
                             continue
-                        text = raw_medication
-                        if dose_col is not None and not DOSE_RE.search(text):
-                            # A structured row represents one drug/dose group. Never
-                            # attach one dose column to several medications.
-                            preliminary = parse_frames(text)
-                            if len(preliminary) == 1 and preliminary[0]["dose"] is None:
-                                text = _compose_structured_medication(row, text, dose_col, unit_col, frequency_col)
-                        for frame in parse_frames(text):
+                        frames = structured_frames(row, raw_medication, dose_col, unit_col, frequency_col, _compose_structured_medication)
+                        cell_items = []
+                        for frame in frames:
                             parsed = convert_frame(frame, selected_methods)
+                            cell_items.append(parsed)
                             context = {"sheet": sheet_name, "source_row": source_row,
                                        "medication_column": str(medication_col), "patient": patient_id}
                             record = {**context, **parsed}
@@ -173,7 +170,12 @@ def upload():
                             if not parsed["ok"]:
                                 error_rows.append({**record, "error": parsed.get("error", parsed["status_message"])})
 
-            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir)
+                        for total in summarize_frames(cell_items, selected_methods):
+                            total_rows.append({"sheet": sheet_name, "source_row": source_row,
+                                               "medication_column": str(medication_col), "patient": patient_id,
+                                               "original": raw_medication, **total})
+
+            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(

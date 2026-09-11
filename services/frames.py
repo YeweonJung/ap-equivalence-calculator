@@ -161,3 +161,27 @@ def convert_frame(frame, methods):
     if not item['ok']:
         item['error'] = item['warning'] or item['status_message']
     return item
+
+
+def summarize_frames(items, methods):
+    """Sum within a single source cell, separately by method and target."""
+    import math
+    from services.converter import normalize_target, convert_drug
+    totals = []
+    relevant = [item for item in items if item['status'] != 'non_target']
+    for method in methods:
+        target = normalize_target(method)
+        values = []
+        for item in relevant:
+            conversion = next((c for c in item['conversions'] if c['method'] == method and c['target'] == target), None)
+            if conversion and conversion['value'] is not None:
+                values.append(convert_drug(item['drug'], item['daily_dose_mg'], method, target))
+        complete = bool(relevant) and len(values) == len(relevant)
+        totals.append(dict(method=method, target_drug=target,
+                           total_equivalent_dose_mg=round(math.fsum(values), 4) if complete else None,
+                           partial_equivalent_dose_mg=round(math.fsum(values), 4) if values and not complete else None,
+                           converted_count=len(values), unresolved_count=len(relevant)-len(values),
+                           excluded_count=len(items)-len(relevant),
+                           status='complete' if complete else 'incomplete' if relevant else 'non_target',
+                           needs_review=not complete or any(i['needs_review'] for i in relevant)))
+    return totals

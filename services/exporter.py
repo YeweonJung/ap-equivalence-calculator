@@ -65,7 +65,7 @@ def _format_worksheet(worksheet):
         worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), 96)
 
 
-def export_results(detailed_rows, audit_rows, error_rows, directory):
+def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None):
     output_file = Path(directory) / "result.xlsx"
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
         _safe_frame(detailed_rows, DETAILED_COLUMNS).to_excel(
@@ -77,6 +77,8 @@ def export_results(detailed_rows, audit_rows, error_rows, directory):
         _safe_frame(error_rows, ERROR_COLUMNS).to_excel(
             writer, sheet_name="Errors", index=False
         )
+        columns = ["sheet", "source_row", "medication_column", "patient", "original", "method", "target_drug", "total_equivalent_dose_mg", "partial_equivalent_dose_mg", "converted_count", "unresolved_count", "excluded_count", "status", "needs_review"]
+        _safe_frame(total_rows or [], columns).to_excel(writer, sheet_name="CellTotals", index=False)
         pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
         for worksheet in writer.book.worksheets:
             _format_worksheet(worksheet)
