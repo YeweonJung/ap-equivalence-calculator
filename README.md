@@ -51,3 +51,20 @@ python app.py
 환산 방법들은 서로 다른 연구 설계와 환자 집단에 기반하며 개인별 권장용량이나
 약물 변경 지시가 아닙니다. 빈도 미기재, fuzzy 매칭, PRN, 장기지속형 주사제와 주 단위 처방은
 확정값으로 취급하지 않고 검토 경고 또는 오류로 분리합니다.
+
+
+## 약물 Frame 개선 (2026-09-11)
+
+- 괄호 밖의 쉼표·세미콜론·줄바꿈·+에서만 분리하며 괄호 불일치는 검토로 남깁니다.
+- `ris 2mg olz 5mg`처럼 구분자가 없는 입력도 약물별 Frame으로 나눕니다.
+- `drug1,dose1,unit1,frequency1,drug2,dose2,unit2,frequency2` 형태를 지원합니다. 번호가 같은 열끼리 연결합니다.
+- `arp`, `hd`, `olan`, `pariperidone` 별칭과 Blonanserin, Escitalopram, Benztropine, Lithium을 등록했습니다.
+- `olz15` 등은 약물과 숫자를 인식하되 단위가 없으면 환산하지 않습니다.
+- `mgs`, `milligram(s)`, `밀리그램`은 mg로 정규화합니다. 다른 단위 오타는 `unit_candidates`에 유사 후보만 표시하며 자동 적용하지 않습니다.
+- PP1M/PP3M/PP6M, LAI, IM, 주사 등의 투여경로·제형·간격 표기를 보존합니다. 주사제의 경구 환산계수는 적용하지 않습니다.
+- `AuditTrail`은 환산 성공뿐 아니라 모든 Frame을 보존합니다. `status`는 converted, non_target, unknown_drug, missing_unit, unsupported_formulation, missing_factor, review로 구분합니다.
+- 환산 대상이 아닌 병용약과 계수 없는 약물은 0으로 처리하지 않습니다. Blonanserin의 환산계수는 추가하지 않았습니다.
+- Excel의 `method_warning`, `limitation` 항목을 제거했습니다. MethodInfo의 방법명과 출처는 유지합니다.
+- Frame의 source_start/source_end는 original이 추출된 파싱 입력의 문자 위치(0 기반, 끝 제외)입니다. 별도 열을 결합한 경우 결합 문자열 기준입니다.
+
+검증: `python -B -m pytest tests -q -p no:cacheprovider`

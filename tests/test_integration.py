@@ -43,7 +43,9 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
     errors = pd.read_excel(io.BytesIO(response.data), sheet_name="Errors")
     assert detailed.loc[0, "drug"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
-    assert errors["original"].fillna("").str.casefold().str.contains("lithium").any()
+    audit = pd.read_excel(io.BytesIO(response.data), sheet_name="AuditTrail")
+    assert audit.loc[audit["parsed"] == "lithium", "status"].tolist() == ["non_target"]
+    assert not errors["original"].fillna("").str.casefold().str.contains("lithium").any()
 
 
 def test_parser_api_marks_unknown_drugs_for_review():
@@ -51,7 +53,8 @@ def test_parser_api_marks_unknown_drugs_for_review():
     assert response.status_code == 200
     items = response.get_json()["items"]
     assert items[0]["drug"] == "risperidone" and items[0]["needs_review"] is False
-    assert items[1]["ok"] is False and items[1]["needs_review"] is True
+    assert items[1]["ok"] is True and items[1]["status"] == "non_target"
+    assert items[1]["daily_dose_mg"] is None and items[1]["conversions"] == []
 
 
 def test_ambiguous_schedules_are_not_presented_as_certain():

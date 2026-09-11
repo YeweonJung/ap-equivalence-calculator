@@ -9,16 +9,18 @@ from openpyxl.utils import get_column_letter
 DETAILED_COLUMNS = [
     "sheet", "source_row", "medication_column", "patient", "original", "drug", "dose_mg", "frequency",
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
-    "match_type", "match_score", "needs_review", "method_warning",
+    "match_type", "match_score", "needs_review",
 ]
-AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "match_type", "match_score", "status", "unavailable_methods"]
-ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"]
+FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "route", "formulation", "interval", "status", "status_message"]
+DETAILED_COLUMNS += FRAME_COLUMNS
+AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
+ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
 METHOD_INFO = [
-    {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041", "limitation": "급성 조현병 경구약 임상시험 평균용량 기반이며 개인별 처방 권고가 아님"},
-    {"method": "MED", "basis": "Minimum effective dose method", "reference": "Leucht et al. 2014; PMID 24493852", "limitation": "초발성·치료저항성 환자에 일반화할 수 없음"},
-    {"method": "ED95", "basis": "95% effective dose method", "reference": "Leucht et al. 2020; PMID 31838873", "limitation": "만성 조현병 급성 악화 집단의 평균 효과 기반; haloperidol 값은 단일 연구 기반 제한적 추정치"},
-    {"method": "DDD", "basis": "WHO Defined Daily Dose", "reference": "WHO ATC/DDD methodology", "limitation": "약물사용 연구용 기술 단위이며 권장·처방 용량이 아님"},
-    {"method": "CPZ_FGA", "basis": "Historical chlorpromazine equivalents", "reference": "Davis 1974; PMID 4156792", "limitation": "1세대 항정신병약물의 역사적 비교값"},
+    {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041"},
+    {"method": "MED", "basis": "Minimum effective dose method", "reference": "Leucht et al. 2014; PMID 24493852"},
+    {"method": "ED95", "basis": "95% effective dose method", "reference": "Leucht et al. 2020; PMID 31838873"},
+    {"method": "DDD", "basis": "WHO Defined Daily Dose", "reference": "WHO ATC/DDD methodology"},
+    {"method": "CPZ_FGA", "basis": "Historical chlorpromazine equivalents", "reference": "Davis 1974; PMID 4156792"},
 ]
 
 
@@ -43,7 +45,7 @@ def _format_worksheet(worksheet):
     worksheet.freeze_panes = "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
 
-    wrap_headers = {"original", "warning", "method_warning", "error", "limitation", "reference"}
+    wrap_headers = {"original", "warning", "error", "reference"}
     for column_index, cells in enumerate(worksheet.iter_cols(), start=1):
         header = str(cells[0].value or "")
         max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)

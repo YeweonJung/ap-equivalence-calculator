@@ -115,7 +115,7 @@ def dictionary_match(text):
 def fuzzy_match(text, threshold=85):
     value = _drug_only_text(text)
     if not value:
-        return None
+        return None, None
     candidates = [alias for alias in alias_map if len(_compact(alias)) >= 4]
     query = _compact(value)
     if process is not None:
@@ -141,7 +141,13 @@ def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
         raise ValueError("약물 값이 비어 있습니다.")
-    drug = dictionary_match(original)
+    from services.frames import drug_mentions, formulation_info
+    if len({name for _, _, name in drug_mentions(original)}) > 1:
+        raise ValueError("여러 약물이 있습니다. 약물별 Frame으로 분리해 주세요.")
+    if formulation_info(original)["route"] == "injection":
+        raise ValueError("주사제는 제형별 환산 근거 확인이 필요합니다.")
+    mentions = drug_mentions(original)
+    drug = mentions[0][2] if mentions else dictionary_match(original)
     match_type, match_score = "exact", 100.0
     if not drug:
         drug, match_score = fuzzy_match(original)

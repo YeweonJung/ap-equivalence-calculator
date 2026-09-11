@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 uploads/
 output/
+
+backup_before_frames_*/
+
+.pytest_cache/

@@ -10,13 +10,14 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 
 from services.anonymizer import anonymize_dataframe
-from services.column_detector import detect_columns
-from services.converter import available_methods, convert_drug, method_warning, normalize_target
+from services.column_detector import detect_columns, detect_medication_groups
+from services.converter import available_methods, normalize_target
 from services.exporter import export_results
 from services.file_reader import read_file
 from services.medication_splitter import split_medications
 from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
+from services.frames import parse_frames, convert_frame
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -92,21 +93,7 @@ def parse_text():
     text = str(payload.get("text", "")).strip()
     if not text:
         return jsonify({"error": "약물과 용량을 입력해 주세요."}), 400
-    items = []
-    for medication in split_medications(text):
-        try:
-            parsed = parse_medication(medication)
-            conversions = []
-            for method in METHODS:
-                try:
-                    target = normalize_target(method)
-                    equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], method, target)
-                    conversions.append({"method": method, "target": target, "value": round(equivalent, 4)})
-                except (ValueError, LookupError):
-                    conversions.append({"method": method, "target": "", "value": None})
-            items.append({"ok": True, **parsed, "conversions": conversions})
-        except ValueError as exc:
-            items.append({"ok": False, "original": medication, "error": str(exc), "needs_review": True})
+    items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
     return jsonify({"items": items})
 
 
@@ -143,7 +130,9 @@ def upload():
                 unit_col = detected["unit_column"]
                 frequency_col = detected["frequency_column"]
 
-                if medication_col is None:
+                groups = detect_medication_groups(dataframe) or [{"medication_column": medication_col, "dose_column": dose_col, "unit_column": unit_col, "frequency_column": frequency_col}]
+
+                if medication_col is None and not any(g["medication_column"] for g in groups):
                     error_rows.append({"sheet": sheet_name, "source_row": "", "medication_column": "", "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
                     continue
 
@@ -156,50 +145,33 @@ def upload():
                 for row_index, row in anonymized.iterrows():
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
                     source_row = int(row_index) + header_row + 2
-                    raw_medication = _cell_text(row.get(medication_col))
-                    medications = split_medications(raw_medication)
-                    if medications and dose_col is not None and not any(DOSE_RE.search(item) for item in medications):
-                        if len(medications) > 1:
-                            error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": raw_medication, "error": "여러 약물이 한 셀에 있고 용량이 별도 열에 있어 자동 결합할 수 없습니다."})
+                    for group in groups:
+                        medication_col, dose_col, unit_col, frequency_col = (group[key] for key in ("medication_column", "dose_column", "unit_column", "frequency_column"))
+                        raw_medication = _cell_text(row.get(medication_col))
+                        if not raw_medication:
                             continue
-                        medications = [_compose_structured_medication(row, medications[0], dose_col, unit_col, frequency_col)]
-                    for medication in medications:
-                        try:
-                            parsed = parse_medication(medication)
-                            converted_count = 0
-                            unavailable_methods = []
-                            for selected_method in selected_methods:
-                                target = normalize_target(selected_method)
-                                try:
-                                    equivalent = convert_drug(parsed["drug"], parsed["daily_dose_mg"], selected_method, target)
-                                except LookupError:
-                                    unavailable_methods.append(selected_method)
-                                    continue
-                                converted_count += 1
-                                detailed_rows.append({
-                                    "sheet": sheet_name,
-                                    "source_row": source_row,
-                                    "medication_column": str(medication_col),
-                                    "patient": patient_id,
-                                    "original": medication,
-                                    "drug": parsed["drug"],
-                                    "dose_mg": parsed["dose_mg"],
-                                    "frequency": parsed["frequency"],
-                                    "daily_dose_mg": parsed["daily_dose_mg"],
-                                    "method": selected_method,
-                                    "target_drug": target,
-                                    "equivalent_dose_mg": round(equivalent, 4),
-                                    "warning": parsed["warning"],
-                                    "match_type": parsed["match_type"],
-                                    "match_score": round(parsed["match_score"], 1),
-                                    "needs_review": parsed["needs_review"],
-                                    "method_warning": method_warning(selected_method, parsed["drug"], target),
-                                })
-                            if converted_count == 0:
-                                raise LookupError(f"{parsed['drug']}에 사용할 수 있는 환산값이 없습니다.")
-                            audit_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "parsed": parsed["drug"], "match_type": parsed["match_type"], "match_score": round(parsed["match_score"], 1), "status": "review" if parsed["needs_review"] else "converted", "unavailable_methods": ", ".join(unavailable_methods)})
-                        except (ValueError, LookupError) as exc:
-                            error_rows.append({"sheet": sheet_name, "source_row": source_row, "medication_column": str(medication_col), "patient": patient_id, "original": medication, "error": str(exc)})
+                        text = raw_medication
+                        if dose_col is not None and not DOSE_RE.search(text):
+                            # A structured row represents one drug/dose group. Never
+                            # attach one dose column to several medications.
+                            preliminary = parse_frames(text)
+                            if len(preliminary) == 1 and preliminary[0]["dose"] is None:
+                                text = _compose_structured_medication(row, text, dose_col, unit_col, frequency_col)
+                        for frame in parse_frames(text):
+                            parsed = convert_frame(frame, selected_methods)
+                            context = {"sheet": sheet_name, "source_row": source_row,
+                                       "medication_column": str(medication_col), "patient": patient_id}
+                            record = {**context, **parsed}
+                            conversions = parsed["conversions"]
+                            for conversion in conversions:
+                                if conversion["value"] is not None:
+                                    detailed_rows.append({**record, "method": conversion["method"],
+                                                          "target_drug": conversion["target"],
+                                                          "equivalent_dose_mg": conversion["value"]})
+                            audit_rows.append({**record, "parsed": parsed["drug"],
+                                               "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})
+                            if not parsed["ok"]:
+                                error_rows.append({**record, "error": parsed.get("error", parsed["status_message"])})
 
             output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())

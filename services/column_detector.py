@@ -64,3 +64,27 @@ def detect_columns(df):
         "unit_column": unit_col,
         "frequency_column": frequency_col,
     }
+
+
+def detect_medication_groups(df):
+    """Pair numbered drug/dose/unit/frequency columns by their explicit suffix."""
+    groups = {}
+    for column in df.columns:
+        match = re.fullmatch(r'(.+?)[_\s]*(\d+)', str(column).strip())
+        if not match:
+            continue
+        base, number = match.groups()
+        base = base.rstrip('_ ').casefold()
+        for kind, keywords in [('medication_column', MEDICATION_KEYWORDS),
+                               ('dose_column', DOSE_KEYWORDS),
+                               ('unit_column', UNIT_KEYWORDS),
+                               ('frequency_column', FREQUENCY_KEYWORDS)]:
+            if base in keywords:
+                groups.setdefault(number, {})[kind] = column
+                break
+    result = []
+    for number in sorted(groups, key=int):
+        group = groups[number]
+        if 'medication_column' in group:
+            result.append({key: group.get(key) for key in ('medication_column', 'dose_column', 'unit_column', 'frequency_column')})
+    return result
