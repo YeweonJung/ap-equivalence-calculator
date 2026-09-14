@@ -46,9 +46,9 @@ def test_drug_dose_binding_and_unknown_neighbors():
 def test_injections_never_become_oral_daily_doses(marker):
     result = items(f'Paliperidone 100mg ({marker})')[0]
     assert result['route'] == 'injection'
-    if marker.startswith('PP'):
+    if marker == 'PP1M':
         assert result['status'] == 'converted' and result['daily_dose_mg'] < 100
-        assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['DDD']
+        assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['MED', 'ED95', 'DDD']
     else:
         assert result['status'] == 'unsupported_formulation'
         assert result['dose_mg'] == 100 and result['daily_dose_mg'] is None

@@ -44,7 +44,8 @@ def drug_mentions(text):
 
 
 def formulation_info(text):
-    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포', text, re.I)
+    from services.lai_support import PRODUCT_RE
+    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
     return {'route': 'injection' if injection else 'oral',
@@ -61,7 +62,7 @@ def _segments(text):
         for match in generic:
             if re.match(r'pp[136]m\b', chunk[match.start():], re.I):
                 continue
-            if match.group().strip().casefold() not in {'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
+            if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
         starts = sorted(starts)
         # Split only after a preceding dose: brand/generic synonyms stay together.
@@ -84,6 +85,8 @@ def _frame(start, end, original):
         if bare:
             tail = text[bare.end():].strip()
             allowed = not tail or tail.startswith(('(', '[', '（')) or bool(re.fullmatch(r'(?:QD|BID|TID|QID|QHS|HS|QAM|QOD|daily|매일|1일\s*[1-4]회)', tail, re.I))
+            if formulation_info(text)['route'] == 'injection' and re.match(r'(?:LAI|PP[136]M|depot|주사|지속형)(?![a-z])', tail, re.I):
+                allowed = True
             if allowed:
                 assumed = _frame(start, end, text[:bare.end()] + 'mg' + text[bare.end():])
                 assumed.update(original=original, source_start=start, source_end=end, unit_assumed=True, needs_review=True)
@@ -170,18 +173,20 @@ def parse_frames(text):
 
 def convert_frame(frame, methods):
     from services.converter import convert_drug, normalize_target
+    from services.lai_support import convert_injection, BRIDGE_LABEL
     item = dict(frame, conversions=[])
     if item['status'] == 'ready':
         for method in methods:
             target = normalize_target(method)
             try:
                 if item['route'] == 'injection':
-                    value = round(item['injection_cpz_ddd'], 4) if method == 'DDD' and target == 'chlorpromazine' else None
+                    value = round(convert_injection(item, method, target), 4)
                 else:
                     value = round(convert_drug(item['drug'], item['daily_dose_mg'], method, target), 4)
             except LookupError:
                 value = None
-            item['conversions'].append(dict(method=method, target=target, value=value))
+            basis = BRIDGE_LABEL if item['route'] == 'injection' and method != 'DDD' and value is not None else 'WHO depot DDD' if item['route'] == 'injection' and method == 'DDD' else ''
+            item['conversions'].append(dict(method=method, target=target, value=value, basis=basis))
         item['status'] = 'converted' if any(c['value'] is not None for c in item['conversions']) else 'missing_factor'
         item['status_message'] = LABELS[item['status']]
     item['ok'] = item['status'] not in {'unknown_drug', 'review', 'missing_unit', 'unsupported_formulation'}
@@ -194,6 +199,7 @@ def summarize_frames(items, methods):
     """Sum within a single source cell, separately by method and target."""
     import math
     from services.converter import normalize_target, convert_drug
+    from services.lai_support import convert_injection
     totals = []
     relevant = [item for item in items if item['status'] != 'non_target']
     for method in methods:
@@ -202,7 +208,7 @@ def summarize_frames(items, methods):
         for item in relevant:
             conversion = next((c for c in item['conversions'] if c['method'] == method and c['target'] == target), None)
             if conversion and conversion['value'] is not None:
-                values.append(item['injection_cpz_ddd'] if item['route'] == 'injection' else convert_drug(item['drug'], item['daily_dose_mg'], method, target))
+                values.append(convert_injection(item, method, target) if item['route'] == 'injection' else convert_drug(item['drug'], item['daily_dose_mg'], method, target))
         complete = bool(relevant) and len(values) == len(relevant)
         totals.append(dict(method=method, target_drug=target,
                            total_equivalent_dose_mg=round(math.fsum(values), 4) if complete else None,

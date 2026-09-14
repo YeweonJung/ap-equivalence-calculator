@@ -22,7 +22,10 @@ def test_route_specific_ddd_and_total(text, expected):
     assert item['route'] == 'injection' and item['status'] == 'converted'
     assert item['conversion_basis'] == 'WHO depot DDD'
     for c in item['conversions']:
-        assert c['value'] == (round(expected, 4) if c['method'] == 'DDD' else None)
+        if c['method'] == 'DDD':
+            assert c['value'] == round(expected, 4)
+        elif item['drug'] != 'paliperidone':
+            assert c['value'] is None
     total = next(t for t in response['totals'] if t['method'] == 'DDD')
     assert total['total_equivalent_dose_mg'] == round(expected, 4)
 

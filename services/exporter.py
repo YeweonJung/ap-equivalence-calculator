@@ -12,7 +12,7 @@ DETAILED_COLUMNS = [
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
     "match_type", "match_score", "needs_review",
 ]
-FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "route", "formulation", "interval", "status", "status_message"]
+FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
 DETAILED_COLUMNS += FRAME_COLUMNS
 AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
 ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
@@ -46,7 +46,7 @@ def _format_worksheet(worksheet):
     worksheet.freeze_panes = "D2" if worksheet.title == "Results" else "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
 
-    wrap_headers = {"original", "warning", "error", "reference"}
+    wrap_headers = {"original", "warning", "error", "reference", "환산 근거", "basis", "source", "conversion_basis", "conversion_source", "oral_bridge_source"}
     for column_index, cells in enumerate(worksheet.iter_cols(), start=1):
         header = str(cells[0].value or "")
         max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)
@@ -82,8 +82,9 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         columns = ["sheet", "source_row", "medication_column", "patient", "original", "method", "target_drug", "total_equivalent_dose_mg", "partial_equivalent_dose_mg", "converted_count", "unresolved_count", "excluded_count", "status", "needs_review"]
         _safe_frame(total_rows or [], columns).to_excel(writer, sheet_name="CellTotals", index=False)
         pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
-        from services.injections import DEPOT_DDD, SOURCE, CPZ_SOURCE
-        pd.DataFrame([{"drug": drug, "route": "depot", "DDD_mg_per_day": value, "target": "chlorpromazine oral", "target_DDD_mg": 300, "source": SOURCE, "target_source": CPZ_SOURCE, "month_days": 30} for drug, value in DEPOT_DDD.items()]).to_excel(writer, sheet_name="InjectionInfo", index=False)
+        from services.injections import DEPOT_DDD, SOURCE, CPZ_SOURCE, OLZ_SOURCE
+        from services.lai_support import bridge_info_rows
+        pd.DataFrame([{"method": "DDD", "drug": drug, "route": "depot", "DDD_mg_per_day": value, "target": "chlorpromazine oral", "target_DDD_mg": 300, "source": OLZ_SOURCE if drug == "olanzapine" else SOURCE, "target_source": CPZ_SOURCE, "month_days": 30} for drug, value in DEPOT_DDD.items()] + bridge_info_rows()).to_excel(writer, sheet_name="InjectionInfo", index=False)
         for worksheet in writer.book.worksheets:
             _format_worksheet(worksheet)
         sheet = writer.book['Results']

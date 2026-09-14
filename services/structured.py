@@ -44,7 +44,9 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
             except ValueError:
                 valid_frequency = False
         for frame in parsed:
-            if not valid_frequency:
+            lai_frequency = frame.get('route') == 'injection' and bool(re.fullmatch(
+                r'q\s*\d+\s*(?:d|days?|w|wk|weeks?|mo|months?)|every\s+\d+\s+(?:days?|weeks?|months?)|monthly|weekly|매월|매주|\d+\s*개월|\d+\s*주\s*(?:마다|간격)', frequency, re.I))
+            if not valid_frequency and not lai_frequency:
                 frame.update(status='review', status_message='복용 빈도 확인 필요', warning=f'지원하지 않는 복용 빈도: {frequency}. BID 등 명확한 표기를 사용해 주세요.', daily_dose_mg=None, needs_review=True)
         frames.extend(parsed)
     return frames

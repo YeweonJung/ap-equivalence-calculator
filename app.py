@@ -165,7 +165,9 @@ def upload():
                                 if conversion["value"] is not None:
                                     detailed_rows.append({**record, "method": conversion["method"],
                                                           "target_drug": conversion["target"],
-                                                          "equivalent_dose_mg": conversion["value"]})
+                                                          "equivalent_dose_mg": conversion["value"],
+                                                          "conversion_basis": conversion.get("basis") or parsed.get("conversion_basis", ""),
+                                                          "conversion_source": parsed.get("oral_bridge_source", "") if conversion.get("basis", "").startswith("경구") else parsed.get("conversion_source", "")})
                             audit_rows.append({**record, "parsed": parsed["drug"],
                                                "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})
                             if not parsed["ok"] or parsed.get("unit_assumed"):

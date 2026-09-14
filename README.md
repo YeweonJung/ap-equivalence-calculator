@@ -61,7 +61,7 @@ python app.py
 - `arp`, `hd`, `olan`, `pariperidone` 별칭과 Blonanserin, Escitalopram, Benztropine, Lithium을 등록했습니다.
 - `olz15` 등은 단위가 없으면 mg으로 계산하고 Errors에 확인바람을 기록합니다.
 - `mgs`, `milligram(s)`, `밀리그램`은 mg로 정규화합니다. 다른 단위 오타는 `unit_candidates`에 유사 후보만 표시하며 자동 적용하지 않습니다.
-- PP1M/PP3M/PP6M, LAI, IM, 주사 등의 투여경로·제형·간격 표기를 보존합니다. 주사제의 경구 환산계수는 적용하지 않습니다.
+- PP1M/PP3M/PP6M, LAI, IM, 주사 등의 투여경로·제형·간격 표기를 보존합니다. 주사 질량/일에 경구 환산계수를 직접 적용하지 않습니다.
 - `AuditTrail`은 환산 성공뿐 아니라 모든 Frame을 보존합니다. `status`는 converted, non_target, unknown_drug, missing_unit, unsupported_formulation, missing_factor, review로 구분합니다.
 - 환산 대상이 아닌 병용약과 계수 없는 약물은 0으로 처리하지 않습니다. Blonanserin의 환산계수는 추가하지 않았습니다.
 - Excel의 `method_warning`, `limitation` 항목을 제거했습니다. MethodInfo의 방법명과 출처는 유지합니다.
@@ -81,7 +81,7 @@ python app.py
 
 단위가 생략된 숫자 용량은 mg으로 계산하며 `unit_assumed=True`와 `확인바람: 단위 미기재로 mg 가정`을 Errors/AuditTrail에 기록합니다. 숫자 자체가 없거나 `.G`, `gm`처럼 명시된 불명확한 단위는 mg으로 덮어쓰지 않습니다.
 
-지속형 주사제는 WHO의 투여경로별 DDD로 계산합니다. 현재 depot DDD는 paliperidone 활성성분 2.5 mg/day, aripiprazole 13.3 mg/day, risperidone 2.7 mg/day입니다. 주사량/투여간격/주사제 DDD × chlorpromazine 경구 DDD 300 mg으로 계산합니다. 경구 CMD/MED/ED95/CPZ_FGA 계수는 주사제에 적용하지 않습니다.
+지속형 주사제는 WHO의 투여경로별 DDD로 계산합니다. 현재 depot DDD는 paliperidone 활성성분 2.5 mg/day, aripiprazole 13.3 mg/day, risperidone 2.7 mg/day, olanzapine 10 mg/day입니다. 주사량/투여간격/주사제 DDD × chlorpromazine 경구 DDD 300 mg으로 계산합니다. 다른 방법은 제품별 경구 대응용량이 명확하고 기존 계수가 있는 경우에 한해 추정값으로 표시합니다. [LAI 지원 범위와 출처](LAI_METHODS.md)를 확인하세요.
 
 - `paliperidone 100mg PP1M`: 100/30/2.5×300 = 400 CPZ mg/day (DDD).
 - `aripiprazole 400mg LAI q4w`: 400/28/13.3×300 CPZ mg/day.
