@@ -35,7 +35,7 @@ def test_unbalanced_annotations_remain_reviewable(text):
 def test_drug_dose_binding_and_unknown_neighbors():
     result = items('ris 2mg olz 5')
     assert [(r['drug'], r['dose'], r['status']) for r in result] == [
-        ('risperidone', 2, 'converted'), ('olanzapine', 5, 'missing_unit')]
+        ('risperidone', 2, 'converted'), ('olanzapine', 5, 'converted')]
     result = items('ris 2mg UnknownDrug 7mg olz 5mg')
     assert [r['status'] for r in result] == ['converted', 'unknown_drug', 'converted']
     with pytest.raises(ValueError):
@@ -46,9 +46,13 @@ def test_drug_dose_binding_and_unknown_neighbors():
 def test_injections_never_become_oral_daily_doses(marker):
     result = items(f'Paliperidone 100mg ({marker})')[0]
     assert result['route'] == 'injection'
-    assert result['status'] == 'unsupported_formulation'
-    assert result['dose_mg'] == 100 and result['daily_dose_mg'] is None
-    assert result['conversions'] == []
+    if marker.startswith('PP'):
+        assert result['status'] == 'converted' and result['daily_dose_mg'] < 100
+        assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['DDD']
+    else:
+        assert result['status'] == 'unsupported_formulation'
+        assert result['dose_mg'] == 100 and result['daily_dose_mg'] is None
+        assert result['conversions'] == []
 
 
 def test_non_targets_and_missing_factors_are_distinct():
@@ -59,10 +63,11 @@ def test_non_targets_and_missing_factors_are_distinct():
 
 @pytest.mark.parametrize('text,drug', [('arp 15', 'aripiprazole'), ('hd 1.5', 'haloperidol'),
     ('olz15', 'olanzapine'), ('olan 7.5', 'olanzapine'), ('ris 6', 'risperidone'), ('qtp 300', 'quetiapine')])
-def test_aliases_recognized_without_inventing_units(text, drug):
+def test_aliases_use_requested_mg_default_with_review(text, drug):
     result = items(text)[0]
-    assert result['drug'] == drug and result['status'] == 'missing_unit'
-    assert result['unit'] is None and result['daily_dose_mg'] is None
+    assert result['drug'] == drug and result['status'] == 'converted'
+    assert result['unit'] == 'mg' and result['unit_assumed'] and result['needs_review']
+    assert '확인바람' in result['warning']
 
 
 def test_unit_normalization_and_ambiguous_typo():
@@ -90,7 +95,7 @@ def test_invalid_schedule_does_not_create_a_second_drug():
 
 def test_unbracketed_pp1m_and_annotation_do_not_change_drug_binding():
     result = items('Paliperidone 100mg PP1M')
-    assert len(result) == 1 and result[0]['status'] == 'unsupported_formulation'
+    assert len(result) == 1 and result[0]['status'] == 'converted'
     result = items('ris 2mg (previous olanzapine)')[0]
     assert result['drug'] == 'risperidone'
 

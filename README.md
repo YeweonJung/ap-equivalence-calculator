@@ -59,7 +59,7 @@ python app.py
 - `ris 2mg olz 5mg`처럼 구분자가 없는 입력도 약물별 Frame으로 나눕니다.
 - `drug1,dose1,unit1,frequency1,drug2,dose2,unit2,frequency2` 형태를 지원합니다. 번호가 같은 열끼리 연결합니다.
 - `arp`, `hd`, `olan`, `pariperidone` 별칭과 Blonanserin, Escitalopram, Benztropine, Lithium을 등록했습니다.
-- `olz15` 등은 약물과 숫자를 인식하되 단위가 없으면 환산하지 않습니다.
+- `olz15` 등은 단위가 없으면 mg으로 계산하고 Errors에 확인바람을 기록합니다.
 - `mgs`, `milligram(s)`, `밀리그램`은 mg로 정규화합니다. 다른 단위 오타는 `unit_candidates`에 유사 후보만 표시하며 자동 적용하지 않습니다.
 - PP1M/PP3M/PP6M, LAI, IM, 주사 등의 투여경로·제형·간격 표기를 보존합니다. 주사제의 경구 환산계수는 적용하지 않습니다.
 - `AuditTrail`은 환산 성공뿐 아니라 모든 Frame을 보존합니다. `status`는 converted, non_target, unknown_drug, missing_unit, unsupported_formulation, missing_factor, review로 구분합니다.
@@ -70,6 +70,28 @@ python app.py
 검증: `python -B -m pytest tests -q -p no:cacheprovider`
 
 ## 셀별 환산 합계
-동일 셀의 약물을 각각 환산하고 웹 화면과 Excel CellTotals 시트에 환산법·기준 약물별 합계를 표시합니다. 미환산 약물이 있으면 총합은 빈값이고 계산된 약물만 부분합으로 표시합니다. RIS,OLZ처럼 용량이 없으면 합계를 계산하지 않습니다. 환산 대상이 아닌 병용약은 제외 건수로 기록합니다. 서로 다른 행이나 약물 열은 합치지 않습니다.
+동일 셀의 약물을 각각 환산하고 웹 화면과 Excel CellTotals 시트에 환산법·기준 약물별 합계를 표시합니다. 미환산 약물이 있으면 총합은 빈값이고 계산된 약물만 부분합으로 표시합니다. RIS,OLZ처럼 숫자 용량 자체가 없으면 합계를 계산하지 않습니다. 환산 대상이 아닌 병용약은 제외 건수로 기록합니다. 서로 다른 행이나 약물 열은 합치지 않습니다.
 
 별도 열에서 drug=`Risperdal,OLA`, dose=`6,5`, unit=`MG`, frequency=`BID`를 입력하면 순서대로 연결하고 공통 단위·빈도를 적용합니다. 약물과 용량 개수가 다르면 검토 대상으로 남깁니다. B 등 미지원 빈도는 QD로 가정하지 않습니다.
+
+
+## 결과 시트와 주사제 DDD (2026-09-14)
+
+`Results`가 첫 시트입니다. original 원문과 약물별 환산값, 같은 셀의 총 환산값을 CMD, MED, ED95, DDD, CPZ_FGA 순으로 표시합니다. 총합은 각 셀의 첫 약물 행에만 표시합니다. 미지원 약물/방법의 값은 실제 빈 셀로 남기며, 하나라도 환산하지 못하면 그 방법의 총합도 비웁니다. 부분합은 기존 CellTotals에서만 확인합니다.
+
+단위가 생략된 숫자 용량은 mg으로 계산하며 `unit_assumed=True`와 `확인바람: 단위 미기재로 mg 가정`을 Errors/AuditTrail에 기록합니다. 숫자 자체가 없거나 `.G`, `gm`처럼 명시된 불명확한 단위는 mg으로 덮어쓰지 않습니다.
+
+지속형 주사제는 WHO의 투여경로별 DDD로 계산합니다. 현재 depot DDD는 paliperidone 활성성분 2.5 mg/day, aripiprazole 13.3 mg/day, risperidone 2.7 mg/day입니다. 주사량/투여간격/주사제 DDD × chlorpromazine 경구 DDD 300 mg으로 계산합니다. 경구 CMD/MED/ED95/CPZ_FGA 계수는 주사제에 적용하지 않습니다.
+
+- `paliperidone 100mg PP1M`: 100/30/2.5×300 = 400 CPZ mg/day (DDD).
+- `aripiprazole 400mg LAI q4w`: 400/28/13.3×300 CPZ mg/day.
+- PP1M/PP3M/PP6M은 각각 30/90/180일, 월 단위는 30일/월의 연구 계산 기준입니다. q4w는 28일로 구분합니다. 간격 없는 LAI는 추정하지 않습니다.
+- paliperidone은 활성성분 mg 표기 기준입니다. palmitate 염 질량을 명시한 입력은 자동 환산하지 않습니다.
+- 부하·초기·PRN 용법과 상충 간격은 검토 대상으로 남깁니다. 유지요법을 전제로 한 계산임을 경고로 보존합니다.
+- `LAI둘다`는 셀의 약물들에 주사제 표시를 적용하고 각 약물의 제형·간격 확인을 요청합니다.
+- 약물별 일일 주사량은 투여간격으로 나눈 평균량이며 경구 투여량이 아닙니다.
+
+계수 출처 (확인일 2026-09-14; WHO index 갱신일 2026-01-20):
+https://atcddd.fhi.no/atc_ddd_index/?code=N05AX&showdescription=yes
+https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01
+결과 파일 InjectionInfo 시트에도 계수·출처·월 환산 기준을 기록합니다.

@@ -2,6 +2,7 @@ import math
 from pathlib import Path
 
 import pandas as pd
+from services.result_summary import RESULT_COLUMNS
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -11,7 +12,7 @@ DETAILED_COLUMNS = [
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
     "match_type", "match_score", "needs_review",
 ]
-FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "route", "formulation", "interval", "status", "status_message"]
+FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "route", "formulation", "interval", "status", "status_message"]
 DETAILED_COLUMNS += FRAME_COLUMNS
 AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
 ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
@@ -42,7 +43,7 @@ def _format_worksheet(worksheet):
         cell.font = Font(bold=True, color="12233F")
         cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
     worksheet.row_dimensions[1].height = 30
-    worksheet.freeze_panes = "A2"
+    worksheet.freeze_panes = "D2" if worksheet.title == "Results" else "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
 
     wrap_headers = {"original", "warning", "error", "reference"}
@@ -65,9 +66,10 @@ def _format_worksheet(worksheet):
         worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), 96)
 
 
-def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None):
+def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None, summary_rows=None):
     output_file = Path(directory) / "result.xlsx"
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
+        _safe_frame(summary_rows or [], RESULT_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
         _safe_frame(detailed_rows, DETAILED_COLUMNS).to_excel(
             writer, sheet_name="Detailed", index=False
         )
@@ -80,6 +82,26 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         columns = ["sheet", "source_row", "medication_column", "patient", "original", "method", "target_drug", "total_equivalent_dose_mg", "partial_equivalent_dose_mg", "converted_count", "unresolved_count", "excluded_count", "status", "needs_review"]
         _safe_frame(total_rows or [], columns).to_excel(writer, sheet_name="CellTotals", index=False)
         pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
+        from services.injections import DEPOT_DDD, SOURCE, CPZ_SOURCE
+        pd.DataFrame([{"drug": drug, "route": "depot", "DDD_mg_per_day": value, "target": "chlorpromazine oral", "target_DDD_mg": 300, "source": SOURCE, "target_source": CPZ_SOURCE, "month_days": 30} for drug, value in DEPOT_DDD.items()]).to_excel(writer, sheet_name="InjectionInfo", index=False)
         for worksheet in writer.book.worksheets:
             _format_worksheet(worksheet)
+        sheet = writer.book['Results']
+        sheet.column_dimensions['A'].width = 20
+        sheet.column_dimensions['B'].width = 55
+        sheet.column_dimensions['C'].width = 22
+        sheet.sheet_view.zoomScale = 75
+        sheet.sheet_properties.pageSetUpPr.fitToPage = True
+        sheet.page_setup.orientation = 'landscape'
+        sheet.page_setup.paperSize = sheet.PAPERSIZE_A3
+        sheet.page_setup.fitToWidth = 1
+        sheet.page_setup.fitToHeight = 0
+        sheet.print_title_rows = '1:1'
+        sheet.row_dimensions[1].height = 48
+        for row in sheet.iter_rows(min_row=2):
+            for cell in row[3:]:
+                cell.number_format = '0.0000'
+        for col in range(4,14):
+            sheet.column_dimensions[get_column_letter(col)].width = 22
+            sheet.cell(1,col).fill = PatternFill('solid', fgColor='DCEBFF' if col < 9 else 'DDEEDC')
     return output_file

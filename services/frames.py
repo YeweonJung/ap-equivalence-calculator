@@ -1,6 +1,6 @@
 """Medication-level records shared by the API and workbook export.
 
-Only oral records with explicit mass units reach the existing converter.
+Oral records use mass units (explicit or flagged mg assumptions); depots use route-specific DDD.
 """
 import re
 import unicodedata
@@ -44,7 +44,7 @@ def drug_mentions(text):
 
 
 def formulation_info(text):
-    injection = re.search(r'\b(?:pp[136]m|lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc)\b|주사|데포', text, re.I)
+    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포', text, re.I)
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
     return {'route': 'injection' if injection else 'oral',
@@ -79,6 +79,16 @@ def _frame(start, end, original):
     text = unicodedata.normalize('NFKC', original)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
+    if not DOSE_RE.search(text):
+        bare = re.search(r'[+-]?(?:\d+(?:\.\d+)?|\.\d+)', _outside(text))
+        if bare:
+            tail = text[bare.end():].strip()
+            allowed = not tail or tail.startswith(('(', '[', '（')) or bool(re.fullmatch(r'(?:QD|BID|TID|QID|QHS|HS|QAM|QOD|daily|매일|1일\s*[1-4]회)', tail, re.I))
+            if allowed:
+                assumed = _frame(start, end, text[:bare.end()] + 'mg' + text[bare.end():])
+                assumed.update(original=original, source_start=start, source_end=end, unit_assumed=True, needs_review=True)
+                assumed['warning'] = '; '.join(filter(None, ['확인바람: 단위 미기재로 mg 가정', assumed['warning']]))
+                return assumed
     mentions = drug_mentions(text)
     drug = mentions[0][2] if mentions else dictionary_match(text)
     score, match_type = 100.0, 'exact'
@@ -113,7 +123,14 @@ def _frame(start, end, original):
         status = 'non_target'
         frame['needs_review'] = match_type != 'exact'
     elif info['route'] == 'injection':
-        status = 'unsupported_formulation'
+        from services.injections import injection_values
+        try:
+            if len(doses) != 1:
+                raise ValueError('확인바람: 주사 용량을 하나로 확정할 수 없습니다.')
+            frame.update(injection_values(frame))
+        except ValueError as exc:
+            status = 'unsupported_formulation'
+            frame['warning'] = str(exc)
     elif not doses and frame['dose'] is not None:
         status = 'missing_unit'
         if frame['unit_candidates']:
@@ -137,7 +154,14 @@ def _frame(start, end, original):
 
 def parse_frames(text):
     try:
-        return [_frame(start, end, value) for start, end, value in _segments(str(text))]
+        frames = [_frame(start, end, value) for start, end, value in _segments(str(text))]
+        if re.search(r'(?<![a-z])LAI\s*(?:둘\s*다|모두|both)(?![a-z])|(?:둘\s*다|모두|both)\s*LAI(?![a-z])', str(text), re.I):
+            for frame in frames:
+                frame.update(route='injection', formulation='LAI', status='unsupported_formulation',
+                             status_message=LABELS['unsupported_formulation'], daily_dose_mg=None,
+                             warning='확인바람: 공통 LAI 표기. 각 약물의 제형과 투여간격을 명시해 주세요.', needs_review=True)
+                frame.pop('injection_cpz_ddd', None)
+        return frames
     except ValueError as exc:
         frame = _frame(0, len(str(text)), '')
         frame.update(original=str(text), status='review', status_message=LABELS['review'], warning=str(exc))
@@ -151,7 +175,10 @@ def convert_frame(frame, methods):
         for method in methods:
             target = normalize_target(method)
             try:
-                value = round(convert_drug(item['drug'], item['daily_dose_mg'], method, target), 4)
+                if item['route'] == 'injection':
+                    value = round(item['injection_cpz_ddd'], 4) if method == 'DDD' and target == 'chlorpromazine' else None
+                else:
+                    value = round(convert_drug(item['drug'], item['daily_dose_mg'], method, target), 4)
             except LookupError:
                 value = None
             item['conversions'].append(dict(method=method, target=target, value=value))
@@ -175,7 +202,7 @@ def summarize_frames(items, methods):
         for item in relevant:
             conversion = next((c for c in item['conversions'] if c['method'] == method and c['target'] == target), None)
             if conversion and conversion['value'] is not None:
-                values.append(convert_drug(item['drug'], item['daily_dose_mg'], method, target))
+                values.append(item['injection_cpz_ddd'] if item['route'] == 'injection' else convert_drug(item['drug'], item['daily_dose_mg'], method, target))
         complete = bool(relevant) and len(values) == len(relevant)
         totals.append(dict(method=method, target_drug=target,
                            total_equivalent_dose_mg=round(math.fsum(values), 4) if complete else None,

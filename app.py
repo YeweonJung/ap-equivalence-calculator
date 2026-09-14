@@ -19,12 +19,13 @@ from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
 from services.frames import parse_frames, convert_frame, summarize_frames
 from services.structured import structured_frames
+from services.result_summary import result_rows, METHOD_ORDER
 
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
-METHODS = available_methods()
+METHODS = [method for method in METHOD_ORDER if method in available_methods()]
 
 
 def _cell_text(value):
@@ -114,7 +115,7 @@ def upload():
     original_suffix = Path(uploaded_file.filename).suffix.lower()
     filename = secure_filename(uploaded_file.filename) or f"upload{original_suffix}"
     suffix = original_suffix or Path(filename).suffix.lower()
-    detailed_rows, audit_rows, error_rows, total_rows = [], [], [], []
+    detailed_rows, audit_rows, error_rows, total_rows, summary_rows = [], [], [], [], []
 
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -167,15 +168,17 @@ def upload():
                                                           "equivalent_dose_mg": conversion["value"]})
                             audit_rows.append({**record, "parsed": parsed["drug"],
                                                "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})
-                            if not parsed["ok"]:
-                                error_rows.append({**record, "error": parsed.get("error", parsed["status_message"])})
+                            if not parsed["ok"] or parsed.get("unit_assumed"):
+                                error_rows.append({**record, "error": parsed.get("error") or parsed["warning"] or parsed["status_message"]})
 
-                        for total in summarize_frames(cell_items, selected_methods):
+                        cell_totals = summarize_frames(cell_items, selected_methods)
+                        summary_rows.extend(result_rows(raw_medication, patient_id, cell_items, cell_totals))
+                        for total in cell_totals:
                             total_rows.append({"sheet": sheet_name, "source_row": source_row,
                                                "medication_column": str(medication_col), "patient": patient_id,
                                                "original": raw_medication, **total})
 
-            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows)
+            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows, summary_rows=summary_rows)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(
