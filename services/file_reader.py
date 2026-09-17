@@ -1,3 +1,4 @@
+import csv
 import pandas as pd
 from zipfile import BadZipFile
 
@@ -39,10 +40,16 @@ def read_file(filepath):
         last_error = None
         for encoding in ("utf-8-sig", "utf-8", "cp949", "euc-kr"):
             try:
-                frame = pd.read_csv(filepath, encoding=encoding, sep=None, engine="python")
+                with open(filepath, encoding=encoding, newline='') as source:
+                    header = next((line for line in source if line.strip()), '')
+                try:
+                    separator = csv.Sniffer().sniff(header, delimiters=',;\t|').delimiter
+                except csv.Error:
+                    separator = ','  # A single-column header has no delimiter.
+                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="python")
                 frame.attrs["header_row"] = 0
                 return {"Sheet1": frame}
-            except (UnicodeDecodeError, pd.errors.ParserError) as exc:
+            except (UnicodeDecodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as exc:
                 last_error = exc
         raise ValueError("CSV 인코딩 또는 구분자를 확인할 수 없습니다.") from last_error
 

@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.17-woods-gardner-lai'
+VERSION = '2026.09.18-quick-export-review'
 
 
 def metadata():

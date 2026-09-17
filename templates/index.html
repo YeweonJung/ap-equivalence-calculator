@@ -17,6 +17,9 @@
     .methods{padding:25px 0;border-top:1px solid var(--line)}.method-list{display:flex;justify-content:center;gap:8px 16px;flex-wrap:wrap;color:var(--muted);font-size:11px}.method-list b{color:var(--ink)}footer{text-align:center;padding:17px;color:#8b95a5;font-size:10px;border-top:1px solid #edf0f5}
     @media(max-width:760px){.main{padding-top:32px}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);height:52px;display:grid;place-items:center}.panel{min-height:auto}.upload form,.try-grid,.parser-row{grid-template-columns:1fr}.upload button{min-height:54px}.under-actions{flex-direction:column}.grid{font-size:10px}.cell{padding:9px 5px}.try-grid{align-items:start}}
     .suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.parser .suggestion-button{padding:9px 12px;background:#eaf2ff;color:#164f99;border:1px solid #b8c9de;text-align:left}
+    .parser-row button{min-height:44px}.parse-top{flex-wrap:wrap}.parse-top b{overflow-wrap:anywhere}.parser{min-width:0}
+    .conversion-table{width:100%;border-collapse:collapse;margin-top:8px}.conversion-table th,.conversion-table td{padding:7px 4px;text-align:left;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.conversion-table th{color:var(--ink)}
+    #export-quick{margin-top:12px;padding:10px 14px;min-height:44px;background:var(--blue)}#export-quick[hidden]{display:none}#download-status{font-size:12px;margin-top:6px}.parser button:disabled{opacity:.55;cursor:wait}
   </style>
 </head>
 <body>
@@ -60,7 +63,7 @@
     </section>
     <section class="try"><div class="wrap try-grid">
       <div><h2>파일 전, 한 줄 확인</h2><p>약물과 용량을 입력하고 Enter를 누르세요. 인식하지 못한 이름은 비슷한 약물명을 제안합니다. 후보를 확인해 선택하면 다시 계산합니다.</p></div>
-      <div class="parser"><div class="parser-row"><input id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div class="parser"><div class="parser-row"><input maxlength="10000" id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
     <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span></div></section>
   </main>

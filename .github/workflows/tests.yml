@@ -10,4 +10,5 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt pytest
       - run: python -B -m pytest tests -q -p no:cacheprovider
+      - run: node tests/quick_check_ui.cjs
       - run: python scripts/build_equivalence_lookup.py && git diff --exit-code -- lookup/master_lookup.csv

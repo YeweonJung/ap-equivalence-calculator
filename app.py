@@ -8,6 +8,7 @@ from flask import Flask, jsonify, render_template, request, send_file
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 
 from services.anonymizer import anonymize_dataframe
 from services.column_detector import detect_columns, detect_medication_groups
@@ -96,12 +97,40 @@ def sample_file():
     )
 
 
+def quick_check_text():
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict) or not isinstance(payload.get('text'), str):
+        raise ValueError('약물 입력은 text 문자열로 보내 주세요.')
+    text = payload['text'].strip()
+    if not text:
+        raise ValueError('약물과 용량을 입력해 주세요.')
+    if len(text) > 10000:
+        raise ValueError('한 줄 계산은 10,000자까지 지원합니다. 긴 처방은 파일 업로드를 이용해 주세요.')
+    return text
+
+
+@app.post('/api/export')
+def export_quick_check():
+    try:
+        text = quick_check_text()
+    except ValueError as exc:
+        return jsonify({'error': str(exc)}), 400
+    workbook = Workbook()
+    workbook.active.append(['medication'])
+    workbook.active.append([text])
+    content = io.BytesIO()
+    workbook.save(content)
+    content.seek(0)
+    uploaded = FileStorage(stream=content, filename='quick_check.xlsx')
+    return process_upload(uploaded, 'ALL')
+
+
 @app.post("/api/parse")
 def parse_text():
-    payload = request.get_json(silent=True) or {}
-    text = str(payload.get("text", "")).strip()
-    if not text:
-        return jsonify({"error": "약물과 용량을 입력해 주세요."}), 400
+    try:
+        text = quick_check_text()
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
     for item in items:
         if item['status'] == 'unknown_drug':
@@ -113,7 +142,10 @@ def parse_text():
 def upload():
     uploaded_file = request.files.get("file")
     method = request.form.get("method", "ALL").strip().upper() or "ALL"
+    return process_upload(uploaded_file, method)
 
+
+def process_upload(uploaded_file, method):
     try:
         validate_file(uploaded_file)
         selected_methods = METHODS if method == "ALL" else [method]
