@@ -55,3 +55,11 @@ def test_csv_delimiter_never_splits_inside_drug_name(content):
 def test_empty_csv_returns_validation_error():
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(b'\n'),'empty.csv')})
     assert response.status_code==400
+
+
+def test_leading_equals_stays_text_in_export():
+    response=app.test_client().post('/api/export',json={'text':'=risperidone 2mg QD'})
+    assert response.status_code==200
+    wb=load_workbook(io.BytesIO(response.data))
+    assert wb['Results']['B2'].value=="'=risperidone 2mg QD"
+    assert wb['Results']['B2'].data_type=='s'

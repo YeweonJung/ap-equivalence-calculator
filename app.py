@@ -118,6 +118,7 @@ def export_quick_check():
     workbook = Workbook()
     workbook.active.append(['medication'])
     workbook.active.append([text])
+    workbook.active.cell(2, 1).data_type = 's'
     content = io.BytesIO()
     workbook.save(content)
     content.seek(0)
