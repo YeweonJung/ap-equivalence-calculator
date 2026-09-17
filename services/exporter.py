@@ -2,7 +2,7 @@ import math
 from pathlib import Path
 
 import pandas as pd
-from services.result_summary import RESULT_COLUMNS
+from services.result_summary import RESULT_COLUMNS, METHOD_ORDER
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -12,11 +12,13 @@ DETAILED_COLUMNS = [
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
     "match_type", "match_score", "needs_review",
 ]
-FRAME_COLUMNS = ["source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
+FRAME_COLUMNS = ["input_dose_mg", "active_moiety_mg", "dose_basis", "mass_source", "source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
 DETAILED_COLUMNS += FRAME_COLUMNS
 AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
 ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
 METHOD_INFO = [
+    {"method": "WOODS", "basis": "Woods 2003 minimum effective doses; CPZ100 convention", "reference": "https://pubmed.ncbi.nlm.nih.gov/12823080/"},
+    {"method": "GARDNER", "basis": "Gardner 2010 Table 1 oral median-dose ratios; CPZ600 = OLZ20", "reference": "https://doi.org/10.1176/appi.ajp.2009.09060802"},
     {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041"},
     {"method": "MED", "basis": "Minimum effective dose method", "reference": "Leucht et al. 2014; PMID 24493852"},
     {"method": "ED95", "basis": "95% effective dose method", "reference": "Leucht et al. 2020; PMID 31838873"},
@@ -81,6 +83,15 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         )
         columns = ["sheet", "source_row", "medication_column", "patient", "original", "method", "target_drug", "total_equivalent_dose_mg", "partial_equivalent_dose_mg", "converted_count", "unresolved_count", "excluded_count", "status", "needs_review"]
         _safe_frame(total_rows or [], columns).to_excel(writer, sheet_name="CellTotals", index=False)
+        pd.read_csv(Path(__file__).resolve().parents[1] / 'lookup/equivalence_anchors.csv').to_excel(writer, sheet_name='FactorSources', index=False)
+        from services.release import metadata
+        pd.DataFrame([metadata()]).to_excel(writer, sheet_name='VersionInfo', index=False)
+        review_columns = ['sheet', 'source_row', 'medication_column', 'original', 'parsed',
+                          'dose_mg', 'active_moiety_mg', 'oral_equivalent_mg', 'interval_days',
+                          'dose_basis', 'warning', 'needs_review', 'status',
+                          'reviewer_1', 'reviewer_1_decision', 'reviewer_2', 'reviewer_2_decision',
+                          'adjudication', 'correction', 'review_date']
+        _safe_frame(audit_rows, review_columns).to_excel(writer, sheet_name='ReviewQueue', index=False)
         pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
         from services.injections import DEPOT_DDD, SOURCE, CPZ_SOURCE, OLZ_SOURCE
         from services.lai_support import bridge_info_rows
@@ -102,7 +113,7 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         for row in sheet.iter_rows(min_row=2):
             for cell in row[3:]:
                 cell.number_format = '0.0000'
-        for col in range(4,14):
+        for col in range(4, 4 + 2 * len(METHOD_ORDER)):
             sheet.column_dimensions[get_column_letter(col)].width = 22
-            sheet.cell(1,col).fill = PatternFill('solid', fgColor='DCEBFF' if col < 9 else 'DDEEDC')
+            sheet.cell(1,col).fill = PatternFill('solid', fgColor='DCEBFF' if col < 4 + len(METHOD_ORDER) else 'DDEEDC')
     return output_file

@@ -50,7 +50,7 @@ def test_product_label_oral_bridge_is_separate_from_ddd(text, drug, oral):
     'aripiprazole 400mg LAI 1.5개월', 'aripiprazole 400mg (LAI 1.5개월)',
     'aripiprazole 400mg LAI q0.5w', 'aripiprazole 400mg LAI q-4w',
     'aripiprazole 400mg LAI monthly BID', 'aripiprazole 400mg PP1M',
-    'paliperidone 156mg PP1M', 'paliperidone palmitate 156mg PP1M',
+    'paliperidone 156mg PP1M', 'paliperidone palmitate 155mg PP1M',
     'paliperidone 100mg PP3M', 'paliperidone 100mg PP6M',
     'paliperidone 100mg PP1M PP3M', 'olanzapine 300mg LAI q3w',
     'aripiprazole lauroxil 441mg LAI q4w', 'Maintena 960mg LAI q8w',
@@ -95,10 +95,10 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     result = list(wb['Results'].values)
-    assert result[1][4] == 22.5 and result[1][9] == 27.5
-    assert result[1][3] is None and result[1][8] is None
-    assert '경구 대응용량 기반 추정' in result[1][13]
-    assert all(v is None for v in result[3][3:13])
+    assert result[1][4] == 22.5 and result[1][11] == 27.5
+    assert result[1][3] is None and result[1][10] is None
+    assert '경구 대응용량 기반 추정' in result[1][17]
+    assert all(v is None for v in result[3][3:17])
     detail = [dict(zip(next(wb['Detailed'].values), r)) for r in list(wb['Detailed'].values)[1:]]
     med = next(r for r in detail if r['drug'] == 'paliperidone' and r['method'] == 'MED')
     assert med['oral_equivalent_mg'] == 9 and '경구' in med['conversion_basis']

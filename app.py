@@ -20,6 +20,7 @@ from services.validator import validate_file
 from services.frames import parse_frames, convert_frame, summarize_frames
 from services.structured import structured_frames
 from services.result_summary import result_rows, METHOD_ORDER
+from services.drug_suggestions import suggest_drugs
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -64,6 +65,12 @@ def health():
     return {"status": "ok"}
 
 
+@app.get("/version")
+def version():
+    from services.release import metadata
+    return metadata()
+
+
 @app.get("/sample")
 def sample_file():
     workbook = Workbook()
@@ -96,6 +103,9 @@ def parse_text():
     if not text:
         return jsonify({"error": "약물과 용량을 입력해 주세요."}), 400
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
+    for item in items:
+        if item['status'] == 'unknown_drug':
+            item['suggestions'] = suggest_drugs(item['original'])
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 
 

@@ -1,0 +1,18 @@
+id,original,expected_status,expected_active_mg,expected_oral_mg,expected_woods_cpz,expected_gardner_cpz,expected_ddd_cpz,rationale
+O01,risperidone 2mg QD,converted,,,100,200,120,Woods Results and Gardner Table 1 independently transcribed
+O02,자이프렉사 5mg HS,converted,,,100,150,150,Brand and bedtime frequency
+O03,quetiapine 75mg BID,converted,,,200,120,112.5,Split daily administrations
+P01,paliperidone palmitate 156mg PP1M,converted,100,9,,600,400,156 ester -> 100 active -> 9 oral
+P02,Invega Sustenna 156mg monthly,converted,100,9,,600,400,Product and registered ester strength
+P03,paliperidone 100mg PP1M,converted,100,9,,600,400,Active moiety convention
+P04,Trinza 546mg,converted,350,9,,600,466.6667,PP3M ester -> active -> oral
+P05,"Hafyera 1,092mg",converted,700,9,,600,466.6667,Thousands separator and PP6M
+P06,paliperidone 156mg PP1M,unsupported_formulation,,,,,,Unspecified mass basis remains review
+P07,paliperidone palmitate 100mg PP1M,unsupported_formulation,,,,,,Not registered ester strength
+P08,Sustenna 156mg loading,unsupported_formulation,,,,,,Not maintenance
+P09,Sustenna 156mg PP3M,unsupported_formulation,,,,,,Conflicting product
+A01,Aristada 441mg monthly,converted,300,10,133.3333,200,,Label oral bridge
+A02,Aristada 882mg q6w,converted,600,15,200,300,,Label oral bridge by interval
+A03,Aristada 882mg monthly,converted,600,,,,,Oral >=20 is not a unique value
+A04,Aristada 1064mg every 2 months,converted,724,15,200,300,,Lauroxil must use active moiety for DDD
+A05,Aristada 675mg INITIO,unsupported_formulation,,,,,,Initiation excluded

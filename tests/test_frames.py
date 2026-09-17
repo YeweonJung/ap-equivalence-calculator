@@ -48,7 +48,7 @@ def test_injections_never_become_oral_daily_doses(marker):
     assert result['route'] == 'injection'
     if marker == 'PP1M':
         assert result['status'] == 'converted' and result['daily_dose_mg'] < 100
-        assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['MED', 'ED95', 'DDD']
+        assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['MED', 'ED95', 'DDD', 'GARDNER']
     else:
         assert result['status'] == 'unsupported_formulation'
         assert result['dose_mg'] == 100 and result['daily_dose_mg'] is None

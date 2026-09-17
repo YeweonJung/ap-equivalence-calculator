@@ -11,6 +11,11 @@ OLZ_ORAL = {(150, 14): 10, (300, 28): 10, (210, 14): 15, (405, 28): 15, (300, 14
 PRODUCTS = {'xeplion': ('paliperidone', 'PP1M'), 'trevicta': ('paliperidone', 'PP3M'),
             'byannli': ('paliperidone', 'PP6M'), 'zypadhera': ('olanzapine', 'OLZ_PAMOATE'),
             'okedi': ('risperidone', 'RIS_ISM'), 'maintena': ('aripiprazole', 'ARI_1M')}
+PRODUCTS.update({'sustenna': ('paliperidone', 'PP1M'), 'trinza': ('paliperidone', 'PP3M'),
+                 'hafyera': ('paliperidone', 'PP6M'), '서스티나': ('paliperidone', 'PP1M'),
+                 '트린자': ('paliperidone', 'PP3M'), '하피에라': ('paliperidone', 'PP6M'),
+                 'aristada': ('aripiprazole', 'ARI_LAUROXIL'),
+                 'asimtufii': ('aripiprazole', 'ARI_2M')})
 PRODUCT_RE = r'\b(?:' + '|'.join(PRODUCTS) + r')\b'
 
 
@@ -27,7 +32,7 @@ def profile_for(text, drug, dose):
         raise ValueError('확인바람: 서로 다른 LAI 제품이 함께 입력되었습니다.')
     profile = next(iter(profiles), '')
     if drug == 'aripiprazole' and dose in (720, 960):
-        if profile:
+        if profile and profile != 'ARI_2M':
             raise ValueError('확인바람: 720/960mg은 2개월 제형을 확인해 주세요.')
         profile = 'ARI_2M'
     return profile
@@ -79,6 +84,13 @@ def oral_bridge(drug, dose, days, profile):
         profile = 'OLZ_PAMOATE'
         oral, source = OLZ_ORAL[(dose, days)], LABELS[profile]
     elif drug == 'aripiprazole':
+        if profile == 'ARI_LAUROXIL':
+            from services.lai_mass import ARI_SOURCE
+            mapping = {(300, 30): 10, (450, 30): 15, (600, 42): 15, (724, 60): 15,
+                       (600, 30): None}
+            if (dose, days) not in mapping:
+                raise ValueError('확인바람: Aristada 표시용량과 유지 투여간격을 확인해 주세요.')
+            return dict(lai_profile=profile, oral_equivalent_mg=mapping[(dose, days)], oral_bridge_source=ARI_SOURCE)
         if not ((dose in (300, 400) and days in (28, 30)) or (dose in (720, 960) and days == 56)):
             raise ValueError('확인바람: aripiprazole LAI 제형·용량·간격을 확인해 주세요.')
         profile = profile or 'ARI_1M'

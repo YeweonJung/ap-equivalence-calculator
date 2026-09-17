@@ -78,6 +78,7 @@ def _segments(text):
 
 def _frame(start, end, original):
     text = unicodedata.normalize('NFKC', original)
+    text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
     if not DOSE_RE.search(text):

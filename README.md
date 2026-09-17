@@ -1,3 +1,5 @@
+최신 업데이트: [Woods·Gardner·LAI 변환과 검증 안내](EQUIVALENCE_UPDATE.md).
+
 # AP Equivalence Calculator
 
 항정신병약물 등가용량을 CSV/Excel 파일에서 일괄 계산하는 Flask 웹앱입니다.
@@ -5,7 +7,7 @@
 첨부된 하이브리드 약물 파서를 통합해 사전 정확 매칭, RapidFuzz 유사도 매칭,
 미인식 약물 검토 표시를 지원합니다. 메인 화면에서 약물 문자열을 바로 테스트할 수 있고,
 일괄 계산 결과의 `Detailed`·`AuditTrail` 시트에 매칭 방식과 유사도가 함께 저장됩니다.
-웹 화면에서 업로드하면 CMD·MED·ED95·DDD·CPZ_FGA 중 해당 약물에 존재하는 모든 환산값을 한 결과 파일에 생성합니다.
+웹 화면에서 업로드하면 CMD·MED·ED95·DDD·CPZ_FGA·WOODS·GARDNER 중 해당 약물에 존재하는 모든 환산값을 한 결과 파일에 생성합니다.
 
 파싱 알고리즘의 선택 이유, 대안별 장단점, 코드 단계, 2,000명 데이터 평가 계획은
 [`PARSING_METHODS_KO.md`](PARSING_METHODS_KO.md)에 정리되어 있습니다.
@@ -86,7 +88,7 @@ python app.py
 - `paliperidone 100mg PP1M`: 100/30/2.5×300 = 400 CPZ mg/day (DDD).
 - `aripiprazole 400mg LAI q4w`: 400/28/13.3×300 CPZ mg/day.
 - PP1M/PP3M/PP6M은 각각 30/90/180일, 월 단위는 30일/월의 연구 계산 기준입니다. q4w는 28일로 구분합니다. 간격 없는 LAI는 추정하지 않습니다.
-- paliperidone은 활성성분 mg 표기 기준입니다. palmitate 염 질량을 명시한 입력은 자동 환산하지 않습니다.
+- paliperidone은 활성성분 mg 표기 기준입니다. 제품·제형에 맞는 palmitate 표시량은 활성성분으로 변환하며 표시기준 검토 경고를 남깁니다.
 - 부하·초기·PRN 용법과 상충 간격은 검토 대상으로 남깁니다. 유지요법을 전제로 한 계산임을 경고로 보존합니다.
 - `LAI둘다`는 셀의 약물들에 주사제 표시를 적용하고 각 약물의 제형·간격 확인을 요청합니다.
 - 약물별 일일 주사량은 투여간격으로 나눈 평균량이며 경구 투여량이 아닙니다.

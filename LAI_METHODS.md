@@ -1,3 +1,5 @@
+최신 추가 지원(Aristada, palmitate 표시량, Woods/Gardner): [업데이트 안내](EQUIVALENCE_UPDATE.md).
+
 # LAI 환산 지원
 
 ## 계산 기준
@@ -6,13 +8,13 @@ DDD는 WHO의 주사제 전용 DDD를 사용합니다. CPZ 경구 DDD 300mg을 �
 `투여용량 / 투여간격(일) / 주사제 DDD × 300`을 계산합니다.
 
 다른 방법은 **경구 대응용량 기반 추정**입니다. 제품 설명서의 유지요법 대응용량을
-먼저 조회한 뒤 기존 경구 CMD/MED/ED95 계수를 적용합니다. LAI 자체를 대상으로
+먼저 조회한 뒤 기존 경구 CMD/MED/ED95/WOODS/GARDNER 계수를 적용합니다. LAI 자체를 대상으로
 검증된 CMD/MED/ED95 결과라는 의미가 아닙니다. 주사 용량을 일수로 나눈 값이나
 DDD 결과를 다른 방법의 입력으로 재사용하지 않습니다.
 
 | 제형 | 추가 계산 | 조건 |
 |---|---|---|
-| Paliperidone PP1M/PP3M/PP6M | MED, ED95 | 등록된 활성성분 용량, 월 단위 유지요법 |
+| Paliperidone PP1M/PP3M/PP6M | MED, ED95, GARDNER | 등록된 활성성분 용량, 월 단위 유지요법 |
 | Olanzapine pamoate | CMD, MED, ED95 | 제품 설명서의 2개월 이후 유지요법 용량·간격 |
 | Risperidone Okedi 75mg | CMD, MED, ED95 | 28일 간격, 경구 대응용량 3mg/day |
 | Aripiprazole LAI, risperidone 2주 제형, Okedi 100mg | DDD만 | 단일 경구 대응용량을 확정하지 않음 |
@@ -24,8 +26,8 @@ AuditTrail의 `oral_equivalent_mg` 및 `oral_bridge_source`, InjectionInfo에서
 
 ## 용량·간격 확인
 
-- Paliperidone은 활성성분 mg 기준입니다. 156mg 같은 에스터 질량으로 의심되는 입력,
-  또는 명시적 palmitate 질량은 추정하지 않고 확인 대상으로 둡니다.
+- Paliperidone DDD는 활성성분 mg 기준입니다. 제형과 등록된 palmitate 질량은 활성성분으로 변환합니다.
+  표시기준이 불명확한 156mg 입력은 확인 대상으로 둡니다.
 - PP3M 100mg 같은 제형과 용량이 맞지 않는 입력은 빈칸으로 둡니다.
 - 월은 연구상 30일로 계산합니다. Aripiprazole 720/960mg 2개월 제형은
   제품 설명서의 56일을 사용합니다. 일반적인 월간격과 주간격을 임의로 동일시하지 않습니다.

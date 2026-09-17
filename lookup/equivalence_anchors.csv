@@ -1,0 +1,45 @@
+method_id,drug,anchor_dose_mg,reference_drug,reference_dose_mg,source,table,version
+WOODS,chlorpromazine,100,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,CPZ convention,2003
+WOODS,haloperidol,2,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,CPZ convention,2003
+WOODS,risperidone,2,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,Results,2003
+WOODS,olanzapine,5,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,Results,2003
+WOODS,quetiapine,75,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,Results,2003
+WOODS,ziprasidone,60,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,Results,2003
+WOODS,aripiprazole,7.5,chlorpromazine,100,https://pubmed.ncbi.nlm.nih.gov/12823080/,Results,2003
+GARDNER,amisulpride,700,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,aripiprazole,30,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,benperidol,5,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,chlorpromazine,600,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,clopenthixol,60,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,chlorprothixene,500,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,clotiapine,100,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,clozapine,400,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,haloperidol,10,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,olanzapine,20,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,oxypertine,240,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,paliperidone,9,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,pericyazine,50,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,perphenazine,30,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,pimozide,8,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,prochlorperazine,88,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,quetiapine,750,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,remoxipride,212,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,risperidone,6,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,sertindole,20,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,sulpiride,800,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,thioridazine,500,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,thiothixene,30,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,trifluoperazine,20,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,trifluperidol,2,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,triflupromazine,100,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,ziprasidone,160,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,zotepine,300,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,zuclopenthixol,50,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,droperidol,10,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,flupentixol,10,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,fluphenazine,12,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,levomepromazine,400,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,loxapine,60,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,mesoridazine,300,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,methotrimeprazine,300,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+GARDNER,molindone,100,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010

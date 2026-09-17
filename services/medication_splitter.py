@@ -1,4 +1,5 @@
 """Preserve bracket annotations and original character offsets."""
+import re
 SEPARATORS = {';', ',', '\n', '+'}
 
 
@@ -12,6 +13,8 @@ def split_medication_spans(text):
         elif char in pairs:
             if not stack or stack.pop() != pairs[char]:
                 raise ValueError('괄호 짝이 맞지 않습니다. 원문을 확인해 주세요.')
+        elif char == ',' and index > 0 and text[index-1].isdigit() and re.match(r'\d{3}(?:,\d{3})*\s*(?:mg|㎎)\b', text[index+1:], re.I):
+            continue
         elif char in SEPARATORS and not stack:
             if text[start:index].strip():
                 left = start + len(text[start:index]) - len(text[start:index].lstrip())

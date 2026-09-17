@@ -16,6 +16,7 @@
     .try{padding:46px 0;background:var(--soft);border-top:1px solid #e5ebf3}.try-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:28px;align-items:center}.try h2{margin:0 0 8px;font-size:25px;letter-spacing:-.045em}.try p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}.parser{padding:16px;background:#fff;border:1px solid var(--line);border-radius:15px}.parser-row{display:grid;grid-template-columns:1fr 120px;gap:9px}.parser input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font:inherit}.parser button{border:0;border-radius:9px;background:var(--navy);color:#fff;font-weight:850;cursor:pointer}.parse-results{display:grid;gap:7px;margin-top:10px}.parse-item{padding:10px;border-radius:9px;background:#f8fafc;border:1px solid #e5ebf2;font-size:12px}.parse-top{display:flex;justify-content:space-between;gap:8px}.parse-top span{color:var(--green);font-weight:900}.values{margin-top:6px;color:var(--muted);line-height:1.7}.values b{color:#3e5677}.error{color:#a64a13}
     .methods{padding:25px 0;border-top:1px solid var(--line)}.method-list{display:flex;justify-content:center;gap:8px 16px;flex-wrap:wrap;color:var(--muted);font-size:11px}.method-list b{color:var(--ink)}footer{text-align:center;padding:17px;color:#8b95a5;font-size:10px;border-top:1px solid #edf0f5}
     @media(max-width:760px){.main{padding-top:32px}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);height:52px;display:grid;place-items:center}.panel{min-height:auto}.upload form,.try-grid,.parser-row{grid-template-columns:1fr}.upload button{min-height:54px}.under-actions{flex-direction:column}.grid{font-size:10px}.cell{padding:9px 5px}.try-grid{align-items:start}}
+    .suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.parser .suggestion-button{padding:9px 12px;background:#eaf2ff;color:#164f99;border:1px solid #b8c9de;text-align:left}
   </style>
 </head>
 <body>
@@ -58,18 +59,16 @@
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>파일 전, 한 줄 확인</h2><p>대소문자·공백·기호와 알려진 오탈자를 보정합니다. 애매하면 자동 확정하지 않고 검토로 남깁니다.</p></div>
-      <div class="parser"><div class="parser-row"><input id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><div id="parse-results" class="parse-results" aria-live="polite"></div></div>
+      <div><h2>파일 전, 한 줄 확인</h2><p>약물과 용량을 입력하고 Enter를 누르세요. 인식하지 못한 이름은 비슷한 약물명을 제안합니다. 후보를 확인해 선택하면 다시 계산합니다.</p></div>
+      <div class="parser"><div class="parser-row"><input id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
-    <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span></div></section>
+    <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span></div></section>
   </main>
   <footer>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
   <script>
     const file=document.querySelector('#file'),fileName=document.querySelector('#file-name'),form=document.querySelector('#upload-form'),submit=document.querySelector('#submit-button');
     file.addEventListener('change',()=>{fileName.textContent=file.files[0]?.name||'Excel 또는 CSV 파일 선택'});form.addEventListener('submit',()=>{submit.disabled=true;submit.textContent='계산 중…'});
-    const button=document.querySelector('#parse-button'),input=document.querySelector('#parser-input'),output=document.querySelector('#parse-results');
-    const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-    button.addEventListener('click',async()=>{button.disabled=true;output.innerHTML='';try{const response=await fetch('/api/parse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:input.value})});const data=await response.json();if(!response.ok)throw new Error(data.error);output.innerHTML=data.items.map(item=>item.ok?`<div class="parse-item"><div class="parse-top"><b>${esc(item.drug)}${item.daily_dose_mg==null?'':` · ${esc(item.daily_dose_mg)} mg/day`}</b><span>${esc(item.status_message)}${item.needs_review?' · 검토 필요':''}</span></div><div class="values">${esc(item.warning)} ${esc(item.route==='injection'?item.formulation:'')}<br>${item.conversions.filter(v=>v.value!==null).map(v=>`<b>${esc(v.method)}</b> ${esc(v.value)} mg${v.basis&&v.basis.startsWith('경구')?' (경구 대응 추정)':''}`).join(' · ')}</div></div>`:`<div class="parse-item error"><b>${esc(item.original)}</b> — ${esc(item.error)}</div>`).join('');output.innerHTML+=`<div class="parse-item"><b>입력 약물 합계 (환산법별)</b>${data.totals.map(t=>`<div class="values">${esc(t.method)} · ${esc(t.target_drug)}: ${t.total_equivalent_dose_mg!==null?`${esc(t.total_equivalent_dose_mg)} mg${t.needs_review?' · 검토 필요':''}`:t.partial_equivalent_dose_mg!==null?`부분합 ${esc(t.partial_equivalent_dose_mg)} mg · 미환산 ${esc(t.unresolved_count)}건`:t.status==='non_target'?'환산 대상 없음':'총합 계산 불가 (용량·단위·환산 지원 여부 확인)'}</div>`).join('')}</div>`}catch(error){output.innerHTML=`<div class="parse-item error">${esc(error.message||'분석하지 못했습니다.')}</div>`}finally{button.disabled=false}});
   </script>
+  <script src="{{ url_for('static', filename='quick_check.js') }}"></script>
 </body>
 </html>
