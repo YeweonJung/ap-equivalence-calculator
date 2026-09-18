@@ -43,3 +43,24 @@ GARDNER,loxapine,60,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802
 GARDNER,mesoridazine,300,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
 GARDNER,methotrimeprazine,300,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
 GARDNER,molindone,100,olanzapine,20,https://doi.org/10.1176/appi.ajp.2009.09060802,1 median,2010
+CMD_DIRECT,amisulpride,38.17,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,aripiprazole,1.33,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,asenapine,0.99,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,haloperidol,0.89,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,olanzapine,1,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,quetiapine,27.64,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,risperidone,0.27,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,sertindole,1.06,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_DIRECT,ziprasidone,6.48,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct Ratios,2015
+CMD_INDIRECT,amisulpride,31.41,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,aripiprazole,1.26,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,asenapine,0.99,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,clozapine,39.96,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,chlorpromazine,28.77,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,haloperidol,0.76,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,olanzapine,1,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,quetiapine,31.84,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,risperidone,0.27,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,sertindole,0.94,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,ziprasidone,6.67,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+CMD_INDIRECT,zotepine,16.35,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015

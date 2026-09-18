@@ -38,8 +38,7 @@ def test_all_factors_match_anchors_and_have_unique_positive_keys():
     assert (lookup.factor > 0).all()
     anchors = list(csv.DictReader((ROOT / 'lookup/equivalence_anchors.csv').open(encoding='utf-8')))
     for row in anchors:
-        cpz = 100 if row['method_id'] == 'WOODS' else 600
-        assert convert_drug(row['drug'], float(row['anchor_dose_mg']), row['method_id']) == pytest.approx(cpz)
+        assert convert_drug(row['drug'], float(row['anchor_dose_mg']), row['method_id'], row['reference_drug']) == pytest.approx(float(row['reference_dose_mg']))
     with pytest.raises(LookupError):
         convert_drug('paliperidone', 9, 'WOODS')
 

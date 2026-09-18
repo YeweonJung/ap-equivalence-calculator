@@ -7,7 +7,7 @@ import unicodedata
 from difflib import SequenceMatcher
 
 from services.medication_splitter import split_medication_spans
-from services.parser import alias_map, dictionary_match, fuzzy_match, DOSE_RE, parse_medication, _dose_to_mg
+from services.parser import alias_map, dictionary_match, DOSE_RE, parse_medication, _dose_to_mg
 
 NON_TARGET = {'escitalopram': 'antidepressant', 'benztropine': 'anticholinergic', 'lithium': 'mood_stabilizer'}
 LABELS = {
@@ -98,8 +98,7 @@ def _frame(start, end, original):
     score, match_type = 100.0, 'exact'
     if not drug:
         name = re.split(r'[+-]?(?:\d|\.\d)', _outside(text), maxsplit=1)[0].strip()
-        drug, score = fuzzy_match(name)
-        match_type = 'fuzzy' if drug else 'unresolved'
+        score, match_type = 0.0, 'unresolved'
     info = formulation_info(text)
     frame = dict(original=original, source_start=start, source_end=end, drug=drug,
                  drug_class=NON_TARGET.get(drug, 'antipsychotic' if drug else 'unknown'),
@@ -152,6 +151,11 @@ def _frame(start, end, original):
         except ValueError as exc:
             status = 'review'
             frame['warning'] = str(exc)
+    if status == 'unknown_drug':
+        import json
+        from services.drug_suggestions import suggest_drugs
+        frame['suggestions'] = suggest_drugs(original)
+        frame['name_candidates'] = json.dumps(frame['suggestions'], ensure_ascii=False)
     frame.update(status=status, status_message=LABELS[status])
     return frame
 

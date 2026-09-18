@@ -14,8 +14,8 @@ const formatDose = value => Number.isFinite(value) ? String(Number(value.toFixed
 function itemHtml(item, index) {
   if (!item.ok) {
     const suggestions = (item.suggestions || []).map((candidate, candidateIndex) =>
-      `<button type="button" class="suggestion-button" data-item="${index}" data-candidate="${candidateIndex}">${escapeHtml(candidate.alias)} (${escapeHtml(candidate.drug)})로 수정</button>`).join(' ');
-    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${suggestions ? `<div class="values">혹시 아래 약물인가요? 이름을 확인하고 선택하세요. 용량·단위·빈도는 유지됩니다.</div><div class="suggestions">${suggestions}</div>` : ''}</div>`;
+      `<button type="button" class="suggestion-button" data-item="${index}" data-candidate="${candidateIndex}">${escapeHtml(candidate.alias)} (${escapeHtml(candidate.drug)})로 수정 · ${escapeHtml(candidate.distance)}글자 편집<br><small>${escapeHtml(candidate.explanation)}</small></button>`).join(' ');
+    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${suggestions ? `<div class="values">혹시 아래 약물인가요? 글자 차이는 약물의 동일성을 보장하지 않습니다. 이름을 확인하고 선택하세요. 용량·단위·빈도는 유지됩니다.</div><div class="suggestions">${suggestions}</div>` : ''}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';

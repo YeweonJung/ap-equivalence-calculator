@@ -12,11 +12,13 @@ DETAILED_COLUMNS = [
     "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
     "match_type", "match_score", "needs_review",
 ]
-FRAME_COLUMNS = ["input_dose_mg", "active_moiety_mg", "dose_basis", "mass_source", "source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
+FRAME_COLUMNS = ["name_candidates", "input_dose_mg", "active_moiety_mg", "dose_basis", "mass_source", "source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
 DETAILED_COLUMNS += FRAME_COLUMNS
 AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
 ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
 METHOD_INFO = [
+    {"method": "CMD_DIRECT", "basis": "Leucht 2015 Table 1 primary analysis: direct ratios (CMD sensitivity analysis); OLZ1", "reference": "https://doi.org/10.1093/schbul/sbv037"},
+    {"method": "CMD_INDIRECT", "basis": "Leucht 2015 Table 1 primary analysis: direct and indirect ratios (CMD sensitivity analysis); OLZ1", "reference": "https://doi.org/10.1093/schbul/sbv037"},
     {"method": "WOODS", "basis": "Woods 2003 minimum effective doses; CPZ100 convention", "reference": "https://pubmed.ncbi.nlm.nih.gov/12823080/"},
     {"method": "GARDNER", "basis": "Gardner 2010 Table 1 oral median-dose ratios; CPZ600 = OLZ20", "reference": "https://doi.org/10.1176/appi.ajp.2009.09060802"},
     {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041"},
@@ -88,7 +90,7 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         pd.DataFrame([metadata()]).to_excel(writer, sheet_name='VersionInfo', index=False)
         review_columns = ['sheet', 'source_row', 'medication_column', 'original', 'parsed',
                           'dose_mg', 'active_moiety_mg', 'oral_equivalent_mg', 'interval_days',
-                          'dose_basis', 'warning', 'needs_review', 'status',
+                          'dose_basis', 'warning', 'name_candidates', 'needs_review', 'status',
                           'reviewer_1', 'reviewer_1_decision', 'reviewer_2', 'reviewer_2_decision',
                           'adjudication', 'correction', 'review_date']
         _safe_frame(audit_rows, review_columns).to_excel(writer, sheet_name='ReviewQueue', index=False)

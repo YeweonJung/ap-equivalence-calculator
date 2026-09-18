@@ -12,6 +12,8 @@ for column in ("method_id", "source_drug", "target_drug"):
 lookup["method_id"] = lookup["method_id"].str.upper()
 
 DEFAULT_TARGETS = {
+    "CMD_DIRECT": "olanzapine",
+    "CMD_INDIRECT": "olanzapine",
     "WOODS": "chlorpromazine",
     "GARDNER": "chlorpromazine",
     "CMD": "chlorpromazine",

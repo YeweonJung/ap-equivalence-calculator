@@ -1,6 +1,6 @@
 """One medication per row; original-cell totals appear only once."""
-METHOD_ORDER = ('CMD', 'MED', 'ED95', 'DDD', 'CPZ_FGA', 'WOODS', 'GARDNER')
-TARGETS = {'CMD': 'CPZ', 'MED': 'OLZ', 'ED95': 'OLZ', 'DDD': 'CPZ', 'CPZ_FGA': 'CPZ', 'WOODS': 'CPZ', 'GARDNER': 'CPZ'}
+METHOD_ORDER = ('CMD', 'MED', 'ED95', 'DDD', 'CPZ_FGA', 'WOODS', 'GARDNER', 'CMD_DIRECT', 'CMD_INDIRECT')
+TARGETS = {'CMD_DIRECT': 'OLZ', 'CMD_INDIRECT': 'OLZ', 'CMD': 'CPZ', 'MED': 'OLZ', 'ED95': 'OLZ', 'DDD': 'CPZ', 'CPZ_FGA': 'CPZ', 'WOODS': 'CPZ', 'GARDNER': 'CPZ'}
 
 
 def value_column(method, total=False):

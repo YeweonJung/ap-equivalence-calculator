@@ -1,14 +1,10 @@
 import math
 import re
 import unicodedata
-from difflib import SequenceMatcher
 from pathlib import Path
 
 import pandas as pd
-try:
-    from rapidfuzz import fuzz, process
-except ImportError:  # 개발·검증 환경에서도 동일한 보수적 동작을 유지한다.
-    fuzz = process = None
+
 
 
 ALIAS_FILE = Path(__file__).resolve().parents[1] / "lookup" / "drug_alias.csv"
@@ -18,6 +14,16 @@ alias_map = {
     for _, row in alias_df.iterrows()
     if str(row["alias"]).strip()
 }
+
+from services.name_distance import BRANDS, compare_letters
+# English typo entries used to be indistinguishable from exact names.
+# Preserve canonical names, registered brands and prefix abbreviations.
+for _alias, _drug in list(alias_map.items()):
+    if (re.fullmatch('[a-z]{5,}', _alias) and _alias != _drug
+            and _alias not in BRANDS and not _drug.startswith(_alias)):
+        _references = [_drug] + [b for b in BRANDS if alias_map.get(b) == _drug]
+        if any(compare_letters(_alias, ref)['distance'] <= 3 for ref in _references):
+            del alias_map[_alias]
 
 DOSE_RE = re.compile(
     r"(?<![\d.])(?P<dose>[+-]?(?:\d+(?:\.\d+)?|\.\d+))\s*(?P<unit>mcg|ug|μg|㎍|mg|㎎|g)(?![a-z])",
@@ -112,22 +118,6 @@ def dictionary_match(text):
     return None
 
 
-def fuzzy_match(text, threshold=85):
-    value = _drug_only_text(text)
-    if not value:
-        return None, None
-    candidates = [alias for alias in alias_map if len(_compact(alias)) >= 4]
-    query = _compact(value)
-    if process is not None:
-        result = process.extractOne(query, candidates, scorer=lambda left, right, **_: fuzz.ratio(left, _compact(right)))
-    else:
-        scored = [(candidate, SequenceMatcher(None, query, _compact(candidate)).ratio() * 100) for candidate in candidates]
-        result = max(scored, key=lambda item: item[1]) if scored else None
-    if result and result[1] >= threshold:
-        return alias_map[result[0]], float(result[1])
-    return None, None
-
-
 def _dose_to_mg(value, unit):
     unit = unit.casefold()
     if unit in {"mcg", "ug", "μg", "㎍"}:
@@ -150,8 +140,7 @@ def parse_medication(text):
     drug = mentions[0][2] if mentions else dictionary_match(original)
     match_type, match_score = "exact", 100.0
     if not drug:
-        drug, match_score = fuzzy_match(original)
-        match_type = "fuzzy" if drug else "unresolved"
+        match_type, match_score = "unresolved", 0.0
     if not drug:
         raise ValueError("약물명을 확인할 수 없습니다.")
     dose_matches = list(DOSE_RE.finditer(original))

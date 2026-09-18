@@ -1,9 +1,9 @@
-"""오타 후보만 제시합니다. 사용자 선택 전 성분/용량을 확정하지 않습니다."""
+"""Character-level candidates. Selection is required before conversion."""
 import re
 import unicodedata
-from difflib import SequenceMatcher
-
 from services.parser import alias_map
+from services.name_distance import compare_letters, BRANDS
+
 
 
 def compact(value):
@@ -11,39 +11,32 @@ def compact(value):
 
 
 def suggest_drugs(original, limit=3):
-    # 이름 다음의 용량·빈도 원문을 그대로 유지할 수 있는 경우만 제안합니다.
     dose_start = re.search(r'[+-]?(?:\d|\.\d)', original)
     if not dose_start:
         return []
     prefix = original[:dose_start.start()]
-    query = compact(prefix)
-    if len(query) < 3 or len(query) > 40:
+    # Preserve formulation tokens as well as the complete dose/schedule suffix.
+    name = re.sub(r'\s+(?:XR|ER|SR|IR|LAI|depot|서방정|서방|주사)\b.*$', '', prefix, flags=re.I).strip()
+    query = compact(name)
+    if not 3 <= len(query) <= 40:
         return []
-    # 추정 오타/축약을 재차 비교 대상으로 삼지 않고 제품명과 정식 성분명 우선.
-    from pathlib import Path
-    import csv
-    source_file = Path(__file__).resolve().parents[1] / 'lookup/drug_alias_sources.csv'
-    kinds = {}
-    if source_file.exists():
-        with source_file.open(encoding='utf-8-sig', newline='') as stream:
-            kinds = {r['alias']: r['kind'] for r in csv.DictReader(stream)}
-    by_drug = {}
+    korean = bool(re.search('[가-힣]', query))
+    by_alias = []
     for alias, drug in alias_map.items():
         candidate = compact(alias)
-        if len(candidate) < 3 or kinds.get(alias) in {'hypothesized_typo', 'preserved_user'}:
+        if len(candidate) < 3 or korean != bool(re.search('[가-힣]', candidate)):
             continue
-        korean = bool(re.search('[가-힣]', query))
-        if korean != bool(re.search('[가-힣]', candidate)):
+        if not korean and alias not in BRANDS and alias != drug and not alias.startswith('invega '):
             continue
-        if korean:
-            left, right = (unicodedata.normalize('NFD', word) for word in (query, candidate))
-        else:
-            left, right = query, candidate
-        score = SequenceMatcher(None, left, right).ratio() * 100
-        if score < 70:
+        comparison = compare_letters(query, candidate)
+        allowed = 1 if len(query) < 6 else 2 if len(query) < 12 else 3
+        if comparison['distance'] > allowed or comparison['score'] < (60 if korean else 70):
             continue
-        previous = by_drug.get(drug)
-        if previous is None or score > previous['score']:
-            by_drug[drug] = dict(alias=alias, drug=drug, score=round(score, 1),
-                                 replacement=alias + ' ' + original[dose_start.start():])
-    return sorted(by_drug.values(), key=lambda value: (-value['score'], value['drug']))[:limit]
+        labels = {'insert':'삽입', 'delete':'삭제', 'replace':'교체', 'transpose':'순서 교환'}
+        explanation = '; '.join(f"{e['position']}번째 {labels[e['operation']]}: {e['source'] or '∅'} → {e['target'] or '∅'}" for e in comparison['edits'])
+        by_alias.append(dict(alias=alias, drug=drug, **comparison, comparison_input=query,
+            explanation=explanation or '띄어쓰기·문장부호 정규화',
+            replacement=alias + ' ' + original[len(name):].lstrip()))
+    # Keep different depot brands separate, even when the active ingredient agrees.
+    by_alias.sort(key=lambda v: (-v['score'], v['distance'], v['alias']))
+    return by_alias[:limit]

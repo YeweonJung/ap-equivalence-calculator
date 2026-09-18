@@ -140,6 +140,13 @@ def test_every_registered_alias_parses_to_its_declared_standard_name():
     project = Path(__file__).resolve().parents[1]
     aliases = pd.read_csv(project / "lookup" / "drug_alias.csv")
     for row in aliases.itertuples():
+        from services.parser import alias_map
+        if row.alias not in alias_map:
+            from services.frames import parse_frames
+            item = parse_frames(f"{row.alias} 1mg QD")[0]
+            assert item['drug'] is None and item['needs_review']
+            assert any(c['drug'] == row.standard_name for c in item['suggestions'])
+            continue
         from services.lai_support import PRODUCTS
         if any(product in row.alias for product in PRODUCTS):
             from services.frames import parse_frames

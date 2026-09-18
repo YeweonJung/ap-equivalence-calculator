@@ -74,7 +74,9 @@ def test_unit_normalization_and_ambiguous_typo():
     assert items('olz15mg')[0]['dose_mg'] == 15
     assert items('olz 15mgs')[0]['dose_mg'] == 15
     assert items('olz 15gm')[0]['status'] == 'missing_unit'
-    assert items('pariperidon 6mg')[0]['drug'] == 'paliperidone'
+    typo = items('pariperidon 6mg')[0]
+    assert typo['drug'] is None and typo['conversions'] == []
+    assert any(c['drug'] == 'paliperidone' for c in typo['suggestions'])
 
 
 def test_excel_retains_all_statuses_and_numbered_groups():

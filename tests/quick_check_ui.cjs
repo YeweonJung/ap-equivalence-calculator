@@ -32,6 +32,12 @@ async function main() {
   const rendered=vm.runInContext('itemHtml(item,0)',context);
   assert(rendered.includes('해당 방법의 계수 없음'));
   assert(rendered.includes('&lt;script&gt;'));
+  context.item={ok:false,original:'risperidnoe 2mg',error:'약물 미확인',
+    suggestions:[{alias:'risperidone',drug:'risperidone',distance:1,explanation:'9번째 순서 교환: no → on <unsafe>'}]};
+  const candidateHtml=vm.runInContext('itemHtml(item,0)',context);
+  assert(candidateHtml.includes('순서 교환'));
+  assert(candidateHtml.includes('&lt;unsafe&gt;'));
+  assert(candidateHtml.includes('data-candidate="0"'));
   console.log('UI request ordering, rounding, missing factors and escaping passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

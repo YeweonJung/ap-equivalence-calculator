@@ -110,3 +110,8 @@ https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01
 - CSV 구분자는 헤더의 쉼표·세미콜론·탭·파이프만 탐지한다.
   단일 열 CSV에서 약물명 일부가 구분자로 오인되던 문제를 수정했다.
 - 검증: Python 150개 테스트와 JavaScript 요청 순서/표시/문자 이스케이프 검사.
+
+
+## 2026-09-18 글자별 오타 검토 및 추가 분석
+
+영문 삽입·삭제·교체·순서 교환 오타 후보에 위치와 차이를 표시하고, 선택 전 환산하지 않습니다. Excel에도 후보를 보존합니다. CMD_DIRECT와 CMD_INDIRECT를 추가해 총 9개 분석을 출력합니다. 두 분석은 Leucht 2015 연구의 별도 비교 분석이며 기본 단위는 OLZ mg/day입니다. 상세 근거와 제한은 [설명 문서](docs/character_matching_and_cmd.md)를 참고하세요.

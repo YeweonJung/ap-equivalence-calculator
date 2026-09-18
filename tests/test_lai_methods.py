@@ -94,11 +94,13 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     response = app.test_client().post('/upload', data={'method': 'ALL', 'file': (io.BytesIO(csv.encode()), 'synthetic.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
+    from services.result_summary import METHOD_ORDER, value_column
     result = list(wb['Results'].values)
-    assert result[1][4] == 22.5 and result[1][11] == 27.5
-    assert result[1][3] is None and result[1][10] is None
-    assert '경구 대응용량 기반 추정' in result[1][17]
-    assert all(v is None for v in result[3][3:17])
+    cols = {name:i for i,name in enumerate(result[0])}
+    assert result[1][4] == 22.5 and result[1][cols[value_column('MED', True)]] == 27.5
+    assert result[1][3] is None and result[1][cols[value_column('CMD', True)]] is None
+    assert '경구 대응용량 기반 추정' in result[1][cols['환산 근거']]
+    assert all(v is None for v in result[3][3:3+2*len(METHOD_ORDER)])
     detail = [dict(zip(next(wb['Detailed'].values), r)) for r in list(wb['Detailed'].values)[1:]]
     med = next(r for r in detail if r['drug'] == 'paliperidone' and r['method'] == 'MED')
     assert med['oral_equivalent_mg'] == 9 and '경구' in med['conversion_basis']
