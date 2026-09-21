@@ -108,7 +108,7 @@ def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
     assert candidate['retrieved_by'] == ['hangul_jamo']
     assert candidate['replacement'] == '할로페리돌 1mg QD'
     assert candidate['confirmed_drug'] is None and not candidate['auto_accepted']
-    assert candidate['serving_version'] == 'candidate-retrieval-v1-jamo-manual'
+    assert candidate['serving_version'] == 'candidate-retrieval-v2-short-alias-manual'
 
 
 def test_jamo_candidates_are_exported_without_conversion():

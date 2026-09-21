@@ -89,7 +89,7 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
-    "services/release.py": "0f0b242b7665768521bc6bc9fc5b8a773a2abceeb81e534839e0c18716e14b9a",
+    "services/release.py": "43b64f196557ef258c1a8102a89910af3fa025811f33181890efca4344cbd544",
     "services/result_summary.py": "860389d8af54a66a2d9f0ade1c155d66f4175dc684837d9a8aac668145c99137",
     "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
