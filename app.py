@@ -27,6 +27,8 @@ from services.manual_suggestions import suggest_for_review as suggest_drugs
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
+from services.feedback_api import bp as feedback_bp, attach_feedback
+app.register_blueprint(feedback_bp)
 METHODS = [method for method in METHOD_ORDER if method in available_methods()]
 
 
@@ -136,6 +138,7 @@ def parse_text():
     for item in items:
         if item['status'] == 'unknown_drug':
             item['suggestions'] = suggest_drugs(item['original'])
+            attach_feedback(item)
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 
 

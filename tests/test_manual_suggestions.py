@@ -124,7 +124,7 @@ def test_jamo_candidates_are_exported_without_conversion():
 def test_conversion_sources_and_existing_tests_remain_protected():
     from scripts.retrieval_integrity import verify_integration
     manifest = verify_integration(ROOT)
-    assert set(manifest['intentional_source_changes']) == {'app.py', 'services/frames.py', 'services/release.py'}
+    assert set(manifest['intentional_source_changes']) == {'app.py', 'services/frames.py', 'services/release.py', 'static/quick_check.js', 'templates/index.html', 'requirements.txt'}
 
 
 def test_no_unresolved_merge_markers_in_runtime_sources():

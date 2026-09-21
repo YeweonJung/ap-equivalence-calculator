@@ -1,10 +1,13 @@
 {
-  "reason": "User requested app integration and Git/Render release after offline evaluation",
+  "reason": "User authorized opt-in correction collection and durable storage; conversion and frozen evaluation preserved",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
     "services/frames.py",
-    "services/release.py"
+    "services/release.py",
+    "static/quick_check.js",
+    "templates/index.html",
+    "requirements.txt"
   ],
   "original_source_sha256_lf": {
     "app.py": "b6c52161f0450ea727533483f1765b1c2449b9e36736cc4d6cb07fef6a992978",
@@ -59,7 +62,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "d18196442b83910e2abe174dcc6ce7068c6ddd103c8d39f38f4593be68322d81",
+    "app.py": "9104d94c06efde4c415ea52df6f937dc186cf9923dd3b55bb32d62b75ad9b09b",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -89,13 +92,13 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
-    "services/release.py": "43b64f196557ef258c1a8102a89910af3fa025811f33181890efca4344cbd544",
+    "services/release.py": "fa8e9b43ae3e47d6eb243bd6f054ec5114b9eaf02386dffa129368f247268f17",
     "services/result_summary.py": "860389d8af54a66a2d9f0ade1c155d66f4175dc684837d9a8aac668145c99137",
     "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
-    "static/quick_check.js": "8817ef968752fc7992238731e1bceabf1647a6fa508dd700c47237c92db81696",
+    "static/quick_check.js": "7488f343d0699367553b1563f8ad349d9cdeae792e14ac84f8c53713dc4c1f87",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "4061f7d58efd06d9d6aede4ca2a314dcd2eed6a1ce858ea53a06f55f1471a076",
+    "templates/index.html": "a77af6ab9294f7f740c903ea2ff1cd19fc8673149bb7f951ef31b549ae31672e",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
@@ -108,6 +111,7 @@
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
     "tests/test_quick_export.py": "b15a5abf3342afb50c0302410cfc13177e70ab68d96b90ec0ad4b6b61d821de8",
-    "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
+    "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d",
+    "requirements.txt": "fce8807e02ab55086f64658c2ebc57fcf0474821d53c543f4f5f48b831b05b34"
   }
 }

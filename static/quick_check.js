@@ -11,11 +11,29 @@ const exportButton = document.querySelector('#export-quick');
 const downloadStatus = document.querySelector('#download-status');
 const formatDose = value => Number.isFinite(value) ? String(Number(value.toFixed(4))) : '—';
 
+function feedbackHtml(item, index) {
+  if (item.correction_suffix == null) return '';
+  return `<details><summary>원하는 약이 없나요? 이름 직접 수정</summary><label>정확한 약물명 <input id="correct-name-${index}" maxlength="60" autocomplete="off"></label><button type="button" class="manual-correction" data-item="${index}">이 이름으로 다시 계산</button></details>` +
+    (item.feedback_token ? `<label><input type="checkbox" id="feedback-consent-${index}">입력에 개인정보가 없고 약물명만 포함됨을 확인했으며, 수정한 이름 쌍을 검색 개선 검토용으로 제공하는 데 동의합니다.</label><small>선택 사항 · 이 기록에는 용량·빈도·IP를 저장하지 않습니다. 180일 지난 기록은 다음 저장 시 삭제하며 검토 전에는 학습하지 않습니다.</small>` : '<small>수정 기록 수집은 현재 사용할 수 없습니다. 이름 수정과 계산은 가능합니다.</small>');
+}
+
+async function recordCorrection(item, index, alias, source) {
+  if (!item.feedback_token || !document.querySelector(`#feedback-consent-${index}`)?.checked) return;
+  const status = document.querySelector('#feedback-status');
+  if (status) status.textContent = '수정 기록 저장 중…';
+  try {
+    const response = await fetch('/api/name-feedback', {method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:item.feedback_token, selected_alias:alias, source, consent:true})});
+    const data = await response.json();
+    if (status) status.textContent = response.ok ? data.message : data.error;
+  } catch (_) { if (status) status.textContent = '기록을 저장하지 못했습니다. 계산에는 영향이 없습니다.'; }
+}
+
 function itemHtml(item, index) {
   if (!item.ok) {
     const suggestions = (item.suggestions || []).map((candidate, candidateIndex) =>
       `<button type="button" class="suggestion-button" data-item="${index}" data-candidate="${candidateIndex}">${escapeHtml(candidate.alias)} (${escapeHtml(candidate.drug)})로 수정 · ${escapeHtml(candidate.distance)}글자 편집<br><small>${escapeHtml(candidate.explanation)}</small></button>`).join(' ');
-    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${suggestions ? `<div class="values">혹시 아래 약물인가요? 글자 차이는 약물의 동일성을 보장하지 않습니다. 이름을 확인하고 선택하세요. 용량·단위·빈도는 유지됩니다.</div><div class="suggestions">${suggestions}</div>` : ''}</div>`;
+    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${suggestions ? `<div class="values">혹시 아래 약물인가요? 글자 차이는 약물의 동일성을 보장하지 않습니다. 이름을 확인하고 선택하세요. 용량·단위·빈도는 유지됩니다.</div><div class="suggestions">${suggestions}</div>` : ''}${feedbackHtml(item, index)}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';
@@ -106,10 +124,24 @@ exportButton.addEventListener('click', async () => {
 });
 parseOutput.addEventListener('click', event => {
   const selected = event.target.closest('.suggestion-button');
-  if (!selected || parseButton.disabled || parseInput.value.trim() !== currentText) return;
+  if (parseButton.disabled || parseInput.value.trim() !== currentText) return;
+  if (!selected) {
+    const manual = event.target.closest('.manual-correction');
+    if (!manual) return;
+    const index = Number(manual.dataset.item);
+    const item = currentItems[index];
+    const alias = document.querySelector(`#correct-name-${index}`)?.value.trim();
+    if (!item || !alias || !/^[a-zA-Z가-힣 -]{2,60}$/.test(alias)) return;
+    recordCorrection(item, index, alias, 'manual');
+    const characters = Array.from(currentText);
+    parseInput.value = characters.slice(0,item.source_start).join('') + alias + item.correction_suffix + characters.slice(item.source_end).join('');
+    runQuickCheck();
+    return;
+  }
   const item = currentItems[Number(selected.dataset.item)];
   const candidate = item?.suggestions?.[Number(selected.dataset.candidate)];
   if (!candidate) return;
+  recordCorrection(item, Number(selected.dataset.item), candidate.alias, 'candidate');
   // Python의 문자 인덱스와 맞추어 이모지 등 UTF-16 두 칸 문자도 보존합니다.
   const characters = Array.from(currentText);
   parseInput.value = characters.slice(0, item.source_start).join('') + candidate.replacement + characters.slice(item.source_end).join('');
