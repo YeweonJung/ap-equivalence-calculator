@@ -1,0 +1,221 @@
+{
+  "model_version": "name-logistic-v1",
+  "training_date": "2026-09-21T05:28:33.110644+00:00",
+  "training_dataset_version": "synthetic-name-v1",
+  "dataset_sha256": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
+  "number_of_training_examples": 1223,
+  "number_of_training_pairs": 7697,
+  "positive_pairs": 1551,
+  "negative_pairs": 6146,
+  "feature_list": [
+    "levenshtein",
+    "osa",
+    "normalized_edit",
+    "insertions",
+    "deletions",
+    "substitutions",
+    "transpositions",
+    "length_difference",
+    "prefix_ratio",
+    "suffix_ratio",
+    "bigram_jaccard",
+    "trigram_jaccard",
+    "character_jaccard",
+    "sequence_similarity",
+    "ingredient_exact",
+    "ingredient_partial",
+    "product_exact",
+    "product_partial",
+    "alias_exact",
+    "normalized_exact",
+    "hangul_present",
+    "jamo_similarity",
+    "script_match",
+    "route_known",
+    "route_consistent",
+    "formulation_conflict"
+  ],
+  "feature_version": "1",
+  "algorithm": "StandardScaler + LogisticRegression (pointwise candidate scoring)",
+  "hyperparameters": {
+    "C": 1.0,
+    "max_iter": 2000,
+    "solver": "lbfgs",
+    "class_weight": "balanced"
+  },
+  "random_seed": 20260921,
+  "policy": {
+    "threshold": 0.95,
+    "margin_threshold": 0.25,
+    "min_name_length": 4,
+    "candidate_k": 20
+  },
+  "threshold": 0.95,
+  "margin_threshold": 0.25,
+  "policy_selection": "Validation ingredients only; maximize eligible count subject to configured error limit",
+  "dictionary_version": "3b79706a9fc4f79f5366d2ed3ec4764ab3b0043ff2e2d3115debc66182f92808",
+  "model_sha256": "f3cb307e0e5a11c722dd2012b8ec6bf763cea7f8261c0141586f040a2147d7fc",
+  "evaluation_metrics": {
+    "validation": {
+      "total_cases": 370,
+      "known_target_cases": 350,
+      "retrieved_known_cases": 343,
+      "candidate_recall": {
+        "@1": 0.9771428571428571,
+        "@3": 0.98,
+        "@5": 0.98,
+        "@20": 0.98
+      },
+      "top_accuracy": {
+        "@1": 0.98,
+        "@3": 0.98,
+        "@5": 0.98
+      },
+      "ranking_top1_given_retrieved": 1.0,
+      "end_to_end_top1_accuracy": 0.98,
+      "simulated_policy": {
+        "eligible_count": 281,
+        "wrong_count": 0,
+        "wrong_auto_accept_rate_all_inputs": 0.0,
+        "error_rate_among_accepted": 0.0,
+        "abstention_rate": 0.24054054054054055,
+        "coverage": 0.7594594594594595,
+        "accuracy_among_auto_accepted": 1.0,
+        "end_to_end_correct_acceptance_rate": 0.7594594594594595
+      },
+      "actual_application_policy": {
+        "auto_accept_enabled": false,
+        "wrong_auto_accept_rate": 0.0,
+        "abstention_rate": 1.0,
+        "coverage": 0.0,
+        "accuracy_among_auto_accepted": null,
+        "note": "Every inferred candidate requires human confirmation; zero errors is not proof of model quality."
+      }
+    },
+    "test": {
+      "legacy_baseline": {
+        "total_cases": 247,
+        "known_target_cases": 227,
+        "retrieved_known_cases": 224,
+        "candidate_recall": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163,
+          "@20": 0.986784140969163
+        },
+        "top_accuracy": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163
+        },
+        "ranking_top1_given_retrieved": 0.9955357142857143,
+        "end_to_end_top1_accuracy": 0.9823788546255506,
+        "simulated_policy": {
+          "eligible_count": 85,
+          "wrong_count": 0,
+          "wrong_auto_accept_rate_all_inputs": 0.0,
+          "error_rate_among_accepted": 0.0,
+          "abstention_rate": 0.6558704453441295,
+          "coverage": 0.3441295546558704,
+          "accuracy_among_auto_accepted": 1.0,
+          "end_to_end_correct_acceptance_rate": 0.3441295546558704
+        },
+        "actual_application_policy": {
+          "auto_accept_enabled": false,
+          "wrong_auto_accept_rate": 0.0,
+          "abstention_rate": 1.0,
+          "coverage": 0.0,
+          "accuracy_among_auto_accepted": null,
+          "note": "Every inferred candidate requires human confirmation; zero errors is not proof of model quality."
+        }
+      },
+      "baseline": {
+        "total_cases": 247,
+        "known_target_cases": 227,
+        "retrieved_known_cases": 224,
+        "candidate_recall": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163,
+          "@20": 0.986784140969163
+        },
+        "top_accuracy": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163
+        },
+        "ranking_top1_given_retrieved": 0.9955357142857143,
+        "end_to_end_top1_accuracy": 0.9823788546255506,
+        "simulated_policy": {
+          "eligible_count": 85,
+          "wrong_count": 0,
+          "wrong_auto_accept_rate_all_inputs": 0.0,
+          "error_rate_among_accepted": 0.0,
+          "abstention_rate": 0.6558704453441295,
+          "coverage": 0.3441295546558704,
+          "accuracy_among_auto_accepted": 1.0,
+          "end_to_end_correct_acceptance_rate": 0.3441295546558704
+        },
+        "actual_application_policy": {
+          "auto_accept_enabled": false,
+          "wrong_auto_accept_rate": 0.0,
+          "abstention_rate": 1.0,
+          "coverage": 0.0,
+          "accuracy_among_auto_accepted": null,
+          "note": "Every inferred candidate requires human confirmation; zero errors is not proof of model quality."
+        }
+      },
+      "ml": {
+        "total_cases": 247,
+        "known_target_cases": 227,
+        "retrieved_known_cases": 224,
+        "candidate_recall": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163,
+          "@20": 0.986784140969163
+        },
+        "top_accuracy": {
+          "@1": 0.9823788546255506,
+          "@3": 0.986784140969163,
+          "@5": 0.986784140969163
+        },
+        "ranking_top1_given_retrieved": 0.9955357142857143,
+        "end_to_end_top1_accuracy": 0.9823788546255506,
+        "simulated_policy": {
+          "eligible_count": 191,
+          "wrong_count": 0,
+          "wrong_auto_accept_rate_all_inputs": 0.0,
+          "error_rate_among_accepted": 0.0,
+          "abstention_rate": 0.22672064777327935,
+          "coverage": 0.7732793522267206,
+          "accuracy_among_auto_accepted": 1.0,
+          "end_to_end_correct_acceptance_rate": 0.7732793522267206
+        },
+        "actual_application_policy": {
+          "auto_accept_enabled": false,
+          "wrong_auto_accept_rate": 0.0,
+          "abstention_rate": 1.0,
+          "coverage": 0.0,
+          "accuracy_among_auto_accepted": null,
+          "note": "Every inferred candidate requires human confirmation; zero errors is not proof of model quality."
+        }
+      }
+    }
+  },
+  "production_enabled": false,
+  "automatic_confirmation_enabled": false,
+  "clinical_validation": false,
+  "calibration": "uncalibrated; scores are not clinical probabilities",
+  "dependency_versions": {
+    "python": "3.13.9",
+    "scikit-learn": "1.7.2"
+  },
+  "test_data_used_in_fit_or_threshold_selection": false,
+  "production_decision": {
+    "enabled": false,
+    "synthetic_top1_improved": false,
+    "synthetic_policy_no_worse": true,
+    "reason": "Retain baseline: synthetic results alone do not authorize production promotion."
+  }
+}

@@ -8,3 +8,5 @@ output/
 backup_before_frames_*/
 
 .pytest_cache/
+data/name_ranker/private_feedback/
+data/name_ranker/external_staging/
