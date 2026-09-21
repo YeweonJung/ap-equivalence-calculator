@@ -119,3 +119,5 @@ https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01
 ## 2026-09-21 짧은 약물명 후보 검색 연결
 
 `로핀`, `조핀`, `지돈`처럼 등록 3글자 이름의 가운데 음절이 빠진 입력도 수동 확인용 후보를 보여줍니다. 후보를 선택하기 전에는 환산하지 않습니다. 한 줄 검사와 CSV/Excel 업로드·내보내기에 동일하게 적용하며 LR과 자동확정은 비활성입니다. [앱 연결·복구·롤백 안내](docs/CANDIDATE_RETRIEVAL_APP_RELEASE_KO.md)와 [오프라인 평가 보고서](docs/CANDIDATE_RETRIEVAL_REPORT_KO.md)를 참고하세요.
+
+후속 요청으로 한글 자모 검색도 활성화했습니다. 예: `헬로패리돌` → `할로페리돌` 후보. 기존 threshold를 유지하며 선택 전에는 환산하지 않습니다. [공유할 핵심 코드 파일](docs/CODE_SHARING_KO.md)을 참고하세요.

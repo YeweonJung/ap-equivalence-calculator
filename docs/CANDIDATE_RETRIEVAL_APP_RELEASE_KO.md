@@ -5,7 +5,7 @@
 ## 동작
 
 - 한 줄 검사, CSV/Excel 업로드, 빠른 Excel 내보내기가 같은 `services/manual_suggestions.py`를 사용한다.
-- Validation에서 선택한 `osa + short_hangul + normalized_alias`만 사용한다. 자모/ngram은 연구 채널로 남는다.
+- 현재 `osa + short_hangul + hangul_jamo + normalized_alias`를 사용한다. 최초 validation 선택 구성에 사용자의 후속 활성화 요청으로 기존 자모 채널을 추가했다. ngram은 비활성이다.
 - `로핀 / 조핀 / 지돈` 입력은 후보가 표시되며, 사용자가 후보 버튼을 선택해 수정 문자열을 제출하기 전에는 환산되지 않는다.
 - LR 모델을 읽거나 활성화하지 않는다. NAME_RANKER_ENABLED 설정이 있어도 앱의 이 경로에는 영향을 주지 않는다.
 - 후보는 confirmed_drug=None, auto_accepted=False, needs_review=True다. 근거는 API/Excel에 보존하고 UI에는 글자 차이와 짧은 이름 확인 안내를 표시한다.
@@ -15,7 +15,15 @@
 
 `NAME_RETRIEVAL_ENABLED=0`을 설정하고 서비스를 재시작하면 기존 spelling baseline으로 돌아간다. 새 검색의 데이터/설정 오류에도 기존 baseline을 반환한다. 로그에 입력 처방 문자열이나 예외 메시지를 남기지 않는다.
 
-`/version`은 `2026.09.21-candidate-retrieval-manual`, 실제 Render commit, name_retrieval, name_ranker_enabled=false, automatic_confirmation_enabled=false를 제공한다.
+`/version`은 `2026.09.21-candidate-retrieval-jamo-manual`, 실제 Render commit, name_retrieval, name_retrieval_channels, name_ranker_enabled=false, automatic_confirmation_enabled=false를 제공한다.
+
+## 자모 채널 활성화
+
+`헬로패리돌`처럼 두 모음이 바뀐 입력에서 `할로페리돌` 후보를 추가 검색한다. NFD 자모 거리·유사도 threshold는 기존 평가된 값 그대로이며 재학습하거나 test로 조정하지 않았다. 과거 validation 선택 기록과 평가 결과는 그대로 보존한다.
+
+기존 stress 진단에서 자모 추가는 검색 성공1199→1208/1362, 오답 target75→77이었다. 사용자의 요청에 따라 수동 추천에만 활성화하며 LR 또는 자동확정을 활성화한 것이 아니다. 일반 후보20개/짧은 입력3개 상한, 화면 기본3개와 수동 선택 후 환산은 유지된다.
+
+코드 공유 방법은 [코드 공유 안내](CODE_SHARING_KO.md)에 정리했다.
 
 ## 원격 충돌 복구
 

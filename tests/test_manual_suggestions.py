@@ -90,12 +90,35 @@ def test_formulation_conflict_preserves_suffix_and_requires_review():
     assert '투여경로' in candidate['explanation']
 
 
-def test_serving_channels_equal_validation_selected_configuration():
+def test_serving_channels_extend_frozen_selection_with_user_requested_jamo():
     lock = json.loads((ROOT / 'data/candidate_retrieval/policy_lock.json').read_text())
-    assert set(SERVING_CHANNELS) == set(lock['channels'])
+    assert set(SERVING_CHANNELS) == set(lock['channels']) | {'hangul_jamo'}
     version = app.test_client().get('/version').json
+    assert version['name_retrieval_channels'] == list(SERVING_CHANNELS)
     assert version['name_ranker_enabled'] is False
     assert version['automatic_confirmation_enabled'] is False
+
+
+def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
+    original = '헬로패리돌 1mg QD'
+    assert baseline_suggestions(original) == []
+    item = app.test_client().post('/api/parse', json={'text': original}).json['items'][0]
+    assert item['drug'] is None and item['conversions'] == []
+    candidate = next(c for c in item['suggestions'] if c['drug'] == 'haloperidol')
+    assert candidate['retrieved_by'] == ['hangul_jamo']
+    assert candidate['replacement'] == '할로페리돌 1mg QD'
+    assert candidate['confirmed_drug'] is None and not candidate['auto_accepted']
+    assert candidate['serving_version'] == 'candidate-retrieval-v1-jamo-manual'
+
+
+def test_jamo_candidates_are_exported_without_conversion():
+    response = app.test_client().post('/api/export', json={'text': '헬로패리돌 1mg QD'})
+    wb = load_workbook(io.BytesIO(response.data))
+    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
+    assert audit['parsed'] is None and wb['Detailed'].max_row == 1
+    candidate = json.loads(audit['name_candidates'])[0]
+    assert candidate['retrieved_by'] == ['hangul_jamo']
+    assert not candidate['auto_accepted']
 
 
 def test_conversion_sources_and_existing_tests_remain_protected():

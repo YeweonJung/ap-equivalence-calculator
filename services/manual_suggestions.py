@@ -8,8 +8,8 @@ import os
 
 from services.drug_suggestions import baseline_suggestions
 
-SERVING_CHANNELS = ('osa', 'short_hangul', 'normalized_alias')
-SERVING_VERSION = 'candidate-retrieval-v1-manual'
+SERVING_CHANNELS = ('osa', 'short_hangul', 'hangul_jamo', 'normalized_alias')
+SERVING_VERSION = 'candidate-retrieval-v1-jamo-manual'
 logger = logging.getLogger(__name__)
 
 
