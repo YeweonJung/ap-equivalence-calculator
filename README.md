@@ -7,7 +7,11 @@
 첨부된 하이브리드 약물 파서를 통합해 사전 정확 매칭, RapidFuzz 유사도 매칭,
 미인식 약물 검토 표시를 지원합니다. 메인 화면에서 약물 문자열을 바로 테스트할 수 있고,
 일괄 계산 결과의 `Detailed`·`AuditTrail` 시트에 매칭 방식과 유사도가 함께 저장됩니다.
+<<<<<<< Updated upstream
 웹 화면에서 업로드하면 CMD·MED·ED95·DDD·CPZ_FGA·WOODS·GARDNER 중 해당 약물에 존재하는 모든 환산값을 한 결과 파일에 생성합니다.
+=======
+웹 화면에서 업로드하면 CMD·MED·ED95·DDD·CPZ_FGA 중 해당 약물에 존재하는 모든 환산값을 한 결과 파일에 생성합니다.
+>>>>>>> Stashed changes
 
 파싱 알고리즘의 선택 이유, 대안별 장단점, 코드 단계, 2,000명 데이터 평가 계획은
 [`PARSING_METHODS_KO.md`](PARSING_METHODS_KO.md)에 정리되어 있습니다.
@@ -53,6 +57,7 @@ python app.py
 환산 방법들은 서로 다른 연구 설계와 환자 집단에 기반하며 개인별 권장용량이나
 약물 변경 지시가 아닙니다. 빈도 미기재, fuzzy 매칭, PRN, 장기지속형 주사제와 주 단위 처방은
 확정값으로 취급하지 않고 검토 경고 또는 오류로 분리합니다.
+<<<<<<< Updated upstream
 
 
 ## 약물 Frame 개선 (2026-09-11)
@@ -115,3 +120,5 @@ https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01
 ## 2026-09-18 글자별 오타 검토 및 추가 분석
 
 영문 삽입·삭제·교체·순서 교환 오타 후보에 위치와 차이를 표시하고, 선택 전 환산하지 않습니다. Excel에도 후보를 보존합니다. CMD_DIRECT와 CMD_INDIRECT를 추가해 총 9개 분석을 출력합니다. 두 분석은 Leucht 2015 연구의 별도 비교 분석이며 기본 단위는 OLZ mg/day입니다. 상세 근거와 제한은 [설명 문서](docs/character_matching_and_cmd.md)를 참고하세요.
+=======
+>>>>>>> Stashed changes

@@ -2,10 +2,17 @@ PATIENT_COLUMNS = [
     "id",
     "patient_id",
     "name",
+<<<<<<< Updated upstream
     "patient",
     "patient_name",
     "mrn",
     "subject",
+=======
+    "patient",
+    "patient_name",
+    "mrn",
+    "subject",
+>>>>>>> Stashed changes
     "participant",
     "환자번호",
     "환자명",
@@ -15,6 +22,29 @@ PATIENT_COLUMNS = [
 ]
 
 
+def anonymize_dataframe(df, columns=None, mapping=None):
+
+    import pandas as pd
+
+    df = df.copy()
+
+    mapping = mapping if mapping is not None else {}
+
+<<<<<<< Updated upstream
+    counter = len(mapping) + 1
+
+    for col in df.columns:
+
+        col_lower = (
+            str(col)
+            .lower()
+            .strip()
+        )
+
+        selected = set(columns or [])
+        if col in selected or (not selected and col_lower in PATIENT_COLUMNS):
+
+=======
 def anonymize_dataframe(df, columns=None, mapping=None):
 
     import pandas as pd
@@ -36,6 +66,7 @@ def anonymize_dataframe(df, columns=None, mapping=None):
         selected = set(columns or [])
         if col in selected or (not selected and col_lower in PATIENT_COLUMNS):
 
+>>>>>>> Stashed changes
             for value in (
                 df[col]
                 .dropna()
@@ -50,9 +81,15 @@ def anonymize_dataframe(df, columns=None, mapping=None):
                     mapping[key] = (
                         f"PATIENT_{counter:05d}"
                     )
+<<<<<<< Updated upstream
 
                     counter += 1
 
+=======
+
+                    counter += 1
+
+>>>>>>> Stashed changes
             df[col] = df[col].map(
                 lambda value: mapping.get(str(value).strip(), "") if not pd.isna(value) else ""
             )

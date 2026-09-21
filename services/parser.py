@@ -1,9 +1,17 @@
 import math
 import re
 import unicodedata
+<<<<<<< Updated upstream
+=======
+from difflib import SequenceMatcher
+>>>>>>> Stashed changes
 from pathlib import Path
 
 import pandas as pd
+try:
+    from rapidfuzz import fuzz, process
+except ImportError:  # 개발·검증 환경에서도 동일한 보수적 동작을 유지한다.
+    fuzz = process = None
 
 
 
@@ -118,6 +126,25 @@ def dictionary_match(text):
     return None
 
 
+<<<<<<< Updated upstream
+=======
+def fuzzy_match(text, threshold=85):
+    value = _drug_only_text(text)
+    if not value:
+        return None
+    candidates = [alias for alias in alias_map if len(_compact(alias)) >= 4]
+    query = _compact(value)
+    if process is not None:
+        result = process.extractOne(query, candidates, scorer=lambda left, right, **_: fuzz.ratio(left, _compact(right)))
+    else:
+        scored = [(candidate, SequenceMatcher(None, query, _compact(candidate)).ratio() * 100) for candidate in candidates]
+        result = max(scored, key=lambda item: item[1]) if scored else None
+    if result and result[1] >= threshold:
+        return alias_map[result[0]], float(result[1])
+    return None, None
+
+
+>>>>>>> Stashed changes
 def _dose_to_mg(value, unit):
     unit = unit.casefold()
     if unit in {"mcg", "ug", "μg", "㎍"}:
@@ -131,6 +158,7 @@ def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
         raise ValueError("약물 값이 비어 있습니다.")
+<<<<<<< Updated upstream
     from services.frames import drug_mentions, formulation_info
     if len({name for _, _, name in drug_mentions(original)}) > 1:
         raise ValueError("여러 약물이 있습니다. 약물별 Frame으로 분리해 주세요.")
@@ -141,6 +169,13 @@ def parse_medication(text):
     match_type, match_score = "exact", 100.0
     if not drug:
         match_type, match_score = "unresolved", 0.0
+=======
+    drug = dictionary_match(original)
+    match_type, match_score = "exact", 100.0
+    if not drug:
+        drug, match_score = fuzzy_match(original)
+        match_type = "fuzzy" if drug else "unresolved"
+>>>>>>> Stashed changes
     if not drug:
         raise ValueError("약물명을 확인할 수 없습니다.")
     dose_matches = list(DOSE_RE.finditer(original))

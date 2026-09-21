@@ -1,4 +1,39 @@
 import re
+<<<<<<< Updated upstream
+=======
+
+
+PATIENT_KEYWORDS = ["patient_id", "patient", "subject", "participant", "mrn", "id", "name", "환자번호", "환자", "대상자", "등록번호", "차트번호"]
+
+MEDICATION_KEYWORDS = ["medications", "medication", "prescription", "medicine", "drug", "rx", "처방내역", "처방약", "처방", "투약내역", "투약", "약물정보", "약물명", "약품명", "제품명", "성분명", "의약품명", "약제"]
+DOSE_KEYWORDS = ["daily_dose", "dose_mg", "dosage", "dose", "strength", "일일용량", "1일용량", "1회용량", "투약량", "투여량", "함량", "용량"]
+UNIT_KEYWORDS = ["dose_unit", "unit", "용량단위", "단위"]
+FREQUENCY_KEYWORDS = ["frequency", "freq", "일일횟수", "복용횟수", "투약횟수", "투여횟수", "횟수", "복용빈도", "투여빈도", "용법"]
+
+DOSE_VALUE_RE = re.compile(r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mcg|ug|μg|㎍|mg|㎎|g)(?=$|[\s,;+/])", re.I)
+
+
+def _name_score(column, keywords):
+    name = str(column).casefold().strip().replace(" ", "_")
+    return max((len(word) for word in keywords if word in name), default=0)
+
+
+def _patient_name_score(column):
+    name = str(column).casefold().strip().replace(" ", "_")
+    exact = {word.casefold().replace(" ", "_") for word in PATIENT_KEYWORDS}
+    if name in exact:
+        return 100
+    if any(word in name for word in ("patient", "subject", "participant", "mrn", "환자", "대상자", "등록번호", "차트번호")):
+        return 50
+    return 0
+
+
+def _content_score(series):
+    values = [str(value).strip() for value in series.dropna().head(100) if str(value).strip()]
+    if not values:
+        return 0.0
+    return sum(bool(DOSE_VALUE_RE.search(value)) for value in values) / len(values)
+>>>>>>> Stashed changes
 
 
 PATIENT_KEYWORDS = ["patient_id", "patient", "subject", "participant", "mrn", "id", "name", "환자번호", "환자", "대상자", "등록번호", "차트번호"]

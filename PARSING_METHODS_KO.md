@@ -1,7 +1,10 @@
 # 약물명·용량 파싱 방법 비교와 선택 근거
 
+<<<<<<< Updated upstream
 2026-09-11: 약물별 Frame, 괄호 밖 분리, 번호별 열 연결, 비대상/계수 없음 분류를 추가했습니다. 최신 입력·출력 상태는 README의 약물 Frame 개선 항목을 참고하세요.
 
+=======
+>>>>>>> Stashed changes
 ## 1. 파싱이란?
 
 파싱(parsing)은 `Risp*erdal 2mg BID` 같은 원문에서 **표준 약물명**, **1회 용량**, **단위**, **복용 빈도**를 분리하고, 계산 가능한 `risperidone / 2 mg / 하루 2회 / 4 mg/day` 구조로 바꾸는 과정이다. 파싱 결과가 틀리면 뒤의 환산식이 정확해도 최종 결과는 틀린다.
@@ -44,7 +47,10 @@
 | `services/file_reader.py` | CSV 인코딩과 Excel 시트·헤더를 읽음 |
 | `services/column_detector.py` | 환자, 약물, 용량, 단위, 빈도 열을 이름과 내용으로 찾음 |
 | `services/medication_splitter.py` | 한 셀의 여러 약물을 분리 |
+<<<<<<< Updated upstream
 | `services/frames.py` | 약물별 경계·제형·분류·환산 상태를 구성하고 API와 Excel에 공통 적용 |
+=======
+>>>>>>> Stashed changes
 | `services/parser.py` | 약물명 표준화, 용량·빈도 파싱, 검토 여부 결정 |
 | `lookup/drug_alias.csv` | 표준 약물명과 허용 별칭·검증된 오탈자 사전 |
 | `services/converter.py` | 일일 용량을 환산표 계수로 계산 |

@@ -2,6 +2,7 @@
 import re
 SEPARATORS = {';', ',', '\n', '+'}
 
+<<<<<<< Updated upstream
 
 def split_medication_spans(text):
     text = '' if text is None else str(text)
@@ -26,6 +27,14 @@ def split_medication_spans(text):
         left = start + len(text[start:]) - len(text[start:].lstrip())
         spans.append((left, left + len(text[start:].strip()), text[start:].strip()))
     return spans
+=======
+SEPARATORS = [
+    ";",
+    ",",
+    "\n",
+    "+"
+]
+>>>>>>> Stashed changes
 
 
 def split_medications(text):

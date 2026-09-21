@@ -43,9 +43,13 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
     errors = pd.read_excel(io.BytesIO(response.data), sheet_name="Errors")
     assert detailed.loc[0, "drug"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
+<<<<<<< Updated upstream
     audit = pd.read_excel(io.BytesIO(response.data), sheet_name="AuditTrail")
     assert audit.loc[audit["parsed"] == "lithium", "status"].tolist() == ["non_target"]
     assert not errors["original"].fillna("").str.casefold().str.contains("lithium").any()
+=======
+    assert errors["original"].fillna("").str.casefold().str.contains("lithium").any()
+>>>>>>> Stashed changes
 
 
 def test_parser_api_marks_unknown_drugs_for_review():
@@ -53,8 +57,12 @@ def test_parser_api_marks_unknown_drugs_for_review():
     assert response.status_code == 200
     items = response.get_json()["items"]
     assert items[0]["drug"] == "risperidone" and items[0]["needs_review"] is False
+<<<<<<< Updated upstream
     assert items[1]["ok"] is True and items[1]["status"] == "non_target"
     assert items[1]["daily_dose_mg"] is None and items[1]["conversions"] == []
+=======
+    assert items[1]["ok"] is False and items[1]["needs_review"] is True
+>>>>>>> Stashed changes
 
 
 def test_ambiguous_schedules_are_not_presented_as_certain():
@@ -140,6 +148,7 @@ def test_every_registered_alias_parses_to_its_declared_standard_name():
     project = Path(__file__).resolve().parents[1]
     aliases = pd.read_csv(project / "lookup" / "drug_alias.csv")
     for row in aliases.itertuples():
+<<<<<<< Updated upstream
         from services.parser import alias_map
         if row.alias not in alias_map:
             from services.frames import parse_frames
@@ -154,6 +163,8 @@ def test_every_registered_alias_parses_to_its_declared_standard_name():
             assert parsed['drug'] == row.standard_name
             assert parsed['route'] == 'injection' and parsed['status'] != 'converted'
             continue
+=======
+>>>>>>> Stashed changes
         parsed = parse_medication(f"{row.alias} 1mg QD")
         assert parsed["drug"] == str(row.standard_name).casefold().strip()
 
