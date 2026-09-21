@@ -153,7 +153,7 @@ def _frame(start, end, original):
             frame['warning'] = str(exc)
     if status == 'unknown_drug':
         import json
-        from services.drug_suggestions import suggest_drugs
+        from services.manual_suggestions import suggest_for_review as suggest_drugs
         frame['suggestions'] = suggest_drugs(original)
         frame['name_candidates'] = json.dumps(frame['suggestions'], ensure_ascii=False)
     frame.update(status=status, status_message=LABELS[status])

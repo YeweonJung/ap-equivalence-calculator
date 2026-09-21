@@ -21,7 +21,7 @@ from services.validator import validate_file
 from services.frames import parse_frames, convert_frame, summarize_frames
 from services.structured import structured_frames
 from services.result_summary import result_rows, METHOD_ORDER
-from services.drug_suggestions import suggest_drugs
+from services.manual_suggestions import suggest_for_review as suggest_drugs
 
 
 BASE_DIR = Path(__file__).resolve().parent

@@ -1,0 +1,143 @@
+{
+  "total": 247,
+  "known": 227,
+  "recall_hits": {
+    "1": 223,
+    "3": 224,
+    "5": 224,
+    "10": 224,
+    "20": 224
+  },
+  "failures": [
+    {
+      "error_type": "deletion",
+      "id": "synthetic-00981",
+      "origin_alias": "로도핀",
+      "origin_drug": "zotepine",
+      "original": "로핀 1mg QD",
+      "safety_case": false,
+      "split": "test",
+      "synthetic": true,
+      "target_key": "zotepine|non_product_specific",
+      "query": "로핀",
+      "query_length": 2,
+      "first_rejection": "drug_suggestions.generate_candidates: not 3 <= len(query) <= 40",
+      "counterfactual_comparison": {
+        "distance": 1,
+        "score": 66.7,
+        "edits": [
+          {
+            "operation": "insert",
+            "position": 2,
+            "source": "",
+            "target": "도"
+          }
+        ]
+      }
+    },
+    {
+      "error_type": "deletion",
+      "id": "synthetic-01482",
+      "origin_alias": "조테핀",
+      "origin_drug": "zotepine",
+      "original": "조핀 1mg QD",
+      "safety_case": false,
+      "split": "test",
+      "synthetic": true,
+      "target_key": "zotepine|non_product_specific",
+      "query": "조핀",
+      "query_length": 2,
+      "first_rejection": "drug_suggestions.generate_candidates: not 3 <= len(query) <= 40",
+      "counterfactual_comparison": {
+        "distance": 1,
+        "score": 66.7,
+        "edits": [
+          {
+            "operation": "insert",
+            "position": 2,
+            "source": "",
+            "target": "테"
+          }
+        ]
+      }
+    },
+    {
+      "error_type": "deletion",
+      "id": "synthetic-01492",
+      "origin_alias": "지오돈",
+      "origin_drug": "ziprasidone",
+      "original": "지돈 1mg QD",
+      "safety_case": false,
+      "split": "test",
+      "synthetic": true,
+      "target_key": "ziprasidone|non_product_specific",
+      "query": "지돈",
+      "query_length": 2,
+      "first_rejection": "drug_suggestions.generate_candidates: not 3 <= len(query) <= 40",
+      "counterfactual_comparison": {
+        "distance": 1,
+        "score": 66.7,
+        "edits": [
+          {
+            "operation": "insert",
+            "position": 2,
+            "source": "",
+            "target": "오"
+          }
+        ]
+      }
+    }
+  ],
+  "original_file_sha256": {
+    "app.py": "28e3f1b15d2e8413d2089ceb6e7dcfec81d989249edaeba467833d84181eb834",
+    "data/name_ranker/evaluation.json": "38e30f13967e59488911bfe32b7940e2a0b5bc397ecf615839ad536048b6759f",
+    "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
+    "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lookup/drug_alias.csv": "2c8863a602aaa52a767f7df05a89935b93789b8e8d9c8ea0fe95b33c674ce990",
+    "lookup/equivalence_anchors.csv": "39f761961b239b77d0e7af8a7f3d74e665e6ace445ecce7576b694b94b7c210f",
+    "lookup/master_lookup.csv": "b384b946cfaec558d4c1fc15e0b54bd83f0fbe0a396895349fdb14aa4a7721c6",
+    "models/name_ranker/config.json": "c1ad6e9aad0715e5ed4e01a4e471c4814f6cf2b21839bb950fdf1b835a8707b1",
+    "models/name_ranker/metadata.json": "e243d81cbd16ad1589740d9c3f65705a13a8e9e378024f4aaf650b09c373c82c",
+    "models/name_ranker/model.json": "f3cb307e0e5a11c722dd2012b8ec6bf763cea7f8261c0141586f040a2147d7fc",
+    "services/anonymizer.py": "eb292d6eae6634b5a471408cd34b0a3995e32c0e2f075c063807bda401aef3a5",
+    "services/column_detector.py": "79926ce085bb4376278f3a0303f96fbdf0de04e5226b17af545aa2d3b9d8f580",
+    "services/converter.py": "0d0eb0dd88c76fa4873c209c218e21dc00c78ab8f6f0dbd15c436fd62b368d92",
+    "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
+    "services/drug_suggestions.py": "d1e0db59cce03918361229154d5938ba1fc9ac3b79dd7fba1ffdaaaffe285157",
+    "services/exporter.py": "05c239e0be5fc1812c44796b11e477f6621f12ff40529eeaf3ced2c2e8c41e74",
+    "services/file_reader.py": "1cafafde82e1700efe8f813893f371a0f0722789be436d692bf1687293597847",
+    "services/frames.py": "dcfc75efcda24bbed35ab28ca72acc41552c2f9a5b4e39f6ee6d65e26dbb7d5b",
+    "services/injections.py": "342b9bbe8e283365e8aa536cf67308cb258306435766c95a22862fa68546e624",
+    "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
+    "services/lai_support.py": "d23bb100d1939e12d64350671cf6b079514b125b26f28f221d82a344f9ad5578",
+    "services/llm_batch_parser.py": "5a7077e3d8f4f28bb355eda328295f8fb566d98d35e81f52cc7d63ebab771ac9",
+    "services/llm_client.py": "364b5261074e8448fe0c2232052b1d78a9187f6259b3c46c7a433af35f750fac",
+    "services/medication_splitter.py": "8f1dda27d280acec62d01f8b03e5ad00b54e45060494cba91d92c5036dd0e8e0",
+    "services/name_dictionary.py": "82a9db0e1f123901b6d1225b3a9b8f3aa87eaceebd51b9c0b1c4f26bc69e6544",
+    "services/name_distance.py": "0def7eece0d190435ef8141d2336e0165230949c231f1cf72a80ed78d1b49cc9",
+    "services/name_features.py": "b48d08092e853e497c9d4b0cccc3e8dfc11f900b18d2a1d4949dc55337f3eb51",
+    "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
+    "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
+    "services/parser.py": "7c47769267f9907510f19e74e26f82a9b9b71a379c7a8702f825fdfe782b8b65",
+    "services/release.py": "495b84a22bcf5b97dbd5798eb87e32b1df80b6adb74b0a5a8d5cec6840e87bab",
+    "services/result_summary.py": "2b14ee939177f557b37413e2508220fe4592b96cdf9d5a46bce551818fc769be",
+    "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
+    "services/validator.py": "0c5a9a64ca52f020019840ad4b8abad4035c35e074e67a0d0795779e6a46f295",
+    "static/quick_check.js": "d9e3eb94fead70992d04d1b92182e7e39d074b796a782021d30298fe46f253cd",
+    "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
+    "templates/index.html": "ed653388ed355423670ead4509dee18896cf7f142cf7ca13591d340f70abb214",
+    "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
+    "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
+    "tests/quick_check_ui.cjs": "0ed993f78f555fe31294e7b901c21d45febdabf3bcb3332648324c80bc6d2b58",
+    "tests/test_character_review.py": "1d10ad5ab5693fceae0d166488fc6f3c4f9cfbca8ce5fc0df6ea6f3bbcbaa583",
+    "tests/test_equivalence_update.py": "9615578e1c952123dadabc8d98105b7b4fddd43a400852e9727ea1dcbfd6eb77",
+    "tests/test_frames.py": "0ef715cc7d310b6eaa72b84a6c3f169d4d26a3356fbf2a9e46351a71b52fee04",
+    "tests/test_integration.py": "1fb6c9b4aa77f739555394d4a7993f050faf936ce885cf550fceaf6ce4c0ea2f",
+    "tests/test_lai_methods.py": "4664369c4b9812077d52c2edfa8248be515de61f372566858050f69ac0699f6c",
+    "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
+    "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
+    "tests/test_quick_export.py": "b15a5abf3342afb50c0302410cfc13177e70ab68d96b90ec0ad4b6b61d821de8",
+    "tests/test_results_injections.py": "1da33e9b56ac4bad5fedb2ebaefb08dac01455d9477adf7f8fa1cd46911caf14"
+  }
+}

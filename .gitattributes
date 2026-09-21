@@ -1,0 +1,7 @@
+# Byte-hashed frozen experiment artifacts must survive Windows/Linux checkout.
+data/name_ranker/* -text
+models/name_ranker/* -text
+data/candidate_retrieval/validation.json -text
+data/candidate_retrieval/stress.jsonl -text
+services/candidate_retrieval.py -text
+scripts/evaluate_candidate_retrieval.py -text

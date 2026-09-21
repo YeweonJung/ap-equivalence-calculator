@@ -1,0 +1,16 @@
+{
+  "seed": 20260921,
+  "dataset_version": "synthetic-name-v1",
+  "model_version": "name-logistic-v1",
+  "split_ratios": [0.6, 0.2, 0.2],
+  "candidate_k": 20,
+  "hard_negatives": 5,
+  "logistic": {"C": 1.0, "max_iter": 2000, "solver": "lbfgs", "class_weight": "balanced"},
+  "baseline_policy": {"threshold": 0.95, "margin_threshold": 0.15, "min_name_length": 4, "candidate_k": 20},
+  "threshold_grid": [0.8, 0.9, 0.95, 0.975, 0.99, 1.0],
+  "margin_grid": [0.05, 0.1, 0.15, 0.25],
+  "min_validation_eligible": 20,
+  "max_validation_errors": 0,
+  "production_enabled": false,
+  "automatic_confirmation_enabled": false
+}

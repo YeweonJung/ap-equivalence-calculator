@@ -3,11 +3,13 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.18-character-review-cmd'
+VERSION = '2026.09.21-candidate-retrieval-manual'
 
 
 def metadata():
     root = Path(__file__).resolve().parents[1]
     return {'version': VERSION, 'commit': os.getenv('RENDER_GIT_COMMIT', ''),
+            'name_retrieval': 'candidate-retrieval-v1-manual' if os.getenv('NAME_RETRIEVAL_ENABLED', '1') != '0' else 'legacy-baseline',
+            'name_ranker_enabled': False, 'automatic_confirmation_enabled': False,
             'lookup_sha256': hashlib.sha256((root / 'lookup/master_lookup.csv').read_bytes()).hexdigest(),
             'anchors_sha256': hashlib.sha256((root / 'lookup/equivalence_anchors.csv').read_bytes()).hexdigest()}

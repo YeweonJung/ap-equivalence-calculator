@@ -1,0 +1,19 @@
+{
+  "selected": "osa_short",
+  "channels": [
+    "osa",
+    "short_hangul",
+    "normalized_alias"
+  ],
+  "validation_count": 370,
+  "selection": "maximize validation recall@20; minimize unknown hit rate, false target mean, channel count",
+  "test_used": false,
+  "stress_used": false,
+  "dictionary_version": "3b79706a9fc4f79f5366d2ed3ec4764ab3b0043ff2e2d3115debc66182f92808",
+  "implementation_sha256": "3e1df254becaa52cd4596bb6ec48c5bc52070e04060ac8db5656bfd84c6da3db",
+  "evaluator_sha256": "04fda63c254c9807497a5c76a3bc416b6af20eb495538d62b892a513205ebd67",
+  "dataset_sha256": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
+  "validation_sha256": "3002718ab7aebf2f9a64c53e007fd282c8192a6c64ebe4f1610bfde79c3ce361",
+  "offline_evaluator_sha256": "367c4259b99537105ae082af2ea4ab7225c9bde84f4fe0c7aa808b036ae47d80",
+  "integration_note": "Only guarded_inputs supports an explicit portable integration manifest; evaluation formulas, channels, thresholds and original test unchanged"
+}
