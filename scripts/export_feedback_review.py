@@ -14,8 +14,9 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     with connection() as (db, param):
-        db.execute(f'DELETE FROM medication_feedback WHERE created_at < {param}', (int(time.time())-180*86400,))
-        rows = db.execute('SELECT event_id, created_at, payload FROM medication_feedback ORDER BY created_at').fetchall()
+        table = 'public.medication_feedback' if param == '%s' else 'medication_feedback'
+        db.execute(f'DELETE FROM {table} WHERE created_at < {param}', (int(time.time())-180*86400,))
+        rows = db.execute(f'SELECT event_id, created_at, payload FROM {table} ORDER BY created_at').fetchall()
         db.commit()
     # Do not overwrite an earlier review/export; never print contents to the console.
     with args.output.open('x', encoding='utf-8') as out:

@@ -33,18 +33,19 @@ def connection():
 def save(event_id, record):
     now = int(time.time())
     with connection() as (db, param):
-        db.execute('CREATE TABLE IF NOT EXISTS medication_feedback '
+        table = 'public.medication_feedback' if param == '%s' else 'medication_feedback'
+        db.execute(f'CREATE TABLE IF NOT EXISTS {table} '
                    '(event_id TEXT PRIMARY KEY, created_at BIGINT NOT NULL, payload TEXT NOT NULL)')
         if param == '%s':
-            db.execute('LOCK TABLE medication_feedback IN SHARE ROW EXCLUSIVE MODE')
-        db.execute(f'DELETE FROM medication_feedback WHERE created_at < {param}', (now - 180*86400,))
-        if db.execute(f'SELECT event_id FROM medication_feedback WHERE event_id = {param}', (event_id,)).fetchone():
+            db.execute(f'LOCK TABLE {table} IN SHARE ROW EXCLUSIVE MODE')
+        db.execute(f'DELETE FROM {table} WHERE created_at < {param}', (now - 180*86400,))
+        if db.execute(f'SELECT event_id FROM {table} WHERE event_id = {param}', (event_id,)).fetchone():
             db.commit()
             return 'already_saved'
-        count = db.execute(f'SELECT COUNT(*) FROM medication_feedback WHERE created_at >= {param}', (now-3600,)).fetchone()[0]
+        count = db.execute(f'SELECT COUNT(*) FROM {table} WHERE created_at >= {param}', (now-3600,)).fetchone()[0]
         if count >= 500:
             raise OverflowError('Feedback rate limit')
-        db.execute(f'INSERT INTO medication_feedback VALUES ({param}, {param}, {param})',
+        db.execute(f'INSERT INTO {table} VALUES ({param}, {param}, {param})',
                    (event_id, now, json.dumps(record, ensure_ascii=False)))
         db.commit()
     return 'saved'
