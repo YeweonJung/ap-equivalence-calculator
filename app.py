@@ -81,8 +81,9 @@ def sample_file():
     sheet = workbook.active
     sheet.title = "입력예시"
     sheet.append(["patient_id", "drug", "dose", "unit", "frequency"])
-    sheet.append(["P001", "Risperdal", 2, "mg", "BID"])
-    sheet.append(["P002", "Abilify", 15, "mg", "QD"])
+    sheet.append(["P001", "risperidone", 2, "mg", "QD"])
+    sheet.append(["P001", "olanzapine", 5, "mg", "QD"])
+    sheet.append(["P002", "risperidone", 1, "mg", "QD"])
     for cell in sheet[1]:
         cell.font = Font(bold=True, color="FFFFFF")
         cell.fill = PatternFill("solid", fgColor="1769E0")

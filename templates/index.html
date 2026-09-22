@@ -20,6 +20,8 @@
     .parser-row button{min-height:44px}.parse-top{flex-wrap:wrap}.parse-top b{overflow-wrap:anywhere}.parser{min-width:0}
     .conversion-table{width:100%;border-collapse:collapse;margin-top:8px}.conversion-table th,.conversion-table td{padding:7px 4px;text-align:left;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.conversion-table th{color:var(--ink)}
     #export-quick{margin-top:12px;padding:10px 14px;min-height:44px;background:var(--blue)}#export-quick[hidden]{display:none}#download-status{font-size:12px;margin-top:6px}.parser button:disabled{opacity:.55;cursor:wait}
+    .patient-flow{grid-template-columns:minmax(0,.85fr) 40px minmax(0,1.15fr);align-items:stretch}.patient-flow .panel{padding:18px;min-height:0}.patient-flow .arrow{align-self:center}.example-scroll{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}.example-table th,.example-table td{padding:12px 6px;white-space:nowrap;text-align:right;border-bottom:1px solid #dce4ef}.example-table th:first-child,.example-table td:first-child{text-align:left;padding-left:10px}.example-table thead th{background:#edf2f8;color:#455873;font-size:10px}.example-table small{display:block;margin-top:4px;font-size:9px;font-weight:500;color:#69758a}.input-example td:nth-child(2){text-align:left}.example-table .p001{background:#eaf2ff}.example-table .p001 th{color:#155dbd}.example-table .p002{background:#f4f6f9}.output-head{background:#1268e8}.output-example{min-width:460px}.input-example{min-width:330px}.example-note{font-size:12px;line-height:1.8;margin:16px 0 0}.patient-key{display:inline-block;background:#dceaff;color:#155dbd;font-weight:850;padding:0 6px;border-radius:4px}.sheet-tag{margin-left:auto;color:#1268e8;font-size:11px}.join-example{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;padding:18px;margin-top:20px;border:1px solid var(--line);border-radius:12px;font-size:12px;line-height:1.8}.join-example b{width:100%}.join-key,.join-example strong{color:#1268e8}.patient-flow .hint{line-height:1.7}
+    @media(max-width:900px){.patient-flow{grid-template-columns:1fr}.patient-flow .arrow{transform:rotate(90deg);height:44px;display:grid;place-items:center}.patient-flow .panel{padding:16px}.title h1{font-size:clamp(26px,5vw,40px)}}
   </style>
 </head>
 <body>
@@ -27,26 +29,34 @@
   <main>
     <section class="main">
       <div class="wrap">
-        <div class="title"><h1>이렇게 적고, 바로 올리세요.</h1><p>같은 환자 ID의 약물을 합산하여, 환자별 · 방법별 환산량을 Excel로 만듭니다.</p></div>
-        <div class="flow">
+        <div class="title"><h1>약물은 여러 행, 결과는 환자별 한 행.</h1><p>같은 환자 ID의 약물을 합산하여, 환자별 · 방법별 환산량을 Excel로 만듭니다.</p></div>
+        <div class="flow patient-flow">
           <section class="panel" aria-label="입력 엑셀 예시">
-            <div class="panel-label"><span class="number">1</span>Excel 입력</div>
-            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="grid">
-              <div class="cell">patient_id</div><div class="cell">drug</div><div class="cell">dose</div><div class="cell">unit</div><div class="cell">frequency</div>
-              <div class="cell">P001</div><div class="cell">Risperdal</div><div class="cell">2</div><div class="cell">mg</div><div class="cell">BID</div>
-              <div class="cell">P002</div><div class="cell">Abilify</div><div class="cell">15</div><div class="cell">mg</div><div class="cell">QD</div>
-            </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>한 칸 입력도 가능:</b> Risperdal 2mg BID</span></div>
+            <div class="panel-label"><span class="number">1</span>입력 · 약물별 3행</div>
+            <div class="sheet example-scroll" tabindex="0" aria-label="입력 예시 표, 좁은 화면에서는 가로 스크롤">
+              <div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <table class="example-table input-example"><thead><tr><th>patient_id</th><th>drug</th><th>dose</th><th>unit</th><th>frequency</th></tr></thead><tbody>
+                <tr class="p001"><th scope="row">P001</th><td>risperidone</td><td>2</td><td>mg</td><td>QD</td></tr>
+                <tr class="p001"><th scope="row">P001</th><td>olanzapine</td><td>5</td><td>mg</td><td>QD</td></tr>
+                <tr class="p002"><th scope="row">P002</th><td>risperidone</td><td>1</td><td>mg</td><td>QD</td></tr>
+              </tbody></table>
+            </div>
+            <p class="example-note"><span class="patient-key">P001</span> 같은 ID로 입력한 두 약물을 함께 계산합니다.</p>
+            <p class="hint">QD = 하루 1회 · 한 칸에 여러 약물을 적어도 가능합니다.</p>
           </section>
           <div class="arrow" aria-hidden="true">→</div>
           <section class="panel" aria-label="출력 엑셀 예시">
-            <div class="panel-label"><span class="number">2</span>환자별 합계 결과</div>
-            <div class="sheet" style="overflow-x:auto"><table class="conversion-table" style="min-width:620px"><thead><tr><th>patient_id</th><th>CMD</th><th>MED</th><th>DDD</th><th>ED95</th><th>Gardner</th><th>Woods</th></tr></thead><tbody><tr><td>P001</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td></tr><tr><td>P002</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td></tr></tbody></table></div>
-            <div class="hint"><span class="check">✓</span><span><b>환자당 한 행:</b> 같은 ID의 약물 환산량을 방법별로 합산합니다. 숫자는 계산 후 Excel에 표시됩니다.</span></div>
-            <div class="hint"><span>Results의 patient_id로 기존 데이터에 병합하세요. 실제 열에는 CPZ 또는 OLZ 기준과 mg/day 단위가 표시됩니다. 추가 방법은 오른쪽 열에 제공됩니다.</span></div>
-            <div class="hint"><span>환산 불가 항목이 있으면 해당 방법은 빈칸이며, PatientChecks에서 이유와 부분합을 확인합니다. 약물별 내역은 MedicationResults에 제공합니다.</span></div>
+            <div class="panel-label"><span class="number">2</span>출력 · 환자별 2행 <span class="sheet-tag">Results</span></div>
+            <div class="sheet example-scroll" tabindex="0" aria-label="환자별 결과 예시 표, 좁은 화면에서는 가로 스크롤">
+              <div class="sheet-head output-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <table class="example-table output-example"><thead><tr><th>patient_id</th><th>CMD<small>CPZ</small></th><th>MED<small>OLZ</small></th><th>DDD<small>CPZ</small></th><th>ED95<small>OLZ</small></th><th>Gardner<small>CPZ</small></th><th>Woods<small>CPZ</small></th></tr></thead><tbody><tr class="p001"><th scope="row">P001</th><td>389.00</td><td>12.49</td><td>270.00</td><td>9.83</td><td>350.00</td><td>200.00</td></tr><tr class="p002"><th scope="row">P002</th><td>97.25</td><td>3.75</td><td>60.00</td><td>2.41</td><td>100.00</td><td>50.00</td></tr></tbody></table>
+            </div>
+            <p class="example-note"><span class="patient-key">P001</span> 두 약물의 환산량을 방법별로 합산한 결과입니다.</p>
+            <p class="hint">위 입력의 실제 계산 예시 · 소수 둘째 자리 표시 · 단위 mg/day<br>CPZ = chlorpromazine, OLZ = olanzapine 기준. Excel에는 추가 방법도 포함됩니다.</p>
           </section>
         </div>
+        <div class="join-example" aria-label="기존 데이터에 결과 병합"><b>기존 데이터에 붙이기</b><span>patient_id · 나이 · 성별 · …</span><span class="join-key">ID 기준 병합 →</span><span>patient_id · 나이 · 성별 · … · <strong>CMD · MED · DDD · ED95 · Gardner · Woods</strong></span></div>
+        <p class="hint">환산 불가 약물이 있으면 해당 방법의 합계는 빈칸입니다. PatientChecks에서 검토 내역을, MedicationResults에서 약물별 계산을 확인하세요.</p>
         <p class="hint">업로드한 모든 시트에서 같은 ID를 합산합니다. 한 파일에는 동일 시점의 처방만 넣으세요. 원래 ID를 결과에 유지하므로 가명 ID를 사용하세요. ID가 없으면 행별 임시 ID가 부여됩니다.</p>
         <section class="upload" aria-label="데이터 파일 업로드">
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
