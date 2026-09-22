@@ -22,3 +22,20 @@ def result_rows(original, patient, items, totals):
                 row[value_column(total['method'], True)] = total['total_equivalent_dose_mg']
         rows.append(row)
     return rows
+
+
+PATIENT_METHOD_ORDER = ('CMD', 'MED', 'DDD', 'ED95', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
+PATIENT_COLUMNS = ['patient_id'] + [f'{m} ({TARGETS[m]} mg/day)' for m in PATIENT_METHOD_ORDER]
+
+
+def patient_results(patients, methods):
+    """Aggregate all source rows for an ID, rounding only after summation."""
+    from services.frames import summarize_frames
+    rows, checks = [], []
+    for patient, items in patients.items():
+        row = {'patient_id': patient}
+        for total in summarize_frames(items, methods):
+            row[f"{total['method']} ({TARGETS[total['method']]} mg/day)"] = total['total_equivalent_dose_mg']
+            checks.append({'patient_id': patient, **total})
+        rows.append(row)
+    return rows, checks

@@ -95,7 +95,7 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     from services.result_summary import METHOD_ORDER, value_column
-    result = list(wb['Results'].values)
+    result = list(wb['MedicationResults'].values)
     cols = {name:i for i,name in enumerate(result[0])}
     assert result[1][4] == 22.5 and result[1][cols[value_column('MED', True)]] == 27.5
     assert result[1][3] is None and result[1][cols[value_column('CMD', True)]] is None
@@ -112,6 +112,6 @@ def test_separate_frequency_column_supports_lai_schedule():
     csv = 'patient_id,drug,dose,unit,frequency\nP1,Zypadhera,405,mg,q4w\nP2,Okedi,75,mg,q4w\n'
     response = app.test_client().post('/upload', data={'method': 'MED', 'file': (io.BytesIO(csv.encode()), 'structured.csv')})
     wb = load_workbook(io.BytesIO(response.data))
-    rows = list(wb['Results'].values)
+    rows = list(wb['MedicationResults'].values)
     assert rows[1][4] == 15
     assert rows[2][4] == 11.236  # Existing oral MED table uses 0.267mg risperidone/1mg OLZ.

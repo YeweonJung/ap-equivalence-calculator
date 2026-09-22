@@ -20,7 +20,7 @@ def _read_excel_sheet(filepath, sheet):
     candidates = []
     for header in range(5):
         try:
-            frame = pd.read_excel(filepath, sheet_name=sheet, header=header)
+            frame = pd.read_excel(filepath, sheet_name=sheet, header=header, dtype=str, keep_default_na=False)
             candidates.append((_header_score(frame), -header, frame))
         except (ValueError, IndexError):
             continue
@@ -46,7 +46,7 @@ def read_file(filepath):
                     separator = csv.Sniffer().sniff(header, delimiters=',;\t|').delimiter
                 except csv.Error:
                     separator = ','  # A single-column header has no delimiter.
-                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="python")
+                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="python", dtype=str, keep_default_na=False)
                 frame.attrs["header_row"] = 0
                 return {"Sheet1": frame}
             except (UnicodeDecodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as exc:

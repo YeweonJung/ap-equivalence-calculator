@@ -10,7 +10,6 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
-from services.anonymizer import anonymize_dataframe
 from services.column_detector import detect_columns, detect_medication_groups
 from services.converter import available_methods, normalize_target
 from services.exporter import export_results
@@ -20,7 +19,7 @@ from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
 from services.frames import parse_frames, convert_frame, summarize_frames
 from services.structured import structured_frames
-from services.result_summary import result_rows, METHOD_ORDER
+from services.result_summary import result_rows, METHOD_ORDER, patient_results
 from services.manual_suggestions import suggest_for_review as suggest_drugs
 
 
@@ -120,9 +119,9 @@ def export_quick_check():
     except ValueError as exc:
         return jsonify({'error': str(exc)}), 400
     workbook = Workbook()
-    workbook.active.append(['medication'])
-    workbook.active.append([text])
-    workbook.active.cell(2, 1).data_type = 's'
+    workbook.active.append(['patient_id', 'medication'])
+    workbook.active.append(['P001', text])
+    workbook.active.cell(2, 2).data_type = 's'
     content = io.BytesIO()
     workbook.save(content)
     content.seek(0)
@@ -172,7 +171,10 @@ def process_upload(uploaded_file, method):
             uploaded_file.save(upload_path)
             sheets = read_file(str(upload_path))
 
-            patient_mapping = {}
+            patients = {}
+            used_ids = {str(value) for df in sheets.values()
+                        for col in [detect_columns(df)['patient_column']] if col is not None
+                        for value in df[col] if _cell_text(value)}
             for sheet_name, dataframe in sheets.items():
                 detected = detect_columns(dataframe)
                 patient_col = detected["patient_column"]
@@ -187,15 +189,19 @@ def process_upload(uploaded_file, method):
                     error_rows.append({"sheet": sheet_name, "source_row": "", "medication_column": "", "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
                     continue
 
-                anonymized, patient_mapping = anonymize_dataframe(
-                    dataframe,
-                    columns=[patient_col] if patient_col is not None else [],
-                    mapping=patient_mapping,
-                )
                 header_row = int(dataframe.attrs.get("header_row", 0))
-                for row_index, row in anonymized.iterrows():
+                for row_index, row in dataframe.iterrows():
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
                     source_row = int(row_index) + header_row + 2
+                    if not _cell_text(patient_id):
+                        patient_id = f'__MISSING_ID_{len(patients) + 1}'
+                        while patient_id in used_ids:
+                            patient_id += '_'
+                        used_ids.add(patient_id)
+                        error_rows.append({'sheet': sheet_name, 'source_row': source_row,
+                                           'patient': patient_id, 'error': 'ID 누락: 원본 행별 임시 ID입니다. 병합 전 ID를 확인하세요.'})
+                    patient_id = str(patient_id)
+                    patients.setdefault(patient_id, [])
                     for group in groups:
                         medication_col, dose_col, unit_col, frequency_col = (group[key] for key in ("medication_column", "dose_column", "unit_column", "frequency_column"))
                         raw_medication = _cell_text(row.get(medication_col))
@@ -222,6 +228,7 @@ def process_upload(uploaded_file, method):
                             if not parsed["ok"] or parsed.get("unit_assumed"):
                                 error_rows.append({**record, "error": parsed.get("error") or parsed["warning"] or parsed["status_message"]})
 
+                        patients[patient_id].extend(cell_items)
                         cell_totals = summarize_frames(cell_items, selected_methods)
                         summary_rows.extend(result_rows(raw_medication, patient_id, cell_items, cell_totals))
                         for total in cell_totals:
@@ -229,7 +236,8 @@ def process_upload(uploaded_file, method):
                                                "medication_column": str(medication_col), "patient": patient_id,
                                                "original": raw_medication, **total})
 
-            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows, summary_rows=summary_rows)
+            patient_rows, patient_checks = patient_results(patients, selected_methods)
+            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(

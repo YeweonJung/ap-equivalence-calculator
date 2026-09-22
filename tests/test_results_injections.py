@@ -55,7 +55,7 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     assert wb.sheetnames[0] == 'Results'
-    sheet = wb['Results']
+    sheet = wb['MedicationResults']
     headers = [c.value for c in sheet[1]]
     assert headers[3:3+len(METHOD_ORDER)] == [value_column(m) for m in METHOD_ORDER]
     assert headers[3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)] == [value_column(m, True) for m in METHOD_ORDER]

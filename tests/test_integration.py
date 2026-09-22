@@ -26,7 +26,7 @@ def test_korean_cp949_csv_is_detected_and_converted():
     assert response.status_code == 200
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
     assert detailed["drug"].tolist() == ["risperidone", "aripiprazole"]
-    assert detailed["patient"].tolist() == ["PATIENT_00001", "PATIENT_00002"]
+    assert detailed["patient"].tolist() == ["A-001", "A-002"]
     assert detailed["daily_dose_mg"].tolist() == [4, 15]
 
 
@@ -117,7 +117,7 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
         pd.DataFrame({"patient_id": ["P01", "P02"], "medication": ["Risperdal 2mg BID", "Abilify 10mg QD"]}).to_excel(writer, sheet_name="two", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "multi.xlsx")
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed["patient"].tolist() == ["PATIENT_00001", "PATIENT_00001", "PATIENT_00002"]
+    assert detailed["patient"].tolist() == ["P01", "P01", "P02"]
     saved = load_workbook(io.BytesIO(response.data), data_only=False)
     original_column = [cell.value for cell in saved["Detailed"][1]].index("original") + 1
     originals = [saved["Detailed"].cell(row=row, column=original_column).value for row in range(2, saved["Detailed"].max_row + 1)]
@@ -200,7 +200,7 @@ def test_patient_identifier_normalization_is_consistent_across_sheets():
         pd.DataFrame({"patient_id": ["1"], "medication": ["Abilify 10mg QD"]}).to_excel(writer, sheet_name="text", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "ids.xlsx")
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed["patient"].tolist() == ["PATIENT_00001", "PATIENT_00001"]
+    assert detailed["patient"].tolist() == [1, 1]
 
 
 def test_all_methods_are_exported_when_site_uses_all():

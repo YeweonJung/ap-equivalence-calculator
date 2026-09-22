@@ -48,7 +48,7 @@ def test_export_preserves_mass_audit_sources_and_separate_totals():
     response = app.test_client().post('/upload', data={'method':'ALL', 'file':(io.BytesIO(content.encode()), 'synthetic.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    rows = [dict(zip(next(wb['Results'].values), row)) for row in list(wb['Results'].values)[1:]]
+    rows = [dict(zip(next(wb['MedicationResults'].values), row)) for row in list(wb['MedicationResults'].values)[1:]]
     assert rows[0][value_column('GARDNER', True)] == 800
     assert rows[0][value_column('WOODS', True)] is None
     audit = [dict(zip(next(wb['AuditTrail'].values), row)) for row in list(wb['AuditTrail'].values)[1:]]

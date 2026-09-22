@@ -33,7 +33,7 @@ def test_quick_export_preserves_newlines_and_commas():
     text='risperidone 2mg QD,\nolanzapine 5mg HS'
     response=app.test_client().post('/api/export',json={'text':text})
     wb=load_workbook(io.BytesIO(response.data))
-    assert wb['Results']['B2'].value == text
+    assert wb['MedicationResults']['B2'].value == text
     assert wb['AuditTrail'].max_row == 3
 
 
@@ -61,5 +61,5 @@ def test_leading_equals_stays_text_in_export():
     response=app.test_client().post('/api/export',json={'text':'=risperidone 2mg QD'})
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data))
-    assert wb['Results']['B2'].value=="'=risperidone 2mg QD"
-    assert wb['Results']['B2'].data_type=='s'
+    assert wb['MedicationResults']['B2'].value=="'=risperidone 2mg QD"
+    assert wb['MedicationResults']['B2'].data_type=='s'

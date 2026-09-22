@@ -2,7 +2,7 @@ import math
 from pathlib import Path
 
 import pandas as pd
-from services.result_summary import RESULT_COLUMNS, METHOD_ORDER
+from services.result_summary import RESULT_COLUMNS, METHOD_ORDER, PATIENT_COLUMNS
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -37,7 +37,10 @@ def _safe_excel_value(value):
 
 def _safe_frame(rows, columns):
     frame = pd.DataFrame(rows, columns=columns)
-    return frame.map(_safe_excel_value)
+    for column in frame.columns:
+        if column not in ('patient', 'patient_id'):
+            frame[column] = frame[column].map(_safe_excel_value)
+    return frame
 
 
 def _format_worksheet(worksheet):
@@ -56,6 +59,9 @@ def _format_worksheet(worksheet):
         max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)
         worksheet.column_dimensions[get_column_letter(column_index)].width = min(max(max_length + 2, 11), 55)
         for cell in cells[1:]:
+            if header in ('patient', 'patient_id') and cell.value is not None:
+                cell.value = str(cell.value)
+                cell.data_type = 's'
             cell.alignment = Alignment(vertical="top", wrap_text=header in wrap_headers)
 
     headers = {cell.column: str(cell.value or "") for cell in worksheet[1]}
@@ -70,10 +76,13 @@ def _format_worksheet(worksheet):
         worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), 96)
 
 
-def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None, summary_rows=None):
+def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None, summary_rows=None, patient_rows=None, patient_checks=None):
     output_file = Path(directory) / "result.xlsx"
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
-        _safe_frame(summary_rows or [], RESULT_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
+        _safe_frame(patient_rows or [], PATIENT_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
+        _safe_frame(summary_rows or [], RESULT_COLUMNS).to_excel(writer, sheet_name="MedicationResults", index=False)
+        check_columns = ['patient_id', 'method', 'target_drug', 'total_equivalent_dose_mg', 'partial_equivalent_dose_mg', 'converted_count', 'unresolved_count', 'excluded_count', 'status', 'needs_review']
+        _safe_frame(patient_checks or [], check_columns).to_excel(writer, sheet_name="PatientChecks", index=False)
         _safe_frame(detailed_rows, DETAILED_COLUMNS).to_excel(
             writer, sheet_name="Detailed", index=False
         )
@@ -100,7 +109,7 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         pd.DataFrame([{"method": "DDD", "drug": drug, "route": "depot", "DDD_mg_per_day": value, "target": "chlorpromazine oral", "target_DDD_mg": 300, "source": OLZ_SOURCE if drug == "olanzapine" else SOURCE, "target_source": CPZ_SOURCE, "month_days": 30} for drug, value in DEPOT_DDD.items()] + bridge_info_rows()).to_excel(writer, sheet_name="InjectionInfo", index=False)
         for worksheet in writer.book.worksheets:
             _format_worksheet(worksheet)
-        sheet = writer.book['Results']
+        sheet = writer.book['MedicationResults']
         sheet.column_dimensions['A'].width = 20
         sheet.column_dimensions['B'].width = 55
         sheet.column_dimensions['C'].width = 22
@@ -118,4 +127,11 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
         for col in range(4, 4 + 2 * len(METHOD_ORDER)):
             sheet.column_dimensions[get_column_letter(col)].width = 22
             sheet.cell(1,col).fill = PatternFill('solid', fgColor='DCEBFF' if col < 4 + len(METHOD_ORDER) else 'DDEEDC')
+        patient_sheet = writer.book['Results']
+        patient_sheet.freeze_panes = 'B2'
+        for column in range(2, len(PATIENT_COLUMNS) + 1):
+            patient_sheet.column_dimensions[get_column_letter(column)].width = 25
+            for cells in patient_sheet.iter_rows(min_row=2, min_col=column, max_col=column):
+                cells[0].number_format = '0.0000'
+        patient_sheet.row_dimensions[1].height = 45
     return output_file

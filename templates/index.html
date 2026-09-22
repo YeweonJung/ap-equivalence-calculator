@@ -9,13 +9,13 @@
     *{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}
     header{height:64px;display:flex;align-items:center;border-bottom:1px solid #e8edf4}.nav{display:flex;align-items:center;justify-content:space-between}.logo{font-weight:950;letter-spacing:-.04em}.logo b{color:var(--blue)}.nav a{font-size:12px;color:var(--muted);text-decoration:none}
     .main{padding:48px 0 38px}.title{text-align:center;margin-bottom:30px}.title h1{margin:0 0 9px;font-size:clamp(30px,5vw,48px);letter-spacing:-.06em}.title p{margin:0;color:var(--muted);font-size:15px}
-    .flow{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center}.arrow{text-align:center;color:var(--blue);font-size:30px;font-weight:900}.panel{min-height:380px;border:1px solid var(--line);border-radius:22px;background:var(--soft);padding:24px}.panel-label{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-weight:900;font-size:14px}.number{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--blue);color:#fff;font-size:12px}
+    .flow{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center}.arrow{text-align:center;color:var(--blue);font-size:30px;font-weight:900}.panel{min-width:0;min-height:380px;border:1px solid var(--line);border-radius:22px;background:var(--soft);padding:24px}.panel-label{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-weight:900;font-size:14px}.number{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--blue);color:#fff;font-size:12px}
     .sheet{overflow:hidden;background:#fff;border:1px solid #cfd9e7;border-radius:12px;box-shadow:0 12px 30px #263f6813}.sheet-head{height:29px;background:#1e6d46;display:flex;align-items:center;padding:0 10px;gap:5px}.dot{width:7px;height:7px;border-radius:50%;background:#fff8}.grid{display:grid;grid-template-columns:.75fr 1fr .55fr .5fr .7fr;font-size:11px}.cell{min-height:38px;padding:10px 8px;border-right:1px solid #e1e7ef;border-bottom:1px solid #e1e7ef;white-space:nowrap;overflow:hidden}.grid .cell:nth-child(-n+5){background:#e8f2ec;font-weight:900;color:#245640}.hint{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--muted);font-size:12px}.hint b{color:var(--ink)}
     .result-grid{display:grid;grid-template-columns:1fr .72fr .8fr;font-size:11px}.result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.method-pill{display:inline-flex;padding:3px 7px;border-radius:99px;background:#eaf2ff;color:#155dbd;font-weight:900}.check{color:var(--green);font-weight:900}
     .upload{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 16px 42px #223c6312}.upload form{display:grid;grid-template-columns:1fr 220px;gap:12px}.file-label{min-height:60px;border:2px dashed #b8c9de;border-radius:13px;display:flex;align-items:center;justify-content:center;gap:9px;background:#f9fbfe;color:#53647b;font-size:14px;font-weight:750;cursor:pointer}.file-label:hover,.file-label:focus-within{border-color:var(--blue);background:#f1f7ff}.file-label input{position:absolute;width:1px;height:1px;opacity:0}.upload button{border:0;border-radius:13px;background:var(--blue);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 9px 20px #1268e830}.upload button:disabled{opacity:.6}.under-actions{display:flex;justify-content:space-between;gap:16px;margin-top:11px;font-size:11px;color:#8390a2}.under-actions a{color:var(--blue);font-weight:800;text-decoration:none}
     .try{padding:46px 0;background:var(--soft);border-top:1px solid #e5ebf3}.try-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:28px;align-items:center}.try h2{margin:0 0 8px;font-size:25px;letter-spacing:-.045em}.try p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}.parser{padding:16px;background:#fff;border:1px solid var(--line);border-radius:15px}.parser-row{display:grid;grid-template-columns:1fr 120px;gap:9px}.parser input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font:inherit}.parser button{border:0;border-radius:9px;background:var(--navy);color:#fff;font-weight:850;cursor:pointer}.parse-results{display:grid;gap:7px;margin-top:10px}.parse-item{padding:10px;border-radius:9px;background:#f8fafc;border:1px solid #e5ebf2;font-size:12px}.parse-top{display:flex;justify-content:space-between;gap:8px}.parse-top span{color:var(--green);font-weight:900}.values{margin-top:6px;color:var(--muted);line-height:1.7}.values b{color:#3e5677}.error{color:#a64a13}
     .methods{padding:25px 0;border-top:1px solid var(--line)}.method-list{display:flex;justify-content:center;gap:8px 16px;flex-wrap:wrap;color:var(--muted);font-size:11px}.method-list b{color:var(--ink)}footer{text-align:center;padding:17px;color:#8b95a5;font-size:10px;border-top:1px solid #edf0f5}
-    @media(max-width:760px){.main{padding-top:32px}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);height:52px;display:grid;place-items:center}.panel{min-height:auto}.upload form,.try-grid,.parser-row{grid-template-columns:1fr}.upload button{min-height:54px}.under-actions{flex-direction:column}.grid{font-size:10px}.cell{padding:9px 5px}.try-grid{align-items:start}}
+    @media(max-width:760px){.main{padding-top:32px}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);height:52px;display:grid;place-items:center}.panel{min-width:0;min-height:auto}.upload form,.try-grid,.parser-row{grid-template-columns:1fr}.upload button{min-height:54px}.under-actions{flex-direction:column}.grid{font-size:10px}.cell{padding:9px 5px}.try-grid{align-items:start}}
     .suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.parser .suggestion-button{padding:9px 12px;background:#eaf2ff;color:#164f99;border:1px solid #b8c9de;text-align:left}
     .parser-row button{min-height:44px}.parse-top{flex-wrap:wrap}.parse-top b{overflow-wrap:anywhere}.parser{min-width:0}
     .conversion-table{width:100%;border-collapse:collapse;margin-top:8px}.conversion-table th,.conversion-table td{padding:7px 4px;text-align:left;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.conversion-table th{color:var(--ink)}
@@ -27,7 +27,7 @@
   <main>
     <section class="main">
       <div class="wrap">
-        <div class="title"><h1>이렇게 적고, 바로 올리세요.</h1><p>약물명과 용량을 읽어 모든 환산 방법의 결과를 Excel로 만듭니다.</p></div>
+        <div class="title"><h1>이렇게 적고, 바로 올리세요.</h1><p>같은 환자 ID의 약물을 합산하여, 환자별 · 방법별 환산량을 Excel로 만듭니다.</p></div>
         <div class="flow">
           <section class="panel" aria-label="입력 엑셀 예시">
             <div class="panel-label"><span class="number">1</span>Excel 입력</div>
@@ -40,17 +40,14 @@
           </section>
           <div class="arrow" aria-hidden="true">→</div>
           <section class="panel" aria-label="출력 엑셀 예시">
-            <div class="panel-label"><span class="number">2</span>자동 계산 결과</div>
-            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="result-grid">
-              <div class="cell">drug</div><div class="cell">method</div><div class="cell">equivalent</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">CMD</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">MED</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">DDD</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">ED95</span></div><div class="cell">자동 계산</div>
-            </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>함께 제공:</b> 원본 행 · 매칭 점수 · 검토 오류</span></div>
+            <div class="panel-label"><span class="number">2</span>환자별 합계 결과</div>
+            <div class="sheet" style="overflow-x:auto"><table class="conversion-table" style="min-width:620px"><thead><tr><th>patient_id</th><th>CMD</th><th>MED</th><th>DDD</th><th>ED95</th><th>Gardner</th><th>Woods</th></tr></thead><tbody><tr><td>P001</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td></tr><tr><td>P002</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td><td>합계</td></tr></tbody></table></div>
+            <div class="hint"><span class="check">✓</span><span><b>환자당 한 행:</b> 같은 ID의 약물 환산량을 방법별로 합산합니다. 숫자는 계산 후 Excel에 표시됩니다.</span></div>
+            <div class="hint"><span>Results의 patient_id로 기존 데이터에 병합하세요. 실제 열에는 CPZ 또는 OLZ 기준과 mg/day 단위가 표시됩니다. 추가 방법은 오른쪽 열에 제공됩니다.</span></div>
+            <div class="hint"><span>환산 불가 항목이 있으면 해당 방법은 빈칸이며, PatientChecks에서 이유와 부분합을 확인합니다. 약물별 내역은 MedicationResults에 제공합니다.</span></div>
           </section>
         </div>
+        <p class="hint">업로드한 모든 시트에서 같은 ID를 합산합니다. 한 파일에는 동일 시점의 처방만 넣으세요. 원래 ID를 결과에 유지하므로 가명 ID를 사용하세요. ID가 없으면 행별 임시 ID가 부여됩니다.</p>
         <section class="upload" aria-label="데이터 파일 업로드">
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
