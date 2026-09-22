@@ -13,7 +13,7 @@ SERVING_VERSION = 'candidate-retrieval-v2-short-alias-manual'
 logger = logging.getLogger(__name__)
 
 
-def suggest_for_review(original, limit=3):
+def _retrieval_suggestions(original, limit=3):
     if os.getenv('NAME_RETRIEVAL_ENABLED', '1') == '0':
         return baseline_suggestions(original, limit)
     try:
@@ -42,3 +42,11 @@ def suggest_for_review(original, limit=3):
         # Do not log the prescription text or traceback/exception message.
         logger.warning('Candidate retrieval unavailable (%s); using spelling baseline', type(exc).__name__)
         return baseline_suggestions(original, limit)
+
+
+def suggest_for_review(original, limit=3):
+    candidates = _retrieval_suggestions(original, limit)
+    if candidates or limit <= 0 or os.getenv('NAME_RETRIEVAL_ENABLED', '1') == '0':
+        return candidates
+    from services.llm_candidates import suggest_llm
+    return suggest_llm(original, limit)

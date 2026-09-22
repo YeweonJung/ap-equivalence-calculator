@@ -29,6 +29,8 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
 from services.feedback_api import bp as feedback_bp, attach_feedback
 app.register_blueprint(feedback_bp)
+from services.llm_worker_api import bp as llm_worker_bp
+app.register_blueprint(llm_worker_bp)
 METHODS = [method for method in METHOD_ORDER if method in available_methods()]
 
 
@@ -137,7 +139,8 @@ def parse_text():
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
     for item in items:
         if item['status'] == 'unknown_drug':
-            item['suggestions'] = suggest_drugs(item['original'])
+            if 'suggestions' not in item:
+                item['suggestions'] = suggest_drugs(item['original'])
             attach_feedback(item)
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 
