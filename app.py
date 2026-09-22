@@ -137,7 +137,8 @@ def parse_text():
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
     for item in items:
         if item['status'] == 'unknown_drug':
-            item['suggestions'] = suggest_drugs(item['original'])
+            if 'suggestions' not in item:
+                item['suggestions'] = suggest_drugs(item['original'])
             attach_feedback(item)
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 

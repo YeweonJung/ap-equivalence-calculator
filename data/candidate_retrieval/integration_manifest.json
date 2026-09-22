@@ -1,5 +1,5 @@
 {
-  "reason": "User authorized opt-in correction collection and durable storage; conversion and frozen evaluation preserved",
+  "reason": "User authorized cross-platform optional LLM candidate fallback; app duplicate lookup and candidate labels updated; conversion and frozen evaluation preserved",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
@@ -62,7 +62,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "9104d94c06efde4c415ea52df6f937dc186cf9923dd3b55bb32d62b75ad9b09b",
+    "app.py": "d6366d49efe2216320b388e3529b37745b49d459b6f38826796e537ba9289adc",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -96,7 +96,7 @@
     "services/result_summary.py": "860389d8af54a66a2d9f0ade1c155d66f4175dc684837d9a8aac668145c99137",
     "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
-    "static/quick_check.js": "7488f343d0699367553b1563f8ad349d9cdeae792e14ac84f8c53713dc4c1f87",
+    "static/quick_check.js": "a296f47ee52f9476667dd984cf6398c514985753ccb3a4e455e27cfa714bcb62",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
     "templates/index.html": "a77af6ab9294f7f740c903ea2ff1cd19fc8673149bb7f951ef31b549ae31672e",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
