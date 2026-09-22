@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 .env
+.env.llm-worker
 .venv/
 uploads/
 output/
