@@ -42,11 +42,13 @@ def read_file(filepath):
             try:
                 with open(filepath, encoding=encoding, newline='') as source:
                     header = next((line for line in source if line.strip()), '')
+                if not header.strip():
+                    raise ValueError('CSV 파일에 열 이름이나 데이터가 없습니다.')
                 try:
                     separator = csv.Sniffer().sniff(header, delimiters=',;\t|').delimiter
                 except csv.Error:
                     separator = ','  # A single-column header has no delimiter.
-                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="python", dtype=str, keep_default_na=False)
+                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="c", dtype=str, keep_default_na=False, skip_blank_lines=False).fillna('')
                 frame.attrs["header_row"] = 0
                 return {"Sheet1": frame}
             except (UnicodeDecodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as exc:

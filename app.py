@@ -173,9 +173,16 @@ def process_upload(uploaded_file, method):
             upload_path = Path(temp_dir) / f"upload{suffix}"
             uploaded_file.save(upload_path)
             sheets = read_file(str(upload_path))
-            from services.longitudinal import is_longitudinal, FIELDS
+            from services.longitudinal import is_longitudinal
             if any(is_longitudinal(df.columns) for df in sheets.values()):
-                return render_template('longitudinal.html', fields=FIELDS, detected_notice=True)
+                import hashlib
+                from services.longitudinal_auto import automatic_analysis
+                from services.release import metadata
+                output = automatic_analysis(sheets, selected_methods,
+                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata())
+                response = send_file(output, as_attachment=True, download_name='longitudinal_results.zip', mimetype='application/zip', max_age=0)
+                response.headers['Cache-Control'] = 'no-store'
+                return response
 
             patients = {}
             used_ids = {str(value) for df in sheets.values()
@@ -197,6 +204,8 @@ def process_upload(uploaded_file, method):
 
                 header_row = int(dataframe.attrs.get("header_row", 0))
                 for row_index, row in dataframe.iterrows():
+                    if not any(_cell_text(value) for value in row.values):
+                        continue
                     patient_id = row.get(patient_col, "") if patient_col is not None else ""
                     source_row = int(row_index) + header_row + 2
                     if not _cell_text(patient_id):

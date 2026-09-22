@@ -113,7 +113,7 @@ def medication(drug, product):
     return canonical, form, strength, issues, 'review' if issues else 'ready'
 
 
-def prepare(frame, mapping, policy='review'):
+def prepare(frame, mapping, policy='review', provenance=None):
     validate_mapping(frame.columns, mapping)
     if policy not in ('review', 'replace'):
         raise ValueError('지원하지 않는 중첩 처리 규칙입니다.')
@@ -123,13 +123,16 @@ def prepare(frame, mapping, policy='review'):
             continue
         r = {k: str(row.get(mapping.get(k), '')).strip() for k in FIELDS}
         r.update(source_row=index + 2 + int(frame.attrs.get('header_row', 0)), issues=[], adjustments=[], duplicate_of='', start=None, end=None, effective_end=None, daily_mg=None)
+        r['source_sheet'] = ''
+        if provenance is not None:
+            r['source_sheet'], r['source_row'] = provenance[index]
         # Duplicate candidates are retained and block totals, not silently deleted.
         key = tuple(str(row[c]) for c in frame.columns)
         if key in seen:
             r['duplicate_of'] = seen[key]
             r['issues'].append('duplicate_candidate')
         else:
-            seen[key] = r['source_row']
+            seen[key] = f"{r['source_sheet']}!{r['source_row']}" if r['source_sheet'] else r['source_row']
         if not r['patient']:
             r['issues'].append('missing_patient')
         try:
@@ -225,14 +228,14 @@ def analyze(records, pairs, methods=None, policy='review'):
         groups = defaultdict(list)
         for r in relevant:
             groups[r['canonical'] or r['drug']].append(r)
-        ambiguous = {r['source_row'] for items in groups.values() if len(items) > 1 for r in items}
+        ambiguous = {(r['source_sheet'], r['source_row']) for items in groups.values() if len(items) > 1 for r in items}
         selected = relevant + blockers
         if len(details) + len(selected) * len(methods) > 400000:
             raise ValueError('약물별 결과가 400,000행을 초과합니다. 기준일 또는 피험자를 나눠 주세요.')
         rows_for_method = defaultdict(list)
         for r in selected:
             reasons = list(r['issues'])
-            if r['source_row'] in ambiguous:
+            if (r['source_sheet'], r['source_row']) in ambiguous:
                 reasons.append('overlapping_orders')
             if r['kind'] != 'ready' and not reasons:
                 reasons.append('unresolved_drug')
@@ -250,11 +253,11 @@ def analyze(records, pairs, methods=None, policy='review'):
                     if value is None:
                         flags.append('missing_factor')
                 rows_for_method[method].append(value)
-                details.append(dict(patient_id=patient, reference_date=day.isoformat(), source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments'])))
+                details.append(dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments'])))
         for method in methods:
             values = rows_for_method[method]
             complete = bool(values) and all(v is not None for v in values)
-            results.append(dict(patient_id=patient, reference_date=day.isoformat(), method=method, target=targets[method], equivalent_mg=sum(values) if complete else None, status=('calculated_assumption' if policy == 'replace' else 'calculated') if complete else 'review' if values else 'no_record', source_rows=';'.join(str(r['source_row']) for r in selected), rule_version=RULE_VERSION, policy=policy))
+            results.append(dict(patient_id=patient, reference_date=day.isoformat(), method=method, target=targets[method], equivalent_mg=sum(values) if complete else None, status=('calculated_assumption' if policy == 'replace' else 'calculated') if complete else 'review' if values else 'no_record', source_rows=';'.join(f"{r['source_sheet']}!{r['source_row']}" if r['source_sheet'] else str(r['source_row']) for r in selected), rule_version=RULE_VERSION, policy=policy))
     return results, details
 
 
@@ -278,7 +281,7 @@ def export_zip(records, results, details, metadata):
     for r in records:
         def last_day(end):
             return (end - timedelta(days=1)).isoformat() if end else ''
-        audit.append(dict(patient_id=r['patient'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of']))
+        audit.append(dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of']))
     out = io.BytesIO()
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         z.writestr('Results.csv', safe_csv(results))

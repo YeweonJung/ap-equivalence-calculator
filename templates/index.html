@@ -57,9 +57,9 @@
         </div>
         <div class="join-example" aria-label="기존 데이터에 결과 병합"><b>기존 데이터에 붙이기</b><span>patient_id · 나이 · 성별 · …</span><span class="join-key">ID 기준 병합 →</span><span>patient_id · 나이 · 성별 · … · <strong>CMD · MED · DDD · ED95 · Gardner · Woods</strong></span></div>
         <p class="hint">환산 불가 약물이 있으면 해당 방법의 합계는 빈칸입니다. PatientChecks에서 검토 내역을, MedicationResults에서 약물별 계산을 확인하세요.</p>
-        <p class="hint">업로드한 모든 시트에서 같은 ID를 합산합니다. 한 파일에는 동일 시점의 처방만 넣으세요. 원래 ID를 결과에 유지하므로 가명 ID를 사용하세요. ID가 없으면 행별 임시 ID가 부여됩니다.</p>
+        <p class="hint">처방일이 있는 CSV·Excel은 날짜별로 자동 분석합니다. 기준일 열(reference_date·검사일 등)이 있으면 사용하고, 없으면 피험자별 모든 처방일을 기준으로 계산합니다. 중첩·미확정 용량은 빈칸과 검토 사유로 남깁니다. 처방일이 없는 일반 파일은 같은 ID를 합산하므로 동일 시점의 처방만 넣으세요. 가명 ID를 사용하세요.</p>
         <section class="upload" aria-label="데이터 파일 업로드">
-          <p><a href="/longitudinal">여러 처방일이 반복되는 CSV → 날짜별 처방 분석</a></p>
+          <p class="hint">CSV·Excel 자동 인식 · 종단 자료의 일일 수량은 하루 정/캡슐 수, 처방일은 시작일로 간주합니다. <a href="/longitudinal">기준일·중첩 규칙 직접 설정</a></p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
             <label class="file-label" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>

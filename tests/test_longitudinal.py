@@ -147,8 +147,10 @@ def test_api_inspection_download_and_upload_guard():
     assert '001' in z.read('Results.csv').decode('utf-8-sig')
     assert json.loads(z.read('Settings.json'))['rule_version'] == 'longitudinal-1.0'
     response = client.post('/upload', data={'file':(io.BytesIO(raw), 'rx.csv')})
-    assert '종단 자료로 인식' in response.get_data(as_text=True)
-    assert response.mimetype == 'text/html'
+    assert response.status_code == 200
+    assert response.mimetype == 'application/zip'
+    auto = zipfile.ZipFile(io.BytesIO(response.data))
+    assert json.loads(auto.read('Settings.json'))['mode'] == 'automatic'
 
 
 def test_manual_mapping_and_cp949():
