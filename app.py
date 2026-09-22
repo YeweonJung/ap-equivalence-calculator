@@ -30,6 +30,8 @@ from services.feedback_api import bp as feedback_bp, attach_feedback
 app.register_blueprint(feedback_bp)
 from services.llm_worker_api import bp as llm_worker_bp
 app.register_blueprint(llm_worker_bp)
+from services.longitudinal_api import bp as longitudinal_bp
+app.register_blueprint(longitudinal_bp)
 METHODS = [method for method in METHOD_ORDER if method in available_methods()]
 
 
@@ -171,6 +173,9 @@ def process_upload(uploaded_file, method):
             upload_path = Path(temp_dir) / f"upload{suffix}"
             uploaded_file.save(upload_path)
             sheets = read_file(str(upload_path))
+            from services.longitudinal import is_longitudinal, FIELDS
+            if any(is_longitudinal(df.columns) for df in sheets.values()):
+                return render_template('longitudinal.html', fields=FIELDS, detected_notice=True)
 
             patients = {}
             used_ids = {str(value) for df in sheets.values()

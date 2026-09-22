@@ -243,7 +243,9 @@ def test_sample_download_is_a_real_xlsx_file():
     response = app.test_client().get("/sample")
     assert response.status_code == 200
     workbook = load_workbook(io.BytesIO(response.data))
-    assert workbook.active["B2"].value == "Risperdal"
+    assert workbook.active["B2"].value == "risperidone"
+    assert [c.value for c in workbook.active[1]] == ["patient_id", "drug", "dose", "unit", "frequency"]
+    assert workbook.active["C2"].value == 2
 
 
 def test_excel_with_exactly_five_sheets_is_accepted():

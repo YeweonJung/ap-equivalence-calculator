@@ -59,6 +59,7 @@
         <p class="hint">환산 불가 약물이 있으면 해당 방법의 합계는 빈칸입니다. PatientChecks에서 검토 내역을, MedicationResults에서 약물별 계산을 확인하세요.</p>
         <p class="hint">업로드한 모든 시트에서 같은 ID를 합산합니다. 한 파일에는 동일 시점의 처방만 넣으세요. 원래 ID를 결과에 유지하므로 가명 ID를 사용하세요. ID가 없으면 행별 임시 ID가 부여됩니다.</p>
         <section class="upload" aria-label="데이터 파일 업로드">
+          <p><a href="/longitudinal">여러 처방일이 반복되는 CSV → 날짜별 처방 분석</a></p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
             <label class="file-label" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>

@@ -62,7 +62,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "dd5644d008390c2a621430893bb6805f75b1922796d7076c4e155245837d09f1",
+    "app.py": "1913872ecfccc126f7fdea4a03f6ffb85ccdc6e4fcc94f16f3b1cbdea944cdf9",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -92,13 +92,13 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
-    "services/release.py": "80382818e5503d5618aa1a109bee09c87dc6dadfdce62de75616c65abc9ae68f",
+    "services/release.py": "dc7c4a6b7009a8d830800b4937606bb36d67987959813862523ba5364da1898b",
     "services/result_summary.py": "6fd22b525c705507f04dab8d7e03927cae0de16c56a90c3c7e59c317789948d1",
     "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "a296f47ee52f9476667dd984cf6398c514985753ccb3a4e455e27cfa714bcb62",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "534a2c8966ff036aa03d0b1e2c8aaac25793967fdcb3a7b0a96468bbf7eff1e5",
+    "templates/index.html": "a5d4298beaff4c716f06331691cd76ad38a9840964f43db5881da976f0b349b8",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
@@ -106,7 +106,7 @@
     "tests/test_character_review.py": "1d10ad5ab5693fceae0d166488fc6f3c4f9cfbca8ce5fc0df6ea6f3bbcbaa583",
     "tests/test_equivalence_update.py": "02f50dfb6a8cde02698b0ee73454fc5a0172f42d30a5e3d489203986fd94c326",
     "tests/test_frames.py": "7ed37c08d1d62ffafe2732a3847fbb2fd480e7f7040cc2c8f5afe69a88d1214b",
-    "tests/test_integration.py": "12e91e358e27124a7ee3b0ac5e022e6b3d79bba4f17e1e889adf2ae680f74407",
+    "tests/test_integration.py": "157b50fa5549cbf1fcebd21270cdff3a88f34c5a7a39acb4955b34a4418b49b0",
     "tests/test_lai_methods.py": "4b3045b25f8082e18761ff52d993e5023d16a5fff1bb7e53c046e2040f5d6170",
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
@@ -129,5 +129,20 @@
       "tests/test_quick_export.py",
       "tests/test_results_injections.py"
     ]
+  },
+  "longitudinal_change": {
+    "reason": "User authorized longitudinal CSV recognition, explicit date/overlap policies and deployment; conversion and retrieval unchanged. Align stale sample assertion with pre-existing generic sample.",
+    "files": [
+      "app.py",
+      "services/release.py",
+      "templates/index.html",
+      "tests/test_integration.py"
+    ],
+    "previous_expected_sha256_lf": {
+      "app.py": "dd5644d008390c2a621430893bb6805f75b1922796d7076c4e155245837d09f1",
+      "services/release.py": "80382818e5503d5618aa1a109bee09c87dc6dadfdce62de75616c65abc9ae68f",
+      "templates/index.html": "534a2c8966ff036aa03d0b1e2c8aaac25793967fdcb3a7b0a96468bbf7eff1e5",
+      "tests/test_integration.py": "12e91e358e27124a7ee3b0ac5e022e6b3d79bba4f17e1e889adf2ae680f74407"
+    }
   }
 }
