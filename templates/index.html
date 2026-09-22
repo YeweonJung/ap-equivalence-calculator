@@ -1,85 +1,28 @@
 <!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AP Dose Converter | 항정신병약물 등가용량 계산</title>
-  <style>
-    :root{--blue:#1268e8;--navy:#13233d;--ink:#172033;--muted:#69758a;--line:#dce4ef;--soft:#f3f7fc;--green:#13805b}
-    *{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}
-    header{height:64px;display:flex;align-items:center;border-bottom:1px solid #e8edf4}.nav{display:flex;align-items:center;justify-content:space-between}.logo{font-weight:950;letter-spacing:-.04em}.logo b{color:var(--blue)}.nav a{font-size:12px;color:var(--muted);text-decoration:none}
-    .main{padding:48px 0 38px}.title{text-align:center;margin-bottom:30px}.title h1{margin:0 0 9px;font-size:clamp(30px,5vw,48px);letter-spacing:-.06em}.title p{margin:0;color:var(--muted);font-size:15px}
-    .flow{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center}.arrow{text-align:center;color:var(--blue);font-size:30px;font-weight:900}.panel{min-width:0;min-height:380px;border:1px solid var(--line);border-radius:22px;background:var(--soft);padding:24px}.panel-label{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-weight:900;font-size:14px}.number{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--blue);color:#fff;font-size:12px}
-    .sheet{overflow:hidden;background:#fff;border:1px solid #cfd9e7;border-radius:12px;box-shadow:0 12px 30px #263f6813}.sheet-head{height:29px;background:#1e6d46;display:flex;align-items:center;padding:0 10px;gap:5px}.dot{width:7px;height:7px;border-radius:50%;background:#fff8}.grid{display:grid;grid-template-columns:.75fr 1fr .55fr .5fr .7fr;font-size:11px}.cell{min-height:38px;padding:10px 8px;border-right:1px solid #e1e7ef;border-bottom:1px solid #e1e7ef;white-space:nowrap;overflow:hidden}.grid .cell:nth-child(-n+5){background:#e8f2ec;font-weight:900;color:#245640}.hint{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--muted);font-size:12px}.hint b{color:var(--ink)}
-    .result-grid{display:grid;grid-template-columns:1fr .72fr .8fr;font-size:11px}.result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.method-pill{display:inline-flex;padding:3px 7px;border-radius:99px;background:#eaf2ff;color:#155dbd;font-weight:900}.check{color:var(--green);font-weight:900}
-    .upload{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 16px 42px #223c6312}.upload form{display:grid;grid-template-columns:1fr 220px;gap:12px}.file-label{min-height:60px;border:2px dashed #b8c9de;border-radius:13px;display:flex;align-items:center;justify-content:center;gap:9px;background:#f9fbfe;color:#53647b;font-size:14px;font-weight:750;cursor:pointer}.file-label:hover,.file-label:focus-within{border-color:var(--blue);background:#f1f7ff}.file-label input{position:absolute;width:1px;height:1px;opacity:0}.upload button{border:0;border-radius:13px;background:var(--blue);color:#fff;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 9px 20px #1268e830}.upload button:disabled{opacity:.6}.under-actions{display:flex;justify-content:space-between;gap:16px;margin-top:11px;font-size:11px;color:#8390a2}.under-actions a{color:var(--blue);font-weight:800;text-decoration:none}
-    .try{padding:46px 0;background:var(--soft);border-top:1px solid #e5ebf3}.try-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:28px;align-items:center}.try h2{margin:0 0 8px;font-size:25px;letter-spacing:-.045em}.try p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}.parser{padding:16px;background:#fff;border:1px solid var(--line);border-radius:15px}.parser-row{display:grid;grid-template-columns:1fr 120px;gap:9px}.parser input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:9px;padding:0 12px;font:inherit}.parser button{border:0;border-radius:9px;background:var(--navy);color:#fff;font-weight:850;cursor:pointer}.parse-results{display:grid;gap:7px;margin-top:10px}.parse-item{padding:10px;border-radius:9px;background:#f8fafc;border:1px solid #e5ebf2;font-size:12px}.parse-top{display:flex;justify-content:space-between;gap:8px}.parse-top span{color:var(--green);font-weight:900}.values{margin-top:6px;color:var(--muted);line-height:1.7}.values b{color:#3e5677}.error{color:#a64a13}
-    .methods{padding:25px 0;border-top:1px solid var(--line)}.method-list{display:flex;justify-content:center;gap:8px 16px;flex-wrap:wrap;color:var(--muted);font-size:11px}.method-list b{color:var(--ink)}footer{text-align:center;padding:17px;color:#8b95a5;font-size:10px;border-top:1px solid #edf0f5}
-    @media(max-width:760px){.main{padding-top:32px}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);height:52px;display:grid;place-items:center}.panel{min-width:0;min-height:auto}.upload form,.try-grid,.parser-row{grid-template-columns:1fr}.upload button{min-height:54px}.under-actions{flex-direction:column}.grid{font-size:10px}.cell{padding:9px 5px}.try-grid{align-items:start}}
-    .suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.parser .suggestion-button{padding:9px 12px;background:#eaf2ff;color:#164f99;border:1px solid #b8c9de;text-align:left}
-    .parser-row button{min-height:44px}.parse-top{flex-wrap:wrap}.parse-top b{overflow-wrap:anywhere}.parser{min-width:0}
-    .conversion-table{width:100%;border-collapse:collapse;margin-top:8px}.conversion-table th,.conversion-table td{padding:7px 4px;text-align:left;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.conversion-table th{color:var(--ink)}
-    #export-quick{margin-top:12px;padding:10px 14px;min-height:44px;background:var(--blue)}#export-quick[hidden]{display:none}#download-status{font-size:12px;margin-top:6px}.parser button:disabled{opacity:.55;cursor:wait}
-    .patient-flow{grid-template-columns:minmax(0,.85fr) 40px minmax(0,1.15fr);align-items:stretch}.patient-flow .panel{padding:18px;min-height:0}.patient-flow .arrow{align-self:center}.example-scroll{overflow-x:auto}.example-table{width:100%;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}.example-table th,.example-table td{padding:12px 6px;white-space:nowrap;text-align:right;border-bottom:1px solid #dce4ef}.example-table th:first-child,.example-table td:first-child{text-align:left;padding-left:10px}.example-table thead th{background:#edf2f8;color:#455873;font-size:10px}.example-table small{display:block;margin-top:4px;font-size:9px;font-weight:500;color:#69758a}.input-example td:nth-child(2){text-align:left}.example-table .p001{background:#eaf2ff}.example-table .p001 th{color:#155dbd}.example-table .p002{background:#f4f6f9}.output-head{background:#1268e8}.output-example{min-width:460px}.input-example{min-width:330px}.example-note{font-size:12px;line-height:1.8;margin:16px 0 0}.patient-key{display:inline-block;background:#dceaff;color:#155dbd;font-weight:850;padding:0 6px;border-radius:4px}.sheet-tag{margin-left:auto;color:#1268e8;font-size:11px}.join-example{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;padding:18px;margin-top:20px;border:1px solid var(--line);border-radius:12px;font-size:12px;line-height:1.8}.join-example b{width:100%}.join-key,.join-example strong{color:#1268e8}.patient-flow .hint{line-height:1.7}
-    @media(max-width:900px){.patient-flow{grid-template-columns:1fr}.patient-flow .arrow{transform:rotate(90deg);height:44px;display:grid;place-items:center}.patient-flow .panel{padding:16px}.title h1{font-size:clamp(26px,5vw,40px)}}
-  </style>
-</head>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AP Dose Converter | 항정신병약물 등가용량 계산</title><link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}"></head>
 <body>
-  <header><div class="wrap nav"><div class="logo">AP <b>DOSE</b> CONVERTER</div><a href="{{ url_for('sample_file') }}">샘플 Excel 내려받기</a></div></header>
-  <main>
-    <section class="main">
-      <div class="wrap">
-        <div class="title"><h1>약물은 여러 행, 결과는 환자별 한 행.</h1><p>같은 환자 ID의 약물을 합산하여, 환자별 · 방법별 환산량을 Excel로 만듭니다.</p></div>
-        <div class="flow patient-flow">
-          <section class="panel" aria-label="입력 엑셀 예시">
-            <div class="panel-label"><span class="number">1</span>입력 · 약물별 3행</div>
-            <div class="sheet example-scroll" tabindex="0" aria-label="입력 예시 표, 좁은 화면에서는 가로 스크롤">
-              <div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-              <table class="example-table input-example"><thead><tr><th>patient_id</th><th>drug</th><th>dose</th><th>unit</th><th>frequency</th></tr></thead><tbody>
-                <tr class="p001"><th scope="row">P001</th><td>risperidone</td><td>2</td><td>mg</td><td>QD</td></tr>
-                <tr class="p001"><th scope="row">P001</th><td>olanzapine</td><td>5</td><td>mg</td><td>QD</td></tr>
-                <tr class="p002"><th scope="row">P002</th><td>risperidone</td><td>1</td><td>mg</td><td>QD</td></tr>
-              </tbody></table>
-            </div>
-            <p class="example-note"><span class="patient-key">P001</span> 같은 ID로 입력한 두 약물을 함께 계산합니다.</p>
-            <p class="hint">QD = 하루 1회 · 한 칸에 여러 약물을 적어도 가능합니다.</p>
-          </section>
-          <div class="arrow" aria-hidden="true">→</div>
-          <section class="panel" aria-label="출력 엑셀 예시">
-            <div class="panel-label"><span class="number">2</span>출력 · 환자별 2행 <span class="sheet-tag">Results</span></div>
-            <div class="sheet example-scroll" tabindex="0" aria-label="환자별 결과 예시 표, 좁은 화면에서는 가로 스크롤">
-              <div class="sheet-head output-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-              <table class="example-table output-example"><thead><tr><th>patient_id</th><th>CMD<small>CPZ</small></th><th>MED<small>OLZ</small></th><th>DDD<small>CPZ</small></th><th>ED95<small>OLZ</small></th><th>Gardner<small>CPZ</small></th><th>Woods<small>CPZ</small></th></tr></thead><tbody><tr class="p001"><th scope="row">P001</th><td>389.00</td><td>12.49</td><td>270.00</td><td>9.83</td><td>350.00</td><td>200.00</td></tr><tr class="p002"><th scope="row">P002</th><td>97.25</td><td>3.75</td><td>60.00</td><td>2.41</td><td>100.00</td><td>50.00</td></tr></tbody></table>
-            </div>
-            <p class="example-note"><span class="patient-key">P001</span> 두 약물의 환산량을 방법별로 합산한 결과입니다.</p>
-            <p class="hint">위 입력의 실제 계산 예시 · 소수 둘째 자리 표시 · 단위 mg/day<br>CPZ = chlorpromazine, OLZ = olanzapine 기준. Excel에는 추가 방법도 포함됩니다.</p>
-          </section>
-        </div>
-        <div class="join-example" aria-label="기존 데이터에 결과 병합"><b>기존 데이터에 붙이기</b><span>patient_id · 나이 · 성별 · …</span><span class="join-key">ID 기준 병합 →</span><span>patient_id · 나이 · 성별 · … · <strong>CMD · MED · DDD · ED95 · Gardner · Woods</strong></span></div>
-        <p class="hint">환산 불가 약물이 있으면 해당 방법의 합계는 빈칸입니다. PatientChecks에서 검토 내역을, MedicationResults에서 약물별 계산을 확인하세요.</p>
-        <p class="hint">처방일이 있는 CSV·Excel은 날짜별로 자동 분석합니다. 기준일 열(reference_date·검사일 등)이 있으면 사용하고, 없으면 피험자별 모든 처방일을 기준으로 계산합니다. 중첩·미확정 용량은 빈칸과 검토 사유로 남깁니다. 처방일이 없는 일반 파일은 같은 ID를 합산하므로 동일 시점의 처방만 넣으세요. 가명 ID를 사용하세요.</p>
-        <section class="upload" aria-label="데이터 파일 업로드">
-          <p class="hint">CSV·Excel 자동 인식 · 종단 자료의 일일 수량은 하루 정/캡슐 수, 처방일은 시작일로 간주합니다. <a href="/longitudinal">기준일·중첩 규칙 직접 설정</a></p>
-          <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
-            <input type="hidden" name="method" value="ALL">
-            <label class="file-label" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
-            <button type="submit" id="submit-button">모든 방법으로 계산하기</button>
-          </form>
-          <div class="under-actions"><span>CSV · XLS · XLSX / 최대 100MB · Excel 최대 5개 시트 · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}">입력 샘플 받기 →</a></div>
-        </section>
-      </div>
-    </section>
-    <section class="try"><div class="wrap try-grid">
-      <div><h2>파일 전, 한 줄 확인</h2><p>약물과 용량을 입력하고 Enter를 누르세요. 인식하지 못한 이름은 비슷한 약물명을 제안합니다. 후보를 확인해 선택하면 다시 계산합니다.</p></div>
-      <div class="parser"><div class="parser-row"><input maxlength="10000" id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
-    </div></section>
-    <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>
-  </main>
-  <footer>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
-  <script>
-    const file=document.querySelector('#file'),fileName=document.querySelector('#file-name'),form=document.querySelector('#upload-form'),submit=document.querySelector('#submit-button');
-    file.addEventListener('change',()=>{fileName.textContent=file.files[0]?.name||'Excel 또는 CSV 파일 선택'});form.addEventListener('submit',()=>{submit.disabled=true;submit.textContent='계산 중…'});
-  </script>
-  <script src="{{ url_for('static', filename='quick_check.js') }}"></script>
-</body>
-</html>
+<header><nav class="wrap nav" aria-label="주 메뉴"><a class="logo" href="/"><span class="logo-mark" aria-hidden="true">ap</span><span>AP Dose<small>항정신병약물 등가용량 계산기</small></span></a><a class="nav-link" href="{{ url_for('sample_file') }}">샘플 Excel 받기 ↗</a></nav></header>
+<main class="wrap">
+<section class="hero"><span class="eyebrow">PRESCRIPTION → EQUIVALENT DOSE</span><h1>처방 파일을 올리면,<br><span>환산 결과까지 한 번에.</span></h1><p>Excel·CSV의 약물과 처방일을 읽고,<br class="mobile-break"> 피험자별 등가용량을 계산합니다.</p></section>
+<div class="workspace">
+<section class="card upload-card" aria-labelledby="upload-title">
+<div class="card-heading"><span class="section-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l4 4v14H6V3h1Zm7 0v5h4M9 12h6m-6 4h6"/></svg></span><span class="tag">여러 처방을 한 번에</span></div>
+<h2 id="upload-title">파일로 계산하기</h2><p class="description">처방일이 반복되는 자료도 자동으로 분석합니다. 파일을 선택해 시작하세요.</p>
+<form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form"><input type="hidden" name="method" value="ALL">
+<label class="file-label" id="drop-zone" for="file"><span class="upload-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 22V6m-6 6 6-6 6 6M6 21v5h20v-5"/></svg></span><strong id="file-name">파일을 선택하거나 여기에 놓으세요</strong><span class="file-types">Excel (.xlsx · .xls) 또는 CSV</span><span class="browse-button" aria-hidden="true">파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" aria-label="처방 Excel 또는 CSV 파일 선택" required></label>
+<button class="primary-button" type="submit" id="submit-button">환산 결과 받기 <span aria-hidden="true">→</span></button><p id="upload-status" role="status" aria-live="polite"></p></form>
+<div class="upload-bottom"><span>최대 100MB · Excel 5개 시트</span><a href="{{ url_for('sample_file') }}">입력 샘플 받기</a></div>
+<div class="auto-note"><span class="note-dot" aria-hidden="true"></span><p><b>날짜가 여러 개여도 괜찮습니다.</b><br>기준일 열이 있으면 사용하고, 없으면 피험자별 각 처방일을 계산합니다.</p></div><a class="subtle-link" href="/longitudinal">기준일·중첩 규칙 직접 설정 ↗</a></section>
+<section class="card quick-card" aria-labelledby="quick-title"><div class="card-heading"><span class="section-icon green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m14 3-8 11h6l-2 7 8-11h-6l2-7Z"/></svg></span><span class="tag">약물 몇 개만 확인할 때</span></div><h2 id="quick-title">한 줄로 바로 계산</h2><p class="description">약물명·용량·복용 횟수를 입력하세요.<br>파일 없이 결과를 확인할 수 있습니다.</p>
+<div class="parser"><label class="input-label" for="parser-input">처방 내용</label><div class="parser-row"><input maxlength="10000" id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><p class="input-help">Enter로 계산 · 예: risperidone 2mg QD</p><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+<div class="quick-guide"><b>약물명을 정확히 몰라도</b><p>인식되지 않는 이름은 후보를 제안합니다.<br>직접 확인하고 선택하면 다시 계산합니다.</p><div class="example-path" aria-hidden="true"><span>이름 확인</span> → <span>후보 선택</span> → <strong>결과 확인</strong></div></div></section>
+</div>
+<section class="steps" aria-label="파일 분석 순서"><div><span class="step-number">01</span><div><h3>파일 업로드</h3><p>처방이 담긴 Excel·CSV 선택</p></div></div><div><span class="step-number">02</span><div><h3>약물·날짜 자동 분석</h3><p>피험자와 기준일별 처방 확인</p></div></div><div><span class="step-number">03</span><div><h3>결과와 검토 내역 받기</h3><p>일반 자료는 Excel, 날짜별 자료는 ZIP</p></div></div></section>
+<section class="help-section" aria-labelledby="help-title"><div class="help-heading"><h2 id="help-title">처음 사용하시나요?</h2><p>필요한 내용만 펼쳐 확인하세요.</p></div>
+<details><summary>어떤 형태의 파일을 넣으면 되나요?</summary><div class="detail-body"><p><b>일반 처방자료</b>는 피험자 ID와 약물·용량을 넣습니다. 같은 ID의 약물을 합산하므로 동일 시점의 처방만 포함하세요.</p><p><b>날짜별 처방자료</b>는 피험자 ID, 처방일, 약물명, 하루 정/캡슐 수, 처방일수가 필요합니다. 서울대 형식(HID, PRESCR_DATE, DRUG, TABS_PER_DAY, PRESCR_DAYS)과 지원하는 한글·영문 열 이름을 자동 연결합니다. 열을 확정할 수 없으면 확인할 항목을 안내합니다.</p><p>종단 자료의 일일 수량은 하루 정/캡슐 수, 처방일은 복용 시작일로 간주합니다. 1회 수량이나 전체 처방 수량은 그대로 사용하지 마세요. 종단 자료는 전체 시트 합계 100,000행까지 지원하며, 분석량이 크면 파일을 나누도록 안내합니다.</p></div></details>
+<details><summary>기준일과 겹치는 처방은 어떻게 처리하나요?</summary><div class="detail-body"><p>reference_date·검사일 등 명시된 기준일 열이 있으면 해당 날짜를 사용합니다. 없으면 피험자별 모든 처방일을 기준으로 결과를 만듭니다. 파일에 없는 검사일을 추정하지 않습니다.</p><p>중첩 처방, 함량 불일치, 미확인 약물이 있으면 임의로 합산하지 않고 해당 환산법의 합계를 빈칸으로 남깁니다. 결과에서 원본 시트·행 번호와 검토 사유를 확인할 수 있습니다.</p><a href="/longitudinal">다른 기준일이나 처방 대체 가정으로 분석하기 →</a></div></details>
+<details><summary>결과 파일은 어떻게 읽으면 되나요?</summary><div class="detail-body"><p><b>일반 자료:</b> Excel의 Results에서 피험자별 결과를, PatientChecks와 MedicationResults에서 검토 내역을 확인하세요.</p><p><b>날짜별 자료:</b> ZIP 안의 Results.csv에서 피험자·기준일·환산법별 결과를, MedicationResults.csv와 Audit.csv에서 상세 내용을 확인하세요. 처방 기록이 없다는 뜻의 no_record는 비복용이나 용량 0을 의미하지 않습니다.</p><p>환산법마다 기준과 계수 제공 범위가 달라 결과를 구분해 제공합니다. 서로 다른 방법의 값을 합산하지 마세요.</p></div></details>
+<details><summary>지원하는 환산법 보기</summary><div class="detail-body method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT · CMD_INDIRECT</b> Leucht 2015 CMD 연구의 직접·간접 비교 분석</span></div></details></section>
+<p class="privacy-note">가명 ID를 사용하고 이름·생년월일 등 불필요한 개인정보는 제외해 주세요. 업로드 파일은 요청 처리에 사용하고 영구 저장하지 않습니다.</p></main>
+<footer class="wrap"><span>AP Dose Converter</span><span>연구·교육 보조용 · 임상 판단이나 처방을 대체하지 않습니다.</span></footer>
+<script src="{{ url_for('static', filename='home_upload.js') }}"></script><script src="{{ url_for('static', filename='quick_check.js') }}"></script></body></html>

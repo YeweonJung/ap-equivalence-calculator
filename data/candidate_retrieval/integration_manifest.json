@@ -92,13 +92,13 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
-    "services/release.py": "942c11142c6156a9ceb0bac0fc313d8db3106e68c135e58ffb6b7cdef35f129b",
+    "services/release.py": "f37322295cbec9a848d541c64b7f7442a258c45da6326ab07d3b30044b3e0972",
     "services/result_summary.py": "6fd22b525c705507f04dab8d7e03927cae0de16c56a90c3c7e59c317789948d1",
     "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "a296f47ee52f9476667dd984cf6398c514985753ccb3a4e455e27cfa714bcb62",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "b88e7b8713f0f4d500ce3f59a4c4467f78e468bd01c399602c9f76272d87ddb6",
+    "templates/index.html": "47e3cda227dd31648bda8733504003b8437f83af037d279c3e319744c6bd36f1",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
@@ -158,6 +158,17 @@
       "services/release.py": "dc7c4a6b7009a8d830800b4937606bb36d67987959813862523ba5364da1898b",
       "templates/index.html": "a5d4298beaff4c716f06331691cd76ad38a9840964f43db5881da976f0b349b8",
       "services/file_reader.py": "13662a35fc258a98ed4be50cf21edb4658b224b04f5e1f0f039d2ad66ed78c7e"
+    }
+  },
+  "homepage_redesign": {
+    "reason": "User requested an intuitive homepage; preserve quick-check and conversion behavior, emphasize upload and progressive help.",
+    "files": [
+      "templates/index.html",
+      "services/release.py"
+    ],
+    "previous_expected_sha256_lf": {
+      "templates/index.html": "b88e7b8713f0f4d500ce3f59a4c4467f78e468bd01c399602c9f76272d87ddb6",
+      "services/release.py": "942c11142c6156a9ceb0bac0fc313d8db3106e68c135e58ffb6b7cdef35f129b"
     }
   }
 }
