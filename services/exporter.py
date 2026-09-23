@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 from services.result_summary import RESULT_COLUMNS, METHOD_ORDER, PATIENT_COLUMNS
+from services.result_notes import NOTE_COLUMNS, with_result_notes
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -53,11 +54,13 @@ def _format_worksheet(worksheet):
     worksheet.freeze_panes = "D2" if worksheet.title == "Results" else "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
 
-    wrap_headers = {"original", "warning", "error", "reference", "환산 근거", "basis", "source", "conversion_basis", "conversion_source", "oral_bridge_source"}
+    wrap_headers = {"original", "warning", "error", "reference", "환산 근거", "basis", "source", "conversion_basis", "conversion_source", "oral_bridge_source", "확인할 내용"}
     for column_index, cells in enumerate(worksheet.iter_cols(), start=1):
         header = str(cells[0].value or "")
         max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)
         worksheet.column_dimensions[get_column_letter(column_index)].width = min(max(max_length + 2, 11), 55)
+        if header == '결과 상태':
+            worksheet.column_dimensions[get_column_letter(column_index)].width = 24
         for cell in cells[1:]:
             if header in ('patient', 'patient_id') and cell.value is not None:
                 cell.value = str(cell.value)
@@ -71,15 +74,19 @@ def _format_worksheet(worksheet):
             if headers.get(cell.column) not in wrap_headers or cell.value is None:
                 continue
             width = worksheet.column_dimensions[get_column_letter(cell.column)].width or 11
-            visual_length = sum(2 if ord(character) > 127 else 1 for character in str(cell.value))
-            required_lines = max(required_lines, math.ceil(visual_length / max(int(width), 1)))
-        worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), 96)
+            line_count = sum(max(1, math.ceil(
+                sum(2 if ord(c) > 127 else 1 for c in line) / max(int(width), 1)))
+                for line in str(cell.value).split('\n'))
+            required_lines = max(required_lines, line_count)
+        height_limit = 409 if worksheet.title == 'Results' else 96
+        worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), height_limit)
 
 
 def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None, summary_rows=None, patient_rows=None, patient_checks=None):
     output_file = Path(directory) / "result.xlsx"
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
-        _safe_frame(patient_rows or [], PATIENT_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
+        display_rows = with_result_notes(patient_rows or [], audit_rows, error_rows, patient_checks or [])
+        _safe_frame(display_rows, PATIENT_COLUMNS + NOTE_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
         _safe_frame(summary_rows or [], RESULT_COLUMNS).to_excel(writer, sheet_name="MedicationResults", index=False)
         check_columns = ['patient_id', 'method', 'target_drug', 'total_equivalent_dose_mg', 'partial_equivalent_dose_mg', 'converted_count', 'unresolved_count', 'excluded_count', 'status', 'needs_review']
         _safe_frame(patient_checks or [], check_columns).to_excel(writer, sheet_name="PatientChecks", index=False)

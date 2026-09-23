@@ -73,11 +73,11 @@
     "models/name_ranker/metadata.json": "fa69c9569daab83a9149b29dfbce5d812b38db56ad625bf874db19ba856070a4",
     "models/name_ranker/model.json": "f3cb307e0e5a11c722dd2012b8ec6bf763cea7f8261c0141586f040a2147d7fc",
     "services/anonymizer.py": "af07c6f77cdbab654b45dcfad8bba685b6e97dcd85ea639cac4ea1260fcea4f7",
-    "services/column_detector.py": "84714b4b4cdbe34dc5549536a6601656bf0f238b73ed94952e731135b9bcd6cc",
+    "services/column_detector.py": "89680aec7496240da209faba6d70a602a203442ad7036f838135527d526a23be",
     "services/converter.py": "fe0d7abacf8f0c33a1039f65d90699569a5fd72e50f250e0736deb086127d272",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "baae54204ec0c69310592d019c8c3883d5b945492315d869e1e86ee157b3005c",
+    "services/exporter.py": "8425cb7ed19567368de9d50477df45738ce879d20ccdf35c922ff213a333272c",
     "services/file_reader.py": "bef34c8724d1d9ef8b22930c195cbd0896102297fe668607acbeb0f7333d62d0",
     "services/frames.py": "fd92c9d58a9bda2699064ae3ccdbcf1a851028976a2a34244aa4163b593065b4",
     "services/injections.py": "977277992058a695544ceebc6589cf446ef733be242f4c869def58b82042142f",
@@ -94,7 +94,7 @@
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
     "services/release.py": "f37322295cbec9a848d541c64b7f7442a258c45da6326ab07d3b30044b3e0972",
     "services/result_summary.py": "6fd22b525c705507f04dab8d7e03927cae0de16c56a90c3c7e59c317789948d1",
-    "services/structured.py": "ef5451d88993e0c57eb39243d4043d022b28e33c70973c6d79173b533afdeaae",
+    "services/structured.py": "9452b098d1b6fb3e89db25661a524e3719b019439dedad0059962003cd4864d1",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "c0c57712ffc068ec5b86594d5716366f6b0265e090250d59dfaa2ac9a8368441",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
@@ -171,5 +171,7 @@
       "services/release.py": "942c11142c6156a9ceb0bac0fc313d8db3106e68c135e58ffb6b7cdef35f129b"
     }
   },
-  "homepage_review": "User requested only the right output illustration show one row per patient with method-specific totals. Example values calculated from the existing input example using the application."
+  "homepage_review": "User requested only the right output illustration show one row per patient with method-specific totals. Example values calculated from the existing input example using the application.",
+  "patient_result_notes_review": "Explain unavailable patient totals on Results with status and source-supported reasons; numerical totals, conversion rules, and manual-confirmation rules remain unchanged.",
+  "parallel_upload_review": "User authorized multi-medication patient totals, exact clop/rispl/olx/abil/zir mappings (zir REVIEW_REQUIRED), and QD for blank frequency. Preserve doses, patient grouping, source strings, and method-specific unavailable totals."
 }

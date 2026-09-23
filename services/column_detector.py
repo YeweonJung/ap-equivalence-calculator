@@ -38,8 +38,13 @@ def detect_columns(df):
     patient_col = max(patient_scores, key=patient_scores.get) if any(patient_scores.values()) else None
 
     medication_scores = {}
+    has_named_medication = any(_name_score(col, MEDICATION_KEYWORDS) for col in df.columns)
     for col in df.columns:
         name_score = _name_score(col, MEDICATION_KEYWORDS)
+        # A separate dose column (e.g. "10mg 15mg") is not a drug column.
+        if has_named_medication and not name_score and _name_score(col, DOSE_KEYWORDS + UNIT_KEYWORDS + FREQUENCY_KEYWORDS):
+            medication_scores[col] = -1
+            continue
         content_score = _content_score(df[col])
         # 실제 '약물+용량' 값이 가장 강한 근거이며, 명확한 열 이름은 보조 근거다.
         medication_scores[col] = content_score * 100 + min(name_score, 20)
