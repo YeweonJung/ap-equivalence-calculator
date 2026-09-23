@@ -94,7 +94,7 @@
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
     "services/release.py": "f37322295cbec9a848d541c64b7f7442a258c45da6326ab07d3b30044b3e0972",
     "services/result_summary.py": "6fd22b525c705507f04dab8d7e03927cae0de16c56a90c3c7e59c317789948d1",
-    "services/structured.py": "9452b098d1b6fb3e89db25661a524e3719b019439dedad0059962003cd4864d1",
+    "services/structured.py": "4ea24e3035172aec2d90b4d3b410174198f30b86037dd1b7e61521437af1dd5c",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "c0c57712ffc068ec5b86594d5716366f6b0265e090250d59dfaa2ac9a8368441",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
@@ -174,5 +174,6 @@
   "homepage_review": "User requested only the right output illustration show one row per patient with method-specific totals. Example values calculated from the existing input example using the application.",
   "patient_result_notes_review": "Explain unavailable patient totals on Results with status and source-supported reasons; numerical totals, conversion rules, and manual-confirmation rules remain unchanged.",
   "parallel_upload_review": "User authorized multi-medication patient totals, exact clop/rispl/olx/abil/zir mappings (zir REVIEW_REQUIRED), and QD for blank frequency. Preserve doses, patient grouping, source strings, and method-specific unavailable totals.",
-  "lai_route_review": "Unmarked formulations explicitly display ORAL. Shared LAI annotation is applied before each medication is parsed, preserving original text and validating each product and interval independently. Missing injection intervals are never replaced by oral QD or inferred from prior equivalent-dose columns."
+  "lai_route_review": "Unmarked formulations explicitly display ORAL. Shared LAI annotation is applied before each medication is parsed, preserving original text and validating each product and interval independently. Missing injection intervals are never replaced by oral QD or inferred from prior equivalent-dose columns.",
+  "confirmed_spelling_review": "User explicitly confirmed pariperidone=paliperidone, aripiprazold=aripiprazole, queiapine=quetiapine. Apply exact upload mappings to structured and free-text cells, preserving original strings, offsets, doses, and LAI routing."
 }

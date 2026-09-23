@@ -3,7 +3,7 @@ import re
 from services.frames import parse_frames
 from services.medication_splitter import split_medications
 from services.parser import DOSE_RE, _frequency_matches, alias_map
-from services.upload_aliases import CONFIRMED_UPLOAD_ALIASES
+from services.upload_aliases import CONFIRMED_UPLOAD_ALIASES, parse_upload_frames
 
 
 def _parallel_doses(text):
@@ -48,7 +48,7 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
         return '' if result.casefold() in {'nan', 'none', 'null'} else result
 
     if DOSE_RE.search(raw) or dose_col is None:
-        return parse_frames(raw)
+        return parse_upload_frames(raw)
     try:
         drugs = split_medications(raw)
         doses = _parallel_doses(value(dose_col))
