@@ -32,7 +32,7 @@ async function recordCorrection(item, index, alias, source) {
 function itemHtml(item, index) {
   if (!item.ok) {
     const suggestions = (item.suggestions || []).map((candidate, candidateIndex) =>
-      `<button type="button" class="suggestion-button" data-item="${index}" data-candidate="${candidateIndex}"><span class="suggestion-name">${escapeHtml(candidate.alias)} (${escapeHtml(candidate.drug)})로 수정</span><span class="suggestion-meta">${candidate.source === 'llm' ? 'AI 미확인 후보' : `${escapeHtml(candidate.distance)}글자 편집`}</span><small class="suggestion-explanation">${escapeHtml(candidate.explanation)}</small></button>`).join(' ');
+      `<button type="button" class="suggestion-button" data-item="${index}" data-candidate="${candidateIndex}"><span class="suggestion-name">${escapeHtml(candidate.alias)} (${escapeHtml(candidate.drug)})로 수정</span><span class="suggestion-meta">${candidate.source === 'llm' ? 'AI 미확인 후보' : `${escapeHtml(candidate.distance)}글자 편집`}</span><small class="suggestion-explanation">${escapeHtml(candidate.source === 'llm' ? 'AI가 제안한 미확인 후보입니다. 원문 약물명을 확인하세요.' : candidate.explanation)}</small></button>`).join(' ');
     return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${suggestions ? `<div class="values">혹시 아래 약물인가요? 글자 차이는 약물의 동일성을 보장하지 않습니다. 이름을 확인하고 선택하세요. 용량·단위·빈도는 유지됩니다.</div><div class="suggestions">${suggestions}</div>` : ''}${feedbackHtml(item, index)}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {

@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 _lock = threading.Lock()
 _model = _tokenizer = _loaded_path = None
 MAX_RESPONSE = 32768
+REVIEW_EXPLANATION = 'AI가 제안한 미확인 후보입니다. 원문 약물명을 확인하세요.'
 
 
 def enabled():
@@ -131,8 +132,9 @@ def validate_response(text, original, limit=2):
         seen.add(drug)
         accepted.append(dict(alias=drug, drug=drug, replacement=drug + context[1],
             source='llm', prediction_source='llm', retrieved_by=['llm'],
-            confidence=confidence, reason=reason.strip(), distance=None, score=None,
-            explanation='AI가 제안한 미확인 후보입니다. 원문 약물명을 확인하세요. ' + reason.strip(),
+            # Generated rationale is not verified evidence and may ignore the requested language.
+            confidence=confidence, reason=REVIEW_EXPLANATION, distance=None, score=None,
+            explanation=REVIEW_EXPLANATION,
             confirmed_drug=None, auto_accepted=False, needs_review=True,
             status='REVIEW_REQUIRED', serving_version='llm-candidate-v1'))
     return accepted[:max(0, min(limit, 2))]

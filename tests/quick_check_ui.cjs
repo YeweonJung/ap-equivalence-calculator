@@ -38,6 +38,12 @@ async function main() {
   assert(candidateHtml.includes('순서 교환'));
   assert(candidateHtml.includes('&lt;unsafe&gt;'));
   assert(candidateHtml.includes('data-candidate="0"'));
+  context.item.suggestions[0].source = 'llm';
+  context.item.suggestions[0].explanation = '用户提供的别名 Possible spelling variant <unsafe>';
+  const aiHtml=vm.runInContext('itemHtml(item,0)',context);
+  assert(aiHtml.includes('AI가 제안한 미확인 후보입니다. 원문 약물명을 확인하세요.'));
+  assert(!aiHtml.includes('用户') && !aiHtml.includes('Possible spelling') && !aiHtml.includes('unsafe'));
+  assert(aiHtml.includes('risperidone') && aiHtml.includes('AI 미확인 후보'));
   console.log('UI request ordering, rounding, missing factors and escaping passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

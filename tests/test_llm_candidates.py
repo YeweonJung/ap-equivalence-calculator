@@ -19,6 +19,22 @@ def test_invalid_output_is_rejected(text):
     assert llm.validate_response(text, 'zzzzzz 2mg') == []
 
 
+@pytest.mark.parametrize('reason', [
+    "用户提供的别名与risperidone标准名称匹配。",
+    'Possible spelling variant',
+    '<script>alert(1)</script>',
+])
+def test_generated_rationale_never_reaches_candidate_display(reason):
+    candidate = llm.validate_response(response([
+        dict(standard_name='risperidone', confidence='low', reason=reason)
+    ]), 'Rispl 2mg BID')[0]
+    assert candidate['explanation'] == 'AI가 제안한 미확인 후보입니다. 원문 약물명을 확인하세요.'
+    assert candidate['reason'] == candidate['explanation']
+    assert reason not in json.dumps(candidate, ensure_ascii=False)
+    assert candidate['replacement'] == 'risperidone 2mg BID'
+    assert candidate['confirmed_drug'] is None and candidate['auto_accepted'] is False
+
+
 def test_closed_set_deduplication_limits_and_suffix():
     good = json.loads(response())['candidates'][0]
     candidates = [good, good, dict(good, standard_name='invented'),
