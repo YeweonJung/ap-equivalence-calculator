@@ -5,3 +5,4 @@ xlrd>=2.0,<3
 gunicorn>=23,<24
 rapidfuzz>=3.9,<4
 psycopg[binary]>=3.2,<4
+XlsxWriter>=3.2,<4

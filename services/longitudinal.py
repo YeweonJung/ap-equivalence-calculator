@@ -312,7 +312,7 @@ def export_zip(records, results, details, metadata):
     return out
 
 
-def analyze_export(records, pairs, metadata, methods=None, policy='review', result_transform=None):
+def analyze_export(records, pairs, metadata, methods=None, policy='review', result_transform=None, output_format='xlsx'):
     """Spool expanded details to a temporary file instead of retaining hundreds of thousands of dicts."""
     with tempfile.TemporaryFile(mode='w+b') as spool:
         text = io.TextIOWrapper(spool, encoding='utf-8-sig', newline='')
@@ -322,7 +322,7 @@ def analyze_export(records, pairs, metadata, methods=None, policy='review', resu
             if writer is None:
                 writer = csv.DictWriter(text, fieldnames=list(row))
                 writer.writeheader()
-            clean = {k: ("'" + v if isinstance(v, str) and v.lstrip().startswith(('=', '+', '-', '@')) else '' if v is None else v) for k, v in row.items()}
+            clean = {k: ("'" + v if output_format == 'zip' and isinstance(v, str) and v.lstrip().startswith(('=', '+', '-', '@')) else '' if v is None else v) for k, v in row.items()}
             writer.writerow(clean)
         try:
             results, _ = analyze(records, pairs, methods=methods, policy=policy, detail_sink=emit)
@@ -331,6 +331,9 @@ def analyze_export(records, pairs, metadata, methods=None, policy='review', resu
             if result_transform:
                 result_transform(results)
             text.flush()
-            return export_zip(records, results, spool, metadata)
+            if output_format == 'zip':
+                return export_zip(records, results, spool, metadata)
+            from services.longitudinal_excel import export_excel
+            return export_excel(records, results, spool, dict(rule_version=RULE_VERSION, **metadata))
         finally:
             text.detach()

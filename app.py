@@ -180,7 +180,8 @@ def process_upload(uploaded_file, method):
                 from services.release import metadata
                 output = automatic_analysis(sheets, selected_methods,
                     source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata())
-                response = send_file(output, as_attachment=True, download_name='longitudinal_results.zip', mimetype='application/zip', max_age=0)
+                from services.longitudinal_excel import FILENAME, MIMETYPE
+                response = send_file(output, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE, max_age=0)
                 response.headers['Cache-Control'] = 'no-store'
                 return response
 

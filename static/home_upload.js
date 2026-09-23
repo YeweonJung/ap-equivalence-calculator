@@ -29,12 +29,11 @@
         throw new Error(message || '파일을 처리하지 못했습니다. 열 이름과 파일 크기를 확인해 주세요.');
       }
       const type = response.headers.get('Content-Type') || '';
-      if (!type.includes('zip') && !type.includes('spreadsheetml')) throw new Error('결과 파일을 받지 못했습니다. 입력 내용을 확인해 주세요.');
-      const longitudinal = type.includes('zip');
+      if (!type.includes('spreadsheetml')) throw new Error('결과 파일을 받지 못했습니다. 입력 내용을 확인해 주세요.');
       const url = URL.createObjectURL(await response.blob()), link = document.createElement('a');
-      link.href = url;link.download = longitudinal ? 'longitudinal_results.zip' : 'AP_equivalence_results.xlsx';
+      link.href = url;link.download = 'AP_equivalence_results.xlsx';
       document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url), 60000);
-      status.textContent = longitudinal ? '날짜별 분석 완료. ZIP 안의 Results.csv와 검토 내역을 확인하세요.' : '계산 완료. Excel의 Results와 검토 내역을 확인하세요.';
+      status.textContent = '계산 완료. Excel의 Results에서 환자별 결과를 확인하세요.';
     } catch (error) {status.textContent = error.message || '연결을 확인한 뒤 다시 시도해 주세요.';status.dataset.error = 'true';}
     finally {busy = false;button.disabled = false;file.disabled = false;button.textContent = '다시 계산하기 →';}
   });

@@ -142,15 +142,18 @@ def test_api_inspection_download_and_upload_guard():
     response = client.post('/api/longitudinal/analyze', data={'file':(io.BytesIO(raw), 'rx.csv'), 'ack':'yes', 'reference_date':'2020-04-15'})
     assert response.status_code == 200
     assert response.headers['Cache-Control'] == 'no-store'
-    z = zipfile.ZipFile(io.BytesIO(response.data))
-    assert len(z.namelist()) == 6
-    assert '001' in z.read('Results.csv').decode('utf-8-sig')
-    assert json.loads(z.read('Settings.json'))['rule_version'] == 'longitudinal-1.0'
+    from openpyxl import load_workbook
+    wb = load_workbook(io.BytesIO(response.data), read_only=True)
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert list(wb['Results'].values)[1][0] == '001'
+    assert json.loads(wb.properties.description)['rule_version'] == 'longitudinal-1.0'
+    wb.close()
     response = client.post('/upload', data={'file':(io.BytesIO(raw), 'rx.csv')})
     assert response.status_code == 200
-    assert response.mimetype == 'application/zip'
-    auto = zipfile.ZipFile(io.BytesIO(response.data))
-    assert json.loads(auto.read('Settings.json'))['mode'] == 'automatic'
+    assert response.mimetype == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    auto = load_workbook(io.BytesIO(response.data), read_only=True)
+    assert json.loads(auto.properties.description)['mode'] == 'automatic'
+    auto.close()
 
 
 def test_manual_mapping_and_cp949():

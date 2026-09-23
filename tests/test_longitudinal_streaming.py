@@ -17,7 +17,7 @@ def test_spooled_export_matches_in_memory_results_byte_for_byte(rows):
     pairs = reference_pairs(records, 'all_dates') if records else []
     results, details = analyze(records, pairs)
     old = zipfile.ZipFile(export_zip(records, results, details, {}))
-    new = zipfile.ZipFile(analyze_export(records, pairs, {}))
+    new = zipfile.ZipFile(analyze_export(records, pairs, {}, output_format='zip'))
     assert old.namelist() == new.namelist()
     for name in old.namelist():
         assert old.read(name) == new.read(name), name

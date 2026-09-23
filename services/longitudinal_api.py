@@ -90,6 +90,7 @@ def calculate():
             raise ValueError('처리량이 큽니다. 기준일이나 피험자를 나눠 주세요.')
         release = metadata()
         out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='prescription_date_as_start', dose_basis='tablets_per_day', release=release), policy=policy)
-        return send_file(out, as_attachment=True, download_name='longitudinal_results.zip', mimetype='application/zip')
+        from services.longitudinal_excel import FILENAME, MIMETYPE
+        return send_file(out, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE)
     except (ValueError, TypeError) as exc:
         return jsonify(error=str(exc)), 400

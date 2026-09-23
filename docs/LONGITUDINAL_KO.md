@@ -28,11 +28,13 @@
 
 경구 고형제는 단위 함량(mg/정 또는 mg/캡슐) × 일일 정/캡슐 수로 mg/day를 계산한다. 기존 환산표를 그대로 사용하고 방법별 기준약물과 결과를 분리한다. 미확인 항목 또는 해당 환산법 계수 누락이 하나라도 있으면 해당 방법의 합계는 빈칸이다. 이름의 유사도 후보는 자동 채택하지 않는다. 명시적 비항정신병 성분 목록만 제외하며 미등록 이름은 검토 대상으로 둔다.
 
-- Results.csv: 피험자·기준일·방법별 합계. `no_record`는 자료에서 해당 처방을 확인하지 못했다는 뜻이며 0이나 비복용이 아니다.
-- MedicationResults.csv: 선택/차단된 원본 행, 일일용량, 방법별 결과, 기준일에 발생한 중첩 등 사유.
-- Audit.csv: 모든 비어 있지 않은 원본 행의 처리 내역. 행 번호는 헤더를 1행으로 센 CSV 레코드 번호다. 셀 안 줄바꿈은 별도 행으로 세지 않는다.
-- Review.csv: 행 자체의 검토 사유. 기준일별 중첩은 MedicationResults.csv에서 확인한다.
-- Settings.json: 입력 파일 SHA256, 열 연결, 정책, 기준일 모드, 규칙 버전, 앱/환산표 버전.
+Excel 파일 하나(`AP_equivalence_results.xlsx`)에 필요한 시트 3개를 제공합니다.
+
+- Results: 환자·기준일당 한 행, 환산법별 합계는 가로 열입니다. 먼저 이 시트를 확인하세요. `해당 처방 없음`과 빈칸은 0이나 비복용을 뜻하지 않습니다. 기준일 선택 방식과 중첩 처리 가정도 표시합니다.
+- MedicationResults: 환자·기준일·원본 처방당 한 행입니다. 방법별 환산값, 원문 약물·제품·처방일·일수·하루 정 수, 원본 시트·행 번호와 확인할 내용을 담습니다. 행 번호는 헤더를 1행으로 센 CSV 레코드 번호이며, 셀 안 줄바꿈은 별도 행으로 세지 않습니다.
+- Review: 확인할 항목이 있는 원본 처방만 모읍니다. ID·날짜 누락, 중복, 중첩과 계수 누락 등을 한국어로 표시합니다. 날짜별·방법별 사유는 MedicationResults에 있습니다.
+
+원본 파일은 수정하지 않습니다. 입력 SHA256, 열 연결, 정책과 버전은 별도 시트 대신 통합문서 속성의 설명에 보관합니다. 제외된 정상 비항정신병약의 전체 원문은 입력 파일에서 확인하세요.
 
 검토 코드: `overlapping_orders` 처방기간 중첩; `same_day_multiple_orders` 같은 날 여러 처방; `duplicate_candidate` 동일 행 반복; `invalid_date` 날짜 확인; `invalid_days` 일수 확인; `invalid_daily_tablets` 일일 정 수 확인; `missing_patient` ID 누락; `unknown_drug` 미확인 약물; `ingredient_conflict` 성분 불일치; `strength_conflict` 함량 불일치; `strength_missing` 함량 누락; `product_strength_missing` 제품 함량 확인; `release_form_conflict` 서방 여부 불일치; `oral_solid_unconfirmed` 고형 경구제 확인; `injection_requires_review` 주사제 별도 확인; `variable_schedule` 변동 복용; `missing_factor` 환산 계수 없음.
 

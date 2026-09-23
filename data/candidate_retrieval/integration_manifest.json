@@ -62,7 +62,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "27c560de281174e908cd531c54889b8780f484a6b077ccef34446a12a4558159",
+    "app.py": "7e027c60949265f53167d0d43022698965da45c53717aa23a42094cd6f2c188c",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -112,7 +112,7 @@
     "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
     "tests/test_quick_export.py": "a2cc5e75cd263b7938e882e3b6921992c2f5b87422d50c847fba6f9d0bbf0e7d",
     "tests/test_results_injections.py": "613138e9fcf426365c4c0aa5024ee51270a36bd994a0494326a077804547c618",
-    "requirements.txt": "fce8807e02ab55086f64658c2ebc57fcf0474821d53c543f4f5f48b831b05b34"
+    "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
   },
   "patient_results_change": {
     "reason": "User requested patient-level wide results preserving IDs for dataset joins; existing conversion factors and retrieval remain unchanged",
@@ -176,5 +176,6 @@
   "parallel_upload_review": "User authorized multi-medication patient totals, exact clop/rispl/olx/abil/zir mappings (zir REVIEW_REQUIRED), and QD for blank frequency. Preserve doses, patient grouping, source strings, and method-specific unavailable totals.",
   "lai_route_review": "Unmarked formulations explicitly display ORAL. Shared LAI annotation is applied before each medication is parsed, preserving original text and validating each product and interval independently. Missing injection intervals are never replaced by oral QD or inferred from prior equivalent-dose columns.",
   "confirmed_spelling_review": "User explicitly confirmed pariperidone=paliperidone, aripiprazold=aripiprazole, queiapine=quetiapine. Apply exact upload mappings to structured and free-text cells, preserving original strings, offsets, doses, and LAI routing.",
-  "candidate_language_review": "Use fixed Korean review guidance instead of unverified model rationale in API candidates and UI, including legacy responses. Preserve manual confirmation and dose suffixes."
+  "candidate_language_review": "Use fixed Korean review guidance instead of unverified model rationale in API candidates and UI, including legacy responses. Preserve manual confirmation and dose suffixes.",
+  "longitudinal_excel_review": "Export longitudinal results in one streaming Excel workbook with three sheets, patient/date-wide totals, medication details, and review-only source rows. Preserve conversion values and unavailable totals."
 }

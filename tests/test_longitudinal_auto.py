@@ -5,31 +5,35 @@ from datetime import datetime
 
 import pandas as pd
 import pytest
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 
 from app import app
 from services.longitudinal_auto import automatic_analysis
 from tests.test_longitudinal import rx
 
 
-def entries(buffer, name='Results.csv'):
-    z = zipfile.ZipFile(buffer)
-    return list(csv.DictReader(io.TextIOWrapper(z.open(name), encoding='utf-8-sig')))
+def entries(buffer, name='Results'):
+    wb = load_workbook(buffer, read_only=True)
+    rows = wb[name].values
+    headers = next(rows)
+    output = [dict(zip(headers, row)) for row in rows]
+    wb.close()
+    return output
 
 
 def test_automatic_reference_dates_from_rows():
     frame = pd.DataFrame([rx(), rx('2020-04-26', tabs='1')])
     results = entries(automatic_analysis({'SNU':frame}, ['DDD']))
-    assert {r['reference_date'] for r in results} == {'2020-04-15', '2020-04-26'}
-    assert [r['status'] for r in results] == ['calculated', 'review']
-    assert results[1]['source_rows'] == 'SNU!2;SNU!3'
-    assert all(r['reference_basis'] == 'each_prescription_date' for r in results)
+    assert {r['기준일'] for r in results} == {'2020-04-15', '2020-04-26'}
+    assert [r['결과 상태'] for r in results] == ['계산 완료', '확인 필요']
+    assert results[1]['DDD (CPZ mg/day)'] is None
+    assert all(r['기준일 선택'] == '각 처방일' for r in results)
 
 
 def test_explicit_baseline_has_priority_per_patient():
     rows = [dict(rx(), reference_date='2020-04-20'), dict(rx('2020-04-26'), reference_date=''), dict(rx(patient='P002'), reference_date='')]
     result = entries(automatic_analysis({'Data':pd.DataFrame(rows)}, ['DDD']))
-    assert [(r['patient_id'],r['reference_date'],r['reference_basis']) for r in result] == [('P001','2020-04-20','explicit_reference_date'),('P002','2020-04-15','each_prescription_date')]
+    assert [(r['patient_id'],r['기준일'],r['기준일 선택']) for r in result] == [('P001','2020-04-20','지정 기준일'),('P002','2020-04-15','각 처방일')]
 
 
 def test_ambiguous_reference_dates_do_not_guess():
@@ -51,9 +55,8 @@ def test_excel_native_dates_multiple_sheets_via_main_upload():
     assert response.headers['Cache-Control'] == 'no-store'
     results = entries(io.BytesIO(response.data))
     assert len(results) == 2
-    assert results[1]['source_rows'] == 'Earlier!2;Later!2'
-    audit = entries(io.BytesIO(response.data), 'Audit.csv')
-    assert {r['source_sheet'] for r in audit} == {'Earlier','Later'}
+    detail = entries(io.BytesIO(response.data), 'MedicationResults')
+    assert {(r['원본 시트'], r['원본 행']) for r in detail if r['기준일'] == '2020-04-26'} == {('Earlier', 2), ('Later', 2)}
 
 
 def test_mixed_static_and_longitudinal_sheets_fail_closed():
@@ -63,7 +66,7 @@ def test_mixed_static_and_longitudinal_sheets_fail_closed():
 
 def test_explicit_reference_all_invalid_rx_dates_still_review():
     results = entries(automatic_analysis({'Data':pd.DataFrame([dict(rx(day='unknown'), reference_date='2020-04-20')])}, ['DDD']))
-    assert results[0]['status'] == 'review'
+    assert results[0]['결과 상태'] == '확인 필요'
 
 
 def test_main_one_line_unchanged():
@@ -76,4 +79,4 @@ def test_main_csv_blank_rows_keep_original_row_numbers():
     raw = pd.DataFrame([rx(), rx('2020-04-26')]).to_csv(index=False).replace('\n', '\n\n', 1).encode()
     response = app.test_client().post('/upload', data={'file':(io.BytesIO(raw),'synthetic.csv')})
     assert response.status_code == 200
-    assert [r['source_row'] for r in entries(io.BytesIO(response.data),'Audit.csv')] == ['3','4']
+    assert {r['원본 행'] for r in entries(io.BytesIO(response.data),'MedicationResults')} == {3,4}

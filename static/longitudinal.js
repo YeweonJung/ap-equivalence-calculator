@@ -43,8 +43,8 @@
       const response = await fetch('/api/longitudinal/analyze', {method:'POST', body:form});
       if (!response.ok) { const data = await response.json().catch(() => ({})); throw new Error(data.error || '분석하지 못했습니다. 파일 크기와 입력을 확인하세요.'); }
       const url = URL.createObjectURL(await response.blob()), link = document.createElement('a');
-      link.href = url; link.download = 'longitudinal_results.zip'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 60000);
-      $('status').textContent = '결과 ZIP을 받았습니다. README와 Results·MedicationResults·Audit·Review를 함께 확인하세요.';
+      link.href = url; link.download = 'AP_equivalence_results.xlsx'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 60000);
+      $('status').textContent = 'Excel을 받았습니다. Results는 환자별 결과, MedicationResults는 약물별 상세, Review는 확인할 항목입니다.';
     } catch (error) { $('status').textContent = error.message; }
     finally { $('calculate').disabled = false; }
   });
