@@ -146,7 +146,7 @@ def test_api_inspection_download_and_upload_guard():
     wb = load_workbook(io.BytesIO(response.data), read_only=True)
     assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
     assert list(wb['Results'].values)[1][0] == '001'
-    assert json.loads(wb.properties.description)['rule_version'] == 'longitudinal-1.0'
+    assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
     wb.close()
     response = client.post('/upload', data={'file':(io.BytesIO(raw), 'rx.csv')})
     assert response.status_code == 200

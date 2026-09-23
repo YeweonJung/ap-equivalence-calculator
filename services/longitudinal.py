@@ -15,7 +15,7 @@ from services.converter import available_methods, convert_drug, normalize_target
 from services.parser import dictionary_match, DOSE_RE, _dose_to_mg
 from services.frames import formulation_info
 
-RULE_VERSION = 'longitudinal-1.0'
+RULE_VERSION = 'prescription-date-2.0'
 FIELDS = {
     'patient': ['HID', 'patient_id', 'subject_id', '피험자ID', '환자ID', '연구번호'],
     'date': ['PRESCR_DATE', 'prescription_date', 'rx_date', '처방일', '처방일자'],
@@ -47,9 +47,10 @@ def is_longitudinal(columns):
     return any(norm(c) in {norm(a) for a in FIELDS['date']} for c in columns)
 
 
-def validate_mapping(columns, mapping):
-    if any(not mapping.get(k) or mapping[k] not in columns for k in REQUIRED):
-        raise ValueError('피험자 ID, 처방일, 약물명, 일일 정 수, 처방일수 열을 모두 연결하세요.')
+def validate_mapping(columns, mapping, policy='review'):
+    required = REQUIRED if policy != 'prescription_date' else REQUIRED[:-1]
+    if any(not mapping.get(k) or mapping[k] not in columns for k in required):
+        raise ValueError('피험자 ID, 처방일, 약물명, 일일 정 수 열을 연결하세요.' if policy == 'prescription_date' else '피험자 ID, 처방일, 약물명, 일일 정 수, 처방일수 열을 모두 연결하세요.')
     selected = [v for v in mapping.values() if v]
     if len(selected) != len(set(selected)) or any(v not in columns for v in selected):
         raise ValueError('열 연결이 중복되거나 존재하지 않는 열입니다.')
@@ -116,8 +117,8 @@ def medication(drug, product):
 
 
 def prepare(frame, mapping, policy='review', provenance=None):
-    validate_mapping(frame.columns, mapping)
-    if policy not in ('review', 'replace'):
+    validate_mapping(frame.columns, mapping, policy)
+    if policy not in ('review', 'replace', 'prescription_date'):
         raise ValueError('지원하지 않는 중첩 처리 규칙입니다.')
     records, seen = [], {}
     for index, row in enumerate(frame.to_dict('records')):
@@ -143,8 +144,9 @@ def prepare(frame, mapping, policy='review', provenance=None):
             r['issues'].append('invalid_date')
         days, daily = number(r['days']), number(r['daily'])
         if days is None or not days.is_integer() or days > 3660:
-            r['issues'].append('invalid_days')
-        elif r['start']:
+            if policy != 'prescription_date':
+                r['issues'].append('invalid_days')
+        elif r['start'] and policy != 'prescription_date':
             try:
                 r['end'] = r['start'] + timedelta(days=int(days))
                 r['effective_end'] = r['end']
@@ -158,6 +160,8 @@ def prepare(frame, mapping, policy='review', provenance=None):
         elif strength:
             r['daily_mg'] = strength * daily
         records.append(r)
+    if policy == 'prescription_date':
+        return records
     groups = defaultdict(list)
     for r in records:
         if r['patient'] and r['canonical'] and r['kind'] != 'non_target' and r['start']:
@@ -222,6 +226,9 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
                 continue
             if r['start'] is None:
                 blockers.append(r)
+            elif policy == 'prescription_date':
+                if r['start'] == day:
+                    relevant.append(r)
             elif r['start'] <= day:
                 end = r['effective_end']
                 if end and day < end:
@@ -232,6 +239,8 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
         for r in relevant:
             groups[r['canonical'] or r['drug']].append(r)
         ambiguous = {(r['source_sheet'], r['source_row']) for items in groups.values() if len(items) > 1 for r in items}
+        if policy == 'prescription_date':
+            ambiguous = set()
         selected = relevant + blockers
         if detail_count + len(selected) * len(methods) > 400000:
             raise ValueError('약물별 결과가 400,000행을 초과합니다. 기준일 또는 피험자를 나눠 주세요.')

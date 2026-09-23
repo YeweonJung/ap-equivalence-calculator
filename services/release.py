@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.23-home-v2'
+VERSION = '2026.09.23-prescription-date-v2'
 
 
 def metadata():

@@ -62,7 +62,7 @@ def inspect():
     try:
         frame, _ = read_csv_upload(request.files.get('file'))
         mapping = detect_mapping(frame.columns)
-        return jsonify(columns=list(frame.columns), mapping=mapping, rows=len(frame), recognized=all(mapping[k] for k in ('patient', 'date', 'drug', 'daily', 'days')))
+        return jsonify(columns=list(frame.columns), mapping=mapping, rows=len(frame), recognized=all(mapping[k] for k in ('patient', 'date', 'drug', 'daily')))
     except ValueError as exc:
         return jsonify(error=str(exc)), 400
 
@@ -71,14 +71,14 @@ def inspect():
 def calculate():
     try:
         if request.form.get('ack') != 'yes':
-            raise ValueError('처방 시작일과 일일 정 수의 의미를 확인하세요.')
+            raise ValueError('처방일과 일일 정 수의 의미를 확인하세요.')
         frame, digest = read_csv_upload(request.files.get('file'))
         mapping = json.loads(request.form.get('mapping', '{}'))
         if not isinstance(mapping, dict) or any(not isinstance(v, str) for v in mapping.values()) or set(mapping) - set(FIELDS):
             raise ValueError('열 연결 형식을 확인하세요.')
         mapping = mapping or detect_mapping(frame.columns)
-        policy = request.form.get('policy', 'review')
-        mode = request.form.get('mode', 'common')
+        policy = 'prescription_date'
+        mode = request.form.get('mode', 'all_dates')
         refs = read_csv_upload(request.files.get('references'))[0] if mode == 'per_patient' else None
         records = prepare(frame, mapping, policy)
         pairs = reference_pairs(records, mode, request.form.get('reference_date', ''), refs)
@@ -89,7 +89,7 @@ def calculate():
         if sum(counts.get(p, 0) for p, _ in pairs) > 10000000:
             raise ValueError('처리량이 큽니다. 기준일이나 피험자를 나눠 주세요.')
         release = metadata()
-        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='prescription_date_as_start', dose_basis='tablets_per_day', release=release), policy=policy)
+        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='exact_prescription_date', dose_basis='tablets_per_day', release=release), policy=policy)
         from services.longitudinal_excel import FILENAME, MIMETYPE
         return send_file(out, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE)
     except (ValueError, TypeError) as exc:

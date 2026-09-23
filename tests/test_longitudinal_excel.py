@@ -40,7 +40,7 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
     assert any(r['patient_id'] is None and '환자 ID 누락' in r['확인할 내용'] for r in review)
     assert all(wb[s].freeze_panes == 'C2' and wb[s].auto_filter.ref for s in wb.sheetnames)
     assert wb['Results']['A1'].comment and wb['Results']['A1'].fill.fgColor.rgb == 'FF1764B2'
-    assert json.loads(wb.properties.description)['rule_version'] == 'longitudinal-1.0'
+    assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
 
 
 def test_literal_ids_and_source_text_cannot_become_formulas_or_links():
