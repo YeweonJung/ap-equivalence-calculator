@@ -2,6 +2,7 @@
 import csv
 import io
 import json
+import math
 from itertools import groupby
 
 from xlsxwriter import Workbook
@@ -37,18 +38,28 @@ def export_excel(records, results, details, metadata):
     method_headers = [f'{m} ({TARGETS[m]} mg/day)' for m in methods]
     header_format = wb.add_format({'bold': True, 'font_color': '#FFFFFF', 'bg_color': '#1764B2', 'text_wrap': True, 'valign': 'vcenter'})
     number_format = wb.add_format({'num_format': '0.####'})
+    wrap_format = wb.add_format({'text_wrap': True, 'valign': 'top'})
     row_numbers = {}
+    wrapped_columns = {}
 
     def append(ws, values):
-        ws.write_row(row_numbers[ws], 0, values, number_format)
+        lines = max((math.ceil(sum(2 if ord(c) > 127 else 1 for c in str(values[i] or '')) / 46)
+                     for i in wrapped_columns[ws]), default=1)
+        if lines > 1:
+            ws.set_row(row_numbers[ws], min(lines, 8) * 15)
+        ws.write_row(row_numbers[ws], 0, values)
         row_numbers[ws] += 1
 
     def sheet(name, headers, explanation):
         ws = wb.add_worksheet(name)
         ws.freeze_panes(1, 2)
+        wrapped_columns[ws] = []
         for i, label in enumerate(headers):
             width = 23 if 'mg/day' in label else 48 if label in ('확인할 내용', '원문 약물', '원문 제품') else 20
-            ws.set_column(i, i, width)
+            wrap = label in ('확인할 내용', '원문 약물', '원문 제품')
+            ws.set_column(i, i, width, wrap_format if wrap else number_format)
+            if wrap:
+                wrapped_columns[ws].append(i)
         ws.set_row(0, 36)
         ws.write_row(0, 0, headers, header_format)
         ws.write_comment(0, 0, explanation, {'author': 'AP Dose Converter', 'width': 420, 'height': 100})
