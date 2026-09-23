@@ -31,6 +31,7 @@
 
 
 .parser button{font-family:inherit}.parser input[type=checkbox]{width:16px;min-height:16px;vertical-align:middle}.parser details{margin-top:12px}.parser .manual-correction{padding:8px 12px;margin-top:8px}.parser small{line-height:1.7}.file-label.dragging{border-color:var(--blue);background:#f1f7ff}#upload-status:empty{display:none}#upload-status{font-size:12px;color:var(--muted);overflow-wrap:anywhere}#upload-status[data-error=true]{color:#a43720}
+.patient-result-grid{display:grid;grid-template-columns:1.1fr repeat(4,1fr);font-size:11px}.patient-result-grid .cell{padding:10px 5px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+5){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:8px;font-weight:500;margin-top:4px}@media(max-width:400px){.patient-result-grid{font-size:9px}.patient-result-grid .cell{padding:9px 3px}.patient-result-grid small{font-size:7px}}
 </style>
 </head>
 <body>
@@ -50,16 +51,15 @@
             <div class="hint"><span class="check">✓</span><span><b>한 칸 입력도 가능:</b> Risperdal 2mg BID</span></div>
           </section>
           <div class="arrow" aria-hidden="true">→</div>
-          <section class="panel" aria-label="출력 엑셀 예시">
+          <section class="panel" aria-label="환자별 총합계 결과 예시">
             <div class="panel-label"><span class="number">2</span>결과파일 받기</div>
-            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="result-grid">
-              <div class="cell">drug</div><div class="cell">method</div><div class="cell">equivalent</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">CMD</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">MED</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">DDD</span></div><div class="cell">자동 계산</div>
-              <div class="cell">risperidone</div><div class="cell"><span class="method-pill">ED95</span></div><div class="cell">자동 계산</div>
+            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="patient-result-grid">
+              <div class="cell">patient_id</div><div class="cell">CMD<small>CPZ mg/day</small></div><div class="cell">MED<small>OLZ mg/day</small></div><div class="cell">DDD<small>CPZ mg/day</small></div><div class="cell">ED95<small>OLZ mg/day</small></div>
+              <div class="cell">patient1</div><div class="cell">389.00</div><div class="cell">14.98</div><div class="cell">240.00</div><div class="cell">9.65</div>
+              <div class="cell">patient2</div><div class="cell">416.79</div><div class="cell">11.25</div><div class="cell">300.00</div><div class="cell">19.83</div>
             </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>함께 제공:</b> 환산 결과 · 원본 행 · 검토 내역</span></div>
+            <div class="hint"><span class="check">✓</span><span><b>환자별 총합계:</b> 복용 약물을 환산법별로 합산</span></div>
+            <div class="hint"><span>예시 · 환자 1명당 한 행으로 정리됩니다.</span></div>
           </section>
         </div>
         <section class="upload" aria-label="데이터 파일 업로드">

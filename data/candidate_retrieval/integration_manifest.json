@@ -98,7 +98,7 @@
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "c0c57712ffc068ec5b86594d5716366f6b0265e090250d59dfaa2ac9a8368441",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "8dbe30969e44cfbe96ae3c04517e1d8e9ab7574223ad62245f21d554769e72e1",
+    "templates/index.html": "dfc0e27bc7bddb0a78b77d0dcf8bed5beb34b90b08c5df6401fdc7398c0d7fcd",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
@@ -171,5 +171,5 @@
       "services/release.py": "942c11142c6156a9ceb0bac0fc313d8db3106e68c135e58ffb6b7cdef35f129b"
     }
   },
-  "homepage_review": "User requested preserving the spreadsheet input/output reference layout, shorter copy, and Korean/English candidate text wrapping; reviewed at 320/390/900/1440px. Calculation sources unchanged."
+  "homepage_review": "User requested only the right output illustration show one row per patient with method-specific totals. Example values calculated from the existing input example using the application."
 }
