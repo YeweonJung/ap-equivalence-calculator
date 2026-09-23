@@ -5,6 +5,8 @@ import json
 import math
 import re
 import zipfile
+import tempfile
+import shutil
 from collections import defaultdict
 from datetime import date, timedelta
 from functools import lru_cache
@@ -204,7 +206,7 @@ def reference_pairs(records, mode, common_date='', reference_frame=None):
     return pairs
 
 
-def analyze(records, pairs, methods=None, policy='review'):
+def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
     methods = methods or available_methods()
     targets = {m: normalize_target(m) for m in methods}
     by_patient = defaultdict(list)
@@ -212,6 +214,7 @@ def analyze(records, pairs, methods=None, policy='review'):
         by_patient[r['patient']].append(r)
     results, details = [], []
     conversions = {}
+    detail_count = 0
     for patient, day in pairs:
         relevant, blockers = [], []
         for r in by_patient[patient]:
@@ -230,8 +233,9 @@ def analyze(records, pairs, methods=None, policy='review'):
             groups[r['canonical'] or r['drug']].append(r)
         ambiguous = {(r['source_sheet'], r['source_row']) for items in groups.values() if len(items) > 1 for r in items}
         selected = relevant + blockers
-        if len(details) + len(selected) * len(methods) > 400000:
+        if detail_count + len(selected) * len(methods) > 400000:
             raise ValueError('약물별 결과가 400,000행을 초과합니다. 기준일 또는 피험자를 나눠 주세요.')
+        detail_count += len(selected) * len(methods)
         rows_for_method = defaultdict(list)
         for r in selected:
             reasons = list(r['issues'])
@@ -253,7 +257,8 @@ def analyze(records, pairs, methods=None, policy='review'):
                     if value is None:
                         flags.append('missing_factor')
                 rows_for_method[method].append(value)
-                details.append(dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments'])))
+                detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']))
+                (detail_sink or details.append)(detail)
         for method in methods:
             values = rows_for_method[method]
             complete = bool(values) and all(v is not None for v in values)
@@ -261,35 +266,71 @@ def analyze(records, pairs, methods=None, policy='review'):
     return results, details
 
 
-def safe_csv(rows, columns=None):
-    out = io.StringIO(newline='')
-    columns = columns or (list(rows[0]) if rows else ['status'])
+def write_csv(out, rows, columns=None):
+    rows = iter(rows)
+    first = next(rows, None)
+    columns = columns or (list(first) if first is not None else ['status'])
     writer = csv.DictWriter(out, fieldnames=columns, extrasaction='ignore')
     writer.writeheader()
-    for row in rows:
+    from itertools import chain
+    for row in chain([first] if first is not None else [], rows):
         clean = {}
         for k, v in row.items():
             if isinstance(v, str) and v.lstrip().startswith(('=', '+', '-', '@')):
                 v = "'" + v
             clean[k] = '' if v is None else v
         writer.writerow(clean)
+
+
+def safe_csv(rows, columns=None):
+    out = io.StringIO(newline='')
+    write_csv(out, rows, columns)
     return out.getvalue().encode('utf-8-sig')
 
 
 def export_zip(records, results, details, metadata):
-    audit = []
-    for r in records:
-        def last_day(end):
-            return (end - timedelta(days=1)).isoformat() if end else ''
-        audit.append(dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of']))
+    def audit_rows():
+        for r in records:
+            def last_day(end):
+                return (end - timedelta(days=1)).isoformat() if end else ''
+            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'])
     out = io.BytesIO()
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
-        z.writestr('Results.csv', safe_csv(results))
-        z.writestr('MedicationResults.csv', safe_csv(details))
-        z.writestr('Audit.csv', safe_csv(audit))
-        z.writestr('Review.csv', safe_csv([r for r in audit if r['issues']]))
+        for name, rows in [('Results.csv', results), ('MedicationResults.csv', details),
+                           ('Audit.csv', audit_rows()), ('Review.csv', (r for r in audit_rows() if r['issues']))]:
+            with z.open(name, 'w') as destination:
+                if hasattr(rows, 'read'):
+                    rows.seek(0)
+                    shutil.copyfileobj(rows, destination, length=65536)
+                else:
+                    with io.TextIOWrapper(destination, encoding='utf-8-sig', newline='') as text:
+                        write_csv(text, rows)
         z.writestr('Settings.json', json.dumps(dict(rule_version=RULE_VERSION, **metadata), ensure_ascii=False, indent=2))
         from pathlib import Path
         z.writestr('README_KO.md', (Path(__file__).resolve().parents[1] / 'docs/LONGITUDINAL_KO.md').read_text(encoding='utf-8'))
     out.seek(0)
     return out
+
+
+def analyze_export(records, pairs, metadata, methods=None, policy='review', result_transform=None):
+    """Spool expanded details to a temporary file instead of retaining hundreds of thousands of dicts."""
+    with tempfile.TemporaryFile(mode='w+b') as spool:
+        text = io.TextIOWrapper(spool, encoding='utf-8-sig', newline='')
+        writer = None
+        def emit(row):
+            nonlocal writer
+            if writer is None:
+                writer = csv.DictWriter(text, fieldnames=list(row))
+                writer.writeheader()
+            clean = {k: ("'" + v if isinstance(v, str) and v.lstrip().startswith(('=', '+', '-', '@')) else '' if v is None else v) for k, v in row.items()}
+            writer.writerow(clean)
+        try:
+            results, _ = analyze(records, pairs, methods=methods, policy=policy, detail_sink=emit)
+            if writer is None:
+                write_csv(text, [])
+            if result_transform:
+                result_transform(results)
+            text.flush()
+            return export_zip(records, results, spool, metadata)
+        finally:
+            text.detach()

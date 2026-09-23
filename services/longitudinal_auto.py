@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from services.longitudinal import (FIELDS, REQUIRED, analyze, detect_mapping,
-                                  export_zip, norm, parse_date, prepare,
+from services.longitudinal import (FIELDS, REQUIRED, analyze_export, detect_mapping,
+                                  norm, parse_date, prepare,
                                   reference_pairs)
 
 REFERENCE_HEADERS = ['reference_date', 'index_date', 'baseline_date', 'mri_date',
@@ -51,6 +51,7 @@ def automatic_analysis(sheets, methods, source_sha256='', release=None):
         raise ValueError('종단 자료는 전체 시트 합계 1~100,000행이어야 합니다.')
     frame = pd.DataFrame(standardized)
     records = prepare(frame, {k:k for k in FIELDS}, 'review', provenance)
+    del standardized, provenance, frame
     fallback = {(r['patient'], r['start']) for r in records if r['patient'] and r['start']}
     pairs = sorted({(p, d) for p, d in fallback if p not in explicit} |
                    {(p, d) for p, dates in explicit.items() for d in dates})
@@ -61,10 +62,11 @@ def automatic_analysis(sheets, methods, source_sha256='', release=None):
         counts[r['patient']] += 1
     if sum(counts[p] for p, _ in pairs) > 10000000:
         raise ValueError('처리량이 큽니다. 피험자별로 파일을 나눠 주세요.')
-    results, details = analyze(records, pairs, methods=methods, policy='review')
-    for r in results:
-        r['reference_basis'] = 'explicit_reference_date' if r['patient_id'] in explicit else 'each_prescription_date'
-    return export_zip(records, results, details, dict(policy='review', mode='automatic', mapping=mappings,
+    def annotate(results):
+        for r in results:
+            r['reference_basis'] = 'explicit_reference_date' if r['patient_id'] in explicit else 'each_prescription_date'
+    return analyze_export(records, pairs, dict(policy='review', mode='automatic', mapping=mappings,
                       source_sha256=source_sha256, release=release or {},
                       reference_rule='Use explicit reference date when supplied per patient; otherwise every prescription date.',
-                      date_basis='prescription_date_as_start', dose_basis='recognized_daily_tablets_column'))
+                      date_basis='prescription_date_as_start', dose_basis='recognized_daily_tablets_column'),
+                      methods=methods, policy='review', result_transform=annotate)

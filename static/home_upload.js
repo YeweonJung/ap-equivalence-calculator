@@ -22,6 +22,7 @@
     try {
       const response = await fetch(form.action, {method:'POST', body});
       if (!response.ok) {
+        if ([502, 503, 504].includes(response.status)) throw new Error('서버에서 처리를 완료하지 못했습니다. 잠시 후 다시 계산해 주세요.');
         const type = response.headers.get('Content-Type') || '';let message;
         if (type.includes('json')) message = (await response.json()).error;
         else {const page = new DOMParser().parseFromString(await response.text(), 'text/html');message = page.querySelector('.message, .error-message, main p, p')?.textContent;}

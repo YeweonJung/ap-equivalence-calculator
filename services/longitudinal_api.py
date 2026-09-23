@@ -7,7 +7,7 @@ import json
 import pandas as pd
 from flask import Blueprint, jsonify, render_template, request, send_file
 
-from services.longitudinal import (FIELDS, analyze, detect_mapping, export_zip,
+from services.longitudinal import (FIELDS, analyze_export, detect_mapping,
                                   prepare, reference_pairs)
 from services.release import metadata
 
@@ -88,9 +88,8 @@ def calculate():
             counts[r['patient']] = counts.get(r['patient'], 0) + 1
         if sum(counts.get(p, 0) for p, _ in pairs) > 10000000:
             raise ValueError('처리량이 큽니다. 기준일이나 피험자를 나눠 주세요.')
-        results, details = analyze(records, pairs, policy=policy)
         release = metadata()
-        out = export_zip(records, results, details, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='prescription_date_as_start', dose_basis='tablets_per_day', release=release))
+        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='prescription_date_as_start', dose_basis='tablets_per_day', release=release), policy=policy)
         return send_file(out, as_attachment=True, download_name='longitudinal_results.zip', mimetype='application/zip')
     except (ValueError, TypeError) as exc:
         return jsonify(error=str(exc)), 400
