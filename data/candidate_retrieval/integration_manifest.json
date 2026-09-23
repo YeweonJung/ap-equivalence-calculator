@@ -79,7 +79,7 @@
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
     "services/exporter.py": "8425cb7ed19567368de9d50477df45738ce879d20ccdf35c922ff213a333272c",
     "services/file_reader.py": "bef34c8724d1d9ef8b22930c195cbd0896102297fe668607acbeb0f7333d62d0",
-    "services/frames.py": "fd92c9d58a9bda2699064ae3ccdbcf1a851028976a2a34244aa4163b593065b4",
+    "services/frames.py": "94cb9e2830ccaeb683d85025ad811c9bc7b2859ec2e86f3b637c5686cbfcb907",
     "services/injections.py": "977277992058a695544ceebc6589cf446ef733be242f4c869def58b82042142f",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
     "services/lai_support.py": "d23bb100d1939e12d64350671cf6b079514b125b26f28f221d82a344f9ad5578",
@@ -173,5 +173,6 @@
   },
   "homepage_review": "User requested only the right output illustration show one row per patient with method-specific totals. Example values calculated from the existing input example using the application.",
   "patient_result_notes_review": "Explain unavailable patient totals on Results with status and source-supported reasons; numerical totals, conversion rules, and manual-confirmation rules remain unchanged.",
-  "parallel_upload_review": "User authorized multi-medication patient totals, exact clop/rispl/olx/abil/zir mappings (zir REVIEW_REQUIRED), and QD for blank frequency. Preserve doses, patient grouping, source strings, and method-specific unavailable totals."
+  "parallel_upload_review": "User authorized multi-medication patient totals, exact clop/rispl/olx/abil/zir mappings (zir REVIEW_REQUIRED), and QD for blank frequency. Preserve doses, patient grouping, source strings, and method-specific unavailable totals.",
+  "lai_route_review": "Unmarked formulations explicitly display ORAL. Shared LAI annotation is applied before each medication is parsed, preserving original text and validating each product and interval independently. Missing injection intervals are never replaced by oral QD or inferred from prior equivalent-dose columns."
 }

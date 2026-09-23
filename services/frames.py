@@ -49,7 +49,7 @@ def formulation_info(text):
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
     return {'route': 'injection' if injection else 'oral',
-            'formulation': form.group().upper() if form else ('INJECTION' if injection else 'UNSPECIFIED'),
+            'formulation': form.group().upper() if form else ('INJECTION' if injection else 'ORAL'),
             'interval': interval.group() if interval else ''}
 
 
@@ -162,13 +162,16 @@ def _frame(start, end, original):
 
 def parse_frames(text):
     try:
-        frames = [_frame(start, end, value) for start, end, value in _segments(str(text))]
-        if re.search(r'(?<![a-z])LAI\s*(?:둘\s*다|모두|both)(?![a-z])|(?:둘\s*다|모두|both)\s*LAI(?![a-z])', str(text), re.I):
-            for frame in frames:
-                frame.update(route='injection', formulation='LAI', status='unsupported_formulation',
-                             status_message=LABELS['unsupported_formulation'], daily_dose_mg=None,
-                             warning='확인바람: 공통 LAI 표기. 각 약물의 제형과 투여간격을 명시해 주세요.', needs_review=True)
-                frame.pop('injection_cpz_ddd', None)
+        shared_lai = bool(re.search(r'(?<![a-z])LAI\s*(?:둘\s*다|모두|both)(?![a-z])|(?:둘\s*다|모두|both)\s*LAI(?![a-z])', str(text), re.I))
+        frames = []
+        for start, end, value in _segments(str(text)):
+            # Apply the shared route BEFORE conversion. Validate each drug's own
+            # product/interval; never carry an oral daily dose into an LAI frame.
+            frame = _frame(start, end, value + ' LAI' if shared_lai else value)
+            if shared_lai:
+                frame.update(original=value, source_start=start, source_end=end, needs_review=True)
+                frame['warning'] = '; '.join(filter(None, [frame.get('warning'), '공통 LAI 표기를 각 약물에 적용']))
+            frames.append(frame)
         return frames
     except ValueError as exc:
         frame = _frame(0, len(str(text)), '')
