@@ -11,7 +11,7 @@ AUDIT_COLUMNS = [
     'dose_mg', 'daily_dose_mg', 'frequency', 'match_type', 'match_score', 'needs_review',
     'warning', 'unavailable_methods', 'name_candidates', 'input_dose_mg',
     'active_moiety_mg', 'dose_basis', 'mass_source', 'source_start', 'source_end',
-    'drug_class', 'dose', 'unit', 'unit_candidates', 'unit_assumed', 'interval_days',
+    'drug_class', 'exclusion_basis', 'dose', 'unit', 'unit_candidates', 'unit_assumed', 'interval_days',
     'conversion_basis', 'conversion_source', 'lai_profile', 'oral_equivalent_mg',
     'oral_bridge_source', 'route', 'formulation', 'interval', 'status', 'status_message',
     'source_text',

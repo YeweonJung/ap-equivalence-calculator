@@ -16,7 +16,7 @@ def result_rows(original, patient, items):
         if missing:
             notes.append('환산 계수 또는 제형별 근거 없음: ' + ', '.join(missing))
         if item.get('status') == 'non_target':
-            notes.append('항정신병약 환산 대상 아님')
+            notes.append(item.get('exclusion_basis') or '항정신병약 환산 대상 아님')
         row['환산 근거'] = '; '.join(dict.fromkeys(notes))
         for conversion in item['conversions']:
             row[value_column(conversion['method'])] = conversion['value']

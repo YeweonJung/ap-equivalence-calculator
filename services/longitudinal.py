@@ -13,7 +13,8 @@ from functools import lru_cache
 
 from services.converter import available_methods, convert_drug, normalize_target, lookup
 from services.parser import dictionary_match, DOSE_RE, _dose_to_mg
-from services.frames import formulation_info
+from services.frames import formulation_info, antidepressant_conflict, drug_mentions
+from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS
 
 RULE_VERSION = 'prescription-date-2.0'
 FIELDS = {
@@ -28,6 +29,7 @@ REQUIRED = ('patient', 'date', 'drug', 'daily', 'days')
 TARGETS = set(lookup.source_drug)
 # Explicit ingredient allow-list only. Unlisted drugs remain reviewable, not zero.
 NON_TARGETS = set('escitalopram lorazepam clonazepam fluoxetine propranolol bupropion lamotrigine topiramate benproperine cetirizine benztropine lithium sertraline paroxetine fluvoxamine venlafaxine desvenlafaxine duloxetine mirtazapine trazodone alprazolam diazepam zolpidem buspirone trihexyphenidyl atenolol gabapentin pregabalin valproate carbamazepine oxcarbazepine methylphenidate atomoxetine acetaminophen ibuprofen domperidone mosapride rebamipide famotidine pantoprazole omeprazole esomeprazole magnesium melatonin'.split())
+NON_TARGETS |= ANTIDEPRESSANTS
 
 
 def norm(value):
@@ -88,6 +90,9 @@ def medication(drug, product):
     release = 'ER' if re.search(r'\b(?:ER|XR|SR|CR)\b|서방', drug, re.I) else 'IR'
     form = ('injection' if injection else 'oral') + ':' + release
     first = re.split(r'\s|\d', drug.strip().casefold(), maxsplit=1)[0]
+    named_antidepressants = {name for _, _, name in drug_mentions(re.sub(r'[()\[\]{}（）]', ' ', combined))} & ANTIDEPRESSANTS
+    if named_antidepressants and antidepressant_conflict(combined, next(iter(named_antidepressants))):
+        return canonical, form, None, ['ingredient_conflict'], 'review'
     if canonical not in TARGETS:
         if product_canonical in TARGETS:
             return product_canonical, form, None, ['ingredient_conflict'], 'review'
@@ -155,7 +160,9 @@ def prepare(frame, mapping, policy='review', provenance=None):
         name, form, strength, issues, kind = medication(r['drug'], r['product'])
         r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind)
         r['issues'].extend(issues)
-        if daily is None or daily > 100:
+        if kind == 'non_target' and name in ANTIDEPRESSANTS:
+            pass  # Dose is irrelevant to AP exclusion; preserve raw source fields.
+        elif daily is None or daily > 100:
             r['issues'].append('invalid_daily_tablets')
         elif strength:
             r['daily_mg'] = strength * daily
@@ -220,9 +227,13 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
     conversions = {}
     detail_count = 0
     for patient, day in pairs:
-        relevant, blockers = [], []
+        relevant, blockers, excluded = [], [], []
         for r in by_patient[patient]:
             if r['kind'] == 'non_target':
+                if r['canonical'] in ANTIDEPRESSANTS and r['start'] and (
+                        r['start'] == day if policy == 'prescription_date' else
+                        r['start'] <= day and r['effective_end'] and day < r['effective_end']):
+                    excluded.append(r)
                 continue
             if r['start'] is None:
                 blockers.append(r)
@@ -241,7 +252,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
         ambiguous = {(r['source_sheet'], r['source_row']) for items in groups.values() if len(items) > 1 for r in items}
         if policy == 'prescription_date':
             ambiguous = set()
-        selected = relevant + blockers
+        selected = relevant + blockers + excluded
         if detail_count + len(selected) * len(methods) > 400000:
             raise ValueError('약물별 결과가 400,000행을 초과합니다. 기준일 또는 피험자를 나눠 주세요.')
         detail_count += len(selected) * len(methods)
@@ -250,12 +261,15 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
             reasons = list(r['issues'])
             if (r['source_sheet'], r['source_row']) in ambiguous:
                 reasons.append('overlapping_orders')
-            if r['kind'] != 'ready' and not reasons:
+            is_antidepressant = r['kind'] == 'non_target' and r['canonical'] in ANTIDEPRESSANTS
+            if r['kind'] != 'ready' and not reasons and not is_antidepressant:
                 reasons.append('unresolved_drug')
             for method in methods:
                 value = None
                 flags = list(dict.fromkeys(reasons))
-                if not flags:
+                if is_antidepressant:
+                    value = 0.0
+                elif not flags:
                     key = (r['canonical'], r['daily_mg'], method)
                     if key not in conversions:
                         try:
@@ -266,12 +280,12 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
                     if value is None:
                         flags.append('missing_factor')
                 rows_for_method[method].append(value)
-                detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']))
+                detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='non_target' if is_antidepressant else 'review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']))
                 (detail_sink or details.append)(detail)
         for method in methods:
             values = rows_for_method[method]
             complete = bool(values) and all(v is not None for v in values)
-            results.append(dict(patient_id=patient, reference_date=day.isoformat(), method=method, target=targets[method], equivalent_mg=sum(values) if complete else None, status=('calculated_assumption' if policy == 'replace' else 'calculated') if complete else 'review' if values else 'no_record', source_rows=';'.join(f"{r['source_sheet']}!{r['source_row']}" if r['source_sheet'] else str(r['source_row']) for r in selected), rule_version=RULE_VERSION, policy=policy))
+            results.append(dict(patient_id=patient, reference_date=day.isoformat(), method=method, target=targets[method], equivalent_mg=sum(values) if complete else None, status=('non_target' if not relevant and not blockers else 'calculated_assumption' if policy == 'replace' else 'calculated') if complete else 'review' if values else 'no_record', source_rows=';'.join(f"{r['source_sheet']}!{r['source_row']}" if r['source_sheet'] else str(r['source_row']) for r in selected), rule_version=RULE_VERSION, policy=policy))
     return results, details
 
 

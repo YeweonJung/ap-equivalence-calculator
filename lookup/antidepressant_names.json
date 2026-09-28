@@ -1,0 +1,247 @@
+{
+  "version": "2026-09-28",
+  "policy": "Exact registered single-ingredient antidepressants contribute 0 to antipsychotic equivalents; unknown drugs and ingredient conflicts remain reviewable. Brand availability is not implied. Korean dosage-form suffixes are recognized spelling variants.",
+  "sources": {
+    "nhs_classification": "https://www.tewv.nhs.uk/wp-content/uploads/2025/10/Antidepressant-Handy-Hints.pdf",
+    "nhs_brands": "https://talk2gether.nhs.uk/wp-content/uploads/2017/02/Workbook_Depression_March2016.pdf",
+    "nhs_treatment": "https://www.nhs.uk/mental-health/conditions/depression-in-adults/treatment/",
+    "lundbeck": "https://lundbeck-prod.adobemsbasic.com/global/our-science/products",
+    "brintellix_kr": "https://www.lundbeck.com/content/dam/lundbeck-com/asia/korea/product/brintellix/KR_Brintellix%205%2010%2020mg%20Leaflet_for%20homepage%20upload.pdf",
+    "pfizer_kr": "https://www.pfizer.co.kr/products-list",
+    "pristiq": "https://www.pfizermedical.com/pristiq",
+    "organon_kr": "https://www.organon.com/korea/our-focus/products-list/",
+    "bupropion_kr": "https://www.cancer.go.kr/lay1/S1T204C209/contents.do",
+    "prozac_kr": "https://common.health.kr/shared/images/insert_pdf/IN_A11AOOOOO2927_01.pdf",
+    "cymbalta_kr": "https://common.health.kr/shared/images/insert_pdf/IN_tgbuow56mj311_01.pdf",
+    "celexa": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=4259d9b1-de34-43a4-85a8-41dd214e9177",
+    "paxil": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ef3b5cbe-f9e1-c1ac-79da-cfe14e3a7e7e",
+    "trintellix": "https://www.takeda.com/newsroom/newsreleases/2016/brintellix-vortioxetine-renamed-trintellix-vortioxetine-in-us-to-avoid-name-confusion/",
+    "luvox": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2007/021519lbl.pdf"
+  },
+  "drugs": [
+    {
+      "ingredient": "escitalopram",
+      "aliases": [
+        "에스시탈로프람",
+        "렉사프로",
+        "Lexapro",
+        "Cipralex"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "lundbeck"
+      ]
+    },
+    {
+      "ingredient": "citalopram",
+      "aliases": [
+        "시탈로프람",
+        "Citalopram",
+        "Celexa",
+        "Cipramil"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "celexa",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "sertraline",
+      "aliases": [
+        "설트랄린",
+        "졸로푸트",
+        "Zoloft",
+        "Lustral"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "pfizer_kr",
+        "nhs_treatment"
+      ]
+    },
+    {
+      "ingredient": "fluoxetine",
+      "aliases": [
+        "플루옥세틴",
+        "푸로작",
+        "Prozac"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "prozac_kr",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "paroxetine",
+      "aliases": [
+        "파록세틴",
+        "Seroxat",
+        "Paxil"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands",
+        "paxil"
+      ]
+    },
+    {
+      "ingredient": "fluvoxamine",
+      "aliases": [
+        "플루복사민",
+        "Faverin",
+        "Luvox"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands",
+        "luvox"
+      ]
+    },
+    {
+      "ingredient": "venlafaxine",
+      "aliases": [
+        "벤라팍신",
+        "이팩사",
+        "Effexor",
+        "Efexor"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "pfizer_kr",
+        "nhs_treatment"
+      ]
+    },
+    {
+      "ingredient": "desvenlafaxine",
+      "aliases": [
+        "데스벤라팍신",
+        "Pristiq"
+      ],
+      "source_ids": [
+        "pristiq"
+      ]
+    },
+    {
+      "ingredient": "duloxetine",
+      "aliases": [
+        "둘록세틴",
+        "심발타",
+        "Cymbalta"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "cymbalta_kr",
+        "nhs_treatment"
+      ]
+    },
+    {
+      "ingredient": "bupropion",
+      "aliases": [
+        "부프로피온",
+        "웰부트린",
+        "Wellbutrin"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "bupropion_kr"
+      ]
+    },
+    {
+      "ingredient": "mirtazapine",
+      "aliases": [
+        "미르타자핀",
+        "레메론",
+        "Remeron"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "organon_kr"
+      ]
+    },
+    {
+      "ingredient": "trazodone",
+      "aliases": [
+        "트라조돈",
+        "Molipaxin"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "vortioxetine",
+      "aliases": [
+        "보티옥세틴",
+        "브린텔릭스",
+        "Brintellix",
+        "Trintellix"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "brintellix_kr",
+        "lundbeck",
+        "trintellix"
+      ]
+    },
+    {
+      "ingredient": "amitriptyline",
+      "aliases": [
+        "아미트리프틸린",
+        "Tryptizol",
+        "Lentizol"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "clomipramine",
+      "aliases": [
+        "클로미프라민",
+        "Anafranil"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "imipramine",
+      "aliases": [
+        "이미프라민",
+        "Tofranil"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "nortriptyline",
+      "aliases": [
+        "노르트립틸린",
+        "Allegron",
+        "Aventyl"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    },
+    {
+      "ingredient": "doxepin",
+      "aliases": [
+        "독세핀",
+        "Sinequan"
+      ],
+      "source_ids": [
+        "nhs_classification",
+        "nhs_brands"
+      ]
+    }
+  ]
+}

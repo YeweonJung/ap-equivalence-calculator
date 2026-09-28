@@ -72,3 +72,5 @@ python app.py
 환산 근거 및 주사제 제한은 [EQUIVALENCE_UPDATE.md](EQUIVALENCE_UPDATE.md), [LAI_METHODS.md](LAI_METHODS.md)를 참조하세요. 과거 문서의 출력 시트·자동 후보 검색 설명보다 이 문서의 현재 동작을 우선합니다.
 
 검증: `python -m pytest tests -q`, `node tests/quick_check_ui.cjs`, `node tests/manual_suggestions_ui.cjs`.
+
+등록된 항우울제는 항정신병약 환산에서 제외하고 환산값 0으로 표시합니다. 실제 복용량은 변경하지 않으며, 미확인 약물은 0으로 처리하지 않습니다. [등록 목록과 처리 규칙](docs/antidepressant-release-2026-09-28.md).

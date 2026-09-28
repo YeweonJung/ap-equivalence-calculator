@@ -88,10 +88,10 @@ def export_excel(records, results, details, metadata):
             if flags:
                 issues.setdefault(key, set()).update(flags)
             missing = [r['method'] for r in batch if 'missing_factor' in r['reasons'].split(';')]
-            note = reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
+            note = ('항우울제 제외: 항정신병약 환산값 0. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
             append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical'], original['daily_mg']] +
-                   [values.get(m) for m in methods] + ['확인 필요' if flags else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
+                   [values.get(m) for m in methods] + ['항우울제 제외 (0)' if first['status'] == 'non_target' else '확인 필요' if flags else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
             detail_count += 1
     finally:
         text.detach()
@@ -109,8 +109,9 @@ def export_excel(records, results, details, metadata):
     from datetime import timedelta
     audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product',
                      'prescription_date', 'days', 'daily_tablets', 'canonical',
-                     'formulation', 'strength_mg', 'daily_mg', 'kind', 'issues',
+                     'formulation', 'strength_mg', 'daily_mg', 'kind', 'drug_class', 'exclusion_basis', 'issues',
                      'adjustments', 'duplicate_of', 'original_end', 'effective_end']
+    from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS, EXCLUSION_NOTE
     def audit_rows():
         for r in records:
             def last_day(end):
@@ -119,6 +120,8 @@ def export_excel(records, results, details, metadata):
                        drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'],
                        daily_tablets=r['daily'], canonical=r['canonical'], formulation=r['formulation'],
                        strength_mg=r['strength_mg'], daily_mg=r['daily_mg'], kind=r['kind'],
+                       drug_class='antidepressant' if r['canonical'] in ANTIDEPRESSANTS else '',
+                       exclusion_basis=EXCLUSION_NOTE if r['canonical'] in ANTIDEPRESSANTS and r['kind'] == 'non_target' else '',
                        issues=';'.join(sorted(issues.get((r['source_sheet'], r['source_row']), set()))),
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))

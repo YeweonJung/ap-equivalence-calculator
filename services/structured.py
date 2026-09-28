@@ -61,6 +61,8 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
     if len(doses) != len(drugs) or len(units) not in {1, len(drugs)} or len(frequencies) not in {1, len(drugs)}:
         frames = parse_frames(raw)
         for frame in frames:
+            if frame['status'] == 'non_target' and frame.get('drug_class') == 'antidepressant':
+                continue
             frame.update(status='review', status_message='약물·용량 개수 불일치', warning='약물과 용량은 같은 순서와 개수로 입력해 주세요.', needs_review=True)
         return frames
     for index, drug in enumerate(drugs):
@@ -102,6 +104,8 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
                     note += ' (REVIEW_REQUIRED)'
                     frame['needs_review'] = True
                 frame['warning'] = '; '.join(filter(None, [frame.get('warning'), note]))
+            if frame['status'] == 'non_target' and frame.get('drug_class') == 'antidepressant':
+                continue
             if unit_conflict:
                 frame.update(status='review', status_message='용량 단위 불일치',
                              warning='용량 셀과 단위 열의 단위가 다릅니다. 원본을 확인하세요.',

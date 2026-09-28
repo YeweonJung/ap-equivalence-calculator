@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.28-global-injection-names'
+VERSION = '2026.09.28-antidepressant-exclusion'
 
 
 def metadata():
@@ -18,6 +18,7 @@ def metadata():
             'name_ranker_enabled': False, 'automatic_confirmation_enabled': False,
             'feedback_configured': configured(), 'automatic_training_enabled': False,
             'name_retrieval_fallback_channels': [],
+            'antidepressant_names_sha256': hashlib.sha256((root / 'lookup/antidepressant_names.json').read_bytes()).hexdigest(),
             'injection_names_sha256': hashlib.sha256((root / 'lookup/injection_product_names.json').read_bytes()).hexdigest(),
             'lookup_sha256': hashlib.sha256((root / 'lookup/master_lookup.csv').read_bytes()).hexdigest(),
             'anchors_sha256': hashlib.sha256((root / 'lookup/equivalence_anchors.csv').read_bytes()).hexdigest()}

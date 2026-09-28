@@ -97,7 +97,8 @@ def test_matching_invega():
 
 
 def test_non_target_and_unknown_not_conflated():
-    assert result(prepared([rx(drug='Escitalopram 10mg tab')]), '2020-04-15')['status'] == 'no_record'
+    assert result(prepared([rx(drug='Escitalopram 10mg tab')]), '2020-04-15')['status'] == 'non_target'
+    assert result(prepared([rx(drug='Escitalopram 10mg tab')]), '2020-04-15')['equivalent_mg'] == 0
     assert result(prepared([rx(drug='unknown 10mg tab')]), '2020-04-15')['status'] == 'review'
 
 

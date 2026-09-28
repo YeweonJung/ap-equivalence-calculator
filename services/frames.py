@@ -9,7 +9,9 @@ from difflib import SequenceMatcher
 from services.medication_splitter import split_medication_spans
 from services.parser import alias_map, dictionary_match, DOSE_RE, parse_medication, _dose_to_mg
 
-NON_TARGET = {'escitalopram': 'antidepressant', 'benztropine': 'anticholinergic', 'lithium': 'mood_stabilizer'}
+from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS, EXCLUSION_NOTE, is_excluded
+
+NON_TARGET = {**dict.fromkeys(ANTIDEPRESSANTS, 'antidepressant'), 'benztropine': 'anticholinergic', 'lithium': 'mood_stabilizer'}
 LABELS = {
     'ready': '환산 가능', 'converted': '환산 완료', 'non_target': '항정신병약 환산 대상 아님',
     'unknown_drug': '약물 미확인', 'missing_unit': '단위 확인 필요',
@@ -47,6 +49,30 @@ def drug_mentions(text):
                         if re.fullmatch(re.escape(alias), match.group(), re.I))
         hits.append((match.start(), match.end(), name))
     return hits
+
+
+def antidepressant_conflict(text, drug):
+    """Do not exclude a combined or contradictory ingredient description."""
+    flat = re.sub(r'[()\[\]{}（）]', ' ', text)
+    mentions = drug_mentions(flat)
+    names = {name for _, _, name in mentions}
+    if names - {drug}:
+        return True
+    if mentions and re.search(r'[a-z가-힣]', flat[:mentions[0][0]], re.I):
+        return True  # An unknown leading drug must not be hidden by an annotation.
+    allowed = {'hcl', 'hydrochloride', 'hydrobromide', 'maleate', 'succinate',
+               'fumarate', 'oxalate', 'tab', 'tabs', 'tablet', 'capsule', 'cap',
+               'xr', 'er', 'sr', 'cr', 'ir', 'mg', 'mcg', 'ug', 'g',
+               'qd', 'bid', 'tid', 'qid', 'qhs', 'q', '하루', '일', '정', '캡슐'}
+    for token in re.finditer(r'(?<!\w)[A-Za-z가-힣]+\s*(?=[+-]?(?:\d|\.\d))', flat):
+        if not any(a <= token.start() < b for a, b, _ in mentions) and token.group().strip().casefold() not in allowed:
+            return True
+
+    # Explicit combinations with an unrecognized partner cannot become zero.
+    parts = re.split(r'\s*(?:[+&/]|\bwith\b)\s*', flat, flags=re.I)
+    return len(parts) > 1 and any(not drug_mentions(part) and
+                                 not re.fullmatch(r'(?:day|d|일)', part.strip(), re.I)
+                                 for part in parts)
 
 
 def formulation_info(text):
@@ -87,7 +113,7 @@ def _frame(start, end, original):
     text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
-    if not DOSE_RE.search(text):
+    if not DOSE_RE.search(text) and dictionary_match(text) not in ANTIDEPRESSANTS:
         bare = re.search(r'[+-]?(?:\d+(?:\.\d+)?|\.\d+)', _outside(text))
         if bare:
             tail = text[bare.end():].strip()
@@ -131,8 +157,14 @@ def _frame(start, end, original):
     if not drug:
         status = 'unknown_drug'
     elif drug in NON_TARGET:
-        status = 'non_target'
-        frame['needs_review'] = match_type != 'exact'
+        if drug in ANTIDEPRESSANTS and antidepressant_conflict(text, drug):
+            status = 'review'
+            frame['warning'] = '항우울제와 다른 성분 또는 미확인 복합 표기가 함께 있습니다. 약물별로 분리해 주세요.'
+        else:
+            status = 'non_target'
+            frame['needs_review'] = match_type != 'exact'
+            if drug in ANTIDEPRESSANTS:
+                frame['exclusion_basis'] = EXCLUSION_NOTE
     elif info['route'] == 'injection':
         from services.injections import injection_values
         try:
@@ -163,7 +195,7 @@ def _frame(start, end, original):
         # Parsing never performs candidate retrieval or calls an AI service.
         frame['suggestions'] = []
         frame['name_candidates'] = '[]'
-    frame.update(status=status, status_message=LABELS[status])
+    frame.update(status=status, status_message='항우울제 제외 (환산값 0)' if status == 'non_target' and drug in ANTIDEPRESSANTS else LABELS[status])
     return frame
 
 
@@ -190,6 +222,8 @@ def convert_frame(frame, methods):
     from services.converter import convert_drug, normalize_target
     from services.lai_support import convert_injection, BRIDGE_LABEL
     item = dict(frame, conversions=[])
+    if is_excluded(item):
+        item['conversions'] = [dict(method=m, target=normalize_target(m), value=0.0, basis=EXCLUSION_NOTE) for m in methods]
     if item['status'] == 'ready':
         for method in methods:
             target = normalize_target(method)
@@ -226,12 +260,13 @@ def summarize_frames(items, methods):
             conversion = next((c for c in item['conversions'] if c['method'] == method and c['target'] == target), None)
             if conversion and conversion['value'] is not None:
                 values.append(convert_injection(item, method, target) if item['route'] == 'injection' else convert_drug(item['drug'], item['daily_dose_mg'], method, target))
-        complete = bool(relevant) and len(values) == len(relevant)
+        excluded_only = not relevant and any(is_excluded(item) for item in items)
+        complete = (bool(relevant) and len(values) == len(relevant)) or excluded_only
         totals.append(dict(method=method, target_drug=target,
                            total_equivalent_dose_mg=round(math.fsum(values), 4) if complete else None,
                            partial_equivalent_dose_mg=round(math.fsum(values), 4) if values and not complete else None,
                            converted_count=len(values), unresolved_count=len(relevant)-len(values),
                            excluded_count=len(items)-len(relevant),
-                           status='complete' if complete else 'incomplete' if relevant else 'non_target',
+                           status='non_target' if excluded_only else 'complete' if complete else 'incomplete' if relevant else 'non_target',
                            needs_review=not complete or any(i['needs_review'] for i in relevant)))
     return totals
