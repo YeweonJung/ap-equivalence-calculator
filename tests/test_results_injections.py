@@ -64,7 +64,8 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     assert all(value is not None for value in rows[0][3+len(METHOD_ORDER):7+len(METHOD_ORDER)])
     assert all(value is None for value in rows[1][3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)])  # total shown once
     assert all(value is None for value in rows[2][3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)])  # incomplete cell
-    assert all(value is None for value in rows[3][3:])  # unknown drug
+    assert all(value is None for value in rows[3][3:3+2*len(METHOD_ORDER)])  # unknown drug
+    assert rows[3][headers.index('환산 근거')]  # explain unavailable values
     assert rows[4][6] == 400 and rows[4][headers.index(value_column('DDD', True))] == 400
     assert rows[4][3] is None and rows[4][headers.index(value_column('CMD', True))] is None
     errors = pd.read_excel(io.BytesIO(response.data), sheet_name='Errors')

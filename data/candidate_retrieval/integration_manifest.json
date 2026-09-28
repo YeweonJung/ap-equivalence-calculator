@@ -77,9 +77,9 @@
     "services/converter.py": "fe0d7abacf8f0c33a1039f65d90699569a5fd72e50f250e0736deb086127d272",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "8425cb7ed19567368de9d50477df45738ce879d20ccdf35c922ff213a333272c",
+    "services/exporter.py": "dbd9f6fcdee7cce8f1c2779544573817620211c79d1a82e23c424056197060a8",
     "services/file_reader.py": "f853038ecbcf97e726ae1a2f2fd4340bfb3b28e0a2e55dc6ab91ce3fbb6c8c05",
-    "services/frames.py": "94cb9e2830ccaeb683d85025ad811c9bc7b2859ec2e86f3b637c5686cbfcb907",
+    "services/frames.py": "950c0ecec1eacbd8d82fb8467111f4c4248637cd3d67d7bee01f4979d96be87a",
     "services/injections.py": "977277992058a695544ceebc6589cf446ef733be242f4c869def58b82042142f",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
     "services/lai_support.py": "d23bb100d1939e12d64350671cf6b079514b125b26f28f221d82a344f9ad5578",
@@ -93,7 +93,7 @@
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "64135d8a264a513398140bac9a14c7b25f7c625ed7dad53217e9f48ef62a964f",
     "services/release.py": "47827c24f9547ce24706eb5b0f2242a6262b73236695220a7d9ad14ff034ca21",
-    "services/result_summary.py": "6fd22b525c705507f04dab8d7e03927cae0de16c56a90c3c7e59c317789948d1",
+    "services/result_summary.py": "c3e423ec1ecb29256d07deb7641f474ad472ce01dc86fc204d3930bfe1f27008",
     "services/structured.py": "4ea24e3035172aec2d90b4d3b410174198f30b86037dd1b7e61521437af1dd5c",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "8001201f3893fe2f22164e4e8a0055ec3e8e35c11d213b9ad60f4925ff2b484a",
@@ -111,7 +111,7 @@
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
     "tests/test_quick_export.py": "a2cc5e75cd263b7938e882e3b6921992c2f5b87422d50c847fba6f9d0bbf0e7d",
-    "tests/test_results_injections.py": "613138e9fcf426365c4c0aa5024ee51270a36bd994a0494326a077804547c618",
+    "tests/test_results_injections.py": "5cc924c2f16bc114447809bed700a475b6b0434767c1f51740341b6771914410",
     "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
   },
   "patient_results_change": {
@@ -179,6 +179,12 @@
   "candidate_language_review": "Use fixed Korean review guidance instead of unverified model rationale in API candidates and UI, including legacy responses. Preserve manual confirmation and dose suffixes.",
   "longitudinal_excel_review": "Export longitudinal results in one streaming Excel workbook with three sheets, patient/date-wide totals, medication details, and review-only source rows. Preserve conversion values and unavailable totals.",
   "followup_source_changes": [
-    "services/file_reader.py"
-  ]
+    "services/exporter.py",
+    "services/file_reader.py",
+    "services/frames.py",
+    "services/result_notes.py",
+    "services/result_summary.py",
+    "tests/test_results_injections.py"
+  ],
+  "upload_review_reporting": "2026-09-28: report missing-factor failures in Errors and explain method-specific blanks even when input errors coexist. Preserve conversion tables, patient totals, source IDs and unconfirmed LAI intervals."
 }

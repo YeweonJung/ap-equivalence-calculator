@@ -1,7 +1,7 @@
 """Explain unavailable patient totals without changing any calculated values."""
 from collections import defaultdict
 
-NOTE_COLUMNS = ['결과 상태', '확인할 내용']
+NOTE_COLUMNS = ['결과 상태', '확인할 내용', '환산 완료 방법', '환산 불가 방법']
 
 
 def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
@@ -22,6 +22,8 @@ def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
                 original = issue.get('original') or ''
                 notes.append(f'{original}: {reason}' if original else str(reason))
         for item in audits[patient]:
+            if item.get('unavailable_methods') and item.get('status') in {'converted', 'missing_factor'}:
+                notes.append(f"{item.get('original') or item.get('parsed') or ''}: 환산 계수 또는 제형별 근거 없음: {item['unavailable_methods']}")
             if item.get('warning'):
                 notes.append(f"{item.get('original') or ''}: {item['warning']}")
         unavailable = [c['method'] for c in checks[patient]
@@ -29,7 +31,7 @@ def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
         complete = [c for c in checks[patient] if c.get('status') == 'complete']
         if not audits[patient]:
             notes.append('약물 입력이 없습니다. 원본 처방을 확인하세요.')
-        elif unavailable and not errors[patient]:
+        elif unavailable:
             notes.append('환산 계수 또는 제형별 근거 없음: ' + ', '.join(unavailable))
         if unavailable:
             notes.append('빈칸은 0이 아닙니다. 미환산 약물이 있는 방법은 총합계를 표시하지 않습니다.')
@@ -47,5 +49,7 @@ def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
         else:
             status = '환산 불가'
         result.append({**row, '결과 상태': status,
-                       '확인할 내용': '\n'.join(dict.fromkeys(notes))})
+                       '확인할 내용': '\n'.join(dict.fromkeys(notes)),
+                       '환산 완료 방법': ', '.join(c['method'] for c in complete),
+                       '환산 불가 방법': ', '.join(unavailable)})
     return result

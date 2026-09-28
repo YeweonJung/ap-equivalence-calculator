@@ -54,7 +54,7 @@ def _format_worksheet(worksheet):
     worksheet.freeze_panes = "D2" if worksheet.title == "Results" else "A2"
     worksheet.auto_filter.ref = worksheet.dimensions
 
-    wrap_headers = {"original", "warning", "error", "reference", "환산 근거", "basis", "source", "conversion_basis", "conversion_source", "oral_bridge_source", "확인할 내용"}
+    wrap_headers = {"original", "warning", "error", "reference", "환산 근거", "basis", "source", "conversion_basis", "conversion_source", "oral_bridge_source", "확인할 내용", "환산 완료 방법", "환산 불가 방법"}
     for column_index, cells in enumerate(worksheet.iter_cols(), start=1):
         header = str(cells[0].value or "")
         max_length = max((len(str(cell.value)) for cell in cells if cell.value is not None), default=0)

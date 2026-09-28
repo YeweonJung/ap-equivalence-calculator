@@ -197,8 +197,10 @@ def convert_frame(frame, methods):
             item['conversions'].append(dict(method=method, target=target, value=value, basis=basis))
         item['status'] = 'converted' if any(c['value'] is not None for c in item['conversions']) else 'missing_factor'
         item['status_message'] = LABELS[item['status']]
-    item['ok'] = item['status'] not in {'unknown_drug', 'review', 'missing_unit', 'unsupported_formulation'}
-    if not item['ok']:
+    item['ok'] = item['status'] not in {'unknown_drug', 'review', 'missing_unit', 'unsupported_formulation', 'missing_factor'}
+    if item['status'] == 'missing_factor':
+        item['error'] = '선택한 환산법의 계수 또는 제형별 근거 없음: ' + ', '.join(methods)
+    elif not item['ok']:
         item['error'] = item['warning'] or item['status_message']
     return item
 

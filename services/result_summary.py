@@ -14,7 +14,13 @@ def result_rows(original, patient, items, totals):
     rows = []
     for index, item in enumerate(items):
         row = dict(patient=patient, original=original, 약물=item.get('drug') or item['original'])
-        row['환산 근거'] = item.get('warning', '') if item.get('route') == 'injection' else ''
+        notes = list(filter(None, [item.get('error'), item.get('warning')]))
+        missing = [c['method'] for c in item['conversions'] if c['value'] is None]
+        if missing:
+            notes.append('환산 계수 또는 제형별 근거 없음: ' + ', '.join(missing))
+        if item.get('status') == 'non_target':
+            notes.append('항정신병약 환산 대상 아님')
+        row['환산 근거'] = '; '.join(dict.fromkeys(notes))
         for conversion in item['conversions']:
             row[value_column(conversion['method'])] = conversion['value']
         if index == 0:
