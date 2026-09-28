@@ -106,7 +106,7 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     assert all(result[3][cols[value_column(m)]] is None for m in METHOD_ORDER)
     med = parse('paliperidone 100mg PP1M')['items'][0]
     assert med['oral_equivalent_mg'] == 9 and med['oral_bridge_source']
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 

@@ -74,7 +74,7 @@ def test_export_carries_short_candidate_evidence_without_conversion():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_csv_upload_uses_same_manual_retrieval():
@@ -91,7 +91,7 @@ def test_csv_upload_uses_same_manual_retrieval():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_formulation_conflict_preserves_suffix_and_requires_review():
@@ -133,7 +133,7 @@ def test_jamo_candidates_are_exported_without_conversion():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_conversion_sources_and_existing_tests_remain_protected():

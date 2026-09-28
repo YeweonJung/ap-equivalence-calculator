@@ -58,7 +58,7 @@ def test_export_keeps_unknown_original_character_evidence_and_no_total():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 @pytest.mark.parametrize('method,drug,dose', [

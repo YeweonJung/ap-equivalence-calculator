@@ -227,7 +227,7 @@ def process_upload(uploaded_file, method):
                             cell_items.append(parsed)
                             context = {"sheet": sheet_name, "source_row": source_row,
                                        "medication_column": str(medication_col), "patient": patient_id}
-                            record = {**context, **parsed}
+                            record = {**context, **parsed, "source_text": raw_medication}
                             conversions = parsed["conversions"]
                             audit_rows.append({**record, "parsed": parsed["drug"],
                                                "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})

@@ -122,7 +122,7 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
     original_column = [cell.value for cell in saved["MedicationResults"][1]].index("original") + 1
     originals = [saved["MedicationResults"].cell(row=row, column=original_column).value for row in range(2, saved["MedicationResults"].max_row + 1)]
     assert originals[0].startswith("'") and saved["MedicationResults"].cell(row=2, column=original_column).data_type != "f"
-    assert saved.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert saved.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
     assert saved["MedicationResults"].freeze_panes == "B2"
     assert saved["MedicationResults"].auto_filter.ref == saved["MedicationResults"].dimensions
     assert saved["MedicationResults"].column_dimensions["E"].width > 11

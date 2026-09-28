@@ -16,7 +16,7 @@ def test_overview_keeps_values_and_explains_blanks():
     assert sheet.cell(9,ddd).value=='—'
     assert sheet['B9'].value=='계산 보류'
     assert '환산계수 없음' in sheet.cell(9,len(headers)).value
-    assert wb.sheetnames == ['Results','MedicationResults','Review']
+    assert wb.sheetnames == ['Results','MedicationResults','Review','AuditTrail']
     assert all(s.sheet_state == 'visible' for s in wb)
     assert wb['Results'].sheet_state=='visible'
     assert sheet.freeze_panes=='C8' and sheet.auto_filter.ref=='A7:L9'

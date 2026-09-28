@@ -5,7 +5,7 @@
 항정신병약물 등가용량을 CSV/Excel 파일에서 일괄 계산하는 Flask 웹앱입니다.
 
 등록 사전과 사용자가 확정한 별칭으로 약물을 식별하고, 미인식 약물은 확인 대상으로 표시합니다. 메인 화면에서 약물 문자열을 바로 테스트할 수 있고,
-결과는 `Results`(요약), `MedicationResults`(약물별 상세), `Review`(확인 필요) 3개 시트만 제공합니다. 숨겨진 시트는 없습니다.
+결과는 `Results`(요약), `MedicationResults`(약물별 상세), `Review`(확인 필요), `AuditTrail`(처리 기록) 4개 시트만 제공합니다. 숨겨진 시트는 없습니다.
 웹 화면에서 업로드하면 CMD·MED·ED95·DDD·CPZ_FGA·WOODS·GARDNER 중 해당 약물에 존재하는 모든 환산값을 한 결과 파일에 생성합니다.
 
 파싱 알고리즘의 선택 이유, 대안별 장단점, 코드 단계, 2,000명 데이터 평가 계획은
@@ -58,13 +58,15 @@ python app.py
 
 - `Results`: 환자·처방일당 한 행의 합계, CPZ/OLZ 색상 구분, 환산 상태와 짧은 확인 사항. 날짜가 없는 파일은 환자별 합산입니다.
 - `MedicationResults`: 약물당 한 행의 환산값과 원문·원본 위치·확인 사유. 중복 총합 열은 제외합니다.
+- `AuditTrail`: 성공·미환산·제외 기록을 모두 포함합니다. 원본 위치, 해석된 성분과 용량, 단위·빈도 가정, 주사제 질량과 경구 대응 근거, 미지원 방법을 추적합니다. 날짜별 파일은 원본 처방마다 한 행이며 ID·날짜 오류가 있는 행도 보존합니다.
 - `Review`: 미확인 약물, 누락 계수, 주사 간격, 가정 사항 등 확인할 기록만 표시합니다.
 - 요약의 `—`와 상세의 빈 셀은 0이 아닙니다. 미환산 약물이 있는 방법의 총합은 비웁니다.
 - 표시는 소수 2자리이며 계산된 원값은 보존합니다. 서로 다른 기준약물(CPZ/OLZ)의 값은 더하지 않습니다.
 - 같은 환자라도 다른 처방일은 합산하지 않습니다. 처방기간이 겹쳐도 이전 날짜의 처방을 더하지 않습니다.
 - 한 줄 계산·파일 업로드·내보내기는 자동 철자 후보 검색, AI 요청, AI 작업 대기를 하지 않습니다. 기존 `NAME_LLM_ENABLED=1` 설정으로도 다시 활성화되지 않습니다. 정확한 이름을 직접 수정한 후 다시 계산할 수 있습니다.
+- Excel은 서식을 재사용하며 행 단위로 기록하고, 약물명 정규식도 한 번만 준비합니다. 환자별 입력이나 결과를 전역 캐시에 보관하지 않습니다.
 - 환산표는 서버 시작 시 검사하고 메모리에 한 번 색인합니다. 환산계수나 약물별 계산식은 변경하지 않았습니다.
-- 삭제된 시트: 별도 한눈에 보기, PatientChecks, Detailed, AuditTrail, Errors, CellTotals, FactorSources, VersionInfo, ReviewQueue, MethodInfo, InjectionInfo. 요약은 Results에 통합했습니다.
+- 삭제된 시트: 별도 한눈에 보기, PatientChecks, Detailed, Errors, CellTotals, FactorSources, VersionInfo, ReviewQueue, MethodInfo, InjectionInfo. 요약은 Results에 통합했습니다.
 - 저장소의 후보 검색·AI 평가 도구는 이전 실험용으로 남아 있지만 공개 계산 경로에서는 실행하지 않습니다.
 
 환산 근거 및 주사제 제한은 [EQUIVALENCE_UPDATE.md](EQUIVALENCE_UPDATE.md), [LAI_METHODS.md](LAI_METHODS.md)를 참조하세요. 과거 문서의 출력 시트·자동 후보 검색 설명보다 이 문서의 현재 동작을 우선합니다.

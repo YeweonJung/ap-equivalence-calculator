@@ -58,7 +58,7 @@ def test_export_preserves_mass_audit_sources_and_separate_totals():
     assert item['oral_equivalent_mg'] == 9
     assert item['mass_source'] and item['oral_bridge_source']
     assert 'WOODS' in rows[0]['환산 근거']
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 

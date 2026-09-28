@@ -22,7 +22,7 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
     pairs = reference_pairs(records, 'all_dates')
     expected, details = analyze(records, pairs)
     wb = load_workbook(analyze_export(records, pairs, {'policy': 'review'}))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
     actual = {(r['patient_id'], r['기준일']): r for r in rows(wb, 'Results')}
     assert len(actual) == len(pairs)
     for r in expected:

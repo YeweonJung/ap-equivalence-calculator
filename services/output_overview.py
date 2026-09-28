@@ -118,8 +118,8 @@ def add_openpyxl(wb, methods, rows):
     wb.active=0
 
 
-def add_xlsxwriter(wb, methods, rows, date_label='처방일'):
-    headers,cells,widths=layout(methods,rows,dated=True,date_label=date_label)
+def add_xlsxwriter(wb, methods, rows, date_label='처방일', dated=True):
+    headers,cells,widths=layout(methods,rows,dated=dated,date_label=date_label)
     ws=wb.add_worksheet(NAME)
     formats={}
     for kind,s in STYLES.items():
@@ -135,6 +135,6 @@ def add_xlsxwriter(wb, methods, rows, date_label='처방일'):
         if r in (0,1,3,4):ws.merge_range(r,0,r,len(headers)-1,v,formats[kind])
         elif isinstance(v,str):ws.write_string(r,c,v,formats[kind])
         else:ws.write_number(r,c,v,formats[kind])
-    ws.freeze_panes(7,3);ws.autofilter(6,0,max(6,6+len(rows)),len(headers)-1)
+    ws.freeze_panes(7,3 if dated else 2);ws.autofilter(6,0,max(6,6+len(rows)),len(headers)-1)
     ws.hide_gridlines(2);ws.set_zoom(85);ws.set_tab_color('#245B91')
     ws.set_landscape();ws.set_paper(8);ws.fit_to_pages(1,0);ws.repeat_rows(0,6)

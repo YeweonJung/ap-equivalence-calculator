@@ -29,12 +29,19 @@ def _outside(text):
     return ''.join(chars)
 
 
+# Compile the immutable dictionary once. Rebuilding 229 patterns for every
+# frame also evicts other parser expressions from Python's regex cache.
+_MENTION_PATTERNS = tuple(
+    (re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name)
+    for alias, name in alias_map.items()
+)
+
+
 def drug_mentions(text):
     masked = _outside(text)
     hits = []
-    for alias, name in alias_map.items():
-        pattern = r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])'
-        for match in re.finditer(pattern, masked, re.I):
+    for pattern, name in _MENTION_PATTERNS:
+        for match in pattern.finditer(masked):
             hits.append((match.start(), match.end(), name))
     chosen = []
     for hit in sorted(hits, key=lambda x: (x[0], -(x[1]-x[0]))):

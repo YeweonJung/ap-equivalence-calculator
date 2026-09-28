@@ -55,7 +55,7 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     from tests.workbook_helpers import records
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
     meds = records(wb, 'MedicationResults')
     summary = records(wb, 'Results')
     assert meds[0]['original'] == 'ris 2, olz 5'

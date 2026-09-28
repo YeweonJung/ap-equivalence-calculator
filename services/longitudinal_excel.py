@@ -103,6 +103,26 @@ def export_excel(records, results, details, metadata):
             review_count += 1
     for ws, headers, count in [(detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
         ws.autofilter(0, 0, count - 1, len(headers) - 1)
+    # Include every source prescription, including non-target and invalid rows
+    # that do not produce a patient/date detail row.
+    from services.excel_tables import write_table
+    from datetime import timedelta
+    audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product',
+                     'prescription_date', 'days', 'daily_tablets', 'canonical',
+                     'formulation', 'strength_mg', 'daily_mg', 'kind', 'issues',
+                     'adjustments', 'duplicate_of', 'original_end', 'effective_end']
+    def audit_rows():
+        for r in records:
+            def last_day(end):
+                return (end - timedelta(days=1)).isoformat() if end else None
+            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'],
+                       drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'],
+                       daily_tablets=r['daily'], canonical=r['canonical'], formulation=r['formulation'],
+                       strength_mg=r['strength_mg'], daily_mg=r['daily_mg'], kind=r['kind'],
+                       issues=';'.join(sorted(issues.get((r['source_sheet'], r['source_row']), set()))),
+                       adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
+                       original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))
+    write_table(wb, 'AuditTrail', audit_columns, audit_rows())
     wb.close()
     out.seek(0)
     return out
