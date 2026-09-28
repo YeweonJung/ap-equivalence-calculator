@@ -26,6 +26,10 @@ for _alias, _drug in list(alias_map.items()):
         if any(compare_letters(_alias, ref)['distance'] <= 3 for ref in _references):
             del alias_map[_alias]
 
+# Keep the archived, disabled ranker evaluation dictionary unchanged.
+LEGACY_ALIAS_MAP = alias_map.copy()
+alias_map.update({name: identity[0] for name, identity in PRODUCTS.items()})
+
 DOSE_RE = re.compile(
     r"(?<![\d.])(?P<dose>[+-]?(?:\d+(?:\.\d+)?|\.\d+))\s*(?P<unit>mcg|ug|μg|㎍|mg|㎎|g)(?![a-z])",
     re.IGNORECASE,

@@ -30,7 +30,28 @@ PRODUCTS.update({'sustenna': ('paliperidone', 'PP1M'), 'trinza': ('paliperidone'
 PRODUCTS.update({'uzedy': ('risperidone', 'RIS_UZEDY'),
                  'perseris': ('risperidone', 'RIS_PERSERIS'),
                  'consta': ('risperidone', 'RIS_MICROSPHERES')})
-PRODUCT_RE = r'\b(?:' + '|'.join(PRODUCTS) + r')\b'
+LEGACY_PRODUCTS = PRODUCTS.copy()
+
+# Explicit spelling aliases only: never fuzzy-match a product or infer its interval.
+_PRODUCT_NAMES = {
+    'sustenna': ['invega sustenna', '인베가 서스티나'],
+    'trinza': ['invega trinza', '인베가 트린자'],
+    'hafyera': ['invega hafyera'],
+    'maintena': ['abilify maintena', '아빌리파이 메인테나', '메인테나'],
+    'asimtufii': ['abilify asimtufii'],
+    'consta': ['risperdal consta', '리스페달 콘스타', '콘스타'],
+}
+for _product, _names in _PRODUCT_NAMES.items():
+    for _name in _names:
+        for _variant in {_name, _name.replace(' ', ''), _name.replace(' ', '-')}:
+            PRODUCTS[_variant] = PRODUCTS[_product]
+# Korean prescription exports commonly append the dosage-form suffix.
+for _name, _identity in list(PRODUCTS.items()):
+    if re.search('[가-힣]', _name):
+        for _suffix in ('주', '주사', ' 주', ' 주사'):
+            PRODUCTS[_name + _suffix] = _identity
+PRODUCT_RE = (r'(?<![\w])(?:' + '|'.join(re.escape(name) for name in
+              sorted(PRODUCTS, key=len, reverse=True)) + r')(?![a-z가-힣])')
 
 
 def profile_for(text, drug, dose):

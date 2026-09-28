@@ -6,9 +6,9 @@ import unicodedata
 from functools import lru_cache
 from pathlib import Path
 
-from services.parser import alias_map
+from services.parser import LEGACY_ALIAS_MAP as alias_map
 from services.name_distance import BRANDS
-from services.lai_support import PRODUCTS
+from services.lai_support import LEGACY_PRODUCTS as PRODUCTS
 
 
 def normalize_name(value):
