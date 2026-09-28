@@ -16,11 +16,12 @@ alias_map = {
 }
 
 from services.name_distance import BRANDS, compare_letters
+from services.lai_support import PRODUCTS
 # English typo entries used to be indistinguishable from exact names.
 # Preserve canonical names, registered brands and prefix abbreviations.
 for _alias, _drug in list(alias_map.items()):
     if (re.fullmatch('[a-z]{5,}', _alias) and _alias != _drug
-            and _alias not in BRANDS and not _drug.startswith(_alias)):
+            and _alias not in BRANDS and _alias not in PRODUCTS and not _drug.startswith(_alias)):
         _references = [_drug] + [b for b in BRANDS if alias_map.get(b) == _drug]
         if any(compare_letters(_alias, ref)['distance'] <= 3 for ref in _references):
             del alias_map[_alias]

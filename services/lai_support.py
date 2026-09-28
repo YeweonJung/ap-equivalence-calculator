@@ -8,6 +8,17 @@ LABELS = {key: f'https://www.medicines.org.uk/emc/product/{value}/smpc' for key,
 PAL_ORAL = {'PP1M': {25: 3, 50: 3, 75: 6, 100: 9, 150: 12},
             'PP3M': {175: 3, 263: 6, 350: 9, 525: 12}, 'PP6M': {700: 9, 1000: 12}}
 OLZ_ORAL = {(150, 14): 10, (300, 28): 10, (210, 14): 15, (405, 28): 15, (300, 14): 20}
+LABELS.update({
+    'RIS_UZEDY': 'https://www.uzedy.com/globalassets/uzedy/prescribing-information.pdf',
+    'RIS_PERSERIS': 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a4f21b1a-5691-4b14-a56d-651962d06f39',
+    'RIS_MICROSPHERES': 'https://www.jnjlabels.com/package-insert/product-monograph/prescribing-information/RISPERDAL%20CONSTA-pi.pdf',
+})
+# Product label oral-dose correspondence; not direct LAI equivalence factors.
+RIS_SC_ORAL = {
+    'RIS_UZEDY': {(50, 30): 2, (75, 30): 3, (100, 30): 4, (125, 30): 5,
+                  (100, 60): 2, (150, 60): 3, (200, 60): 4, (250, 60): 5},
+    'RIS_PERSERIS': {(90, 30): 3, (120, 30): 4},
+}
 PRODUCTS = {'xeplion': ('paliperidone', 'PP1M'), 'trevicta': ('paliperidone', 'PP3M'),
             'byannli': ('paliperidone', 'PP6M'), 'zypadhera': ('olanzapine', 'OLZ_PAMOATE'),
             'okedi': ('risperidone', 'RIS_ISM'), 'maintena': ('aripiprazole', 'ARI_1M')}
@@ -16,6 +27,9 @@ PRODUCTS.update({'sustenna': ('paliperidone', 'PP1M'), 'trinza': ('paliperidone'
                  '트린자': ('paliperidone', 'PP3M'), '하피에라': ('paliperidone', 'PP6M'),
                  'aristada': ('aripiprazole', 'ARI_LAUROXIL'),
                  'asimtufii': ('aripiprazole', 'ARI_2M')})
+PRODUCTS.update({'uzedy': ('risperidone', 'RIS_UZEDY'),
+                 'perseris': ('risperidone', 'RIS_PERSERIS'),
+                 'consta': ('risperidone', 'RIS_MICROSPHERES')})
 PRODUCT_RE = r'\b(?:' + '|'.join(PRODUCTS) + r')\b'
 
 
@@ -95,12 +109,17 @@ def oral_bridge(drug, dose, days, profile):
             raise ValueError('확인바람: aripiprazole LAI 제형·용량·간격을 확인해 주세요.')
         profile = profile or 'ARI_1M'
     elif drug == 'risperidone':
-        if profile == 'RIS_ISM' and dose in (75, 100) and days == 28:
+        if profile in RIS_SC_ORAL:
+            if (dose, days) not in RIS_SC_ORAL[profile]:
+                raise ValueError('확인바람: 피하 주사 제품별 유지용량과 투여간격을 확인해 주세요.')
+            oral, source = RIS_SC_ORAL[profile][dose, days], LABELS[profile]
+        elif profile == 'RIS_ISM' and dose in (75, 100) and days == 28:
             # 100mg corresponds to oral >=4mg, not a single value.
             if dose == 75:
                 oral, source = 3, LABELS[profile]
-        elif not profile and dose in (12.5, 25, 37.5, 50) and days == 14:
+        elif profile in ('', 'RIS_MICROSPHERES') and dose in (12.5, 25, 37.5, 50) and days == 14:
             profile = 'RIS_MICROSPHERES'
+            source = LABELS[profile]
         else:
             raise ValueError('확인바람: risperidone LAI 제품명·용량·간격을 확인해 주세요.')
     return dict(lai_profile=profile, oral_equivalent_mg=oral, oral_bridge_source=source)
@@ -117,6 +136,11 @@ def convert_injection(frame, method, target):
 
 def bridge_info_rows():
     rows = []
+    for profile, mapping in RIS_SC_ORAL.items():
+        for (dose, days), oral in mapping.items():
+            rows.append(dict(method='oral bridge', drug='risperidone', profile=profile,
+                             dose_mg=dose, interval_days=days, oral_equivalent_mg=oral,
+                             basis=BRIDGE_LABEL, source=LABELS[profile]))
     for profile, mapping in PAL_ORAL.items():
         for dose, oral in mapping.items():
             rows.append(dict(method='oral bridge', drug='paliperidone', profile=profile,

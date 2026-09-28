@@ -29,25 +29,24 @@ def _outside(text):
     return ''.join(chars)
 
 
-# Compile the immutable dictionary once. Rebuilding 229 patterns for every
-# frame also evicts other parser expressions from Python's regex cache.
-_MENTION_PATTERNS = tuple(
-    (re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name)
-    for alias, name in alias_map.items()
+# One longest-first expression preserves alias boundaries and overlap order.
+_MENTION_PATTERN = re.compile(
+    r'(?<![\w])(?:' + '|'.join(re.escape(alias) for alias in
+                               sorted(alias_map, key=len, reverse=True)) + r')(?![a-z가-힣])',
+    re.I,
 )
 
 
 def drug_mentions(text):
-    masked = _outside(text)
     hits = []
-    for pattern, name in _MENTION_PATTERNS:
-        for match in pattern.finditer(masked):
-            hits.append((match.start(), match.end(), name))
-    chosen = []
-    for hit in sorted(hits, key=lambda x: (x[0], -(x[1]-x[0]))):
-        if not chosen or hit[0] >= chosen[-1][1]:
-            chosen.append(hit)
-    return chosen
+    for match in _MENTION_PATTERN.finditer(_outside(text)):
+        name = alias_map.get(match.group().casefold())
+        if name is None:
+            # Rare Unicode IGNORECASE matches (e.g. dotted I) keep old semantics.
+            name = next(name for alias, name in alias_map.items()
+                        if re.fullmatch(re.escape(alias), match.group(), re.I))
+        hits.append((match.start(), match.end(), name))
+    return hits
 
 
 def formulation_info(text):

@@ -22,8 +22,13 @@ def injection_values(frame):
         raise ValueError('확인바람: 초기·부하·필요시 주사는 유지요법 DDD로 환산하지 않습니다.')
     if re.search(r'\b(?:QD|BID|TID|QID|QHS|QAM|QOD|daily|q\d+h)\b|매일|1일|하루', text, re.I):
         raise ValueError('확인바람: LAI 투여간격과 일일 복용빈도가 함께 입력되었습니다.')
-    if re.search(r'subcutaneous|\bSC\b', text, re.I):
-        raise ValueError('확인바람: 에스터 질량 또는 피하 제형은 자동 환산 범위 밖입니다.')
+    profile = profile_for(text, drug, dose)
+    is_sc = profile in ('RIS_UZEDY', 'RIS_PERSERIS')
+    if re.search(r'\bIV\b|intravenous|정맥', text, re.I):
+        raise ValueError('확인바람: 정맥 주사는 지속형 유지요법 환산 대상이 아닙니다.')
+    if (is_sc and re.search(r'\bIM\b|intramuscular|근육', text, re.I)) or (
+            not is_sc and re.search(r'subcutaneous|\bSC\b|피하', text, re.I)):
+        raise ValueError('확인바람: 제품명과 주사 투여경로를 확인해 주세요.')
     if not re.search(r'(?<![a-z])(?:LAI|PP[136]M|depot)(?![a-z0-9])|지속형|데포|' + PRODUCT_RE, text, re.I):
         raise ValueError('확인바람: 지속형 주사제 여부를 명시해 주세요.')
     profile = profile_for(text, drug, dose)

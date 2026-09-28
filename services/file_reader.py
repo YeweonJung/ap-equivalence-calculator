@@ -45,17 +45,19 @@ def _read_excel_sheet(filepath, sheet):
     candidates = []
     for header in range(5):
         try:
-            frame = pd.read_excel(filepath, sheet_name=sheet, header=header, dtype=str, keep_default_na=False)
+            frame = pd.read_excel(filepath, sheet_name=sheet, header=header, nrows=5, dtype=str, keep_default_na=False)
             candidates.append((_header_score(frame), -header, frame))
         except (ValueError, IndexError):
             continue
     if not candidates:
         raise ValueError(f"'{sheet}' 시트를 읽을 수 없습니다.")
-    _, negative_header, frame = max(candidates, key=lambda item: (item[0], item[1]))
+    _, negative_header, _ = max(candidates, key=lambda item: (item[0], item[1]))
     raw_header = pd.read_excel(filepath, sheet_name=sheet, header=None,
                                skiprows=-negative_header, nrows=1, dtype=str, keep_default_na=False)
     if not raw_header.empty:
         validate_headers(raw_header.iloc[0].tolist())
+    frame = pd.read_excel(filepath, sheet_name=sheet, header=-negative_header,
+                          dtype=str, keep_default_na=False)
     frame.attrs["header_row"] = -negative_header
     return frame
 
@@ -79,17 +81,11 @@ def read_file(filepath):
         raise ValueError("CSV 인코딩 또는 구분자를 확인할 수 없습니다.") from last_error
 
     try:
-        with pd.ExcelFile(filepath) as excel:
-            sheet_names = list(excel.sheet_names)
+        excel = pd.ExcelFile(filepath)
     except (ValueError, OSError, BadZipFile) as exc:
         raise ValueError("Excel 파일이 손상되었거나 실제 Excel 형식이 아닙니다.") from exc
+    with excel:
+        if len(excel.sheet_names) > MAX_SHEETS:
+            raise ValueError(f"Excel 시트는 최대 {MAX_SHEETS}개까지 처리할 수 있습니다.")
+        return {sheet: _read_excel_sheet(excel, sheet) for sheet in excel.sheet_names}
 
-    if len(sheet_names) > MAX_SHEETS:
-        raise ValueError(f"Excel 시트는 최대 {MAX_SHEETS}개까지 처리할 수 있습니다.")
-
-    sheets = {}
-
-    for sheet in sheet_names:
-        sheets[sheet] = _read_excel_sheet(filepath, sheet)
-
-    return sheets
