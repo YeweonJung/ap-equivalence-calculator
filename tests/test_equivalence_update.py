@@ -49,16 +49,17 @@ def test_export_preserves_mass_audit_sources_and_separate_totals():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     rows = [dict(zip(next(wb['MedicationResults'].values), row)) for row in list(wb['MedicationResults'].values)[1:]]
-    assert rows[0][value_column('GARDNER', True)] == 800
-    assert rows[0][value_column('WOODS', True)] is None
-    audit = [dict(zip(next(wb['AuditTrail'].values), row)) for row in list(wb['AuditTrail'].values)[1:]]
-    assert audit[0]['input_dose_mg'] == 156
-    assert audit[0]['active_moiety_mg'] == 100
-    assert audit[0]['oral_equivalent_mg'] == 9
-    assert audit[0]['mass_source'] and audit[0]['oral_bridge_source']
-    assert 'WOODS' in audit[0]['unavailable_methods']
-    assert wb['FactorSources'].max_row > 40
-    assert 'ReviewQueue' in wb.sheetnames and 'VersionInfo' in wb.sheetnames
+    from tests.workbook_helpers import records
+    summary = records(wb, 'Results')[0]
+    assert summary['GARDNER (CPZ mg/day)'] == 800
+    assert summary['WOODS (CPZ mg/day)'] is None
+    item = convert_frame(parse_frames('Sustenna 156mg')[0], METHOD_ORDER)
+    assert item['input_dose_mg'] == 156 and item['active_moiety_mg'] == 100
+    assert item['oral_equivalent_mg'] == 9
+    assert item['mass_source'] and item['oral_bridge_source']
+    assert 'WOODS' in rows[0]['환산 근거']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+
 
 
 @pytest.mark.parametrize('text', ['Sustenna 156mg/mL monthly', 'Aristada 441mg INITIO',

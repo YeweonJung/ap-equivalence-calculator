@@ -24,8 +24,8 @@ def test_korean_cp949_csv_is_detected_and_converted():
     csv_bytes = "환자번호,처방내역\nA-001,리스페달 2mg BID\nA-002,아빌리파이 15mg QD\n".encode("cp949")
     response = _upload(client, csv_bytes, "처방.csv")
     assert response.status_code == 200
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed["drug"].tolist() == ["risperidone", "aripiprazole"]
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    assert detailed["약물"].tolist() == ["risperidone", "aripiprazole"]
     assert detailed["patient"].tolist() == ["A-001", "A-002"]
     assert detailed["daily_dose_mg"].tolist() == [4, 15]
 
@@ -39,12 +39,12 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
         pd.DataFrame({"설명": ["처방 데이터가 아닌 시트"]}).to_excel(writer, sheet_name="안내", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "실제처방.xlsx")
     assert response.status_code == 200
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    errors = pd.read_excel(io.BytesIO(response.data), sheet_name="Errors")
-    assert detailed.loc[0, "drug"] == "risperidone"
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    errors = pd.read_excel(io.BytesIO(response.data), sheet_name="Review")
+    assert detailed.loc[0, "약물"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
-    audit = pd.read_excel(io.BytesIO(response.data), sheet_name="AuditTrail")
-    assert audit.loc[audit["parsed"] == "lithium", "status"].tolist() == ["non_target"]
+    audit = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    assert audit.loc[audit["약물"] == "lithium", "status"].tolist() == ["non_target"]
     assert not errors["original"].fillna("").str.casefold().str.contains("lithium").any()
 
 
@@ -116,23 +116,23 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
         pd.DataFrame({"patient_id": ["P01"], "medication": ["@Risperdal 2mg BID"]}).to_excel(writer, sheet_name="one", index=False)
         pd.DataFrame({"patient_id": ["P01", "P02"], "medication": ["Risperdal 2mg BID", "Abilify 10mg QD"]}).to_excel(writer, sheet_name="two", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "multi.xlsx")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed["patient"].tolist() == ["P01", "P01", "P02"]
     saved = load_workbook(io.BytesIO(response.data), data_only=False)
-    original_column = [cell.value for cell in saved["Detailed"][1]].index("original") + 1
-    originals = [saved["Detailed"].cell(row=row, column=original_column).value for row in range(2, saved["Detailed"].max_row + 1)]
-    assert originals[0].startswith("'") and saved["Detailed"].cell(row=2, column=original_column).data_type != "f"
-    assert "MethodInfo" in saved.sheetnames
-    assert saved["Detailed"].freeze_panes == "A2"
-    assert saved["Detailed"].auto_filter.ref == saved["Detailed"].dimensions
-    assert saved["Detailed"].column_dimensions["E"].width > 11
-    assert saved["Detailed"].row_dimensions[2].height >= 18
+    original_column = [cell.value for cell in saved["MedicationResults"][1]].index("original") + 1
+    originals = [saved["MedicationResults"].cell(row=row, column=original_column).value for row in range(2, saved["MedicationResults"].max_row + 1)]
+    assert originals[0].startswith("'") and saved["MedicationResults"].cell(row=2, column=original_column).data_type != "f"
+    assert saved.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert saved["MedicationResults"].freeze_panes == "B2"
+    assert saved["MedicationResults"].auto_filter.ref == saved["MedicationResults"].dimensions
+    assert saved["MedicationResults"].column_dimensions["E"].width > 11
+    assert saved["MedicationResults"].row_dimensions[2].height >= 18
 
 
 def test_drug_id_is_not_mistaken_for_patient_identifier():
     csv_bytes = b"drug_id,medication\nD001,Risperdal 2mg BID\n"
     response = _upload(app.test_client(), csv_bytes, "data.csv")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed.loc[0, "patient"] != "PATIENT_00001"
 
 
@@ -145,7 +145,7 @@ def test_every_registered_alias_parses_to_its_declared_standard_name():
             from services.frames import parse_frames
             item = parse_frames(f"{row.alias} 1mg QD")[0]
             assert item['drug'] is None and item['needs_review']
-            assert any(c['drug'] == row.standard_name for c in item['suggestions'])
+            assert item['suggestions'] == []
             continue
         from services.lai_support import PRODUCTS
         if any(product in row.alias for product in PRODUCTS):
@@ -170,8 +170,8 @@ def test_all_lookup_pairs_have_a_consistent_reciprocal():
 def test_split_drug_dose_unit_and_frequency_columns_are_combined():
     csv_bytes = "환자번호,약물명,용량,단위,복용빈도\nP01,리스페달,2,mg,2\nP02,아빌리파이,10,mg,QD\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "분리열.csv")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed["drug"].tolist() == ["risperidone", "aripiprazole"]
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    assert detailed["약물"].tolist() == ["risperidone", "aripiprazole"]
     assert detailed["daily_dose_mg"].tolist() == [4, 10]
     assert detailed["source_row"].tolist() == [2, 3]
     assert detailed["medication_column"].tolist() == ["약물명", "약물명"]
@@ -180,7 +180,7 @@ def test_split_drug_dose_unit_and_frequency_columns_are_combined():
 def test_dose_unit_is_inferred_from_header_and_daily_dose_is_not_multiplied():
     csv_bytes = b"patient_id,drug,daily_dose_mg\nP01,risperidone,4\n"
     response = _upload(app.test_client(), csv_bytes, "daily.csv")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed.loc[0, "dose_mg"] == 4
     assert detailed.loc[0, "daily_dose_mg"] == 4
 
@@ -188,8 +188,8 @@ def test_dose_unit_is_inferred_from_header_and_daily_dose_is_not_multiplied():
 def test_daily_dose_column_is_not_multiplied_by_a_separate_frequency_column():
     csv_bytes = b"patient_id,drug,daily_dose_mg,frequency\nP01,risperidone,4,2\n"
     response = _upload(app.test_client(), csv_bytes, "daily_with_frequency.csv")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed.loc[0, "original"] == "risperidone 4mg QD"
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    assert detailed.loc[0, "original"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
 
 
@@ -199,7 +199,7 @@ def test_patient_identifier_normalization_is_consistent_across_sheets():
         pd.DataFrame({"patient_id": [1], "medication": ["Risperdal 1mg QD"]}).to_excel(writer, sheet_name="numeric", index=False)
         pd.DataFrame({"patient_id": ["1"], "medication": ["Abilify 10mg QD"]}).to_excel(writer, sheet_name="text", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "ids.xlsx")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed["patient"].tolist() == [1, 1]
 
 
@@ -207,19 +207,20 @@ def test_all_methods_are_exported_when_site_uses_all():
     csv_bytes = b"patient_id,medication\nP01,Risperdal 2mg BID\n"
     response = _upload(app.test_client(), csv_bytes, "all.csv", method="ALL")
     assert response.status_code == 200
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert {"CMD", "MED", "ED95", "DDD"}.issubset(set(detailed["method"]))
-    assert detailed["equivalent_dose_mg"].notna().all()
-    audit = pd.read_excel(io.BytesIO(response.data), sheet_name="AuditTrail")
-    assert "CPZ_FGA" in audit.loc[0, "unavailable_methods"]
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    from services.result_summary import value_column
+    assert detailed[[value_column(m) for m in ('CMD', 'MED', 'ED95', 'DDD')]].notna().all().all()
+    assert detailed[value_column('CPZ_FGA')].isna().all()
+    assert 'CPZ_FGA' in detailed.loc[0, '환산 근거']
+
 
 
 def test_common_korean_structured_column_names_are_detected():
     csv_bytes = "환자ID,제품명,1회용량,용량단위,일일횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
     assert response.status_code == 200
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
-    assert detailed.loc[0, "drug"] == "risperidone"
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
+    assert detailed.loc[0, "약물"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
     assert detailed.loc[0, "medication_column"] == "제품명"
 
@@ -258,7 +259,7 @@ def test_excel_with_exactly_five_sheets_is_accepted():
             }).to_excel(writer, sheet_name=f"Sheet{index}", index=False)
     response = _upload(app.test_client(), workbook.getvalue(), "five_sheets.xlsx")
     assert response.status_code == 200
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="Detailed")
+    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed["sheet"].nunique() == 5
 
 

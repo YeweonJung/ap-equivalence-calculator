@@ -33,7 +33,8 @@ def export_excel(records, results, details, metadata):
     out = io.BytesIO()
     wb = Workbook(out, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False})
     from services.output_overview import dated_overview, add_xlsxwriter
-    add_xlsxwriter(wb, *dated_overview(results))
+    date_label = '처방일' if metadata.get('policy') == 'prescription_date' else '기준일'
+    add_xlsxwriter(wb, *dated_overview(results), date_label=date_label)
     wb.set_properties({'title': '환자별 날짜별 약물 환산 결과', 'comments': json.dumps(metadata, ensure_ascii=False)})
     methods_present = {r['method'] for r in results}
     methods = [m for m in PATIENT_METHOD_ORDER if m in methods_present]
@@ -68,32 +69,12 @@ def export_excel(records, results, details, metadata):
         row_numbers[ws] = 1
         return ws
 
-    date_label = '처방일' if metadata.get('policy') == 'prescription_date' else '기준일'
-    main_headers = ['patient_id', date_label] + method_headers + ['결과 상태', '확인할 내용', '기준일 선택', '처방 처리']
-    main = sheet('Results', main_headers, '환자·날짜당 한 행입니다. 같은 날짜의 여러 약물을 합산합니다. 빈칸은 0이 아니며 MedicationResults와 Review에서 이유를 확인하세요. 서로 다른 기준약물(CPZ/OLZ)의 값은 더하지 마세요.')
     detail_headers = ['patient_id', date_label, '원문 약물', '성분', '일일용량 (mg/day)'] + method_headers + ['결과 상태', '확인할 내용', '원본 시트', '원본 행', '원본 처방일', '처방일수', '하루 정 수', '원문 제품', '기간 조정']
     detail_sheet = sheet('MedicationResults', detail_headers, '환자·기준일·원본 처방당 한 행입니다. 환산법은 가로 열로 표시합니다. 원본 시트와 행 번호로 입력 자료를 찾을 수 있습니다.')
     review_headers = ['patient_id', '원본 시트', '원본 행', '확인할 내용', '원문 약물', '원문 제품', '처방일', '처방일수', '하루 정 수', '중복 원본 행']
     review_sheet = sheet('Review', review_headers, '확인이 필요한 원본 처방만 모았습니다. 날짜별 오류나 방법별 누락은 MedicationResults에서 확인하세요. ID가 없는 처방은 임의로 합산하지 않습니다.')
     source = {(r['source_sheet'], r['source_row']): r for r in records}
     issues = {(r['source_sheet'], r['source_row']): set(r['issues']) for r in records if r['issues']}
-    main_count = 1
-    for _, group in groupby(results, key=lambda r: (r['patient_id'], r['reference_date'])):
-        batch = list(group)
-        first = batch[0]
-        values = {r['method']: r['equivalent_mg'] for r in batch}
-        missing = [r['method'] for r in batch if r['status'] == 'review']
-        no_record = all(r['status'] == 'no_record' for r in batch)
-        state = '해당 처방 없음' if no_record else '확인 필요' if missing else '계산 완료'
-        note = '0 또는 비복용을 의미하지 않습니다.' if no_record else ('확인 필요: ' + ', '.join(missing) if missing else '')
-        basis = first.get('reference_basis')
-        basis = '지정 기준일' if basis == 'explicit_reference_date' or metadata.get('mode') in ('common', 'per_patient') else '각 처방일'
-        policy = '새 처방으로 대체 가정' if metadata.get('policy') == 'replace' else '중첩 시 확인 필요'
-        if metadata.get('policy') == 'prescription_date':
-            policy = '동일 처방일만 합산 · 기간 중첩 무시'
-        append(main, [first['patient_id'], first['reference_date']] + [values.get(m) for m in methods] + [state, note, basis, policy])
-        main_count += 1
-
     details.seek(0)
     text = io.TextIOWrapper(details, encoding='utf-8-sig', newline='')
     detail_count = 1
@@ -120,7 +101,7 @@ def export_excel(records, results, details, metadata):
         if key in issues:
             append(review_sheet, [r['patient'], *key, reason_text(issues[key]), r['drug'], r['product'], r['date'], r['days'], r['daily'], r['duplicate_of']])
             review_count += 1
-    for ws, headers, count in [(main, main_headers, main_count), (detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
+    for ws, headers, count in [(detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
         ws.autofilter(0, 0, count - 1, len(headers) - 1)
     wb.close()
     out.seek(0)

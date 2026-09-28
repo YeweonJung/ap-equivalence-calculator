@@ -1,3 +1,4 @@
+from services.manual_suggestions import suggest_for_review as offline_suggestions
 import io
 import json
 
@@ -12,7 +13,7 @@ def test_reported_input_requires_selection_and_preserves_dose_frequency():
     client = app.test_client()
     item = client.post('/api/parse', json={'text': '할리l 2mg BID'}).json['items'][0]
     assert item['drug'] is None and not item['conversions']
-    candidate = next(c for c in item['suggestions'] if c['alias'] == '할돌')
+    candidate = next(c for c in offline_suggestions(item['original']) if c['alias'] == '할돌')
     assert candidate['replacement'] == '할돌 2mg BID'
     assert candidate['confidence'] == 'low' and not candidate['policy_eligible']
     assert not candidate['auto_accepted'] and candidate['confirmed_drug'] is None
@@ -40,8 +41,12 @@ def test_rollback_disables_new_fallback(monkeypatch):
 def test_excel_records_unconfirmed_short_alias_candidate():
     response = app.test_client().post('/api/export', json={'text': '할리l 2mg BID'})
     wb = load_workbook(io.BytesIO(response.data))
-    rows = list(wb['AuditTrail'].values)
-    audit = dict(zip(rows[0], rows[1]))
-    assert audit['parsed'] is None and wb['Detailed'].max_row == 1
-    candidate = json.loads(audit['name_candidates'])[0]
-    assert candidate['alias'] == '할돌' and not candidate['auto_accepted']
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']

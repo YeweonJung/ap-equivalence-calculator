@@ -54,23 +54,20 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     response = app.test_client().post('/upload', data={'method':'ALL', 'file':(io.BytesIO(csv.encode()), 'example.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames[0] == '한눈에 보기'
-    sheet = wb['MedicationResults']
-    headers = [c.value for c in sheet[1]]
-    assert headers[3:3+len(METHOD_ORDER)] == [value_column(m) for m in METHOD_ORDER]
-    assert headers[3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)] == [value_column(m, True) for m in METHOD_ORDER]
-    rows = list(sheet.iter_rows(min_row=2, values_only=True))
-    assert rows[0][1] == 'ris 2, olz 5'
-    assert all(value is not None for value in rows[0][3+len(METHOD_ORDER):7+len(METHOD_ORDER)])
-    assert all(value is None for value in rows[1][3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)])  # total shown once
-    assert all(value is None for value in rows[2][3+len(METHOD_ORDER):3+2*len(METHOD_ORDER)])  # incomplete cell
-    assert all(value is None for value in rows[3][3:3+2*len(METHOD_ORDER)])  # unknown drug
-    assert rows[3][headers.index('환산 근거')]  # explain unavailable values
-    assert rows[4][6] == 400 and rows[4][headers.index(value_column('DDD', True))] == 400
-    assert rows[4][3] is None and rows[4][headers.index(value_column('CMD', True))] is None
-    errors = pd.read_excel(io.BytesIO(response.data), sheet_name='Errors')
-    warnings = errors.loc[errors['unit_assumed'].eq(True), 'error']
-    assert len(warnings) == 2 and warnings.str.contains('확인바람').all()
+    from tests.workbook_helpers import records
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    meds = records(wb, 'MedicationResults')
+    summary = records(wb, 'Results')
+    assert meds[0]['original'] == 'ris 2, olz 5'
+    assert summary[0]['DDD (CPZ mg/day)'] == 270
+    assert summary[1]['DDD (CPZ mg/day)'] is None
+    assert all(meds[3][value_column(m)] is None for m in METHOD_ORDER)
+    assert meds[3]['환산 근거']
+    assert meds[4][value_column('DDD')] == 400
+    assert summary[2]['DDD (CPZ mg/day)'] == 400
+    assert summary[2]['CMD (CPZ mg/day)'] is None
+    assert len([r for r in records(wb, 'Review') if '단위 미기재' in r['error']]) == 2
+
 
 
 def test_missing_unit_is_not_unknown_or_missing_dose():
@@ -83,5 +80,5 @@ def test_structured_default_mg_stays_auditable():
     csv = 'patient_id,drug,dose,unit,frequency\nP1,"RIS,OLZ","2,5",,BID\n'
     response = app.test_client().post('/upload', data={'method':'DDD', 'file':(io.BytesIO(csv.encode()),'structured.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
-    assert sheets['Detailed']['daily_dose_mg'].tolist() == [4,10]
-    assert sheets['Errors']['error'].str.contains('확인바람').all()
+    assert sheets['MedicationResults']['daily_dose_mg'].tolist() == [4,10]
+    assert sheets['Review']['error'].str.contains('확인바람').all()

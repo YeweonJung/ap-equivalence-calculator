@@ -3,7 +3,7 @@ from collections import defaultdict
 from services.result_summary import TARGETS
 
 ORDER = ('CMD', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'MED', 'ED95', 'CMD_DIRECT', 'CMD_INDIRECT')
-NAME = '한눈에 보기'
+NAME = 'Results'
 
 
 def patient_overview(rows, audits, checks):
@@ -43,17 +43,17 @@ def dated_overview(results):
     return methods, list(grouped.values())
 
 
-def layout(methods, rows, dated=False):
+def layout(methods, rows, dated=False, date_label='처방일'):
     methods = [m for m in ORDER if m in methods]
-    headers = ['환자 ID'] + (['처방일'] if dated else []) + ['환산 상태'] + [m.replace('CMD_', 'CMD\n') + '\n' + TARGETS[m] + ' mg/day' for m in methods] + ['확인할 사항']
+    headers = ['환자 ID'] + ([date_label] if dated else []) + ['환산 상태'] + [m.replace('CMD_', 'CMD\n') + '\n' + TARGETS[m] + ' mg/day' for m in methods] + ['확인할 사항']
     total = len(rows)
     calculated = sum(any(v is not None for v in r['values'].values()) for r in rows)
     missing = total - calculated
     assumed = sum(bool(r['notes']) for r in rows)
-    cells = [(0,0,'환자별 환산 결과' if not dated else '환자·처방일별 환산 결과','title'),
+    cells = [(0,0,'환자별 환산 결과' if not dated else f'환자·{date_label}별 환산 결과','title'),
              (1,0,'표시는 소수 2자리이며 원값은 보존됩니다. —는 0이 아니라 환산 불가입니다. CPZ와 OLZ 값은 서로 더하지 마세요.','subtitle'),
              (3,0,f'전체 {total}건    |    1개 이상 방법 산출 {calculated}건    |    모든 방법 보류 {missing}건    |    확인 사항 {assumed}건','card'),
-             (4,0,'파랑: CPZ 기준  /  초록: OLZ 기준  ·  긴 설명: Results  ·  약물별 근거: MedicationResults','subtitle')]
+             (4,0,'파랑: CPZ 기준  /  초록: OLZ 기준  ·  약물별 상세: MedicationResults  ·  확인 필요: Review','subtitle')]
     for c,h in enumerate(headers):
         style='header'
         if 'mg/day' in h: style='cpz_header' if 'CPZ' in h else 'olz_header'
@@ -118,8 +118,8 @@ def add_openpyxl(wb, methods, rows):
     wb.active=0
 
 
-def add_xlsxwriter(wb, methods, rows):
-    headers,cells,widths=layout(methods,rows,dated=True)
+def add_xlsxwriter(wb, methods, rows, date_label='처방일'):
+    headers,cells,widths=layout(methods,rows,dated=True,date_label=date_label)
     ws=wb.add_worksheet(NAME)
     formats={}
     for kind,s in STYLES.items():

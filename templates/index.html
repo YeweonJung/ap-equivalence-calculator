@@ -63,6 +63,7 @@
           </section>
         </div>
         <section class="upload" aria-label="데이터 파일 업로드">
+          <p class="hint">결과는 요약(Results) · 약물별 상세(MedicationResults) · 확인 필요(Review), 3개 시트입니다.</p>
           <p class="hint">처방일 열이 있으면 환자 ID와 처방일별로 합산합니다. 다른 날짜의 처방은 기간이 겹쳐도 포함하지 않습니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
@@ -74,7 +75,7 @@
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>한 줄로 바로 계산</h2><p>약물명·용량·횟수를 입력하세요. 제안된 이름은 확인 후 선택하세요.</p></div>
+      <div><h2>한 줄로 바로 계산</h2><p>약물명·용량·횟수를 입력하세요. 모르는 약물명은 직접 확인해 수정하세요.</p></div>
       <div class="parser"><div class="parser-row"><input maxlength="10000" id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
     <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>

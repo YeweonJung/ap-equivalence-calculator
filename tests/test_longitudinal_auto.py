@@ -14,9 +14,8 @@ from tests.test_longitudinal import rx
 
 def entries(buffer, name='Results'):
     wb = load_workbook(buffer, read_only=True)
-    rows = wb[name].values
-    headers = next(rows)
-    output = [dict(zip(headers, row)) for row in rows]
+    from tests.workbook_helpers import records
+    output = records(wb, name)
     wb.close()
     return output
 
@@ -25,15 +24,14 @@ def test_automatic_reference_dates_from_rows():
     frame = pd.DataFrame([rx(), rx('2020-04-26', tabs='1')])
     results = entries(automatic_analysis({'SNU':frame}, ['DDD']))
     assert {r['처방일'] for r in results} == {'2020-04-15', '2020-04-26'}
-    assert [r['결과 상태'] for r in results] == ['계산 완료', '계산 완료']
+    assert [r['결과 상태'] for r in results] == ['산출 완료', '산출 완료']
     assert results[1]['DDD (CPZ mg/day)'] == pytest.approx(results[0]['DDD (CPZ mg/day)'] * 2)
-    assert all(r['기준일 선택'] == '각 처방일' for r in results)
 
 
 def test_reference_columns_do_not_override_prescription_dates():
     rows = [dict(rx(), reference_date='2020-04-20'), dict(rx('2020-04-26'), reference_date=''), dict(rx(patient='P002'), reference_date='')]
     result = entries(automatic_analysis({'Data':pd.DataFrame(rows)}, ['DDD']))
-    assert [(r['patient_id'],r['처방일'],r['기준일 선택']) for r in result] == [('P001','2020-04-15','각 처방일'),('P001','2020-04-26','각 처방일'),('P002','2020-04-15','각 처방일')]
+    assert [(r['patient_id'],r['처방일']) for r in result] == [('P001','2020-04-15'),('P001','2020-04-26'),('P002','2020-04-15')]
 
 
 def test_multiple_reference_columns_are_ignored():
@@ -101,7 +99,7 @@ def test_exact_date_sums_same_ingredient_strengths_and_separates_patients():
 @pytest.mark.parametrize('days', ['', '0', '-1', 'invalid', '99999999'])
 def test_duration_does_not_affect_exact_date_totals(days):
     result = entries(automatic_analysis({'Data':pd.DataFrame([rx(days=days)])}, ['DDD']))
-    assert result[0]['결과 상태'] == '계산 완료'
+    assert result[0]['결과 상태'] == '산출 완료'
 
 
 def test_missing_days_column_supported_on_main_and_detail_api():
@@ -117,7 +115,7 @@ def test_missing_days_column_supported_on_main_and_detail_api():
 def test_duplicates_and_unknown_drug_still_block_only_their_date():
     result = entries(automatic_analysis({'Data':pd.DataFrame([
         rx(),rx(),rx('2020-04-16'),rx('2020-04-17',drug='unknown 5mg tab')])}, ['DDD']))
-    assert [r['결과 상태'] for r in result] == ['확인 필요','계산 완료','확인 필요']
+    assert [r['결과 상태'] for r in result] == ['계산 보류','산출 완료','계산 보류']
 
 
 def test_same_patient_date_merges_across_sheets():

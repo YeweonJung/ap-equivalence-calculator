@@ -20,7 +20,7 @@ def configured(monkeypatch, tmp_path):
 
 def payload(client, original='할리l 2mg BID', **updates):
     item = client.post('/api/parse', json={'text': original}).json['items'][0]
-    data = dict(token=item['feedback_token'], selected_alias='할돌', source='candidate', consent=True)
+    data = dict(token=item['feedback_token'], selected_alias='할돌', source='manual', consent=True)
     data.update(updates)
     return data
 
@@ -66,7 +66,7 @@ def test_tampering_origin_unknown_candidate_and_extra_fields_rejected(configured
     data = payload(client)
     assert client.post('/api/name-feedback', json=data).status_code == 403
     assert client.post('/api/name-feedback', json=data, headers={'Origin':'https://evil.test'}).status_code == 403
-    for invalid in [dict(data, token='bad'), dict(data, selected_alias='리튬'),
+    for invalid in [dict(data, token='bad'), dict(data, selected_alias='리튬', source='candidate'),
                     dict(data, patient='secret'), dict(data, source='automatic')]:
         assert submit(client, invalid).status_code == 400
 

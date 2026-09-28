@@ -2,32 +2,10 @@ import math
 from pathlib import Path
 
 import pandas as pd
-from services.result_summary import RESULT_COLUMNS, METHOD_ORDER, PATIENT_COLUMNS
-from services.result_notes import NOTE_COLUMNS, with_result_notes
+from services.result_summary import METHOD_ORDER
+from services.result_notes import with_result_notes
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
-
-
-DETAILED_COLUMNS = [
-    "sheet", "source_row", "medication_column", "patient", "original", "drug", "dose_mg", "frequency",
-    "daily_dose_mg", "method", "target_drug", "equivalent_dose_mg", "warning",
-    "match_type", "match_score", "needs_review",
-]
-FRAME_COLUMNS = ["name_candidates", "input_dose_mg", "active_moiety_mg", "dose_basis", "mass_source", "source_start", "source_end", "drug_class", "dose", "unit", "unit_candidates", "unit_assumed", "interval_days", "conversion_basis", "conversion_source", "lai_profile", "oral_equivalent_mg", "oral_bridge_source", "route", "formulation", "interval", "status", "status_message"]
-DETAILED_COLUMNS += FRAME_COLUMNS
-AUDIT_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "parsed", "dose_mg", "daily_dose_mg", "frequency", "match_type", "match_score", "needs_review", "warning", "unavailable_methods"] + FRAME_COLUMNS
-ERROR_COLUMNS = ["sheet", "source_row", "medication_column", "patient", "original", "error"] + FRAME_COLUMNS
-METHOD_INFO = [
-    {"method": "CMD_DIRECT", "basis": "Leucht 2015 Table 1 primary analysis: direct ratios (CMD sensitivity analysis); OLZ1", "reference": "https://doi.org/10.1093/schbul/sbv037"},
-    {"method": "CMD_INDIRECT", "basis": "Leucht 2015 Table 1 primary analysis: direct and indirect ratios (CMD sensitivity analysis); OLZ1", "reference": "https://doi.org/10.1093/schbul/sbv037"},
-    {"method": "WOODS", "basis": "Woods 2003 minimum effective doses; CPZ100 convention", "reference": "https://pubmed.ncbi.nlm.nih.gov/12823080/"},
-    {"method": "GARDNER", "basis": "Gardner 2010 Table 1 oral median-dose ratios; CPZ600 = OLZ20", "reference": "https://doi.org/10.1176/appi.ajp.2009.09060802"},
-    {"method": "CMD", "basis": "Classical mean dose method", "reference": "Leucht et al. 2015; PMID 25841041"},
-    {"method": "MED", "basis": "Minimum effective dose method", "reference": "Leucht et al. 2014; PMID 24493852"},
-    {"method": "ED95", "basis": "95% effective dose method", "reference": "Leucht et al. 2020; PMID 31838873"},
-    {"method": "DDD", "basis": "WHO Defined Daily Dose", "reference": "WHO ATC/DDD methodology"},
-    {"method": "CPZ_FGA", "basis": "Historical chlorpromazine equivalents", "reference": "Davis 1974; PMID 4156792"},
-]
 
 
 def _safe_excel_value(value):
@@ -82,67 +60,46 @@ def _format_worksheet(worksheet):
         worksheet.row_dimensions[row_index].height = min(max(18, required_lines * 16), height_limit)
 
 
-def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=None, summary_rows=None, patient_rows=None, patient_checks=None):
+def export_results(audit_rows, error_rows, directory, summary_rows=None, patient_rows=None, patient_checks=None):
+    """Only the summary, medication evidence and actionable review rows are exported."""
+    from services.output_overview import patient_overview, add_openpyxl
+    from services.result_summary import value_column
     output_file = Path(directory) / "result.xlsx"
+    display_rows = with_result_notes(patient_rows or [], audit_rows, error_rows, patient_checks or [])
+    # Preserve one source location per medication, even when original text repeats.
+    columns = ['patient', 'original', '약물', 'daily_dose_mg'] + [value_column(m) for m in METHOD_ORDER] + [
+        '환산 근거', 'sheet', 'source_row', 'medication_column', 'source_start', 'source_end', 'status', 'dose_mg', 'frequency']
+    medications = []
+    if len(summary_rows or []) != len(audit_rows):
+        raise ValueError('Medication rows and source evidence do not match.')
+    for summary, audit in zip(summary_rows or [], audit_rows):
+        medications.append({**audit, **summary})
+    reviews = list(error_rows)
+    existing = {(r.get('sheet'), r.get('source_row'), r.get('medication_column'), r.get('original')) for r in reviews}
+    for row in audit_rows:
+        reason = row.get('warning') or ''
+        if row.get('unavailable_methods'):
+            reason = '; '.join(filter(None, [reason, '환산 계수 또는 제형별 근거 없음: ' + row['unavailable_methods']]))
+        key = (row.get('sheet'), row.get('source_row'), row.get('medication_column'), row.get('original'))
+        if reason and key not in existing:
+            reviews.append({**row, 'error': reason})
+            existing.add(key)
+    review_columns = ['patient', 'original', 'error', 'sheet', 'source_row', 'medication_column']
     with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
-        display_rows = with_result_notes(patient_rows or [], audit_rows, error_rows, patient_checks or [])
-        _safe_frame(display_rows, PATIENT_COLUMNS + NOTE_COLUMNS).to_excel(writer, sheet_name="Results", index=False)
-        _safe_frame(summary_rows or [], RESULT_COLUMNS).to_excel(writer, sheet_name="MedicationResults", index=False)
-        check_columns = ['patient_id', 'method', 'target_drug', 'total_equivalent_dose_mg', 'partial_equivalent_dose_mg', 'converted_count', 'unresolved_count', 'excluded_count', 'status', 'needs_review']
-        _safe_frame(patient_checks or [], check_columns).to_excel(writer, sheet_name="PatientChecks", index=False)
-        _safe_frame(detailed_rows, DETAILED_COLUMNS).to_excel(
-            writer, sheet_name="Detailed", index=False
-        )
-        _safe_frame(audit_rows, AUDIT_COLUMNS).to_excel(
-            writer, sheet_name="AuditTrail", index=False
-        )
-        _safe_frame(error_rows, ERROR_COLUMNS).to_excel(
-            writer, sheet_name="Errors", index=False
-        )
-        columns = ["sheet", "source_row", "medication_column", "patient", "original", "method", "target_drug", "total_equivalent_dose_mg", "partial_equivalent_dose_mg", "converted_count", "unresolved_count", "excluded_count", "status", "needs_review"]
-        _safe_frame(total_rows or [], columns).to_excel(writer, sheet_name="CellTotals", index=False)
-        pd.read_csv(Path(__file__).resolve().parents[1] / 'lookup/equivalence_anchors.csv').to_excel(writer, sheet_name='FactorSources', index=False)
-        from services.release import metadata
-        pd.DataFrame([metadata()]).to_excel(writer, sheet_name='VersionInfo', index=False)
-        review_columns = ['sheet', 'source_row', 'medication_column', 'original', 'parsed',
-                          'dose_mg', 'active_moiety_mg', 'oral_equivalent_mg', 'interval_days',
-                          'dose_basis', 'warning', 'name_candidates', 'needs_review', 'status',
-                          'reviewer_1', 'reviewer_1_decision', 'reviewer_2', 'reviewer_2_decision',
-                          'adjudication', 'correction', 'review_date']
-        _safe_frame(audit_rows, review_columns).to_excel(writer, sheet_name='ReviewQueue', index=False)
-        pd.DataFrame(METHOD_INFO).to_excel(writer, sheet_name="MethodInfo", index=False)
-        from services.injections import DEPOT_DDD, SOURCE, CPZ_SOURCE, OLZ_SOURCE
-        from services.lai_support import bridge_info_rows
-        pd.DataFrame([{"method": "DDD", "drug": drug, "route": "depot", "DDD_mg_per_day": value, "target": "chlorpromazine oral", "target_DDD_mg": 300, "source": OLZ_SOURCE if drug == "olanzapine" else SOURCE, "target_source": CPZ_SOURCE, "month_days": 30} for drug, value in DEPOT_DDD.items()] + bridge_info_rows()).to_excel(writer, sheet_name="InjectionInfo", index=False)
+        _safe_frame(medications, columns).to_excel(writer, sheet_name='MedicationResults', index=False)
+        _safe_frame(reviews, review_columns).to_excel(writer, sheet_name='Review', index=False)
         for worksheet in writer.book.worksheets:
             _format_worksheet(worksheet)
+            worksheet.freeze_panes = 'B2'
+            worksheet.sheet_view.showGridLines = False
+            worksheet.sheet_view.zoomScale = 85
         sheet = writer.book['MedicationResults']
-        sheet.column_dimensions['A'].width = 20
-        sheet.column_dimensions['B'].width = 55
+        sheet.column_dimensions['A'].width = 18
+        sheet.column_dimensions['B'].width = 45
         sheet.column_dimensions['C'].width = 22
-        sheet.sheet_view.zoomScale = 75
-        sheet.sheet_properties.pageSetUpPr.fitToPage = True
-        sheet.page_setup.orientation = 'landscape'
-        sheet.page_setup.paperSize = sheet.PAPERSIZE_A3
-        sheet.page_setup.fitToWidth = 1
-        sheet.page_setup.fitToHeight = 0
-        sheet.print_title_rows = '1:1'
-        sheet.row_dimensions[1].height = 48
-        for row in sheet.iter_rows(min_row=2):
-            for cell in row[3:]:
-                cell.number_format = '0.0000'
-        for col in range(4, 4 + 2 * len(METHOD_ORDER)):
-            sheet.column_dimensions[get_column_letter(col)].width = 22
-            sheet.cell(1,col).fill = PatternFill('solid', fgColor='DCEBFF' if col < 4 + len(METHOD_ORDER) else 'DDEEDC')
-        patient_sheet = writer.book['Results']
-        patient_sheet.freeze_panes = 'B2'
-        for column in range(2, len(PATIENT_COLUMNS) + 1):
-            patient_sheet.column_dimensions[get_column_letter(column)].width = 25
-            for cells in patient_sheet.iter_rows(min_row=2, min_col=column, max_col=column):
-                cells[0].number_format = '0.0000'
-        patient_sheet.row_dimensions[1].height = 45
-        from services.output_overview import patient_overview, add_openpyxl
+        for col in range(4, 5 + len(METHOD_ORDER)):
+            sheet.column_dimensions[get_column_letter(col)].width = 18
+            for cells in sheet.iter_rows(min_row=2, min_col=col, max_col=col):
+                cells[0].number_format = '0.00'
         add_openpyxl(writer.book, *patient_overview(display_rows, audit_rows, patient_checks or []))
-        for name in ('PatientChecks','Detailed','AuditTrail','CellTotals','FactorSources','VersionInfo','ReviewQueue','MethodInfo','InjectionInfo'):
-            writer.book[name].sheet_state = 'hidden'
     return output_file

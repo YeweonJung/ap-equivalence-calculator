@@ -1,3 +1,4 @@
+from services.manual_suggestions import suggest_for_review as offline_suggestions
 import io
 import json
 import pytest
@@ -21,7 +22,7 @@ def test_character_alignment_and_confirmation(source, target, operation):
     response = app.test_client().post('/api/parse', json={'text': source+' 2mg BID'}).json
     item = response['items'][0]
     assert item['drug'] is None and not item['conversions']
-    candidate = next(c for c in item['suggestions'] if c['alias'] == target)
+    candidate = next(c for c in offline_suggestions(item['original']) if c['alias'] == target)
     assert candidate['replacement'] == target+' 2mg BID'
     confirmed = app.test_client().post('/api/parse', json={'text': candidate['replacement']}).json['items'][0]
     assert confirmed['daily_dose_mg'] == 4
@@ -36,7 +37,7 @@ def test_different_ingredients_are_retained_without_automatic_selection():
 def test_previously_registered_english_typo_also_requires_confirmation():
     item = app.test_client().post('/api/parse', json={'text':'risperidonne 2mg BID'}).json['items'][0]
     assert item['drug'] is None and not item['conversions']
-    assert item['suggestions'][0]['alias'] == 'risperidone'
+    assert offline_suggestions(item['original'])[0]['alias'] == 'risperidone'
 
 
 def test_formulation_schedule_and_unit_are_never_spell_corrected():
@@ -49,11 +50,15 @@ def test_formulation_schedule_and_unit_are_never_spell_corrected():
 def test_export_keeps_unknown_original_character_evidence_and_no_total():
     response = app.test_client().post('/api/export', json={'text':'risperidnoe 2mg BID'})
     wb = load_workbook(io.BytesIO(response.data))
-    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
-    assert audit['original'] == 'risperidnoe 2mg BID' and audit['parsed'] is None
-    assert json.loads(audit['name_candidates'])[0]['edits'][0]['operation'] == 'transpose'
-    assert wb['Detailed'].max_row == 1
-    assert 'name_candidates' in next(wb['ReviewQueue'].values)
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
 
 
 @pytest.mark.parametrize('method,drug,dose', [

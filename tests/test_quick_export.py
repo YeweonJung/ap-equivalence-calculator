@@ -19,14 +19,15 @@ def test_export_matches_parse_and_preserves_unresolved_rows():
     response=client.post('/api/export',json={'text':text})
     assert response.status_code == 200
     wb=load_workbook(io.BytesIO(response.data))
-    totals=[dict(zip(next(wb['CellTotals'].values),r)) for r in list(wb['CellTotals'].values)[1:]]
-    for actual, expected in zip(totals,parsed['totals']):
-        assert actual['method']==expected['method']
-        assert actual['total_equivalent_dose_mg']==expected['total_equivalent_dose_mg']
-        assert actual['partial_equivalent_dose_mg']==expected['partial_equivalent_dose_mg']
-    assert wb['AuditTrail'].max_row == 4
-    assert wb['ReviewQueue'].max_row == 4
-    assert 'VersionInfo' in wb.sheetnames
+    from tests.workbook_helpers import records
+    from services.result_summary import TARGETS
+    summary = records(wb, 'Results')[0]
+    for expected in parsed['totals']:
+        assert summary[f"{expected['method']} ({TARGETS[expected['method']]} mg/day)"] == expected['total_equivalent_dose_mg']
+    assert wb['MedicationResults'].max_row == 4
+    assert any(r['status'] == 'unknown_drug' for r in records(wb, 'MedicationResults'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+
 
 
 def test_quick_export_preserves_newlines_and_commas():
@@ -34,7 +35,7 @@ def test_quick_export_preserves_newlines_and_commas():
     response=app.test_client().post('/api/export',json={'text':text})
     wb=load_workbook(io.BytesIO(response.data))
     assert wb['MedicationResults']['B2'].value == text
-    assert wb['AuditTrail'].max_row == 3
+    assert wb['MedicationResults'].max_row == 3
 
 
 @pytest.mark.parametrize('content', [
@@ -46,9 +47,9 @@ def test_csv_delimiter_never_splits_inside_drug_name(content):
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(content.encode()),'test.csv')})
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data))
-    rows=list(wb['AuditTrail'].values)
+    rows=list(wb['MedicationResults'].values)
     assert len(rows)==3
-    drug_column=rows[0].index('parsed')
+    drug_column=rows[0].index('약물')
     assert [r[drug_column] for r in rows[1:]]==['paliperidone','risperidone']
 
 

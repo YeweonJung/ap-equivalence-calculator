@@ -152,10 +152,9 @@ def _frame(start, end, original):
             status = 'review'
             frame['warning'] = str(exc)
     if status == 'unknown_drug':
-        import json
-        from services.manual_suggestions import suggest_for_review as suggest_drugs
-        frame['suggestions'] = suggest_drugs(original)
-        frame['name_candidates'] = json.dumps(frame['suggestions'], ensure_ascii=False)
+        # Parsing never performs candidate retrieval or calls an AI service.
+        frame['suggestions'] = []
+        frame['name_candidates'] = '[]'
     frame.update(status=status, status_message=LABELS[status])
     return frame
 

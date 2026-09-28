@@ -71,14 +71,12 @@ def test_api_calls_model_once_without_converting_and_preserves_suffix(monkeypatc
         return response()
     monkeypatch.setattr(llm, '_ollama', fake)
     result = app.test_client().post('/api/parse', json={'text': 'zzzzzz 2mg BID'}).json
-    assert len(calls) == 1
+    assert calls == []
     assert '2mg' not in json.dumps(calls) and 'BID' not in json.dumps(calls)
     item = result['items'][0]
     assert item['drug'] is None and item['conversions'] == []
-    candidate = item['suggestions'][0]
-    confirmed = app.test_client().post('/api/parse', json={'text': candidate['replacement']}).json
-    assert confirmed['items'][0]['drug'] == 'aripiprazole'
-    assert confirmed['items'][0]['daily_dose_mg'] == 4
+    assert item['suggestions'] == []
+
 
 
 def test_backend_failure_is_private_and_nonfatal(monkeypatch, caplog):
@@ -96,9 +94,15 @@ def test_export_keeps_unconfirmed_candidates(monkeypatch):
     monkeypatch.setattr(llm, '_ollama', lambda _: response())
     result = app.test_client().post('/api/export', json={'text': 'zzzzzz 2mg'})
     wb = load_workbook(io.BytesIO(result.data))
-    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
-    assert wb['Detailed'].max_row == 1
-    assert json.loads(audit['name_candidates'])[0]['source'] == 'llm'
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
 
 
 def test_windows_mlx_fails_without_import(monkeypatch):

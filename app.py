@@ -20,7 +20,6 @@ from services.validator import validate_file
 from services.frames import parse_frames, convert_frame, summarize_frames
 from services.structured import structured_frames
 from services.result_summary import result_rows, METHOD_ORDER, patient_results
-from services.manual_suggestions import suggest_for_review as suggest_drugs
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -141,8 +140,6 @@ def parse_text():
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
     for item in items:
         if item['status'] == 'unknown_drug':
-            if 'suggestions' not in item:
-                item['suggestions'] = suggest_drugs(item['original'])
             attach_feedback(item)
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
 
@@ -166,7 +163,7 @@ def process_upload(uploaded_file, method):
     original_suffix = Path(uploaded_file.filename).suffix.lower()
     filename = secure_filename(uploaded_file.filename) or f"upload{original_suffix}"
     suffix = original_suffix or Path(filename).suffix.lower()
-    detailed_rows, audit_rows, error_rows, total_rows, summary_rows = [], [], [], [], []
+    audit_rows, error_rows, summary_rows = [], [], []
 
     try:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -232,28 +229,15 @@ def process_upload(uploaded_file, method):
                                        "medication_column": str(medication_col), "patient": patient_id}
                             record = {**context, **parsed}
                             conversions = parsed["conversions"]
-                            for conversion in conversions:
-                                if conversion["value"] is not None:
-                                    detailed_rows.append({**record, "method": conversion["method"],
-                                                          "target_drug": conversion["target"],
-                                                          "equivalent_dose_mg": conversion["value"],
-                                                          "conversion_basis": conversion.get("basis") or parsed.get("conversion_basis", ""),
-                                                          "conversion_source": parsed.get("oral_bridge_source", "") if conversion.get("basis", "").startswith("경구") else parsed.get("conversion_source", "")})
                             audit_rows.append({**record, "parsed": parsed["drug"],
                                                "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})
                             if not parsed["ok"] or parsed.get("unit_assumed"):
                                 error_rows.append({**record, "error": parsed.get("error") or parsed["warning"] or parsed["status_message"]})
 
                         patients[patient_id].extend(cell_items)
-                        cell_totals = summarize_frames(cell_items, selected_methods)
-                        summary_rows.extend(result_rows(raw_medication, patient_id, cell_items, cell_totals))
-                        for total in cell_totals:
-                            total_rows.append({"sheet": sheet_name, "source_row": source_row,
-                                               "medication_column": str(medication_col), "patient": patient_id,
-                                               "original": raw_medication, **total})
-
+                        summary_rows.extend(result_rows(raw_medication, patient_id, cell_items))
             patient_rows, patient_checks = patient_results(patients, selected_methods)
-            output_file = export_results(detailed_rows, audit_rows, error_rows, directory=temp_dir, total_rows=total_rows, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
+            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(

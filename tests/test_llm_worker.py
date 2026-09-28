@@ -64,25 +64,12 @@ def test_concurrent_workers_claim_each_job_once(queue):
 def test_public_parse_and_worker_preserve_manual_confirmation(queue, monkeypatch):
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     llm_jobs.heartbeat()
-    def worker():
-        for _ in range(100):
-            job = llm_jobs.claim()
-            if job:
-                serialized = json.dumps(job['messages'])
-                assert '2mg' not in serialized and 'BID' not in serialized
-                llm_jobs.complete(job['id'], json.dumps(dict(status='candidate_found', candidates=[
-                    dict(standard_name='risperidone', confidence='low', reason='synthetic test')])) )
-                return
-            time.sleep(.02)
-        raise AssertionError('No job received')
-    with ThreadPoolExecutor(max_workers=1) as pool:
-        future = pool.submit(worker)
-        result = app.test_client().post('/api/parse', json={'text':'리쓰페리도오온 2mg BID'}).json
-        future.result()
+    result = app.test_client().post('/api/parse', json={'text':'리쓰페리도오온 2mg BID'}).json
     item = result['items'][0]
     assert item['drug'] is None and item['conversions'] == []
-    assert item['suggestions'][0]['replacement'] == 'risperidone 2mg BID'
-    assert item['suggestions'][0]['auto_accepted'] is False
+    assert item['suggestions'] == []
+    assert llm_jobs.claim() is None
+
 
 
 def test_callback_rejects_invalid_body(queue):

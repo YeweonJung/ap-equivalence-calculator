@@ -97,15 +97,17 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     from services.result_summary import METHOD_ORDER, value_column
     result = list(wb['MedicationResults'].values)
     cols = {name:i for i,name in enumerate(result[0])}
-    assert result[1][4] == 22.5 and result[1][cols[value_column('MED', True)]] == 27.5
-    assert result[1][3] is None and result[1][cols[value_column('CMD', True)]] is None
+    from tests.workbook_helpers import records
+    summary = records(wb, 'Results')
+    assert result[1][cols[value_column('MED')]] == 22.5
+    assert summary[0]['MED (OLZ mg/day)'] == 27.5
+    assert summary[0]['CMD (CPZ mg/day)'] is None
     assert '경구 대응용량 기반 추정' in result[1][cols['환산 근거']]
-    assert all(v is None for v in result[3][3:3+2*len(METHOD_ORDER)])
-    detail = [dict(zip(next(wb['Detailed'].values), r)) for r in list(wb['Detailed'].values)[1:]]
-    med = next(r for r in detail if r['drug'] == 'paliperidone' and r['method'] == 'MED')
-    assert med['oral_equivalent_mg'] == 9 and '경구' in med['conversion_basis']
-    assert '7652' in med['conversion_source']
-    assert len(list(wb['InjectionInfo'].values)) > 10
+    assert all(result[3][cols[value_column(m)]] is None for m in METHOD_ORDER)
+    med = parse('paliperidone 100mg PP1M')['items'][0]
+    assert med['oral_equivalent_mg'] == 9 and med['oral_bridge_source']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+
 
 
 def test_separate_frequency_column_supports_lai_schedule():
@@ -113,5 +115,7 @@ def test_separate_frequency_column_supports_lai_schedule():
     response = app.test_client().post('/upload', data={'method': 'MED', 'file': (io.BytesIO(csv.encode()), 'structured.csv')})
     wb = load_workbook(io.BytesIO(response.data))
     rows = list(wb['MedicationResults'].values)
-    assert rows[1][4] == 15
-    assert rows[2][4] == 11.236  # Existing oral MED table uses 0.267mg risperidone/1mg OLZ.
+    from services.result_summary import value_column
+    col = rows[0].index(value_column('MED'))
+    assert rows[1][col] == 15
+    assert rows[2][col] == 11.236  # Existing oral MED table uses 0.267mg risperidone/1mg OLZ.

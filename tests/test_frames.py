@@ -76,7 +76,7 @@ def test_unit_normalization_and_ambiguous_typo():
     assert items('olz 15gm')[0]['status'] == 'missing_unit'
     typo = items('pariperidon 6mg')[0]
     assert typo['drug'] is None and typo['conversions'] == []
-    assert any(c['drug'] == 'paliperidone' for c in typo['suggestions'])
+    assert typo['suggestions'] == []
 
 
 def test_excel_retains_all_statuses_and_numbered_groups():
@@ -84,10 +84,10 @@ def test_excel_retains_all_statuses_and_numbered_groups():
     response = app.test_client().post('/upload', data={'method': 'ALL', 'file': (io.BytesIO(content.encode()), 'groups.csv')})
     assert response.status_code == 200
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
-    assert sheets['AuditTrail']['status'].tolist() == ['converted', 'non_target', 'converted', 'missing_factor']
-    assert set(sheets['Detailed']['drug']) == {'risperidone', 'olanzapine'}
-    assert 'method_warning' not in sheets['Detailed']
-    assert 'limitation' not in sheets['MethodInfo']
+    assert sheets['MedicationResults']['status'].tolist() == ['converted', 'non_target', 'converted', 'missing_factor']
+    assert set(sheets['MedicationResults'].loc[sheets['MedicationResults']['status'] == 'converted', '약물']) == {'risperidone', 'olanzapine'}
+    assert 'method_warning' not in sheets['MedicationResults']
+    assert list(sheets) == ['Results', 'MedicationResults', 'Review']
 
 
 def test_invalid_schedule_does_not_create_a_second_drug():
@@ -127,10 +127,11 @@ def test_excel_totals_stay_with_source_cell():
     csv = 'patient_id,medication\nP1,"RIS 2mg, OLZ 5mg"\nP1,"RIS, OLZ"\n'
     response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'totals.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
-    assert len(sheets['Detailed']) == 2
-    totals = sheets['CellTotals']
-    assert totals['status'].tolist() == ['complete', 'incomplete']
-    assert pd.isna(totals.loc[1, 'total_equivalent_dose_mg'])
+    assert len(sheets['MedicationResults']) == 4
+    assert sheets['MedicationResults']['source_row'].tolist() == [2,2,3,3]
+    from openpyxl import load_workbook
+    from tests.workbook_helpers import records
+    assert records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (CPZ mg/day)'] is None
 
 
 def test_parallel_drug_dose_columns_and_frequency_validation():
@@ -138,17 +139,20 @@ def test_parallel_drug_dose_columns_and_frequency_validation():
         csv = f'patient_id,drug,dose,unit,frequency\nP003,"Risperdal,OLA","6,5",MG,{frequency}\n'
         response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'parallel.csv')})
         sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
-        assert sheets['AuditTrail']['dose_mg'].tolist() == [6,5]
-        assert sheets['CellTotals'].loc[0,'status'] == status
+        assert sheets['MedicationResults']['dose_mg'].tolist() == [6,5]
+        from openpyxl import load_workbook
+        from tests.workbook_helpers import records
+        total = records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (CPZ mg/day)']
+        assert (total is not None) == (status == 'complete')
         if frequency == 'BID':
-            assert sheets['Detailed']['daily_dose_mg'].tolist() == [12,10]
+            assert sheets['MedicationResults']['daily_dose_mg'].tolist() == [12,10]
         else:
-            assert sheets['Detailed'].empty
+            assert not sheets['MedicationResults']['status'].eq('converted').any()
 
 
 def test_parallel_counts_do_not_broadcast_one_dose_to_two_drugs():
     csv = 'patient_id,drug,dose,unit,frequency\nP1,"RIS,OLZ",2,mg,BID\n'
     response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'mismatch.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
-    assert sheets['Detailed'].empty
-    assert sheets['CellTotals'].loc[0,'status'] == 'incomplete'
+    assert not sheets['MedicationResults']['status'].eq('converted').any()
+    assert sheets['Review']['error'].notna().any()

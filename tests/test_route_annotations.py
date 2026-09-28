@@ -63,11 +63,11 @@ def test_existing_equivalent_columns_are_not_reconverted():
         'file': (io.BytesIO(csv.encode()), 'prior_equivalents.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    values = list(wb['Results'].values)
-    result = dict(zip(values[0], values[1]))
+    from tests.workbook_helpers import records
+    result = records(wb, 'Results')[0]
     assert result['DDD (CPZ mg/day)'] == 120
-    audit = list(wb['AuditTrail'].values)
+    audit = list(wb['MedicationResults'].values)
     assert len(audit) == 2
     row = dict(zip(audit[0], audit[1]))
     assert row['medication_column'] == 'raw_med_aps'
-    assert row['route'] == 'oral'
+    assert row['daily_dose_mg'] == 2

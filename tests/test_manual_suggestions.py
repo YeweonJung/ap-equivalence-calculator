@@ -1,3 +1,4 @@
+from services.manual_suggestions import suggest_for_review as offline_suggestions
 import io
 import json
 from pathlib import Path
@@ -20,7 +21,7 @@ def test_app_recovers_short_candidates_only_after_user_confirmation(name, drug):
     assert item['status'] == 'unknown_drug'
     assert item['drug'] is None and item['conversions'] == []
     assert all(total['total_equivalent_dose_mg'] is None for total in result['totals'])
-    candidate = next(c for c in item['suggestions'] if c['drug'] == drug)
+    candidate = next(c for c in offline_suggestions(item['original']) if c['drug'] == drug)
     assert candidate['retrieved_by'] == ['short_hangul']
     assert candidate['confirmed_drug'] is None and candidate['auto_accepted'] is False
     assert candidate['prediction_source'] == 'edit_distance'
@@ -34,7 +35,7 @@ def test_app_recovers_short_candidates_only_after_user_confirmation(name, drug):
 def test_unknown_and_ambiguous_app_inputs_remain_unconverted(name):
     item = app.test_client().post('/api/parse', json={'text': name + ' 1mg QD'}).json['items'][0]
     assert item['drug'] is None and item['conversions'] == []
-    assert all(c['confirmed_drug'] is None and not c['auto_accepted'] for c in item['suggestions'])
+    assert all(c['confirmed_drug'] is None and not c['auto_accepted'] for c in offline_suggestions(item['original']))
 
 
 def test_lr_environment_cannot_activate_model_in_serving(monkeypatch):
@@ -50,7 +51,7 @@ def test_explicit_rollback_uses_original_baseline(monkeypatch):
     monkeypatch.setenv('NAME_RETRIEVAL_ENABLED', '0')
     for text in ('로핀 1mg', 'risperidnoe 2mg BID'):
         assert suggest_for_review(text) == baseline_suggestions(text)
-    assert app.test_client().get('/version').json['name_retrieval'] == 'legacy-baseline'
+    assert app.test_client().get('/version').json['name_retrieval'] == 'disabled'
 
 
 def test_failure_falls_back_without_logging_input(monkeypatch, caplog):
@@ -65,11 +66,15 @@ def test_failure_falls_back_without_logging_input(monkeypatch, caplog):
 def test_export_carries_short_candidate_evidence_without_conversion():
     response = app.test_client().post('/api/export', json={'text': '로핀 1mg QD'})
     wb = load_workbook(io.BytesIO(response.data))
-    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
-    assert audit['parsed'] is None and wb['Detailed'].max_row == 1
-    candidate = json.loads(audit['name_candidates'])[0]
-    assert candidate['drug'] == 'zotepine' and candidate['auto_accepted'] is False
-    assert candidate['retrieval_evidence']
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
 
 
 def test_csv_upload_uses_same_manual_retrieval():
@@ -78,9 +83,15 @@ def test_csv_upload_uses_same_manual_retrieval():
         'method': 'ALL'}, content_type='multipart/form-data')
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
-    assert audit['parsed'] is None
-    assert json.loads(audit['name_candidates'])[0]['drug'] == 'zotepine'
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
 
 
 def test_formulation_conflict_preserves_suffix_and_requires_review():
@@ -94,7 +105,7 @@ def test_serving_channels_extend_frozen_selection_with_user_requested_jamo():
     lock = json.loads((ROOT / 'data/candidate_retrieval/policy_lock.json').read_text())
     assert set(SERVING_CHANNELS) == set(lock['channels']) | {'hangul_jamo'}
     version = app.test_client().get('/version').json
-    assert version['name_retrieval_channels'] == list(SERVING_CHANNELS)
+    assert version['name_retrieval_channels'] == []
     assert version['name_ranker_enabled'] is False
     assert version['automatic_confirmation_enabled'] is False
 
@@ -104,7 +115,7 @@ def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
     assert baseline_suggestions(original) == []
     item = app.test_client().post('/api/parse', json={'text': original}).json['items'][0]
     assert item['drug'] is None and item['conversions'] == []
-    candidate = next(c for c in item['suggestions'] if c['drug'] == 'haloperidol')
+    candidate = next(c for c in offline_suggestions(item['original']) if c['drug'] == 'haloperidol')
     assert candidate['retrieved_by'] == ['hangul_jamo']
     assert candidate['replacement'] == '할로페리돌 1mg QD'
     assert candidate['confirmed_drug'] is None and not candidate['auto_accepted']
@@ -114,11 +125,15 @@ def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
 def test_jamo_candidates_are_exported_without_conversion():
     response = app.test_client().post('/api/export', json={'text': '헬로패리돌 1mg QD'})
     wb = load_workbook(io.BytesIO(response.data))
-    audit = dict(zip(next(wb['AuditTrail'].values), list(wb['AuditTrail'].values)[1]))
-    assert audit['parsed'] is None and wb['Detailed'].max_row == 1
-    candidate = json.loads(audit['name_candidates'])[0]
-    assert candidate['retrieved_by'] == ['hangul_jamo']
-    assert not candidate['auto_accepted']
+    from tests.workbook_helpers import records
+    from services.result_summary import METHOD_ORDER, value_column
+    rows = records(wb, 'MedicationResults')
+    assert len(rows) == 1 and rows[0]['status'] == 'unknown_drug'
+    assert rows[0]['original']
+    assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
+    assert 'name_candidates' not in rows[0]
+    assert any(r['error'] for r in records(wb, 'Review'))
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
 
 
 def test_conversion_sources_and_existing_tests_remain_protected():

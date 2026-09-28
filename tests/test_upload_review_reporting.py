@@ -5,10 +5,7 @@ from services.frames import convert_frame, parse_frames
 from services.result_notes import with_result_notes
 
 
-def workbook_rows(wb, name):
-    values=wb[name].values
-    headers=next(values)
-    return [dict(zip(headers,row)) for row in values]
+from tests.workbook_helpers import records as workbook_rows
 
 
 def test_no_supported_factor_is_not_reported_as_success():
@@ -24,15 +21,14 @@ def test_no_factor_is_in_errors_and_medication_explanation():
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(text.encode()),'review.csv')})
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data),read_only=True)
-    errors=workbook_rows(wb,'Errors')
-    assert any(r['drug_class']=='antipsychotic' and r['status']=='missing_factor' and '계수' in r['error'] for r in errors)
+    errors=workbook_rows(wb,'Review')
+    assert any('blonanserin' in r['original'] and '계수' in r['error'] for r in errors)
     medication=workbook_rows(wb,'MedicationResults')[0]
     assert '계수' in medication['환산 근거']
     result=workbook_rows(wb,'Results')[0]
     assert result['DDD (CPZ mg/day)'] is None
-    assert 'blonanserin' in result['확인할 내용'] and 'DDD' in result['확인할 내용']
-    assert result['환산 완료 방법'] is None
-    assert 'DDD' in result['환산 불가 방법']
+    assert '환산계수 없음' in result['확인할 내용']
+    assert any('DDD' in r['error'] for r in errors)
     wb.close()
 
 

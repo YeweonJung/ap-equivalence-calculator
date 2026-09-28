@@ -7,7 +7,7 @@ def test_overview_keeps_values_and_explains_blanks():
     raw='patient_id,medication\n001,risperidone 2mg QD\n002,blonanserin 8mg\n'
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(raw.encode()),'test.csv')})
     wb=load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames[0]=='한눈에 보기'
+    assert wb.sheetnames[0]=='Results'
     sheet=wb.active
     assert sheet['A8'].value=='001' and sheet['A8'].data_type=='s'
     headers=[c.value for c in sheet[7]]
@@ -16,7 +16,8 @@ def test_overview_keeps_values_and_explains_blanks():
     assert sheet.cell(9,ddd).value=='—'
     assert sheet['B9'].value=='계산 보류'
     assert '환산계수 없음' in sheet.cell(9,len(headers)).value
-    assert wb['AuditTrail'].sheet_state=='hidden'
+    assert wb.sheetnames == ['Results','MedicationResults','Review']
+    assert all(s.sheet_state == 'visible' for s in wb)
     assert wb['Results'].sheet_state=='visible'
     assert sheet.freeze_panes=='C8' and sheet.auto_filter.ref=='A7:L9'
     wb.close()
@@ -27,7 +28,7 @@ def test_dated_overview_does_not_merge_dates():
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(raw.encode()),'test.csv')})
     wb=load_workbook(io.BytesIO(response.data))
     s=wb.active
-    assert s.title=='한눈에 보기'
+    assert s.title=='Results'
     assert s['B8'].value=='2026-09-01' and s['B9'].value=='2026-09-15'
     headers=[c.value for c in s[7]]
     ddd=headers.index('DDD\nCPZ mg/day')+1

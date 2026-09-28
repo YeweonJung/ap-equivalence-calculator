@@ -9,10 +9,7 @@ from services.result_summary import TARGETS
 from tests.test_longitudinal import prepared, rx
 
 
-def rows(wb, sheet):
-    values = wb[sheet].values
-    headers = next(values)
-    return [dict(zip(headers, row)) for row in values]
+from tests.workbook_helpers import records as rows
 
 
 def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
@@ -25,7 +22,7 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
     pairs = reference_pairs(records, 'all_dates')
     expected, details = analyze(records, pairs)
     wb = load_workbook(analyze_export(records, pairs, {'policy': 'review'}))
-    assert wb.sheetnames == ['한눈에 보기', 'Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
     actual = {(r['patient_id'], r['기준일']): r for r in rows(wb, 'Results')}
     assert len(actual) == len(pairs)
     for r in expected:
@@ -38,8 +35,8 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
         assert row[f"{r['method']} ({TARGETS[r['method']]} mg/day)"] == (pytest.approx(value, rel=1e-12) if value is not None else None)
     review = rows(wb, 'Review')
     assert any(r['patient_id'] is None and '환자 ID 누락' in r['확인할 내용'] for r in review)
-    assert all(wb[s].freeze_panes == 'C2' and wb[s].auto_filter.ref for s in ['Results','MedicationResults','Review'])
-    assert wb['Results']['A1'].comment and wb['Results']['A1'].fill.fgColor.rgb == 'FF1764B2'
+    assert all(wb[s].freeze_panes == 'C2' and wb[s].auto_filter.ref for s in ['MedicationResults','Review'])
+    assert wb['Results'].freeze_panes == 'D8'
     assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
 
 
@@ -59,6 +56,6 @@ def test_missing_factor_and_no_record_stay_blank_with_korean_guidance():
     output = rows(wb, 'Results')
     assert output[0]['DDD (CPZ mg/day)'] is None
     assert output[0]['GARDNER (CPZ mg/day)'] is not None
-    assert output[1]['결과 상태'] == '해당 처방 없음'
+    assert '해당 날짜' in output[1]['확인할 내용']
     assert output[1]['GARDNER (CPZ mg/day)'] is None
     assert '환산 계수 없음' in rows(wb, 'Review')[0]['확인할 내용']

@@ -11,6 +11,20 @@ for column in ("method_id", "source_drug", "target_drug"):
     lookup[column] = lookup[column].astype(str).str.strip().str.casefold()
 lookup["method_id"] = lookup["method_id"].str.upper()
 
+# The shipped table is immutable during a worker's lifetime. Index once instead
+# of filtering pandas for every medication, method and patient total.
+_FACTORS = {}
+_TARGETS = {}
+for _row in lookup.itertuples(index=False):
+    _key = (_row.method_id, _row.source_drug, _row.target_drug)
+    if _key in _FACTORS:
+        raise ValueError(f"Duplicate conversion factor: {_key}")
+    _factor = float(_row.factor)
+    if not math.isfinite(_factor) or _factor <= 0:
+        raise ValueError(f"Invalid conversion factor: {_key}")
+    _FACTORS[_key] = _factor
+    _TARGETS.setdefault(_row.method_id, set()).add(_row.target_drug)
+
 DEFAULT_TARGETS = {
     "CMD_DIRECT": "olanzapine",
     "CMD_INDIRECT": "olanzapine",
@@ -24,12 +38,12 @@ DEFAULT_TARGETS = {
 }
 
 def available_methods():
-    return sorted(lookup["method_id"].unique().tolist())
+    return sorted(_TARGETS)
 
 
 def available_targets(method):
     method = str(method).strip().upper()
-    return sorted(lookup.loc[lookup["method_id"] == method, "target_drug"].unique().tolist())
+    return sorted(_TARGETS.get(method, ()))
 
 
 def normalize_target(method, target_drug=None):
@@ -53,17 +67,7 @@ def convert_drug(source_drug, daily_dose, method="CMD", target_drug=None):
     if not math.isfinite(dose) or dose <= 0:
         raise ValueError("일일 용량은 0보다 큰 유한한 숫자여야 합니다.")
 
-    result = lookup[
-        (lookup["method_id"] == method)
-        & (lookup["source_drug"] == source)
-        & (lookup["target_drug"] == target)
-    ]
-    if result.empty:
+    factor = _FACTORS.get((method, source, target))
+    if factor is None:
         raise LookupError(f"{method}: {source} → {target} 환산값이 없습니다.")
-    if len(result) != 1:
-        raise ValueError(f"환산표에 중복 행이 있습니다: {method}, {source}, {target}")
-
-    factor = float(result.iloc[0]["factor"])
-    if not math.isfinite(factor) or factor <= 0:
-        raise ValueError("환산표의 계수가 올바르지 않습니다.")
     return dose * factor

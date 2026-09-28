@@ -12,16 +12,14 @@ def upload(content):
     return load_workbook(io.BytesIO(response.data))
 
 
-def rows(wb, sheet):
-    values = list(wb[sheet].values)
-    return [dict(zip(values[0], row)) for row in values[1:]]
+from tests.workbook_helpers import records as rows
 
 
 def test_patient_sums_across_rows_keep_ids_and_method_order():
     wb = upload('patient_id,medication\n001,risperidone 2mg QD\n001,olanzapine 5mg QD\n002,risperidone 1mg QD\nNA,risperidone 1mg QD\n')
     result = rows(wb, 'Results')
     assert [r['patient_id'] for r in result] == ['001', '002', 'NA']
-    assert list(result[0])[:7] == ['patient_id', 'CMD (CPZ mg/day)', 'MED (OLZ mg/day)', 'DDD (CPZ mg/day)', 'ED95 (OLZ mg/day)', 'GARDNER (CPZ mg/day)', 'WOODS (CPZ mg/day)']
+    assert list(result[0])[:4] == ['patient_id', '결과 상태', 'CMD (CPZ mg/day)', 'DDD (CPZ mg/day)']
     expected = app.test_client().post('/api/parse', json={'text': 'risperidone 2mg QD; olanzapine 5mg QD'}).json['totals']
     for total in expected:
         column = f"{total['method']} ({TARGETS[total['method']]} mg/day)"
@@ -32,13 +30,11 @@ def test_incomplete_patient_never_exports_partial_as_total():
     wb = upload('patient_id,medication\nP001,risperidone 2mg QD\nP001,unknownxyz 5mg\nP002,risperidone 2mg QD\n')
     result = rows(wb, 'Results')
     assert all(result[0][column] is None for column in PATIENT_COLUMNS[1:])
-    assert result[0]['결과 상태'] == '입력 확인 필요'
-    assert 'unknownxyz 5mg' in result[0]['확인할 내용']
-    assert '빈칸은 0이 아닙니다' in result[0]['확인할 내용']
+    assert result[0]['결과 상태'] == '계산 보류'
+    assert '약물명 확인' in result[0]['확인할 내용']
     assert result[1]['DDD (CPZ mg/day)'] is not None
-    check = next(r for r in rows(wb, 'PatientChecks') if r['patient_id']=='P001' and r['method']=='DDD')
-    assert check['partial_equivalent_dose_mg'] > 0
-    assert check['unresolved_count'] == 1
+    assert any('unknownxyz' in r['original'] for r in rows(wb, 'Review'))
+
 
 
 def test_missing_ids_are_separate_and_empty_prescription_is_blank():
@@ -47,7 +43,7 @@ def test_missing_ids_are_separate_and_empty_prescription_is_blank():
     assert len(result) == 3
     assert len({r['patient_id'] for r in result}) == 3
     assert result[2]['DDD (CPZ mg/day)'] is None
-    assert len(rows(wb, 'Errors')) == 2
+    assert len(rows(wb, 'Review')) >= 2
 
 
 def test_excel_multisheet_and_multiple_medication_columns():
@@ -67,5 +63,5 @@ def test_excel_multisheet_and_multiple_medication_columns():
 
 def test_formula_like_id_is_exact_literal_text():
     wb = upload('patient_id,medication\n=1+1,risperidone 2mg QD\n')
-    assert wb['Results']['A2'].value == '=1+1'
-    assert wb['Results']['A2'].data_type == 's'
+    assert wb['Results']['A8'].value == '=1+1'
+    assert wb['Results']['A8'].data_type == 's'
