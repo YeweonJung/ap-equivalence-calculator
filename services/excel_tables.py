@@ -1,7 +1,7 @@
 """Fast row-wise workbook tables; values remain literal and formats are reused."""
 import math
 
-WRAPPED = {'original', 'source_text', 'warning', 'error', '환산 근거', 'conversion_basis',
+WRAPPED = {'recognized_product', 'product_name_source', 'original', 'source_text', 'warning', 'error', '환산 근거', 'conversion_basis',
            'conversion_source', 'oral_bridge_source', 'mass_source', 'unavailable_methods',
            'name_candidates', 'unit_candidates', 'issues', 'adjustments'}
 

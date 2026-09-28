@@ -63,11 +63,13 @@ def test_audit_preserves_structured_source_and_literal_ids():
 
 
 def test_precompiled_mentions_keep_all_alias_boundaries_and_overlap_order():
+    patterns = [(re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name)
+                for alias, name in alias_map.items()]
     def reference(text):
         hits = []
-        for alias, name in alias_map.items():
-            pattern = r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])'
-            hits.extend((m.start(),m.end(),name) for m in re.finditer(pattern,_outside(text),re.I))
+        masked = _outside(text)
+        for pattern, name in patterns:
+            hits.extend((m.start(),m.end(),name) for m in pattern.finditer(masked))
         chosen = []
         for hit in sorted(hits,key=lambda h:(h[0],-(h[1]-h[0]))):
             if not chosen or hit[0] >= chosen[-1][1]:chosen.append(hit)

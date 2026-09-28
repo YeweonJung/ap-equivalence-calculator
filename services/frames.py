@@ -111,6 +111,8 @@ def _frame(start, end, original):
                  dose=None, unit=None, unit_candidates='', dose_mg=None, daily_dose_mg=None,
                  frequency='', frequency_per_day=None, warning='', match_type=match_type,
                  match_score=score or 0.0, needs_review=True, **info)
+    from services.lai_support import product_evidence
+    frame.update(product_evidence(text))
     doses = list(DOSE_RE.finditer(text))
     if len(doses) == 1:
         frame.update(dose=float(doses[0]['dose']), unit=doses[0]['unit'],

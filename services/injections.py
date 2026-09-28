@@ -1,7 +1,7 @@
 """WHO route-specific DDD equivalents; never reuse oral factors for depots."""
 import math
 import re
-from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, profile_for, interval_days, oral_bridge
+from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, profile_for, interval_days, oral_bridge
 from services.lai_mass import normalize_mass
 
 OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
@@ -14,6 +14,9 @@ CPZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01'
 def injection_values(frame):
     text = frame['original']
     drug, dose = frame['drug'], frame['dose_mg']
+    profile = profile_for(text, drug, dose)
+    if profile in REVIEW_PROFILES:
+        raise ValueError('확인바람: 제품명·성분은 확인했으나 이 제품·제형의 환산은 지원하지 않습니다. 경구 또는 다른 주사제 계수를 적용하지 않습니다.')
     if re.search(r'(?:mg|㎎)\s*/\s*(?:ml|mL|cc)|농도', text, re.I):
         raise ValueError('확인바람: 농도(mg/mL)는 주사 총용량(mg)이 아닙니다. 총용량을 입력해 주세요.')
     if drug not in DEPOT_DDD or dose is None or not math.isfinite(dose) or dose <= 0:
@@ -24,6 +27,8 @@ def injection_values(frame):
         raise ValueError('확인바람: LAI 투여간격과 일일 복용빈도가 함께 입력되었습니다.')
     profile = profile_for(text, drug, dose)
     is_sc = profile in ('RIS_UZEDY', 'RIS_PERSERIS')
+    if re.search(r'\b(?:oral|tablet|capsule|PO)\b|경구|정제|캡슐', text, re.I):
+        raise ValueError('확인바람: 주사 제품명과 경구 투여 표기가 충돌합니다.')
     if re.search(r'\bIV\b|intravenous|정맥', text, re.I):
         raise ValueError('확인바람: 정맥 주사는 지속형 유지요법 환산 대상이 아닙니다.')
     if (is_sc and re.search(r'\bIM\b|intramuscular|근육', text, re.I)) or (
@@ -38,6 +43,9 @@ def injection_values(frame):
     dose = mass['active_moiety_mg']
     days, interval_note = interval_days(text, profile)
     bridge = oral_bridge(drug, dose, days, profile)
+    if bridge['oral_bridge_source'] and frame.get('product_name_source'):
+        bridge['oral_bridge_source'] = '; '.join(dict.fromkeys(
+            [frame['product_name_source'], bridge['oral_bridge_source']]))
     warning = '확인바람: 유지요법 주사제 DDD 환산' + interval_note
     if drug == 'paliperidone':
         warning += '; paliperidone 활성성분 mg 기준'

@@ -1,5 +1,7 @@
 """Product-specific oral bridges, not direct LAI CMD/MED/ED95 factors."""
 import re
+import json
+from pathlib import Path
 
 BRIDGE_LABEL = '경구 대응용량 기반 추정 (LAI 직접 환산 아님)'
 LABELS = {key: f'https://www.medicines.org.uk/emc/product/{value}/smpc' for key, value in
@@ -50,15 +52,49 @@ for _name, _identity in list(PRODUCTS.items()):
     if re.search('[가-힣]', _name):
         for _suffix in ('주', '주사', ' 주', ' 주사'):
             PRODUCTS[_name + _suffix] = _identity
+# Load the reviewed catalog once; requests never search the web or call AI.
+NAME_CATALOG = json.loads((Path(__file__).resolve().parents[1] /
+                           'lookup/injection_product_names.json').read_text(encoding='utf-8'))
+NAME_EVIDENCE = {}
+REVIEW_PROFILES = set()
+for _record in NAME_CATALOG:
+    if _record['policy'] == 'review':
+        REVIEW_PROFILES.add(_record['profile'])
+    for _name in _record['aliases']:
+        _variants = {_name, _name.replace(' ', ''), _name.replace(' ', '-')}
+        for _variant in sorted(_variants):
+            _suffixes = ('', '주', '주사', ' 주', ' 주사') if re.search('[가-힣]', _variant) else (('',) if re.search(r'(?:injection|inj\.?)$', _variant) else ('', ' injection', ' inj', ' inj.'))
+            for _suffix in _suffixes:
+                _alias = _variant + _suffix
+                _identity = (_record['drug'], _record['profile'])
+                if _alias in PRODUCTS and PRODUCTS[_alias] != _identity:
+                    raise ValueError('Conflicting injection product alias: ' + _alias)
+                PRODUCTS[_alias] = _identity
+                NAME_EVIDENCE[_alias] = _record
 PRODUCT_RE = (r'(?<![\w])(?:' + '|'.join(re.escape(name) for name in
               sorted(PRODUCTS, key=len, reverse=True)) + r')(?![a-z가-힣])')
+PRODUCT_PATTERN = re.compile(PRODUCT_RE, re.I)
+
+
+def product_evidence(text):
+    records = [NAME_EVIDENCE[m.group().lower()] for m in PRODUCT_PATTERN.finditer(text)
+               if m.group().lower() in NAME_EVIDENCE]
+    if not records:
+        return {}
+    evidence = dict(recognized_product='; '.join(dict.fromkeys(r['product'] for r in records)),
+                    product_name_source='; '.join(dict.fromkeys(r['source'] for r in records)),
+                    product_name_checked_on='2026-09-28')
+    profiles = {r['profile'] for r in records}
+    if len(profiles) == 1:
+        evidence['lai_profile'] = next(iter(profiles))
+    return evidence
 
 
 def profile_for(text, drug, dose):
     profiles = set(m.group().upper() for m in re.finditer(r'\bPP[136]M\b', text, re.I))
     if profiles and drug != 'paliperidone':
         raise ValueError('확인바람: PP 제형과 약물 성분이 서로 다릅니다.')
-    for match in re.finditer(PRODUCT_RE, text, re.I):
+    for match in PRODUCT_PATTERN.finditer(text):
         expected, profile = PRODUCTS[match.group().lower()]
         if drug != expected:
             raise ValueError('확인바람: 약물 성분과 제품명이 서로 다릅니다.')

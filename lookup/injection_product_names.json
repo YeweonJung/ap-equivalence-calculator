@@ -1,0 +1,330 @@
+[
+  {
+    "product": "Zyprexa Relprevv",
+    "drug": "olanzapine",
+    "profile": "OLZ_PAMOATE",
+    "aliases": [
+      "zyprexa relprevv",
+      "relprevv"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=11544cba-64a9-49cb-8d74-da228053b252",
+    "checked_on": "2026-09-28",
+    "policy": "supported",
+    "note": "기존 olanzapine pamoate 유지요법 표 적용; 단기 Zyprexa IM과 구분"
+  },
+  {
+    "product": "Paliperidone Zentiva",
+    "drug": "paliperidone",
+    "profile": "PP1M",
+    "aliases": [
+      "paliperidone zentiva injection",
+      "paliperidone zentiva inj",
+      "paliperidone zentiva prolonged release suspension"
+    ],
+    "source": "https://www.medicines.org.uk/emc/product/102233/smpc",
+    "checked_on": "2026-09-28",
+    "policy": "supported",
+    "note": "활성 paliperidone 표시량; PP1M 경구 대응표 확인"
+  },
+  {
+    "product": "Invega Hafyera Korean name",
+    "drug": "paliperidone",
+    "profile": "PP6M",
+    "aliases": [
+      "인베가 하피에라"
+    ],
+    "source": "https://www.hira.or.kr/ra/medi/getHistoryList.do?artcNm=646902671&isActivity=Y&isDown=N&pageIndex=1&pgmid=HIRAA030035020000&srchCnd=%5B646902671%5D",
+    "checked_on": "2026-09-28",
+    "policy": "supported",
+    "note": "기존 Hafyera와 동일; 활성성분/에스터 표시량 구분"
+  },
+  {
+    "product": "UZEDY Korean name",
+    "drug": "risperidone",
+    "profile": "RIS_UZEDY",
+    "aliases": [
+      "유제디"
+    ],
+    "source": "https://www.medincell.com/wp-content/uploads/2026/05/Investors-May2026.pdf",
+    "checked_on": "2026-09-28",
+    "policy": "supported",
+    "note": "개발사 자료의 한국명; 명시된 간격으로 기존 UZEDY 표 적용"
+  },
+  {
+    "product": "Uzedy One M",
+    "drug": "risperidone",
+    "profile": "RIS_UZEDY_ONE_M_REVIEW",
+    "aliases": [
+      "유제디 원엠",
+      "uzedy one m"
+    ],
+    "source": "https://health.kr/searchDrug/result_drug.asp?drug_cd=2025090800012",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "국내 제품의 월별 규격 별도 확인 필요; 일반 UZEDY 두 달 간격 표에 자동 연결하지 않음"
+  },
+  {
+    "product": "Longavo",
+    "drug": "risperidone",
+    "profile": "RIS_LONGAVO_REVIEW",
+    "aliases": [
+      "longavo"
+    ],
+    "source": "https://pdf.hres.ca/dpd_pm/00080831.PDF",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "캐나다 제품의 허가 간격 별도 검증; 미국 UZEDY 간격을 자동 적용하지 않음"
+  },
+  {
+    "product": "Rykindo",
+    "drug": "risperidone",
+    "profile": "RIS_RYKINDO_REVIEW",
+    "aliases": [
+      "rykindo"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=58534c96-96f5-4c2e-a061-92d4506aee91",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Risvan",
+    "drug": "risperidone",
+    "profile": "RIS_RISVAN_REVIEW",
+    "aliases": [
+      "risvan"
+    ],
+    "source": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/214835s000lbl.pdf",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "공식 과거 허가문서 기반 이름 인식; Okedi 28일 표와 자동 병합하지 않음"
+  },
+  {
+    "product": "Dongkook risperidone depot",
+    "drug": "risperidone",
+    "profile": "RIS_DONGKOOK_REVIEW",
+    "aliases": [
+      "동국 리스페리돈 데포",
+      "동국리스페리돈데포",
+      "risperidone depot dongkook"
+    ],
+    "source": "https://www.dkpharm.co.kr/boards/view.php?btype=news&idx=288&page=26&stext=&stype=news",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제조사 수출용 지속형 제품명; Consta로 자동 대체하지 않음"
+  },
+  {
+    "product": "Aristada Initio",
+    "drug": "aripiprazole",
+    "profile": "ARI_INITIO_REVIEW",
+    "aliases": [
+      "aristada initio"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b18fdfd9-31cd-4a2f-9f1c-ebc70d7a9403",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "치료 시작용 제형; 유지요법 환산 대상 아님"
+  },
+  {
+    "product": "Niapelf",
+    "drug": "paliperidone",
+    "profile": "PAL_NIAPELF_REVIEW",
+    "aliases": [
+      "niapelf"
+    ],
+    "source": "https://www.ema.europa.eu/en/medicines/human/EPAR/niapelf",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Palmeux",
+    "drug": "paliperidone",
+    "profile": "PAL_PALMEUX_REVIEW",
+    "aliases": [
+      "palmeux"
+    ],
+    "source": "https://www.advanzpharma.com/news/2023/advanz-pharma-launches-palmeux-paliperidone-1-month-long-acting-injection-across-various-european-countries",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Paliperidone Teva injection",
+    "drug": "paliperidone",
+    "profile": "PAL_TEVA_REVIEW",
+    "aliases": [
+      "paliperidone teva injection",
+      "paliperidone teva inj",
+      "paliperidone teva prolonged release suspension"
+    ],
+    "source": "https://www.hpra.ie/img/uploaded/swedocuments/Licence_PA0436-050-001_23022024160349.pdf",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Paliperidone Mercury Pharma injection",
+    "drug": "paliperidone",
+    "profile": "PAL_MERCURY_REVIEW",
+    "aliases": [
+      "paliperidone mercury pharma injection",
+      "paliperidone mercury pharma inj",
+      "paliperidone mercury pharma prolonged release suspension"
+    ],
+    "source": "https://bso.hscni.net/wp-content/uploads/2026/01/EL26A01-Final-V2.pdf",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Haldol Decanoate",
+    "drug": "haloperidol",
+    "profile": "HAL_DECANOATE_REVIEW",
+    "aliases": [
+      "haldol decanoate",
+      "haloperidol decanoate"
+    ],
+    "source": "https://www.medicines.org.uk/emc/product/15245/smpc",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Haldol Decanoate Korean name",
+    "drug": "haloperidol",
+    "profile": "HAL_DECANOATE_REVIEW",
+    "aliases": [
+      "할돌 데카노아스",
+      "할로페리돌 데카노에이트"
+    ],
+    "source": "https://health.kr/searchDrug/result_drug.asp?drug_cd=A11ABBBBB2722",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Depixol depot",
+    "drug": "flupentixol",
+    "profile": "FLUPENTIXOL_DEPOT_REVIEW",
+    "aliases": [
+      "depixol injection",
+      "depixol depot",
+      "depixol conc injection",
+      "depixol low volume injection",
+      "flupentixol decanoate"
+    ],
+    "source": "https://www.medicines.org.uk/emc/product/995/smpc",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Fluanxol depot",
+    "drug": "flupentixol",
+    "profile": "FLUPENTIXOL_DEPOT_REVIEW",
+    "aliases": [
+      "fluanxol depot",
+      "fluanxol injection",
+      "fluanxol concentrated injection",
+      "flupenthixol decanoate"
+    ],
+    "source": "https://www.medsafe.govt.nz/profs/datasheet/f/Fluanxolinj.pdf",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Clopixol depot",
+    "drug": "zuclopenthixol",
+    "profile": "ZUC_DECANOATE_REVIEW",
+    "aliases": [
+      "clopixol depot",
+      "clopixol concentrate injection",
+      "zuclopenthixol decanoate"
+    ],
+    "source": "https://health-products.canada.ca/dpd-bdpp/info?code=49245&lang=eng",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Clopixol Acuphase",
+    "drug": "zuclopenthixol",
+    "profile": "ZUC_ACETATE_REVIEW",
+    "aliases": [
+      "clopixol acuphase",
+      "zuclopenthixol acetate"
+    ],
+    "source": "https://www.medicines.org.uk/emc/product/993/smpc",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "급성기 acetate 주사; 지속형 decanoate와 구분"
+  },
+  {
+    "product": "Modecate",
+    "drug": "fluphenazine",
+    "profile": "FLUPHENAZINE_DEC_REVIEW",
+    "aliases": [
+      "modecate",
+      "modecate concentrate"
+    ],
+    "source": "https://www.moh.gov.bh/HealthInfo/DrugDetail/138?lang=en",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "과거 처방 이름 인식 포함; 현재 국내 유통을 의미하지 않음"
+  },
+  {
+    "product": "Fluphenazine decanoate",
+    "drug": "fluphenazine",
+    "profile": "FLUPHENAZINE_DEC_REVIEW",
+    "aliases": [
+      "fluphenazine decanoate"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=970e6fde-9cc8-475b-8a9e-bde0579a72a7",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+  },
+  {
+    "product": "Piportil L4",
+    "drug": "pipotiazine",
+    "profile": "PIPOTIAZINE_DEPOT_REVIEW",
+    "aliases": [
+      "piportil l4"
+    ],
+    "source": "https://health-products.canada.ca/dpd-bdpp/info?code=13164&lang=eng",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "과거 제품명 포함; 제품명 속 L4는 용량이 아님"
+  },
+  {
+    "product": "Zyprexa IntraMuscular",
+    "drug": "olanzapine",
+    "profile": "OLZ_SHORT_IM_REVIEW",
+    "aliases": [
+      "zyprexa intramuscular",
+      "zyprexa im",
+      "zyprexa injection"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=11544cba-64a9-49cb-8d74-da228053b252",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "단기 주사; Relprevv 지속형 환산표 적용 금지"
+  },
+  {
+    "product": "Geodon injection",
+    "drug": "ziprasidone",
+    "profile": "ZIP_SHORT_IM_REVIEW",
+    "aliases": [
+      "geodon injection",
+      "geodon for injection",
+      "geodon im",
+      "ziprasidone mesylate injection"
+    ],
+    "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=136aeec3-b918-4157-b2a7-dd615e36183f",
+    "checked_on": "2026-09-28",
+    "policy": "review",
+    "note": "단기 근육 주사; 경구 환산계수 적용 금지"
+  }
+]

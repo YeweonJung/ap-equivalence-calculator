@@ -15,6 +15,7 @@ AUDIT_COLUMNS = [
     'conversion_basis', 'conversion_source', 'lai_profile', 'oral_equivalent_mg',
     'oral_bridge_source', 'route', 'formulation', 'interval', 'status', 'status_message',
     'source_text',
+    'recognized_product', 'product_name_source', 'product_name_checked_on',
 ]
 
 

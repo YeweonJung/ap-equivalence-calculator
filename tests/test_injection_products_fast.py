@@ -49,10 +49,13 @@ def test_ambiguous_product_input_is_not_calculated(text):
 def test_combined_matcher_agrees_with_original_algorithm():
     texts = [f'{alias} 2mg, risperdal consta 25mg q2w (olz 10mg)' for alias in alias_map]
     texts += [' / '.join(alias_map), 'RİSPERİDONE 2mg', 'ris 2, olz 5']
+    patterns = [(re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name)
+                for alias, name in alias_map.items()]
     for text in texts:
         hits = []
-        for alias, name in alias_map.items():
-            for match in re.finditer(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', _outside(text), re.I):
+        masked = _outside(text)
+        for pattern, name in patterns:
+            for match in pattern.finditer(masked):
                 hits.append((match.start(), match.end(), name))
         chosen = []
         for hit in sorted(hits, key=lambda h: (h[0], -(h[1]-h[0]))):
