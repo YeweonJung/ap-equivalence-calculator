@@ -1,10 +1,35 @@
 import csv
+import io
 import pandas as pd
 from zipfile import BadZipFile
 
 from services.column_detector import MEDICATION_KEYWORDS
 
 MAX_SHEETS = 5
+
+
+def validate_headers(columns):
+    # Validate before pandas silently renames duplicate headers with .1 suffixes.
+    named = [str(c).strip().casefold() for c in columns if str(c).strip()]
+    if len(named) != len(set(named)):
+        raise ValueError('중복 열 이름을 구분한 뒤 다시 업로드하세요.')
+
+
+def csv_layout(text):
+    lines = text.splitlines(keepends=True)
+    start = next((i for i, line in enumerate(lines) if line.strip()), None)
+    if start is None:
+        raise ValueError('CSV 파일에 열 이름이나 데이터가 없습니다.')
+    try:
+        separator = csv.Sniffer().sniff(lines[start], delimiters=',;\t|').delimiter
+    except csv.Error:
+        separator = ','
+    try:
+        columns = next(csv.reader(io.StringIO(''.join(lines[start:])), delimiter=separator))
+    except (csv.Error, StopIteration) as exc:
+        raise ValueError('CSV 열 이름을 읽을 수 없습니다.') from exc
+    validate_headers(columns)
+    return separator, start
 
 
 def _header_score(frame):
@@ -27,6 +52,10 @@ def _read_excel_sheet(filepath, sheet):
     if not candidates:
         raise ValueError(f"'{sheet}' 시트를 읽을 수 없습니다.")
     _, negative_header, frame = max(candidates, key=lambda item: (item[0], item[1]))
+    raw_header = pd.read_excel(filepath, sheet_name=sheet, header=None,
+                               skiprows=-negative_header, nrows=1, dtype=str, keep_default_na=False)
+    if not raw_header.empty:
+        validate_headers(raw_header.iloc[0].tolist())
     frame.attrs["header_row"] = -negative_header
     return frame
 
@@ -41,15 +70,9 @@ def read_file(filepath):
         for encoding in ("utf-8-sig", "utf-8", "cp949", "euc-kr"):
             try:
                 with open(filepath, encoding=encoding, newline='') as source:
-                    header = next((line for line in source if line.strip()), '')
-                if not header.strip():
-                    raise ValueError('CSV 파일에 열 이름이나 데이터가 없습니다.')
-                try:
-                    separator = csv.Sniffer().sniff(header, delimiters=',;\t|').delimiter
-                except csv.Error:
-                    separator = ','  # A single-column header has no delimiter.
-                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="c", dtype=str, keep_default_na=False, skip_blank_lines=False).fillna('')
-                frame.attrs["header_row"] = 0
+                    separator, header_row = csv_layout(source.read())
+                frame = pd.read_csv(filepath, encoding=encoding, sep=separator, engine="c", dtype=str, keep_default_na=False, skip_blank_lines=False, skiprows=header_row).fillna('')
+                frame.attrs["header_row"] = header_row
                 return {"Sheet1": frame}
             except (UnicodeDecodeError, pd.errors.ParserError, pd.errors.EmptyDataError) as exc:
                 last_error = exc

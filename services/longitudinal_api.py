@@ -1,5 +1,4 @@
 """Stateless CSV upload endpoints; no clinical data goes to feedback/LLM storage."""
-import csv
 import hashlib
 import io
 import json
@@ -10,6 +9,7 @@ from flask import Blueprint, jsonify, render_template, request, send_file
 from services.longitudinal import (FIELDS, analyze_export, detect_mapping,
                                   prepare, reference_pairs)
 from services.release import metadata
+from services.file_reader import csv_layout
 
 bp = Blueprint('longitudinal', __name__)
 MAX_BYTES = 15 * 1024 * 1024
@@ -28,15 +28,9 @@ def read_csv_upload(upload):
         except UnicodeDecodeError:
             continue
         try:
-            header = text.splitlines()[0]
-            try:
-                delimiter = csv.Sniffer().sniff(header, delimiters=',;\t|').delimiter
-            except csv.Error:
-                delimiter = ','
-            cols = next(csv.reader(io.StringIO(text), delimiter=delimiter))
-            if len(cols) != len(set(cols)):
-                raise ValueError('중복 열 이름을 구분한 뒤 다시 업로드하세요.')
-            frame = pd.read_csv(io.StringIO(text), sep=delimiter, dtype=str, keep_default_na=False, skip_blank_lines=False, nrows=MAX_ROWS + 1)
+            delimiter, header_row = csv_layout(text)
+            frame = pd.read_csv(io.StringIO(text), sep=delimiter, dtype=str, keep_default_na=False, skip_blank_lines=False, skiprows=header_row, nrows=MAX_ROWS + 1)
+            frame.attrs['header_row'] = header_row
             if len(frame) > MAX_ROWS:
                 raise ValueError('CSV는 100,000행 이하로 나눠 주세요.')
             return frame.fillna(''), hashlib.sha256(raw).hexdigest()

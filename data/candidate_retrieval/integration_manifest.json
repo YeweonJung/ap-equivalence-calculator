@@ -1,5 +1,5 @@
 {
-  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged",
+  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
@@ -78,7 +78,7 @@
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
     "services/exporter.py": "8425cb7ed19567368de9d50477df45738ce879d20ccdf35c922ff213a333272c",
-    "services/file_reader.py": "bef34c8724d1d9ef8b22930c195cbd0896102297fe668607acbeb0f7333d62d0",
+    "services/file_reader.py": "f853038ecbcf97e726ae1a2f2fd4340bfb3b28e0a2e55dc6ab91ce3fbb6c8c05",
     "services/frames.py": "94cb9e2830ccaeb683d85025ad811c9bc7b2859ec2e86f3b637c5686cbfcb907",
     "services/injections.py": "977277992058a695544ceebc6589cf446ef733be242f4c869def58b82042142f",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
@@ -177,5 +177,8 @@
   "lai_route_review": "Unmarked formulations explicitly display ORAL. Shared LAI annotation is applied before each medication is parsed, preserving original text and validating each product and interval independently. Missing injection intervals are never replaced by oral QD or inferred from prior equivalent-dose columns.",
   "confirmed_spelling_review": "User explicitly confirmed pariperidone=paliperidone, aripiprazold=aripiprazole, queiapine=quetiapine. Apply exact upload mappings to structured and free-text cells, preserving original strings, offsets, doses, and LAI routing.",
   "candidate_language_review": "Use fixed Korean review guidance instead of unverified model rationale in API candidates and UI, including legacy responses. Preserve manual confirmation and dose suffixes.",
-  "longitudinal_excel_review": "Export longitudinal results in one streaming Excel workbook with three sheets, patient/date-wide totals, medication details, and review-only source rows. Preserve conversion values and unavailable totals."
+  "longitudinal_excel_review": "Export longitudinal results in one streaming Excel workbook with three sheets, patient/date-wide totals, medication details, and review-only source rows. Preserve conversion values and unavailable totals.",
+  "followup_source_changes": [
+    "services/file_reader.py"
+  ]
 }
