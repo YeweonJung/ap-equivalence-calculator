@@ -32,6 +32,8 @@ def reason_text(codes):
 def export_excel(records, results, details, metadata):
     out = io.BytesIO()
     wb = Workbook(out, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False})
+    from services.output_overview import dated_overview, add_xlsxwriter
+    add_xlsxwriter(wb, *dated_overview(results))
     wb.set_properties({'title': '환자별 날짜별 약물 환산 결과', 'comments': json.dumps(metadata, ensure_ascii=False)})
     methods_present = {r['method'] for r in results}
     methods = [m for m in PATIENT_METHOD_ORDER if m in methods_present]

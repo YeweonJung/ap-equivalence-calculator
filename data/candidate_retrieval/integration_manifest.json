@@ -77,7 +77,7 @@
     "services/converter.py": "fe0d7abacf8f0c33a1039f65d90699569a5fd72e50f250e0736deb086127d272",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "dbd9f6fcdee7cce8f1c2779544573817620211c79d1a82e23c424056197060a8",
+    "services/exporter.py": "a155a7da9a96a0e3e7884cb1809301eb6f132d96cd8eb88d008a6117a8ec7a17",
     "services/file_reader.py": "f853038ecbcf97e726ae1a2f2fd4340bfb3b28e0a2e55dc6ab91ce3fbb6c8c05",
     "services/frames.py": "950c0ecec1eacbd8d82fb8467111f4c4248637cd3d67d7bee01f4979d96be87a",
     "services/injections.py": "977277992058a695544ceebc6589cf446ef733be242f4c869def58b82042142f",
@@ -111,7 +111,7 @@
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "7c143abb9d0a05cbf30319a739fa32d5df5495fb8c8fe562380dadeb745cad0b",
     "tests/test_quick_export.py": "a2cc5e75cd263b7938e882e3b6921992c2f5b87422d50c847fba6f9d0bbf0e7d",
-    "tests/test_results_injections.py": "5cc924c2f16bc114447809bed700a475b6b0434767c1f51740341b6771914410",
+    "tests/test_results_injections.py": "377e4f6ac11ed19d3dbff1c0840d21b6782712c09bdd53339054de4b91ff4778",
     "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
   },
   "patient_results_change": {
@@ -186,5 +186,6 @@
     "services/result_summary.py",
     "tests/test_results_injections.py"
   ],
-  "upload_review_reporting": "2026-09-28: report missing-factor failures in Errors and explain method-specific blanks even when input errors coexist. Preserve conversion tables, patient totals, source IDs and unconfirmed LAI intervals."
+  "upload_review_reporting": "2026-09-28: report missing-factor failures in Errors and explain method-specific blanks even when input errors coexist. Preserve conversion tables, patient totals, source IDs and unconfirmed LAI intervals.",
+  "overview_review": "User requested a readable output: add a compact first overview with status, CPZ/OLZ groups and brief review notes; retain numeric results and full detail sheets."
 }

@@ -144,7 +144,7 @@ def test_api_inspection_download_and_upload_guard():
     assert response.headers['Cache-Control'] == 'no-store'
     from openpyxl import load_workbook
     wb = load_workbook(io.BytesIO(response.data), read_only=True)
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review']
+    assert wb.sheetnames == ['한눈에 보기', 'Results', 'MedicationResults', 'Review']
     assert list(wb['Results'].values)[1][0] == '001'
     assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
     wb.close()

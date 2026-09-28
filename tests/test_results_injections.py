@@ -54,7 +54,7 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     response = app.test_client().post('/upload', data={'method':'ALL', 'file':(io.BytesIO(csv.encode()), 'example.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames[0] == 'Results'
+    assert wb.sheetnames[0] == '한눈에 보기'
     sheet = wb['MedicationResults']
     headers = [c.value for c in sheet[1]]
     assert headers[3:3+len(METHOD_ORDER)] == [value_column(m) for m in METHOD_ORDER]

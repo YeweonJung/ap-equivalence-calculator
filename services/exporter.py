@@ -141,4 +141,8 @@ def export_results(detailed_rows, audit_rows, error_rows, directory, total_rows=
             for cells in patient_sheet.iter_rows(min_row=2, min_col=column, max_col=column):
                 cells[0].number_format = '0.0000'
         patient_sheet.row_dimensions[1].height = 45
+        from services.output_overview import patient_overview, add_openpyxl
+        add_openpyxl(writer.book, *patient_overview(display_rows, audit_rows, patient_checks or []))
+        for name in ('PatientChecks','Detailed','AuditTrail','CellTotals','FactorSources','VersionInfo','ReviewQueue','MethodInfo','InjectionInfo'):
+            writer.book[name].sheet_state = 'hidden'
     return output_file
