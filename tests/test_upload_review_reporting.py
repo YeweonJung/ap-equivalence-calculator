@@ -26,7 +26,7 @@ def test_no_factor_is_in_errors_and_medication_explanation():
     medication=workbook_rows(wb,'MedicationResults')[0]
     assert '계수' in medication['환산 근거']
     result=workbook_rows(wb,'Results')[0]
-    assert result['DDD (CPZ mg/day)'] is None
+    assert result['DDD (OLZ mg/day)'] is None
     assert '환산계수 없음' in result['확인할 내용']
     assert any('DDD' in r['error'] for r in errors)
     wb.close()
@@ -47,5 +47,5 @@ def test_method_failure_reason_is_not_hidden_by_another_input_error():
 def test_partial_method_support_keeps_calculated_values():
     item=convert_frame(parse_frames('risperidone 2mg QD')[0],['DDD','CPZ_FGA'])
     assert item['ok'] and item['status']=='converted'
-    assert item['conversions'][0]['value']==120
+    assert item['conversions'][0]['value']==4
     assert item['conversions'][1]['value'] is None

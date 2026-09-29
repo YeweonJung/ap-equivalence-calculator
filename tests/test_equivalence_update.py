@@ -28,7 +28,7 @@ def test_independently_annotated_cases(case):
     for method in ['WOODS', 'GARDNER', 'DDD']:
         raw = case[f'expected_{method.lower()}_cpz']
         if raw:
-            assert values[method] == pytest.approx(float(raw), abs=0.0001)
+            assert values[method] == pytest.approx(float(raw) / (30 if method in ('GARDNER', 'DDD') else 1), abs=0.0001)
         elif method != 'DDD':
             assert values[method] is None
 
@@ -51,7 +51,7 @@ def test_export_preserves_mass_audit_sources_and_separate_totals():
     rows = [dict(zip(next(wb['MedicationResults'].values), row)) for row in list(wb['MedicationResults'].values)[1:]]
     from tests.workbook_helpers import records
     summary = records(wb, 'Results')[0]
-    assert summary['GARDNER (CPZ mg/day)'] == 800
+    assert summary['GARDNER (OLZ mg/day)'] == pytest.approx(800 / 30, abs=0.0001)
     assert summary['WOODS (CPZ mg/day)'] is None
     item = convert_frame(parse_frames('Sustenna 156mg')[0], METHOD_ORDER)
     assert item['input_dose_mg'] == 156 and item['active_moiety_mg'] == 100

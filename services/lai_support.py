@@ -183,8 +183,10 @@ def oral_bridge(drug, dose, days, profile):
 
 
 def convert_injection(frame, method, target):
-    if method == 'DDD' and target == 'chlorpromazine':
-        return frame['injection_cpz_ddd']
+    if method == 'DDD':
+        # Preserve depot DDD; re-express its reference without an oral bridge.
+        from services.converter import convert_drug
+        return convert_drug('chlorpromazine', frame['injection_cpz_ddd'], 'DDD', target)
     if frame.get('oral_equivalent_mg') is None:
         raise LookupError('검증된 단일 경구 대응용량 없음')
     from services.converter import convert_drug

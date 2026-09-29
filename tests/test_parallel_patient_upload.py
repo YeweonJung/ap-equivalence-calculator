@@ -43,7 +43,7 @@ def test_unknown_names_keep_their_own_doses_without_a_false_total():
     assert len(audit) == 2
     assert audit[0]['약물'] == 'aripiprazole' and audit[0]['dose_mg'] == 10
     assert audit[1]['status'] == 'unknown_drug' and audit[1]['dose_mg'] == 15
-    assert records(wb, 'Results')[0]['DDD (CPZ mg/day)'] is None
+    assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
     assert [r['status'] for r in audit] == ['converted', 'unknown_drug']
 
 
@@ -68,12 +68,12 @@ def test_parallel_frequency_values_pair_in_order():
 def test_conflicting_units_never_produce_totals():
     wb = upload('Risperdal olanzapine', '2mg 5mg', units='g')
     assert all(a['status'] == 'review' for a in records(wb, 'MedicationResults'))
-    assert records(wb, 'Results')[0]['DDD (CPZ mg/day)'] is None
+    assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
 
 
 def test_one_dose_is_not_reused_for_multiple_names():
     wb = upload('Risperdal,olanzapine', '2')
-    assert records(wb, 'Results')[0]['DDD (CPZ mg/day)'] is None
+    assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
 
 
 @pytest.mark.parametrize('drugs,doses,frequency,expected', [
@@ -88,7 +88,7 @@ def test_user_confirmed_sample_aliases_and_missing_frequency(drugs, doses, frequ
     assert [a['약물'] for a in audit] == expected
     assert all(a['daily_dose_mg'] == a['dose_mg'] for a in audit)
     result = records(wb, 'Results')[0]
-    assert result['GARDNER (CPZ mg/day)'] is not None
+    assert result['GARDNER (OLZ mg/day)'] is not None
     if 'zir' in drugs:
         assert 'REVIEW_REQUIRED' in audit[1]['환산 근거']
         assert 'zir' in audit[1]['original']

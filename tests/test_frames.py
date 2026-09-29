@@ -132,7 +132,7 @@ def test_excel_totals_stay_with_source_cell():
     assert sheets['MedicationResults']['source_row'].tolist() == [2,2,3,3]
     from openpyxl import load_workbook
     from tests.workbook_helpers import records
-    assert records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (CPZ mg/day)'] is None
+    assert records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (OLZ mg/day)'] is None
 
 
 def test_parallel_drug_dose_columns_and_frequency_validation():
@@ -143,7 +143,7 @@ def test_parallel_drug_dose_columns_and_frequency_validation():
         assert sheets['MedicationResults']['dose_mg'].tolist() == [6,5]
         from openpyxl import load_workbook
         from tests.workbook_helpers import records
-        total = records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (CPZ mg/day)']
+        total = records(load_workbook(io.BytesIO(response.data)), 'Results')[0]['CMD (OLZ mg/day)']
         assert (total is not None) == (status == 'complete')
         if frequency == 'BID':
             assert sheets['MedicationResults']['daily_dose_mg'].tolist() == [12,10]
@@ -156,4 +156,4 @@ def test_parallel_counts_do_not_broadcast_one_dose_to_two_drugs():
     response = app.test_client().post('/upload', data={'method':'CMD','file':(io.BytesIO(csv.encode()),'mismatch.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
     assert not sheets['MedicationResults']['status'].eq('converted').any()
-    assert sheets['Review']['error'].notna().any()
+    assert sheets['Review']['확인할 내용'].notna().any()

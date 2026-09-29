@@ -56,12 +56,12 @@ python app.py
 
 ## 결과와 실행 속도 (2026-09-28)
 
-- `Results`: 환자·처방일당 한 행의 합계, CPZ/OLZ 색상 구분, 환산 상태와 짧은 확인 사항. 날짜가 없는 파일은 환자별 합산입니다.
+- `Results`: 환자·처방일당 한 행의 합계, 열 제목에 CPZ/OLZ/RIS 기준 표시, 환산 상태와 짧은 확인 사항. 날짜가 없는 파일은 환자별 합산입니다.
 - `MedicationResults`: 약물당 한 행의 환산값과 원문·원본 위치·확인 사유. 중복 총합 열은 제외합니다.
 - `AuditTrail`: 성공·미환산·제외 기록을 모두 포함합니다. 원본 위치, 해석된 성분과 용량, 단위·빈도 가정, 주사제 질량과 경구 대응 근거, 미지원 방법을 추적합니다. 날짜별 파일은 원본 처방마다 한 행이며 ID·날짜 오류가 있는 행도 보존합니다.
 - `Review`: 미확인 약물, 누락 계수, 주사 간격, 가정 사항 등 확인할 기록만 표시합니다.
 - 요약의 `—`와 상세의 빈 셀은 0이 아닙니다. 미환산 약물이 있는 방법의 총합은 비웁니다.
-- 표시는 소수 2자리이며 계산된 원값은 보존합니다. 서로 다른 기준약물(CPZ/OLZ)의 값은 더하지 않습니다.
+- 표시는 소수 2자리이며 계산된 원값은 보존합니다. 서로 다른 기준약물(CPZ/OLZ/RIS)의 값은 더하지 않습니다.
 - 같은 환자라도 다른 처방일은 합산하지 않습니다. 처방기간이 겹쳐도 이전 날짜의 처방을 더하지 않습니다.
 - 한 줄 계산·파일 업로드·내보내기는 자동 철자 후보 검색, AI 요청, AI 작업 대기를 하지 않습니다. 기존 `NAME_LLM_ENABLED=1` 설정으로도 다시 활성화되지 않습니다. 정확한 이름을 직접 수정한 후 다시 계산할 수 있습니다.
 - Excel은 서식을 재사용하며 행 단위로 기록하고, 약물명 정규식도 한 번만 준비합니다. 환자별 입력이나 결과를 전역 캐시에 보관하지 않습니다.
@@ -74,3 +74,23 @@ python app.py
 검증: `python -m pytest tests -q`, `node tests/quick_check_ui.cjs`, `node tests/manual_suggestions_ui.cjs`.
 
 등록된 항우울제는 항정신병약 환산에서 제외하고 환산값 0으로 표시합니다. 실제 복용량은 변경하지 않으며, 미확인 약물은 0으로 처리하지 않습니다. [등록 목록과 처리 규칙](docs/antidepressant-release-2026-09-28.md).
+
+## 논문별 기본 기준 약물 (2026-09-29)
+
+| 방법 | 기본 출력 | 원문 근거 |
+|---|---|---|
+| CMD, CMD_DIRECT, CMD_INDIRECT | OLZ mg/day | Leucht 2015, https://pubmed.ncbi.nlm.nih.gov/25841041/ |
+| DDD | OLZ mg/day | Leucht 2016 본문 Table 1, https://pmc.ncbi.nlm.nih.gov/articles/PMC4960429/ |
+| GARDNER | OLZ mg/day | Gardner 2010, OLZ 20 mg/day 기준, https://pubmed.ncbi.nlm.nih.gov/20360319/ |
+| WOODS | CPZ mg/day | Woods 2003, https://pubmed.ncbi.nlm.nih.gov/12823080/ |
+| CPZ_FGA | CPZ mg/day | Davis 1974, https://pubmed.ncbi.nlm.nih.gov/4156792/ |
+| MED | OLZ mg/day | Leucht 2014, https://pubmed.ncbi.nlm.nih.gov/24493852/ |
+| ED95 | RIS mg/day | Leucht 2020 대표 보고 기준, https://pubmed.ncbi.nlm.nih.gov/31838873/ |
+
+OLZ=olanzapine, RIS=risperidone, CPZ=chlorpromazine. 복수 기준을 제공하는 논문은 대표 보고 기준을 기본 출력으로 선택한다. DDD 자체에는 단일 기준 약물이 없으며 여기서는 Leucht 2016 본문의 OLZ 환산을 사용한다.
+기존 약물 간 계수는 보존하고 기본 환산 대상과 결과 표기를 함께 변경했다. ED95 기존 계수의 반올림 정밀도는 그대로이며 원문 정밀 수치 재추출은 이 변경에 포함하지 않는다.
+주사제 DDD는 주사제 전용 DDD를 유지하며 OLZ 단위로 표시한다. 경구 대응용량 기반 추정과 직접 LAI 근거의 구분은 유지한다.
+
+## 단순한 Excel 구성 (2026-09-29)
+
+모든 시트는 첫 행이 제목인 일반 표로 시작하며 틀 고정과 화면 분할을 사용하지 않는다. 결과의 큰 제목, 요약 카드, 병합 셀과 기준별 색상 장식을 제거했다. 연한 회색 제목 행과 필터, 줄바꿈만 사용한다. Review는 원문과 확인 사유를 나란히 표시하며 원본 시트·행·열을 보존한다. 빈 환산값은 0이 아니며 Results의 —는 환산 불가를 뜻한다.

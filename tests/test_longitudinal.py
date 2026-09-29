@@ -146,7 +146,7 @@ def test_api_inspection_download_and_upload_guard():
     from openpyxl import load_workbook
     wb = load_workbook(io.BytesIO(response.data), read_only=True)
     assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
-    assert wb['Results']['A8'].value == '001'
+    assert wb['Results']['A2'].value == '001'
     assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
     wb.close()
     response = client.post('/upload', data={'file':(io.BytesIO(raw), 'rx.csv')})

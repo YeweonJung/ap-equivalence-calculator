@@ -20,7 +20,7 @@ def configured(monkeypatch, tmp_path):
 
 def payload(client, original='할리l 2mg BID', **updates):
     item = client.post('/api/parse', json={'text': original}).json['items'][0]
-    data = dict(token=item['feedback_token'], selected_alias='할돌', source='manual', consent=True)
+    data = dict(token=item['feedback_token'], selected_alias='할돌', source='manual', consent=True, learning_consent=True)
     data.update(updates)
     return data
 
@@ -46,10 +46,10 @@ def test_opt_in_only_and_no_prescription_or_identifiers(configured):
     assert len(records) == 1
     record = records[0]
     assert record['name_token'] == '할리l' and record['selected_drug'] == 'haloperidol'
-    assert record['review_status'] == 'pending' and record['eligible_for_training'] is False
+    assert record['review_status'] == 'user_confirmed' and record['eligible_for_training'] is True
     assert set(record) == {'schema_version','name_token','selected_alias','selected_drug',
         'presented_aliases','source','retrieval_version','dictionary_version','review_status',
-        'eligible_for_training','user_confirmed_name_only'}
+        'eligible_for_training','user_confirmed_name_only','learning_consent'}
     assert '2mg' not in json.dumps(record) and 'BID' not in json.dumps(record)
 
 

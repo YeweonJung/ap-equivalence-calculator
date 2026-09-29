@@ -84,7 +84,7 @@ def test_mixed_oral_lai_totals_use_each_methods_own_basis():
     data = parse('paliperidone 100mg PP1M, olz 5mg')
     totals = {t['method']: t for t in data['totals']}
     assert totals['MED']['total_equivalent_dose_mg'] == 27.5
-    assert totals['DDD']['total_equivalent_dose_mg'] == 550
+    assert totals['DDD']['total_equivalent_dose_mg'] == pytest.approx(550 / 30, abs=0.0001)
     assert totals['CMD']['total_equivalent_dose_mg'] is None
     assert totals['CMD']['unresolved_count'] == 1
 
@@ -101,7 +101,7 @@ def test_export_labels_estimates_and_preserves_blank_unsupported_methods():
     summary = records(wb, 'Results')
     assert result[1][cols[value_column('MED')]] == 22.5
     assert summary[0]['MED (OLZ mg/day)'] == 27.5
-    assert summary[0]['CMD (CPZ mg/day)'] is None
+    assert summary[0]['CMD (OLZ mg/day)'] is None
     assert '경구 대응용량 기반 추정' in result[1][cols['환산 근거']]
     assert all(result[3][cols[value_column(m)]] is None for m in METHOD_ORDER)
     med = parse('paliperidone 100mg PP1M')['items'][0]

@@ -9,17 +9,17 @@ def test_overview_keeps_values_and_explains_blanks():
     wb=load_workbook(io.BytesIO(response.data))
     assert wb.sheetnames[0]=='Results'
     sheet=wb.active
-    assert sheet['A8'].value=='001' and sheet['A8'].data_type=='s'
-    headers=[c.value for c in sheet[7]]
-    ddd=headers.index('DDD\nCPZ mg/day')+1
-    assert sheet.cell(8,ddd).value==120
-    assert sheet.cell(9,ddd).value=='—'
-    assert sheet['B9'].value=='계산 보류'
-    assert '환산계수 없음' in sheet.cell(9,len(headers)).value
+    assert sheet['A2'].value=='001' and sheet['A2'].data_type=='s'
+    headers=[c.value for c in sheet[1]]
+    ddd=headers.index('DDD\nOLZ mg/day')+1
+    assert sheet.cell(2,ddd).value==4
+    assert sheet.cell(3,ddd).value=='—'
+    assert sheet['B3'].value=='계산 보류'
+    assert '환산계수 없음' in sheet.cell(3,len(headers)).value
     assert wb.sheetnames == ['Results','MedicationResults','Review','AuditTrail']
     assert all(s.sheet_state == 'visible' for s in wb)
     assert wb['Results'].sheet_state=='visible'
-    assert sheet.freeze_panes=='C8' and sheet.auto_filter.ref=='A7:L9'
+    assert sheet.freeze_panes is None and sheet.auto_filter.ref=='A1:L3'
     wb.close()
 
 
@@ -29,9 +29,9 @@ def test_dated_overview_does_not_merge_dates():
     wb=load_workbook(io.BytesIO(response.data))
     s=wb.active
     assert s.title=='Results'
-    assert s['B8'].value=='2026-09-01' and s['B9'].value=='2026-09-15'
-    headers=[c.value for c in s[7]]
-    ddd=headers.index('DDD\nCPZ mg/day')+1
-    assert s.cell(8,ddd).value==120 and s.cell(9,ddd).value==240
-    assert s.freeze_panes=='D8'
+    assert s['B2'].value=='2026-09-01' and s['B3'].value=='2026-09-15'
+    headers=[c.value for c in s[1]]
+    ddd=headers.index('DDD\nOLZ mg/day')+1
+    assert s.cell(2,ddd).value==4 and s.cell(3,ddd).value==8
+    assert s.freeze_panes is None
     wb.close()

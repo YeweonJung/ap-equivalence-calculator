@@ -30,6 +30,10 @@ async function main() {
   elements['#parse-results'].events.click({target:{closest:()=>selected}});
   assert.equal(requests.length,2);
   assert.equal(JSON.parse(requests[1].options.body).text,'로도핀 1mg QD');
-  console.log('Manual correction preserves dose and frequency without displaying candidates');
+  // Learned examples are visible only as explicit confirmation buttons.
+  const html = vm.runInContext(`itemHtml({ok:false,original:'할리l 8mg',error:'약물 미확인',learned_suggestions:[{alias:'할돌'}]},0)`, context);
+  assert(html.includes('할돌 확인 후 적용'));
+  assert(html.includes('learned-correction'));
+  console.log('Manual correction and learned confirmation buttons passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

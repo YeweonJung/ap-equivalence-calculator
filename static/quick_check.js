@@ -14,7 +14,7 @@ const formatDose = value => Number.isFinite(value) ? String(Number(value.toFixed
 function feedbackHtml(item, index) {
   if (item.correction_suffix == null) return '';
   return `<details><summary>약물명 직접 수정</summary><label>정확한 약물명 <input id="correct-name-${index}" maxlength="60" autocomplete="off"></label><button type="button" class="manual-correction" data-item="${index}">이 이름으로 다시 계산</button></details>` +
-    (item.feedback_token ? `<label><input type="checkbox" id="feedback-consent-${index}">입력에 개인정보가 없고 약물명만 포함됨을 확인했으며, 수정한 이름 쌍을 검색 개선 검토용으로 제공하는 데 동의합니다.</label><small>선택 사항 · 이 기록에는 용량·빈도·IP를 저장하지 않습니다. 180일 지난 기록은 다음 저장 시 삭제하며 검토 전에는 학습하지 않습니다.</small>` : '<small>수정 기록 수집은 현재 사용할 수 없습니다. 이름 수정과 계산은 가능합니다.</small>');
+    (item.feedback_token ? `<label><input type="checkbox" id="feedback-consent-${index}">입력에 개인정보가 없고 약물명만 포함됨을 확인했으며, 수정한 이름 쌍을 약물명 추천 자동학습에 제공하는 데 동의합니다.</label><small>선택 사항 · 이 기록에는 용량·빈도·IP를 저장하지 않습니다. 수정 사례로 같은 오타의 추천을 개선하며, 약물 확정은 직접 선택해야 합니다. 기록은 180일간 보관합니다.</small>` : '<small>수정 기록 수집은 현재 사용할 수 없습니다. 이름 수정과 계산은 가능합니다.</small>');
 }
 
 async function recordCorrection(item, index, alias, source) {
@@ -23,7 +23,7 @@ async function recordCorrection(item, index, alias, source) {
   if (status) status.textContent = '수정 기록 저장 중…';
   try {
     const response = await fetch('/api/name-feedback', {method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({token:item.feedback_token, selected_alias:alias, source, consent:true})});
+      body:JSON.stringify({token:item.feedback_token, selected_alias:alias, source, consent:true, learning_consent:true})});
     const data = await response.json();
     if (status) status.textContent = response.ok ? data.message : data.error;
   } catch (_) { if (status) status.textContent = '기록을 저장하지 못했습니다. 계산에는 영향이 없습니다.'; }
@@ -31,7 +31,7 @@ async function recordCorrection(item, index, alias, source) {
 
 function itemHtml(item, index) {
   if (!item.ok) {
-    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${feedbackHtml(item, index)}</div>`;
+    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${(item.learned_suggestions || []).map(c => `<div>이전 수정 사례의 추천: <button type="button" class="learned-correction" data-item="${index}" data-alias="${escapeHtml(c.alias)}">${escapeHtml(c.alias)} 확인 후 적용</button></div>`).join('')}${feedbackHtml(item, index)}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';
@@ -122,13 +122,13 @@ exportButton.addEventListener('click', async () => {
 });
 parseOutput.addEventListener('click', event => {
   if (parseButton.disabled || parseInput.value.trim() !== currentText) return;
-  const manual = event.target.closest('.manual-correction');
+  const manual = event.target.closest('.manual-correction, .learned-correction');
   if (!manual) return;
   const index = Number(manual.dataset.item);
   const item = currentItems[index];
-  const alias = document.querySelector(`#correct-name-${index}`)?.value.trim();
+  const alias = manual.dataset.alias || document.querySelector(`#correct-name-${index}`)?.value.trim();
   if (!item || !alias || !/^[a-zA-Z가-힣 -]{2,60}$/.test(alias)) return;
-  recordCorrection(item, index, alias, 'manual');
+  recordCorrection(item, index, alias, manual.dataset.alias ? 'candidate' : 'manual');
   const characters = Array.from(currentText);
   parseInput.value = characters.slice(0,item.source_start).join('') + alias + item.correction_suffix + characters.slice(item.source_end).join('');
   runQuickCheck();

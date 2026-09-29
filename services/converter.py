@@ -29,11 +29,11 @@ DEFAULT_TARGETS = {
     "CMD_DIRECT": "olanzapine",
     "CMD_INDIRECT": "olanzapine",
     "WOODS": "chlorpromazine",
-    "GARDNER": "chlorpromazine",
-    "CMD": "chlorpromazine",
+    "GARDNER": "olanzapine",
+    "CMD": "olanzapine",
     "CPZ_FGA": "chlorpromazine",
-    "DDD": "chlorpromazine",
-    "ED95": "olanzapine",
+    "DDD": "olanzapine",
+    "ED95": "risperidone",
     "MED": "olanzapine",
 }
 

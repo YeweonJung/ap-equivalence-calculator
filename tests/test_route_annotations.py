@@ -65,7 +65,7 @@ def test_existing_equivalent_columns_are_not_reconverted():
     wb = load_workbook(io.BytesIO(response.data))
     from tests.workbook_helpers import records
     result = records(wb, 'Results')[0]
-    assert result['DDD (CPZ mg/day)'] == 120
+    assert result['DDD (OLZ mg/day)'] == 4
     audit = list(wb['MedicationResults'].values)
     assert len(audit) == 2
     row = dict(zip(audit[0], audit[1]))

@@ -39,39 +39,37 @@ def export_excel(records, results, details, metadata):
     methods_present = {r['method'] for r in results}
     methods = [m for m in PATIENT_METHOD_ORDER if m in methods_present]
     method_headers = [f'{m} ({TARGETS[m]} mg/day)' for m in methods]
-    header_format = wb.add_format({'bold': True, 'font_color': '#FFFFFF', 'bg_color': '#1764B2', 'text_wrap': True, 'valign': 'vcenter'})
-    number_format = wb.add_format({'num_format': '0.####'})
+    header_format = wb.add_format({'bold': True, 'font_color': '#222222', 'bg_color': '#EEEEEE', 'text_wrap': True, 'valign': 'vcenter'})
+    number_format = wb.add_format({'num_format': '0.00'})
+    plain_format = wb.add_format({'valign': 'top'})
     wrap_format = wb.add_format({'text_wrap': True, 'valign': 'top'})
+    from services.excel_tables import text_height
     row_numbers = {}
     wrapped_columns = {}
 
     def append(ws, values):
-        lines = max((math.ceil(sum(2 if ord(c) > 127 else 1 for c in str(values[i] or '')) / 46)
-                     for i in wrapped_columns[ws]), default=1)
-        if lines > 1:
-            ws.set_row(row_numbers[ws], min(lines, 8) * 15)
+        height = max((text_height(values[i], 48) for i in wrapped_columns[ws]), default=22)
+        ws.set_row(row_numbers[ws], height)
         ws.write_row(row_numbers[ws], 0, values)
         row_numbers[ws] += 1
 
     def sheet(name, headers, explanation):
         ws = wb.add_worksheet(name)
-        ws.freeze_panes(1, 2)
         wrapped_columns[ws] = []
         for i, label in enumerate(headers):
             width = 23 if 'mg/day' in label else 48 if label in ('확인할 내용', '원문 약물', '원문 제품') else 20
             wrap = label in ('확인할 내용', '원문 약물', '원문 제품')
-            ws.set_column(i, i, width, wrap_format if wrap else number_format)
+            ws.set_column(i, i, width, wrap_format if wrap else number_format if 'mg/day' in label else plain_format)
             if wrap:
                 wrapped_columns[ws].append(i)
         ws.set_row(0, 36)
         ws.write_row(0, 0, headers, header_format)
-        ws.write_comment(0, 0, explanation, {'author': 'AP Dose Converter', 'width': 420, 'height': 100})
         row_numbers[ws] = 1
         return ws
 
     detail_headers = ['patient_id', date_label, '원문 약물', '성분', '일일용량 (mg/day)'] + method_headers + ['결과 상태', '확인할 내용', '원본 시트', '원본 행', '원본 처방일', '처방일수', '하루 정 수', '원문 제품', '기간 조정']
     detail_sheet = sheet('MedicationResults', detail_headers, '환자·기준일·원본 처방당 한 행입니다. 환산법은 가로 열로 표시합니다. 원본 시트와 행 번호로 입력 자료를 찾을 수 있습니다.')
-    review_headers = ['patient_id', '원본 시트', '원본 행', '확인할 내용', '원문 약물', '원문 제품', '처방일', '처방일수', '하루 정 수', '중복 원본 행']
+    review_headers = ['patient_id', '처방일', '원문 약물', '확인할 내용', '원문 제품', '원본 시트', '원본 행', '처방일수', '하루 정 수', '중복 원본 행']
     review_sheet = sheet('Review', review_headers, '확인이 필요한 원본 처방만 모았습니다. 날짜별 오류나 방법별 누락은 MedicationResults에서 확인하세요. ID가 없는 처방은 임의로 합산하지 않습니다.')
     source = {(r['source_sheet'], r['source_row']): r for r in records}
     issues = {(r['source_sheet'], r['source_row']): set(r['issues']) for r in records if r['issues']}
@@ -99,7 +97,7 @@ def export_excel(records, results, details, metadata):
     for r in records:
         key = (r['source_sheet'], r['source_row'])
         if key in issues:
-            append(review_sheet, [r['patient'], *key, reason_text(issues[key]), r['drug'], r['product'], r['date'], r['days'], r['daily'], r['duplicate_of']])
+            append(review_sheet, [r['patient'], r['date'], r['drug'], reason_text(issues[key]), r['product'], *key, r['days'], r['daily'], r['duplicate_of']])
             review_count += 1
     for ws, headers, count in [(detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
         ws.autofilter(0, 0, count - 1, len(headers) - 1)

@@ -1,6 +1,6 @@
 # 환자별 결과 사용법
 
-첫 시트 Results는 patient_id별 한 행입니다. CMD, MED, DDD, ED95, GARDNER, WOODS, CPZ_FGA, CMD_DIRECT, CMD_INDIRECT 순으로 제공하며 각 열에 기준 약물(CPZ/OLZ)과 mg/day 단위를 표시합니다.
+첫 시트 Results는 patient_id별 한 행입니다. CMD, MED, DDD, ED95, GARDNER, WOODS, CPZ_FGA, CMD_DIRECT, CMD_INDIRECT 순으로 제공하며 각 열에 기준 약물(CPZ/OLZ/RIS)과 mg/day 단위를 표시합니다.
 
 - 기존 데이터에 patient_id를 키로 left join/merge 하세요. 행 순서로 붙이지 마세요.
 - 원본 ID를 문자열로 보존합니다. 앞자리 0을 유지하려면 입력 Excel의 ID를 텍스트로 저장하세요. 표시 형식으로만 붙인 0은 원본 값에 포함되지 않습니다.

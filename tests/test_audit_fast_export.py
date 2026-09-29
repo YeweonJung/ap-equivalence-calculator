@@ -31,7 +31,7 @@ def test_audit_restores_mass_assumptions_and_unconverted_records():
     assert audit[2]['name_candidates'] == '[]'
     assert wb['AuditTrail'].sheet_state == 'visible'
     assert wb['AuditTrail'].auto_filter.ref
-    assert wb['AuditTrail'].freeze_panes == 'E2'
+    assert wb['AuditTrail'].freeze_panes is None
 
 
 def test_dated_audit_includes_invalid_and_excluded_source_rows():

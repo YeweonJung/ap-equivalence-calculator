@@ -66,7 +66,7 @@ def test_unknown_conflicts_and_missing_ap_factors_never_become_zero(text):
 
 def test_mixed_regimen_and_other_non_targets_unchanged():
     mixed = converted('sertraline 50mg, risperidone 2mg QD, lithium 600mg')
-    assert summarize_frames(mixed, ['DDD'])[0]['total_equivalent_dose_mg'] == 120
+    assert summarize_frames(mixed, ['DDD'])[0]['total_equivalent_dose_mg'] == 4
     assert mixed[-1]['conversions'] == []
     assert summarize_frames(converted('lithium 600mg'), ['DDD'])[0]['total_equivalent_dose_mg'] is None
 
@@ -94,13 +94,13 @@ def test_exact_date_totals_audit_and_no_carryover():
     wb = load_workbook(automatic_analysis({'input': source}, ['DDD']))
     assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
     totals = records(wb, 'Results')
-    assert [r['DDD (CPZ mg/day)'] for r in totals] == [0, 120, None]
+    assert [r['DDD (OLZ mg/day)'] for r in totals] == [0, 4, None]
     assert [r['patient_id'] for r in totals] == ['001'] * 3
     details = records(wb, 'MedicationResults')
     assert len(details) == 5
     excluded = [r for r in details if r['결과 상태'] == '항우울제 제외 (0)']
     assert len(excluded) == 3
-    assert all(r['DDD (CPZ mg/day)'] == 0 for r in excluded)
+    assert all(r['DDD (OLZ mg/day)'] == 0 for r in excluded)
     assert len(records(wb, 'Review')) == 1  # Unknown drug only.
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 5
@@ -129,7 +129,7 @@ def test_all_static_export_paths_keep_zero_and_audit_without_review(mode):
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
-    assert records(wb, 'Results')[0]['DDD (CPZ mg/day)'] == 0
+    assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] == 0
     assert records(wb, 'MedicationResults')[0][value_column('DDD')] == 0
     assert not records(wb, 'Review')
     audit = records(wb, 'AuditTrail')[0]

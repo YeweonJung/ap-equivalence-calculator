@@ -45,7 +45,7 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
     assert detailed.loc[0, "daily_dose_mg"] == 4
     audit = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert audit.loc[audit["약물"] == "lithium", "status"].tolist() == ["non_target"]
-    assert not errors["original"].fillna("").str.casefold().str.contains("lithium").any()
+    assert not errors["원문 약물"].fillna("").str.casefold().str.contains("lithium").any()
 
 
 def test_parser_api_marks_unknown_drugs_for_review():
@@ -123,7 +123,7 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
     originals = [saved["MedicationResults"].cell(row=row, column=original_column).value for row in range(2, saved["MedicationResults"].max_row + 1)]
     assert originals[0].startswith("'") and saved["MedicationResults"].cell(row=2, column=original_column).data_type != "f"
     assert saved.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
-    assert saved["MedicationResults"].freeze_panes == "B2"
+    assert saved["MedicationResults"].freeze_panes is None
     assert saved["MedicationResults"].auto_filter.ref == saved["MedicationResults"].dimensions
     assert saved["MedicationResults"].column_dimensions["E"].width > 11
     assert saved["MedicationResults"].row_dimensions[2].height >= 18

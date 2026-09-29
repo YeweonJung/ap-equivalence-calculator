@@ -28,9 +28,11 @@ def attach_feedback(item):
         return
     name, suffix = name_and_suffix(item['original'])
     item['correction_suffix'] = suffix
+    from services.feedback_learning import suggestions
+    item['learned_suggestions'] = suggestions(item['original'])
     if not feedback_store.configured() or not safe_token(name):
         return
-    candidates = [c['alias'] for c in item.get('suggestions', []) if c['alias'] in alias_map]
+    candidates = [c['alias'] for c in item.get('learned_suggestions', []) if c['alias'] in alias_map]
     item['feedback_token'] = signer().dumps(dict(event_id=str(uuid.uuid4()), name=name,
         candidates=candidates, retrieval_version=SERVING_VERSION, dictionary_version=dictionary_version()))
 
@@ -45,7 +47,7 @@ def submit_feedback():
     if not request.content_length or request.content_length > 4096:
         return jsonify(error='기록 요청이 너무 큽니다.'), 413
     data = request.get_json(silent=True)
-    if not isinstance(data, dict) or set(data) != {'token', 'selected_alias', 'source', 'consent'} or data['consent'] is not True:
+    if not isinstance(data, dict) or set(data) not in ({'token', 'selected_alias', 'source', 'consent'}, {'token', 'selected_alias', 'source', 'consent', 'learning_consent'}) or data['consent'] is not True:
         return jsonify(error='약물명만 포함되어 있다는 확인과 기록 제공 동의가 필요합니다.'), 400
     if not isinstance(data['token'], str) or len(data['token']) > 3000:
         return jsonify(error='유효하지 않은 기록입니다.'), 400
@@ -58,10 +60,13 @@ def submit_feedback():
         return jsonify(error='등록된 정확한 약물명을 입력해 주세요.'), 400
     if not safe_token(signed.get('name')) or (data['source'] == 'candidate' and alias not in signed['candidates']):
         return jsonify(error='표시된 후보를 확인해 주세요.'), 400
-    record = dict(schema_version=1, name_token=signed['name'], selected_alias=alias,
+    from services import feedback_learning
+    learning = feedback_learning.enabled() and data.get('learning_consent') is True
+    record = dict(schema_version=2, name_token=signed['name'], selected_alias=alias,
         selected_drug=alias_map[alias], presented_aliases=signed['candidates'], source=data['source'],
         retrieval_version=signed['retrieval_version'], dictionary_version=signed['dictionary_version'],
-        review_status='pending', eligible_for_training=False, user_confirmed_name_only=True)
+        review_status='user_confirmed', eligible_for_training=learning, learning_consent=data.get('learning_consent') is True,
+        user_confirmed_name_only=True)
     try:
         status = feedback_store.save(signed['event_id'], record)
     except OverflowError:
@@ -69,4 +74,9 @@ def submit_feedback():
     except Exception:
         # No request text, connection URL or exception is written to application logs.
         return jsonify(error='기록을 저장하지 못했습니다. 계산은 계속 이용할 수 있습니다.'), 503
-    return jsonify(status=status, message='검토용으로 저장했습니다. 자동 학습에는 사용되지 않습니다.')
+    feedback_learning.invalidate()
+    candidates = feedback_learning.suggestions(signed['name']) if learning else []
+    return jsonify(status=status, learning_enabled=learning, model_updated=bool(candidates),
+        message=('수정 사례를 저장하고 추천 학습에 반영했습니다. 같은 오타 입력 시 확인용 후보로 제시합니다.' if candidates else
+                 '수정 사례를 저장했습니다. 학습 검증 조건이나 상충 기록을 확인할 때까지 추천을 보류합니다.' if learning else
+                 '수정 사례를 저장했습니다. 학습 동의가 없거나 추천 학습 기능이 꺼져 있어 학습에서 제외합니다.'))

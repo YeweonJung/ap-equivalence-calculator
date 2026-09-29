@@ -24,8 +24,8 @@
 
 예: `paliperidone palmitate 156mg PP1M` 또는 `Sustenna 156mg monthly`:
 표시량 156mg → 활성성분 100mg → 경구 paliperidone 9mg/day → 각 경구 방법.
-GARDNER 결과는 CPZ 600mg/day이며 WOODS는 계수가 없어 빈칸이다.
-DDD는 별도로 100/30/2.5×300 = CPZ 400mg/day이다.
+GARDNER 결과는 OLZ 20mg/day이며 WOODS는 계수가 없어 빈칸이다.
+DDD는 별도로 100/30/2.5×10 = OLZ 약 13.3333mg/day이다.
 
 `paliperidone 156mg PP1M`처럼 제형은 있지만 질량 기준을 확정할 수 없는 입력은
 계산하지 않는다. `palmitate` 또는 제품명을 포함해 확인할 수 있게 입력한다.

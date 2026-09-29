@@ -29,7 +29,7 @@ def test_label_product_mappings(text, oral, days, dose):
     assert item['interval_days'] == days
     assert item['oral_bridge_source'].startswith('https://')
     ddd = next(c for c in item['conversions'] if c['method'] == 'DDD')
-    assert ddd['value'] == pytest.approx(round(dose / days / 2.7 * 300, 4))
+    assert ddd['value'] == pytest.approx(round(dose / days / 2.7 * 10, 4))
     if oral is None:
         assert all(c['value'] is None for c in item['conversions'] if c['method'] != 'DDD')
 

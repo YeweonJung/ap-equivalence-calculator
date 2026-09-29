@@ -35,8 +35,8 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
         assert row[f"{r['method']} ({TARGETS[r['method']]} mg/day)"] == (pytest.approx(value, rel=1e-12) if value is not None else None)
     review = rows(wb, 'Review')
     assert any(r['patient_id'] is None and '환자 ID 누락' in r['확인할 내용'] for r in review)
-    assert all(wb[s].freeze_panes == 'C2' and wb[s].auto_filter.ref for s in ['MedicationResults','Review'])
-    assert wb['Results'].freeze_panes == 'D8'
+    assert all(wb[s].freeze_panes is None and wb[s].auto_filter.ref for s in ['MedicationResults','Review'])
+    assert wb['Results'].freeze_panes is None
     assert json.loads(wb.properties.description)['rule_version'] == 'prescription-date-2.0'
 
 
@@ -54,8 +54,8 @@ def test_missing_factor_and_no_record_stay_blank_with_korean_guidance():
     pairs = [('P001', date(2020, 4, 15)), ('P001', date(2021, 1, 1))]
     wb = load_workbook(analyze_export(records, pairs, {}, methods=['DDD', 'GARDNER']))
     output = rows(wb, 'Results')
-    assert output[0]['DDD (CPZ mg/day)'] is None
-    assert output[0]['GARDNER (CPZ mg/day)'] is not None
+    assert output[0]['DDD (OLZ mg/day)'] is None
+    assert output[0]['GARDNER (OLZ mg/day)'] is not None
     assert '해당 날짜' in output[1]['확인할 내용']
-    assert output[1]['GARDNER (CPZ mg/day)'] is None
+    assert output[1]['GARDNER (OLZ mg/day)'] is None
     assert '환산 계수 없음' in rows(wb, 'Review')[0]['확인할 내용']

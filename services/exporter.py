@@ -41,6 +41,6 @@ def export_results(audit_rows, error_rows, directory, summary_rows=None, patient
     with Workbook(output_file, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False}) as wb:
         add_xlsxwriter(wb, *patient_overview(display_rows, audit_rows, patient_checks or []), dated=False)
         write_table(wb, 'MedicationResults', columns, medications)
-        write_table(wb, 'Review', review_columns, reviews)
+        write_table(wb, 'Review', review_columns, reviews, labels={'patient': '환자 ID', 'original': '원문 약물', 'error': '확인할 내용', 'sheet': '원본 시트', 'source_row': '원본 행', 'medication_column': '원본 열'})
         write_table(wb, 'AuditTrail', AUDIT_COLUMNS, audit_rows)
     return output_file

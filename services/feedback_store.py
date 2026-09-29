@@ -1,4 +1,4 @@
-"""Private, pending-review feedback. Never used directly by inference/training."""
+"""Private correction records; only explicit learning consent permits training."""
 import json
 import os
 import sqlite3
@@ -49,3 +49,23 @@ def save(event_id, record):
                    (event_id, now, json.dumps(record, ensure_ascii=False)))
         db.commit()
     return 'saved'
+
+
+def training_records():
+    """Bound memory/latency; historical review-only records stay excluded."""
+    from pathlib import Path
+    if not os.getenv('FEEDBACK_DATABASE_URL') and not Path(os.getenv('FEEDBACK_SQLITE_PATH', '')).is_file():
+        return []  # Reading suggestions must not create a feedback database.
+    with connection() as (db, param):
+        table = 'public.medication_feedback' if param == '%s' else 'medication_feedback'
+        rows = db.execute(f'SELECT payload FROM {table} WHERE created_at >= {param} '
+                          'ORDER BY created_at DESC, event_id DESC LIMIT 5000',
+                          (int(time.time()) - 180 * 86400,)).fetchall()
+        result = []
+        for row in rows:
+            try:
+                value = json.loads(row[0])
+                if isinstance(value, dict): result.append(value)
+            except (ValueError, TypeError):
+                continue
+        return result

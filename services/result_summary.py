@@ -1,6 +1,7 @@
 """One medication per row; patient totals belong only on the summary."""
 METHOD_ORDER = ('CMD', 'MED', 'ED95', 'DDD', 'CPZ_FGA', 'WOODS', 'GARDNER', 'CMD_DIRECT', 'CMD_INDIRECT')
-TARGETS = {'CMD_DIRECT': 'OLZ', 'CMD_INDIRECT': 'OLZ', 'CMD': 'CPZ', 'MED': 'OLZ', 'ED95': 'OLZ', 'DDD': 'CPZ', 'CPZ_FGA': 'CPZ', 'WOODS': 'CPZ', 'GARDNER': 'CPZ'}
+from services.converter import DEFAULT_TARGETS
+TARGETS = {m: {'chlorpromazine': 'CPZ', 'olanzapine': 'OLZ', 'risperidone': 'RIS'}[drug] for m, drug in DEFAULT_TARGETS.items()}
 
 
 def value_column(method, total=False):

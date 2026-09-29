@@ -23,11 +23,11 @@ def test_route_specific_ddd_and_total(text, expected):
     assert item['conversion_basis'] == 'WHO depot DDD'
     for c in item['conversions']:
         if c['method'] == 'DDD':
-            assert c['value'] == round(expected, 4)
+            assert c['value'] == round(expected / 30, 4)
         elif item['drug'] != 'paliperidone':
             assert c['value'] is None
     total = next(t for t in response['totals'] if t['method'] == 'DDD')
-    assert total['total_equivalent_dose_mg'] == round(expected, 4)
+    assert total['total_equivalent_dose_mg'] == round(expected / 30, 4)
 
 
 @pytest.mark.parametrize('text', [
@@ -59,13 +59,13 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     meds = records(wb, 'MedicationResults')
     summary = records(wb, 'Results')
     assert meds[0]['original'] == 'ris 2, olz 5'
-    assert summary[0]['DDD (CPZ mg/day)'] == 270
-    assert summary[1]['DDD (CPZ mg/day)'] is None
+    assert summary[0]['DDD (OLZ mg/day)'] == 9
+    assert summary[1]['DDD (OLZ mg/day)'] is None
     assert all(meds[3][value_column(m)] is None for m in METHOD_ORDER)
     assert meds[3]['환산 근거']
-    assert meds[4][value_column('DDD')] == 400
-    assert summary[2]['DDD (CPZ mg/day)'] == 400
-    assert summary[2]['CMD (CPZ mg/day)'] is None
+    assert meds[4][value_column('DDD')] == pytest.approx(400 / 30, abs=0.0001)
+    assert summary[2]['DDD (OLZ mg/day)'] == pytest.approx(400 / 30, abs=0.0001)
+    assert summary[2]['CMD (OLZ mg/day)'] is None
     assert len([r for r in records(wb, 'Review') if '단위 미기재' in r['error']]) == 2
 
 
@@ -81,4 +81,4 @@ def test_structured_default_mg_stays_auditable():
     response = app.test_client().post('/upload', data={'method':'DDD', 'file':(io.BytesIO(csv.encode()),'structured.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
     assert sheets['MedicationResults']['daily_dose_mg'].tolist() == [4,10]
-    assert sheets['Review']['error'].str.contains('확인바람').all()
+    assert sheets['Review']['확인할 내용'].str.contains('확인바람').all()

@@ -25,7 +25,7 @@ def test_automatic_reference_dates_from_rows():
     results = entries(automatic_analysis({'SNU':frame}, ['DDD']))
     assert {r['처방일'] for r in results} == {'2020-04-15', '2020-04-26'}
     assert [r['결과 상태'] for r in results] == ['산출 완료', '산출 완료']
-    assert results[1]['DDD (CPZ mg/day)'] == pytest.approx(results[0]['DDD (CPZ mg/day)'] * 2)
+    assert results[1]['DDD (OLZ mg/day)'] == pytest.approx(results[0]['DDD (OLZ mg/day)'] * 2)
 
 
 def test_reference_columns_do_not_override_prescription_dates():
@@ -89,7 +89,7 @@ def test_exact_date_sums_same_ingredient_strengths_and_separates_patients():
         rx(patient='002', tabs='2'),
     ])
     result = entries(automatic_analysis({'Data':frame}, ['DDD']))
-    totals = {(r['patient_id'], r['처방일']):r['DDD (CPZ mg/day)'] for r in result}
+    totals = {(r['patient_id'], r['처방일']):r['DDD (OLZ mg/day)'] for r in result}
     assert len(totals) == 3
     assert totals['001','2020-04-15'] == pytest.approx(convert_drug('quetiapine',125,method='DDD'))
     assert totals['001','2020-04-16'] == pytest.approx(convert_drug('risperidone',2,method='DDD'))
@@ -109,7 +109,7 @@ def test_missing_days_column_supported_on_main_and_detail_api():
         assert response.status_code == 200
         result = entries(io.BytesIO(response.data))
         assert {r['처방일'] for r in result} == {'2020-04-15','2020-04-26'}
-        assert all(r['DDD (CPZ mg/day)'] is not None for r in result)
+        assert all(r['DDD (OLZ mg/day)'] is not None for r in result)
 
 
 def test_duplicates_and_unknown_drug_still_block_only_their_date():
@@ -122,4 +122,4 @@ def test_same_patient_date_merges_across_sheets():
     from services.converter import convert_drug
     result = entries(automatic_analysis({'A':pd.DataFrame([rx(tabs='1')]),'B':pd.DataFrame([rx(drug='Quetiapine 100mg tab',tabs='1')])},['DDD']))
     assert len(result) == 1
-    assert result[0]['DDD (CPZ mg/day)'] == pytest.approx(convert_drug('quetiapine',125,method='DDD'))
+    assert result[0]['DDD (OLZ mg/day)'] == pytest.approx(convert_drug('quetiapine',125,method='DDD'))
