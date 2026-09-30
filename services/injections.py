@@ -1,6 +1,7 @@
 """WHO route-specific DDD equivalents; never reuse oral factors for depots."""
 import math
 import re
+import unicodedata
 from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, profile_for, interval_days, oral_bridge
 from services.lai_mass import normalize_mass
 
@@ -10,9 +11,17 @@ DEPOT_DDD = {'paliperidone': 2.5, 'aripiprazole': 13.3, 'risperidone': 2.7, 'ola
 SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AX&showdescription=yes'
 CPZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01'
 
+# Product label: total mass followed by syringe volume, not a dose multiplier.
+LABEL_VOLUME_RE = re.compile(
+    r'(?:mg)\s*(?:/\s*|\(\s*|\s+)(?P<volume>\d+(?:\.\d+)?)\s*ml\b',
+    re.I,
+)
+
 
 def injection_values(frame):
-    text = frame['original']
+    text = unicodedata.normalize('NFKC', frame['original'])
+    volume_match = LABEL_VOLUME_RE.search(text)
+    volume_ml = float(volume_match['volume']) if volume_match else None
     drug, dose = frame['drug'], frame['dose_mg']
     profile = profile_for(text, drug, dose)
     if profile in REVIEW_PROFILES:
@@ -47,6 +56,8 @@ def injection_values(frame):
         bridge['oral_bridge_source'] = '; '.join(dict.fromkeys(
             [frame['product_name_source'], bridge['oral_bridge_source']]))
     warning = '확인바람: 유지요법 주사제 DDD 환산' + interval_note
+    if volume_ml is not None:
+        warning += f'; 주사액 부피 {volume_ml:g}mL는 용량 계산에서 제외, 표시 용량 {frame["dose_mg"]:g}mg 사용'
     if drug == 'paliperidone':
         warning += '; paliperidone 활성성분 mg 기준'
     if mass['mass_source']:
@@ -58,7 +69,7 @@ def injection_values(frame):
     else:
         warning += '; 단일 경구 대응용량 근거 없음: DDD 외 빈칸'
     daily = dose / days
-    return dict(interval_days=days, daily_dose_mg=daily, **mass,
+    return dict(interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, **mass,
                 injection_cpz_ddd=daily / DEPOT_DDD[drug] * 300,
                 conversion_basis='WHO depot DDD', conversion_source=OLZ_SOURCE if drug == 'olanzapine' else SOURCE, **bridge,
                 warning=warning, needs_review=True)

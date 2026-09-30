@@ -1,5 +1,5 @@
 {
-  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution",
+  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution; 2026-09-29 user authorized injection label volume metadata: 300mg/1.5mL and 400mg/2mL use total mg, with volume excluded and recorded; conversion factors unchanged",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
@@ -18,7 +18,8 @@
     "services/exporter.py",
     "tests/test_integration.py",
     "services/parser.py",
-    "services/structured.py"
+    "services/structured.py",
+    "services/injections.py"
   ],
   "original_source_sha256_lf": {
     "app.py": "b6c52161f0450ea727533483f1765b1c2449b9e36736cc4d6cb07fef6a992978",
@@ -91,7 +92,7 @@
     "services/exporter.py": "50a3b20cc1b1abe51a9c20d202b16705395dc6f74918375475f7988b3f4632b0",
     "services/file_reader.py": "ce58251292b168941e40d0e5aeefbfc5a272bc636e3fdd729a7eba4aec039301",
     "services/frames.py": "0b253d15b077715a1640a4faa302ededaed07b4096e9d3bb96a05bd72c3b2147",
-    "services/injections.py": "97984782cb14b348fc6c0a19b6e1ed6ef9b52da1004ff756ec25a250fe78c09e",
+    "services/injections.py": "8a29f1d62fac909b7c0830284e5235002e4194c4970505e5a5bd54c4752cf38e",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
     "services/lai_support.py": "aa95659e782330f3b38865df694a995d289110ff25f7261394848ecbb2591df4",
     "services/llm_batch_parser.py": "c905180911489945f9c116e825308610cf686217c087dd6d944fa803de3c223b",
