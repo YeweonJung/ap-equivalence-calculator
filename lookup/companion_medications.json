@@ -1,0 +1,444 @@
+{
+  "version": "2026-09-30",
+  "source_file": "결과표_병용약물포함.xlsx",
+  "source_sha256": "872c7dafbed79bf238304f51fdcc726ffcc09354cf229fdcfd9b2c3e3e5e156d",
+  "classification_basis": "Source color groups interpreted as specified by user; source_group retained separately from drug_class.",
+  "classification_sources": {
+    "trazodone": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a57da4f8-151d-4a74-8710-6158d1da3852",
+    "naltrexone": "https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=adb7c4dc-221a-4d91-9687-0d78913a92ad"
+  },
+  "drugs": [
+    {
+      "ingredient": "amisulpride",
+      "source_name": "Amisulpride",
+      "source_cell": "mean!A3",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "aripiprazole",
+      "source_name": "Aripiprazole",
+      "source_cell": "mean!A4",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "blonanserin",
+      "source_name": "Blonanserin",
+      "source_cell": "mean!A5",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "clozapine",
+      "source_name": "Clozapine",
+      "source_cell": "mean!A6",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "haloperidol",
+      "source_name": "Haloperidol",
+      "source_cell": "mean!A7",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "olanzapine",
+      "source_name": "Olanzapine",
+      "source_cell": "mean!A8",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "paliperidone",
+      "source_name": "Paliperidone",
+      "source_cell": "mean!A9",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "quetiapine",
+      "source_name": "Quetiapine",
+      "source_cell": "mean!A10",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "risperidone",
+      "source_name": "Risperidone",
+      "source_cell": "mean!A11",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "ziprasidone",
+      "source_name": "Ziprasidone",
+      "source_cell": "mean!A12",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "chlorpromazine",
+      "source_name": "Chlorpromazine",
+      "source_cell": "mean!A13",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "molindone",
+      "source_name": "Molindone",
+      "source_cell": "mean!A14",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "perphenazine",
+      "source_name": "Perphenazine",
+      "source_cell": "mean!A15",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "sulpiride",
+      "source_name": "Sulpiride",
+      "source_cell": "mean!A16",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "pimozide",
+      "source_name": "Pimozide",
+      "source_cell": "mean!A17",
+      "source_group": "antipsychotic",
+      "drug_class": "antipsychotic",
+      "exclude": false
+    },
+    {
+      "ingredient": "carbamazepine",
+      "source_name": "Carbamazepine",
+      "source_cell": "mean!A18",
+      "source_group": "mood_stabilizer",
+      "drug_class": "mood_stabilizer",
+      "exclude": true
+    },
+    {
+      "ingredient": "lamotrigine",
+      "source_name": "Lamotrigine",
+      "source_cell": "mean!A19",
+      "source_group": "mood_stabilizer",
+      "drug_class": "mood_stabilizer",
+      "exclude": true
+    },
+    {
+      "ingredient": "lithium",
+      "source_name": "Lithium",
+      "source_cell": "mean!A20",
+      "source_group": "mood_stabilizer",
+      "drug_class": "mood_stabilizer",
+      "exclude": true
+    },
+    {
+      "ingredient": "topiramate",
+      "source_name": "Topiramate",
+      "source_cell": "mean!A21",
+      "source_group": "mood_stabilizer",
+      "drug_class": "mood_stabilizer",
+      "exclude": true
+    },
+    {
+      "ingredient": "valproate",
+      "source_name": "Valproate",
+      "source_cell": "mean!A22",
+      "source_group": "mood_stabilizer",
+      "drug_class": "mood_stabilizer",
+      "exclude": true
+    },
+    {
+      "ingredient": "amitriptyline",
+      "source_name": "Amitriptyline",
+      "source_cell": "mean!A23",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "bupropion",
+      "source_name": "Bupropion",
+      "source_cell": "mean!A24",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "citalopram",
+      "source_name": "Citalopram",
+      "source_cell": "mean!A25",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "clomipramine",
+      "source_name": "Clomipramine",
+      "source_cell": "mean!A26",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "duloxetine",
+      "source_name": "Duloxetine",
+      "source_cell": "mean!A27",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "escitalopram",
+      "source_name": "Escitalopram",
+      "source_cell": "mean!A28",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "fluoxetine",
+      "source_name": "Fluoxetine",
+      "source_cell": "mean!A29",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "fluvoxamine",
+      "source_name": "Fluvoxamine",
+      "source_cell": "mean!A30",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "imipramine",
+      "source_name": "Imipramine",
+      "source_cell": "mean!A31",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "milnacipran",
+      "source_name": "Milnacipran",
+      "source_cell": "mean!A32",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "mirtazapine",
+      "source_name": "Mirtazapine",
+      "source_cell": "mean!A33",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "nortriptyline",
+      "source_name": "Nortriptyline",
+      "source_cell": "mean!A34",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "paroxetine",
+      "source_name": "Paroxetine",
+      "source_cell": "mean!A35",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "sertraline",
+      "source_name": "Sertraline",
+      "source_cell": "mean!A36",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "tianeptine",
+      "source_name": "Tianeptine",
+      "source_cell": "mean!A37",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "venlafaxine",
+      "source_name": "Venlafaxine",
+      "source_cell": "mean!A38",
+      "source_group": "antidepressant",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "alprazolam",
+      "source_name": "Alprazolam",
+      "source_cell": "mean!A39",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "bromazepam",
+      "source_name": "Bromazepam",
+      "source_cell": "mean!A40",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "buspirone",
+      "source_name": "Buspirone",
+      "source_cell": "mean!A41",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "clobazam",
+      "source_name": "Clobazam",
+      "source_cell": "mean!A42",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "clonazepam",
+      "source_name": "Clonazepam",
+      "source_cell": "mean!A43",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "diazepam",
+      "source_name": "Diazepam",
+      "source_cell": "mean!A44",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "etizolam",
+      "source_name": "Etizolam",
+      "source_cell": "mean!A45",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "flurazepam",
+      "source_name": "Flurazepam",
+      "source_cell": "mean!A46",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "lorazepam",
+      "source_name": "Lorazepam",
+      "source_cell": "mean!A47",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "trazodone",
+      "source_name": "Trazodone",
+      "source_cell": "mean!A48",
+      "source_group": "anxiolytic",
+      "drug_class": "antidepressant",
+      "exclude": true
+    },
+    {
+      "ingredient": "triazolam",
+      "source_name": "Triazolam",
+      "source_cell": "mean!A49",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "zolpidem",
+      "source_name": "Zolpidem",
+      "source_cell": "mean!A50",
+      "source_group": "anxiolytic",
+      "drug_class": "anxiolytic",
+      "exclude": true
+    },
+    {
+      "ingredient": "methylphenidate",
+      "source_name": "Methylphenidate",
+      "source_cell": "mean!A51",
+      "source_group": "stimulant",
+      "drug_class": "stimulant",
+      "exclude": true
+    },
+    {
+      "ingredient": "modafinil",
+      "source_name": "Modafinil",
+      "source_cell": "mean!A52",
+      "source_group": "stimulant",
+      "drug_class": "stimulant",
+      "exclude": true
+    },
+    {
+      "ingredient": "naltrexone",
+      "source_name": "Naltrexone",
+      "source_cell": "mean!A53",
+      "source_group": "stimulant",
+      "drug_class": "opioid_antagonist",
+      "exclude": true
+    },
+    {
+      "ingredient": "benztropine",
+      "source_name": "Benztropine",
+      "source_cell": "mean!A54",
+      "source_group": "side_effect_management",
+      "drug_class": "side_effect_management",
+      "exclude": true
+    },
+    {
+      "ingredient": "trihexyphenidyl",
+      "source_name": "Trihexyphenidyl",
+      "source_cell": "mean!A55",
+      "source_group": "side_effect_management",
+      "drug_class": "side_effect_management",
+      "exclude": true
+    },
+    {
+      "ingredient": "propranolol",
+      "source_name": "Propranolol",
+      "source_cell": "mean!A56",
+      "source_group": "side_effect_management",
+      "drug_class": "side_effect_management",
+      "exclude": true
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+from services.exclusions import is_excluded
 """Pair parallel drug/dose cells without guessing missing values."""
 import re
 from services.frames import parse_frames
@@ -61,7 +62,7 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
     if len(doses) != len(drugs) or len(units) not in {1, len(drugs)} or len(frequencies) not in {1, len(drugs)}:
         frames = parse_frames(raw)
         for frame in frames:
-            if frame['status'] == 'non_target' and frame.get('drug_class') == 'antidepressant':
+            if is_excluded(frame):
                 continue
             frame.update(status='review', status_message='약물·용량 개수 불일치', warning='약물과 용량은 같은 순서와 개수로 입력해 주세요.', needs_review=True)
         return frames
@@ -104,7 +105,7 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
                     note += ' (REVIEW_REQUIRED)'
                     frame['needs_review'] = True
                 frame['warning'] = '; '.join(filter(None, [frame.get('warning'), note]))
-            if frame['status'] == 'non_target' and frame.get('drug_class') == 'antidepressant':
+            if is_excluded(frame):
                 continue
             if unit_conflict:
                 frame.update(status='review', status_message='용량 단위 불일치',

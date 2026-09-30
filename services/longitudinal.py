@@ -14,7 +14,7 @@ from functools import lru_cache
 from services.converter import available_methods, convert_drug, normalize_target, lookup
 from services.parser import dictionary_match, DOSE_RE, _dose_to_mg
 from services.frames import formulation_info, antidepressant_conflict, drug_mentions
-from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS
 
 RULE_VERSION = 'prescription-date-2.0'
 FIELDS = {
@@ -29,7 +29,7 @@ REQUIRED = ('patient', 'date', 'drug', 'daily', 'days')
 TARGETS = set(lookup.source_drug)
 # Explicit ingredient allow-list only. Unlisted drugs remain reviewable, not zero.
 NON_TARGETS = set('escitalopram lorazepam clonazepam fluoxetine propranolol bupropion lamotrigine topiramate benproperine cetirizine benztropine lithium sertraline paroxetine fluvoxamine venlafaxine desvenlafaxine duloxetine mirtazapine trazodone alprazolam diazepam zolpidem buspirone trihexyphenidyl atenolol gabapentin pregabalin valproate carbamazepine oxcarbazepine methylphenidate atomoxetine acetaminophen ibuprofen domperidone mosapride rebamipide famotidine pantoprazole omeprazole esomeprazole magnesium melatonin'.split())
-NON_TARGETS |= ANTIDEPRESSANTS
+NON_TARGETS |= EXCLUDED_INGREDIENTS
 
 
 def norm(value):
@@ -90,7 +90,7 @@ def medication(drug, product):
     release = 'ER' if re.search(r'\b(?:ER|XR|SR|CR)\b|서방', drug, re.I) else 'IR'
     form = ('injection' if injection else 'oral') + ':' + release
     first = re.split(r'\s|\d', drug.strip().casefold(), maxsplit=1)[0]
-    named_antidepressants = {name for _, _, name in drug_mentions(re.sub(r'[()\[\]{}（）]', ' ', combined))} & ANTIDEPRESSANTS
+    named_antidepressants = {name for _, _, name in drug_mentions(re.sub(r'[()\[\]{}（）]', ' ', combined))} & EXCLUDED_INGREDIENTS
     if named_antidepressants and antidepressant_conflict(combined, next(iter(named_antidepressants))):
         return canonical, form, None, ['ingredient_conflict'], 'review'
     if canonical not in TARGETS:
@@ -160,7 +160,7 @@ def prepare(frame, mapping, policy='review', provenance=None):
         name, form, strength, issues, kind = medication(r['drug'], r['product'])
         r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind)
         r['issues'].extend(issues)
-        if kind == 'non_target' and name in ANTIDEPRESSANTS:
+        if kind == 'non_target' and name in EXCLUDED_INGREDIENTS:
             pass  # Dose is irrelevant to AP exclusion; preserve raw source fields.
         elif daily is None or daily > 100:
             r['issues'].append('invalid_daily_tablets')
@@ -230,7 +230,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
         relevant, blockers, excluded = [], [], []
         for r in by_patient[patient]:
             if r['kind'] == 'non_target':
-                if r['canonical'] in ANTIDEPRESSANTS and r['start'] and (
+                if r['canonical'] in EXCLUDED_INGREDIENTS and r['start'] and (
                         r['start'] == day if policy == 'prescription_date' else
                         r['start'] <= day and r['effective_end'] and day < r['effective_end']):
                     excluded.append(r)
@@ -261,7 +261,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
             reasons = list(r['issues'])
             if (r['source_sheet'], r['source_row']) in ambiguous:
                 reasons.append('overlapping_orders')
-            is_antidepressant = r['kind'] == 'non_target' and r['canonical'] in ANTIDEPRESSANTS
+            is_antidepressant = r['kind'] == 'non_target' and r['canonical'] in EXCLUDED_INGREDIENTS
             if r['kind'] != 'ready' and not reasons and not is_antidepressant:
                 reasons.append('unresolved_drug')
             for method in methods:

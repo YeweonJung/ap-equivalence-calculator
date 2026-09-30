@@ -67,8 +67,8 @@ def test_unknown_conflicts_and_missing_ap_factors_never_become_zero(text):
 def test_mixed_regimen_and_other_non_targets_unchanged():
     mixed = converted('sertraline 50mg, risperidone 2mg QD, lithium 600mg')
     assert summarize_frames(mixed, ['DDD'])[0]['total_equivalent_dose_mg'] == 4
-    assert mixed[-1]['conversions'] == []
-    assert summarize_frames(converted('lithium 600mg'), ['DDD'])[0]['total_equivalent_dose_mg'] is None
+    assert all(c['value'] == 0 for c in mixed[-1]['conversions'])
+    assert summarize_frames(converted('lithium 600mg'), ['DDD'])[0]['total_equivalent_dose_mg'] == 0
 
 
 @pytest.mark.parametrize('drug,product', [
@@ -101,7 +101,9 @@ def test_exact_date_totals_audit_and_no_carryover():
     excluded = [r for r in details if r['결과 상태'] == '항우울제 제외 (0)']
     assert len(excluded) == 3
     assert all(r['DDD (OLZ mg/day)'] == 0 for r in excluded)
-    assert len(records(wb, 'Review')) == 1  # Unknown drug only.
+    review = records(wb, 'Review')
+    assert len(review) == 4  # Three informational exclusions and one unknown drug.
+    assert len([r for r in review if r['계산 처리'] == '배제 완료']) == 3
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 5
     assert audit[0]['drug_class'] == 'antidepressant'
@@ -131,7 +133,9 @@ def test_all_static_export_paths_keep_zero_and_audit_without_review(mode):
     assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail']
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] == 0
     assert records(wb, 'MedicationResults')[0][value_column('DDD')] == 0
-    assert not records(wb, 'Review')
+    review = records(wb, 'Review')
+    assert len(review) == 1 and review[0]['인식 성분'] == 'sertraline'
+    assert review[0]['항정신병약 환산 기여값'] == 0
     audit = records(wb, 'AuditTrail')[0]
     assert audit['drug_class'] == 'antidepressant' and audit['status'] == 'non_target'
     assert audit['exclusion_basis'] and audit['source_text']

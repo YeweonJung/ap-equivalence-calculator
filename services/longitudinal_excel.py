@@ -1,3 +1,4 @@
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, CLASSES, exclusion_label, exclusion_basis, review_fields
 """Compact, streaming Excel output for date-aware prescriptions."""
 import csv
 import io
@@ -69,7 +70,7 @@ def export_excel(records, results, details, metadata):
 
     detail_headers = ['patient_id', date_label, '원문 약물', '성분', '일일용량 (mg/day)'] + method_headers + ['결과 상태', '확인할 내용', '원본 시트', '원본 행', '원본 처방일', '처방일수', '하루 정 수', '원문 제품', '기간 조정']
     detail_sheet = sheet('MedicationResults', detail_headers, '환자·기준일·원본 처방당 한 행입니다. 환산법은 가로 열로 표시합니다. 원본 시트와 행 번호로 입력 자료를 찾을 수 있습니다.')
-    review_headers = ['patient_id', '처방일', '원문 약물', '확인할 내용', '원문 제품', '원본 시트', '원본 행', '처방일수', '하루 정 수', '중복 원본 행']
+    review_headers = ['patient_id', '처방일', '원문 약물', '확인할 내용', '원문 제품', '원본 시트', '원본 행', '처방일수', '하루 정 수', '중복 원본 행', '인식 성분', '약물 분류', '계산 처리', '항정신병약 환산 기여값']
     review_sheet = sheet('Review', review_headers, '확인이 필요한 원본 처방만 모았습니다. 날짜별 오류나 방법별 누락은 MedicationResults에서 확인하세요. ID가 없는 처방은 임의로 합산하지 않습니다.')
     source = {(r['source_sheet'], r['source_row']): r for r in records}
     issues = {(r['source_sheet'], r['source_row']): set(r['issues']) for r in records if r['issues']}
@@ -86,18 +87,22 @@ def export_excel(records, results, details, metadata):
             if flags:
                 issues.setdefault(key, set()).update(flags)
             missing = [r['method'] for r in batch if 'missing_factor' in r['reasons'].split(';')]
-            note = ('항우울제 제외: 항정신병약 환산값 0. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
+            note = (exclusion_basis(first['canonical']) + '. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
             append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical'], original['daily_mg']] +
-                   [values.get(m) for m in methods] + ['항우울제 제외 (0)' if first['status'] == 'non_target' else '확인 필요' if flags else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
+                   [values.get(m) for m in methods] + [exclusion_label(first['canonical']) + ' (0)' if first['status'] == 'non_target' else '확인 필요' if flags else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
             detail_count += 1
     finally:
         text.detach()
     review_count = 1
     for r in records:
         key = (r['source_sheet'], r['source_row'])
-        if key in issues:
-            append(review_sheet, [r['patient'], r['date'], r['drug'], reason_text(issues[key]), r['product'], *key, r['days'], r['daily'], r['duplicate_of']])
+        excluded = r['kind'] == 'non_target' and r['canonical'] in EXCLUDED_INGREDIENTS
+        if key in issues or excluded:
+            info = review_fields(r['canonical']) if excluded else {}
+            note = '; '.join(filter(None, [exclusion_basis(r['canonical']) if excluded else '', reason_text(issues.get(key, set()))]))
+            append(review_sheet, [r['patient'], r['date'], r['drug'], note, r['product'], *key, r['days'], r['daily'], r['duplicate_of'],
+                                  info.get('recognized_drug'), info.get('drug_group'), info.get('calculation'), info.get('equivalent_contribution')])
             review_count += 1
     for ws, headers, count in [(detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
         ws.autofilter(0, 0, count - 1, len(headers) - 1)
@@ -109,7 +114,6 @@ def export_excel(records, results, details, metadata):
                      'prescription_date', 'days', 'daily_tablets', 'canonical',
                      'formulation', 'strength_mg', 'daily_mg', 'kind', 'drug_class', 'exclusion_basis', 'issues',
                      'adjustments', 'duplicate_of', 'original_end', 'effective_end']
-    from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS, EXCLUSION_NOTE
     def audit_rows():
         for r in records:
             def last_day(end):
@@ -118,8 +122,8 @@ def export_excel(records, results, details, metadata):
                        drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'],
                        daily_tablets=r['daily'], canonical=r['canonical'], formulation=r['formulation'],
                        strength_mg=r['strength_mg'], daily_mg=r['daily_mg'], kind=r['kind'],
-                       drug_class='antidepressant' if r['canonical'] in ANTIDEPRESSANTS else '',
-                       exclusion_basis=EXCLUSION_NOTE if r['canonical'] in ANTIDEPRESSANTS and r['kind'] == 'non_target' else '',
+                       drug_class=CLASSES.get(r['canonical'], ''),
+                       exclusion_basis=exclusion_basis(r['canonical']) if r['canonical'] in EXCLUDED_INGREDIENTS and r['kind'] == 'non_target' else '',
                        issues=';'.join(sorted(issues.get((r['source_sheet'], r['source_row']), set()))),
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))

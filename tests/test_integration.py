@@ -45,7 +45,11 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
     assert detailed.loc[0, "daily_dose_mg"] == 4
     audit = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert audit.loc[audit["약물"] == "lithium", "status"].tolist() == ["non_target"]
-    assert not errors["원문 약물"].fillna("").str.casefold().str.contains("lithium").any()
+    lithium = errors[errors['인식 성분'] == 'lithium']
+    assert len(lithium) == 1
+    assert lithium.iloc[0]['약물 분류'] == '기분조절제'
+    assert lithium.iloc[0]['계산 처리'] == '배제 완료'
+    assert lithium.iloc[0]['항정신병약 환산 기여값'] == 0
 
 
 def test_parser_api_marks_unknown_drugs_for_review():
@@ -54,7 +58,8 @@ def test_parser_api_marks_unknown_drugs_for_review():
     items = response.get_json()["items"]
     assert items[0]["drug"] == "risperidone" and items[0]["needs_review"] is False
     assert items[1]["ok"] is True and items[1]["status"] == "non_target"
-    assert items[1]["daily_dose_mg"] is None and items[1]["conversions"] == []
+    assert items[1]["daily_dose_mg"] is None
+    assert all(c['value'] == 0 for c in items[1]['conversions'])
 
 
 def test_ambiguous_schedules_are_not_presented_as_certain():

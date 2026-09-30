@@ -1,3 +1,4 @@
+from services.exclusions import is_excluded, exclusion_label
 """Compact presentation layer; underlying numeric results stay unchanged."""
 from collections import defaultdict
 from services.result_summary import TARGETS
@@ -16,7 +17,7 @@ def patient_overview(rows, audits, checks):
         notes = []
         for item in by_patient[str(row['patient_id'])]:
             status = item.get('status')
-            if status == 'non_target' and item.get('drug_class') == 'antidepressant': notes.append('항우울제 제외·환산값 0')
+            if is_excluded(item): notes.append(exclusion_label(item['drug']) + '·환산값 0')
             if status == 'unsupported_formulation': notes.append('주사 간격·제형 확인')
             elif status == 'unknown_drug': notes.append('약물명 확인')
             elif status == 'missing_factor': notes.append('환산계수 없음')
@@ -40,7 +41,7 @@ def dated_overview(results):
         row = grouped.setdefault(key, dict(id=key[0], date=key[1], values={}, notes=''))
         row['values'][result['method']] = result['equivalent_mg']
         if result['status'] == 'review': row['notes'] = '상세 시트에서 미환산 사유 확인'
-        elif result['status'] == 'non_target': row['notes'] = '항우울제 제외·항정신병약 환산값 0'
+        elif result['status'] == 'non_target': row['notes'] = '병용약물 제외·항정신병약 환산값 0'
         elif result['status'] == 'no_record': row['notes'] = '해당 날짜의 환산 대상 처방 없음'
     return methods, list(grouped.values())
 

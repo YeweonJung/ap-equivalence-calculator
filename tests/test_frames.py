@@ -58,8 +58,8 @@ def test_injections_never_become_oral_daily_doses(marker):
 def test_non_targets_and_missing_factors_are_distinct():
     result = items('Escitalopram 10mg, Benztropine 1mg, Lithium 600mg, Blonanserin 8mg')
     assert [r['status'] for r in result] == ['non_target'] * 3 + ['missing_factor']
-    assert all(c['value'] == 0 for c in result[0]['conversions'])
-    assert all(not any(c['value'] is not None for c in r['conversions']) for r in result[1:])
+    assert all(c['value'] == 0 for r in result[:3] for c in r['conversions'])
+    assert all(c['value'] is None for c in result[3]['conversions'])
 
 
 @pytest.mark.parametrize('text,drug', [('arp 15', 'aripiprazole'), ('hd 1.5', 'haloperidol'),

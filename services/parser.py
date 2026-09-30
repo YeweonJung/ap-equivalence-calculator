@@ -28,8 +28,8 @@ for _alias, _drug in list(alias_map.items()):
 
 # Keep the archived, disabled ranker evaluation dictionary unchanged.
 LEGACY_ALIAS_MAP = alias_map.copy()
-from services.antidepressants import ALIASES as ANTIDEPRESSANT_ALIASES
-alias_map.update(ANTIDEPRESSANT_ALIASES)
+from services.exclusions import ALIASES as EXCLUDED_ALIASES
+alias_map.update(EXCLUDED_ALIASES)
 alias_map.update({name: identity[0] for name, identity in PRODUCTS.items()})
 
 DOSE_RE = re.compile(

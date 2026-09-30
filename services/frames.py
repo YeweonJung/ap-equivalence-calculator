@@ -9,9 +9,9 @@ from difflib import SequenceMatcher
 from services.medication_splitter import split_medication_spans
 from services.parser import alias_map, dictionary_match, DOSE_RE, parse_medication, _dose_to_mg
 
-from services.antidepressants import INGREDIENTS as ANTIDEPRESSANTS, EXCLUSION_NOTE, is_excluded
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, EXCLUSION_NOTE, is_excluded, CLASSES, exclusion_label, exclusion_basis
 
-NON_TARGET = {**dict.fromkeys(ANTIDEPRESSANTS, 'antidepressant'), 'benztropine': 'anticholinergic', 'lithium': 'mood_stabilizer'}
+NON_TARGET = CLASSES
 LABELS = {
     'ready': '환산 가능', 'converted': '환산 완료', 'non_target': '항정신병약 환산 대상 아님',
     'unknown_drug': '약물 미확인', 'missing_unit': '단위 확인 필요',
@@ -113,7 +113,7 @@ def _frame(start, end, original):
     text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
-    if not DOSE_RE.search(text) and dictionary_match(text) not in ANTIDEPRESSANTS:
+    if not DOSE_RE.search(text) and dictionary_match(text) not in EXCLUDED_INGREDIENTS:
         bare = re.search(r'[+-]?(?:\d+(?:\.\d+)?|\.\d+)', _outside(text))
         if bare:
             tail = text[bare.end():].strip()
@@ -157,14 +157,14 @@ def _frame(start, end, original):
     if not drug:
         status = 'unknown_drug'
     elif drug in NON_TARGET:
-        if drug in ANTIDEPRESSANTS and antidepressant_conflict(text, drug):
+        if drug in EXCLUDED_INGREDIENTS and antidepressant_conflict(text, drug):
             status = 'review'
-            frame['warning'] = '항우울제와 다른 성분 또는 미확인 복합 표기가 함께 있습니다. 약물별로 분리해 주세요.'
+            frame['warning'] = '배제 대상 약물과 다른 성분 또는 미확인 복합 표기가 함께 있습니다. 약물별로 분리해 주세요.'
         else:
             status = 'non_target'
             frame['needs_review'] = match_type != 'exact'
-            if drug in ANTIDEPRESSANTS:
-                frame['exclusion_basis'] = EXCLUSION_NOTE
+            if drug in EXCLUDED_INGREDIENTS:
+                frame['exclusion_basis'] = exclusion_basis(drug)
     elif info['route'] == 'injection':
         from services.injections import injection_values
         try:
@@ -195,7 +195,7 @@ def _frame(start, end, original):
         # Parsing never performs candidate retrieval or calls an AI service.
         frame['suggestions'] = []
         frame['name_candidates'] = '[]'
-    frame.update(status=status, status_message='항우울제 제외 (환산값 0)' if status == 'non_target' and drug in ANTIDEPRESSANTS else LABELS[status])
+    frame.update(status=status, status_message=exclusion_label(drug) + ' (환산값 0)' if status == 'non_target' and drug in EXCLUDED_INGREDIENTS else LABELS[status])
     return frame
 
 
@@ -223,7 +223,7 @@ def convert_frame(frame, methods):
     from services.lai_support import convert_injection, BRIDGE_LABEL
     item = dict(frame, conversions=[])
     if is_excluded(item):
-        item['conversions'] = [dict(method=m, target=normalize_target(m), value=0.0, basis=EXCLUSION_NOTE) for m in methods]
+        item['conversions'] = [dict(method=m, target=normalize_target(m), value=0.0, basis=exclusion_basis(item['drug'])) for m in methods]
     if item['status'] == 'ready':
         for method in methods:
             target = normalize_target(method)

@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.29-paper-references-plain-excel'
+VERSION = '2026.09.30-companion-exclusions'
 
 
 def metadata():
@@ -21,6 +21,7 @@ def metadata():
             'feedback_learning_model': MODEL_VERSION, 'feedback_learning_scope': 'review_suggestions_only',
             'name_retrieval_fallback_channels': [],
             'antidepressant_names_sha256': hashlib.sha256((root / 'lookup/antidepressant_names.json').read_bytes()).hexdigest(),
+            'companion_medications_sha256': hashlib.sha256((root / 'lookup/companion_medications.json').read_bytes()).hexdigest(),
             'injection_names_sha256': hashlib.sha256((root / 'lookup/injection_product_names.json').read_bytes()).hexdigest(),
             'lookup_sha256': hashlib.sha256((root / 'lookup/master_lookup.csv').read_bytes()).hexdigest(),
             'anchors_sha256': hashlib.sha256((root / 'lookup/equivalence_anchors.csv').read_bytes()).hexdigest()}
