@@ -1,5 +1,5 @@
 {
-  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution; 2026-09-29 user authorized injection label volume metadata: 300mg/1.5mL and 400mg/2mL use total mg, with volume excluded and recorded; conversion factors unchanged",
+  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution; 2026-09-29 user authorized injection label volume metadata: 300mg/1.5mL and 400mg/2mL use total mg, with volume excluded and recorded; conversion factors unchanged; 2026-10-01 user requested prominent all-method quick-check totals for two and three medications; summary display and regression coverage updated; conversion factors unchanged",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
@@ -19,7 +19,8 @@
     "tests/test_integration.py",
     "services/parser.py",
     "services/structured.py",
-    "services/injections.py"
+    "services/injections.py",
+    "tests/quick_check_ui.cjs"
   ],
   "original_source_sha256_lf": {
     "app.py": "b6c52161f0450ea727533483f1765b1c2449b9e36736cc4d6cb07fef6a992978",
@@ -104,17 +105,17 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "6fe14cb544c4237b2c6a127946d4a69faca51b1454fc4b88982e544626d26f9c",
-    "services/release.py": "1986c0d7fefccc84d4a549f2e0f93144462a50a755304ced6d16cf6bc6866332",
+    "services/release.py": "799c43d9339ac208243e99259a508bfdce59af2b50e512c2216a134a93ea960f",
     "services/result_summary.py": "befd2dcac70070744b92125ca0e8ecd7f763873b44755d3611e75dab1038c073",
     "services/structured.py": "093213651a6dd77472efe91bcffd7892fd0c878d2ba97411c53c226ca706b4c1",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
-    "static/quick_check.js": "7b525b1727b07858c75abb01d83604d8828313f5fb1c4d730a6eca149cff0c92",
+    "static/quick_check.js": "1050d17e05a2c1b22d3a235fc9d26c240695a9989026bcb4bf0fa8b7e2739def",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "64bcdafd120d42d35b03a292b94fa81fd5a7d1836a90afd5d2b8b89d28c0ef0e",
+    "templates/index.html": "4d1f377c2dc7de9e5032fc1b492f5a48048db533b95b9b02f30c4f037bf8d247",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
-    "tests/quick_check_ui.cjs": "1e3a32fd1a5ee3d2e93b63c731b30fe6d0119b86c7203286edd63ed712ef5755",
+    "tests/quick_check_ui.cjs": "a0380063bf566d2d877fbe8614e5eb729abc1bdbe474744ae1507478524c0da2",
     "tests/test_character_review.py": "820e896b8664ccdf4954e7bed85be4784ce60b3e7313db4bf3c4ee9dc0a8240e",
     "tests/test_equivalence_update.py": "41687cd39e037fc190c72f6a8a455ea05e622effdc07cf74798f91161d1c82a5",
     "tests/test_frames.py": "ba946fbc48acac7a21833ece092dac2cf5847fb6b7f12951bc8544fe7a53d2e6",

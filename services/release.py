@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.09.30-companion-exclusions'
+VERSION = '2026.10.01-quick-method-totals'
 
 
 def metadata():

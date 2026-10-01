@@ -41,3 +41,11 @@ async function main() {
   console.log('UI request ordering, rounding, missing factors and escaping passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
+context.totals = [{method:'CMD',target_drug:'olanzapine',total_equivalent_dose_mg:12.5,unresolved_count:0},
+ {method:'WOODS',target_drug:'chlorpromazine',total_equivalent_dose_mg:null,partial_equivalent_dose_mg:100,unresolved_count:1}];
+const summary = vm.runInContext('totalsHtml(totals, 3)',context);
+assert(summary.includes('입력 약물 3개'));
+assert(summary.includes('12.5'));
+assert(summary.includes('합산 불가'));
+assert(summary.includes('부분합 100 mg/day'));
+assert(summary.includes('미환산 1건'));

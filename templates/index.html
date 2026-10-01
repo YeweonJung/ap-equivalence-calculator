@@ -75,8 +75,8 @@
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>한 줄로 바로 계산</h2><p>약물명·용량·횟수를 입력하세요. 모르는 약물명은 직접 확인해 수정하세요.</p></div>
-      <div class="parser"><div class="parser-row"><input maxlength="10000" id="parser-input" value="Risp*erdal 2mg BID" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 모든 방법별 합계와 약물별 결과를 함께 확인할 수 있습니다.</p></div>
+      <div class="parser"><p>2개 예시: risperidone 2mg, olanzapine 5mg<br>3개 예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
     <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>
   </main>

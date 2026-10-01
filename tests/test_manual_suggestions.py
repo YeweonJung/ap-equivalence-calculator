@@ -139,7 +139,7 @@ def test_jamo_candidates_are_exported_without_conversion():
 def test_conversion_sources_and_existing_tests_remain_protected():
     from scripts.retrieval_integrity import verify_integration
     manifest = verify_integration(ROOT)
-    assert set(manifest['intentional_source_changes']) == {'services/injections.py', 'services/parser.py', 'services/structured.py', 'services/lai_support.py', 'tests/test_equivalence_update.py', 'services/result_summary.py', 'app.py', 'tests/test_lai_methods.py', 'services/converter.py', 'static/quick_check.js', 'tests/test_frames.py', 'tests/test_integration.py', 'templates/index.html', 'services/release.py', 'requirements.txt', 'tests/test_results_injections.py', 'services/exporter.py', 'services/frames.py'}
+    assert set(manifest['intentional_source_changes']) == {'tests/quick_check_ui.cjs', 'services/injections.py', 'services/parser.py', 'services/structured.py', 'services/lai_support.py', 'tests/test_equivalence_update.py', 'services/result_summary.py', 'app.py', 'tests/test_lai_methods.py', 'services/converter.py', 'static/quick_check.js', 'tests/test_frames.py', 'tests/test_integration.py', 'templates/index.html', 'services/release.py', 'requirements.txt', 'tests/test_results_injections.py', 'services/exporter.py', 'services/frames.py'}
 
 
 def test_no_unresolved_merge_markers_in_runtime_sources():

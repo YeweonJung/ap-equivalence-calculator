@@ -42,6 +42,19 @@ function itemHtml(item, index) {
   return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}</div></div>`;
 }
 
+function totalsHtml(totals, count) {
+  return `<div class="parse-item quick-totals"><b>입력 약물 ${count}개 · 방법별 합산</b><p>같은 방법·같은 기준 약물끼리 합산한 1일 환산량입니다.</p><table class="conversion-table"><caption>전체 방법별 합산 결과 (mg/day)</caption><thead><tr><th>방법 · 기준 약물</th><th>합계 (mg/day)</th><th>확인 사항</th></tr></thead><tbody>${totals.map(total => {
+    const complete = total.total_equivalent_dose_mg != null;
+    const result = complete ? formatDose(total.total_equivalent_dose_mg) : '합산 불가';
+    const notes = [];
+    if (total.partial_equivalent_dose_mg != null) notes.push(`부분합 ${formatDose(total.partial_equivalent_dose_mg)} mg/day`);
+    if (total.unresolved_count) notes.push(`미환산 ${total.unresolved_count}건`);
+    if (total.excluded_count) notes.push(`환산 대상 외 ${total.excluded_count}건 (0 기여)`);
+    if (total.needs_review) notes.push('검토 필요');
+    return `<tr><th scope="row">${escapeHtml(total.method)} · ${escapeHtml(total.target_drug)}</th><td>${result}</td><td>${escapeHtml(notes.join(' · ') || '합산 완료')}</td></tr>`;
+  }).join('')}</tbody></table><small>미환산 약물이 있는 방법은 전체 합계를 표시하지 않습니다. 아래에서 약물별 결과를 확인하세요.</small></div>`;
+}
+
 async function runQuickCheck() {
   if (location.protocol === 'file:') {
     parseOutput.textContent = '이 HTML 파일을 직접 열면 계산할 수 없습니다. Flask 앱을 실행한 주소에서 이용해 주세요.';
@@ -69,14 +82,7 @@ async function runQuickCheck() {
     if (activeRequest !== controller || parseInput.value.trim() !== currentText) return;
     currentItems = data.items;
     exportButton.hidden = false;
-    parseOutput.innerHTML = data.items.map(itemHtml).join('');
-    parseOutput.innerHTML += `<div class="parse-item"><b>입력 약물 합계 (환산법별)</b>${data.totals.map(total => {
-      let result = '총합 계산 불가 (용량·단위·환산 지원 여부 확인)';
-      if (total.total_equivalent_dose_mg !== null) result = `${escapeHtml(total.total_equivalent_dose_mg)} mg${total.needs_review ? ' · 검토 필요' : ''}`;
-      else if (total.partial_equivalent_dose_mg !== null) result = `부분합 ${escapeHtml(total.partial_equivalent_dose_mg)} mg · 미환산 ${escapeHtml(total.unresolved_count)}건`;
-      else if (total.status === 'non_target') result = '환산 대상 없음';
-      return `<div class="values">${escapeHtml(total.method)} · ${escapeHtml(total.target_drug)}: ${result}</div>`;
-    }).join('')}</div>`;
+    parseOutput.innerHTML = totalsHtml(data.totals, data.items.length) + data.items.map(itemHtml).join('');
   } catch (error) {
     if (error.name !== 'AbortError' && activeRequest === controller) parseOutput.textContent = error.message || '분석하지 못했습니다.';
   } finally {
