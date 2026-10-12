@@ -141,7 +141,9 @@ def parse_text():
     for item in items:
         if item['status'] == 'unknown_drug':
             attach_feedback(item)
-    return jsonify({"items": items, "totals": summarize_frames(items, METHODS)})
+    from services.supplemented import quick_cases, POLICY_VERSION
+    return jsonify({"items": items, "totals": summarize_frames(items, METHODS),
+                    "cases": quick_cases(items, METHODS), "case_policy": POLICY_VERSION})
 
 
 @app.post("/upload")

@@ -74,7 +74,7 @@ def test_export_carries_short_candidate_evidence_without_conversion():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_csv_upload_uses_same_manual_retrieval():
@@ -91,7 +91,7 @@ def test_csv_upload_uses_same_manual_retrieval():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_formulation_conflict_preserves_suffix_and_requires_review():
@@ -133,13 +133,13 @@ def test_jamo_candidates_are_exported_without_conversion():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 def test_conversion_sources_and_existing_tests_remain_protected():
     from scripts.retrieval_integrity import verify_integration
     manifest = verify_integration(ROOT)
-    assert set(manifest['intentional_source_changes']) == {'tests/test_integration.py', 'tests/test_frames.py', 'services/result_summary.py', 'services/converter.py', 'services/injections.py', 'services/release.py', 'static/quick_check.js', 'tests/quick_check_ui.cjs', 'services/exporter.py', 'requirements.txt', 'tests/test_character_review.py', 'services/lai_support.py', 'tests/test_equivalence_update.py', 'tests/test_results_injections.py', 'services/parser.py', 'templates/index.html', 'services/structured.py', 'app.py', 'tests/test_lai_methods.py', 'tests/test_quick_export.py', 'services/frames.py'}
+    assert set(manifest['intentional_source_changes']) == {'app.py', 'requirements.txt', 'services/converter.py', 'services/exporter.py', 'services/frames.py', 'services/injections.py', 'services/lai_support.py', 'services/parser.py', 'services/release.py', 'services/result_summary.py', 'services/structured.py', 'static/quick_check.js', 'templates/index.html', 'tests/quick_check_ui.cjs', 'tests/test_character_review.py', 'tests/test_equivalence_update.py', 'tests/test_frames.py', 'tests/test_integration.py', 'tests/test_lai_methods.py', 'tests/test_quick_export.py', 'tests/test_results_injections.py'}
 
 
 def test_no_unresolved_merge_markers_in_runtime_sources():

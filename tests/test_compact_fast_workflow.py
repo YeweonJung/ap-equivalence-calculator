@@ -32,7 +32,7 @@ def test_public_paths_never_search_or_wait_for_ai(monkeypatch, backend):
     ]:
         assert response.status_code == 200
         wb = load_workbook(io.BytesIO(response.data))
-        assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+        assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
         assert all(s.sheet_state == 'visible' for s in wb)
         assert wb['Review'].max_row > 1
         assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None

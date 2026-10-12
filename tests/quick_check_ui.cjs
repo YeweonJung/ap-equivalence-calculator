@@ -23,9 +23,35 @@ async function main() {
   const latest=button.events.click();
   requests[1].resolve(response(data)); await latest;
   const html=elements['#parse-results'].innerHTML;
+  assert(html.includes('quick-totals'));
+  assert(!html.includes('quick-scenarios'));
   requests[0].resolve(response({items:[{bad:true}],totals:[]})); await old;
   assert.equal(elements['#parse-results'].innerHTML,html);
   assert.equal(button.disabled,false);
+  input.value='scenario'; const scenarioRun=button.events.click();
+  requests[2].resolve(response({
+    items:[],totals:[{method:'CMD',target_drug:'risperidone',total_equivalent_dose_mg:3}],
+    cases:[{case_id:'CMD<script>alert(1)</script>',base:'CMD',complement:'<b>MED</b>',target:'RIS',
+      total:null,partial:10.25,status:'미환산 <script>',methods:'CMD + MED <img>',missing:1,supplemented:2,
+      note:'<svg onload=alert(1)>',details:[{original:'원문 <img>',drug:'약물 <script>',actual:'<u>MED</u>',target:'RIS',
+        dose:5,factor:2,value:10.25,status:'ok',reason:'근거 <script>',basis:'basis <b>',source:'출처 <img src=x onerror=alert(1)>',
+        case_id:'CMD+MED',base:'CMD',note:'detail note'}]}]
+  })); await scenarioRun;
+  const scenarioHtml=elements['#parse-results'].innerHTML;
+  assert(scenarioHtml.indexOf('quick-scenarios') < scenarioHtml.indexOf('scenario-details'));
+  assert(scenarioHtml.indexOf('scenario-details') < scenarioHtml.indexOf('original-totals'));
+  assert(scenarioHtml.includes('합산 불가 · RIS · 부분합 10.25 mg/day'));
+  assert(scenarioHtml.includes('CMD + MED &lt;img&gt;'));
+  assert(scenarioHtml.includes('&lt;b&gt;MED&lt;/b&gt;'));
+  assert(scenarioHtml.includes('미환산 1건'));
+  assert(scenarioHtml.includes('보완 2건'));
+  assert(scenarioHtml.includes('10.25 mg/day · RIS'));
+  assert(scenarioHtml.includes('<td>&lt;u&gt;MED&lt;/u&gt;</td>'));
+  assert(!scenarioHtml.slice(0, scenarioHtml.indexOf('scenario-details')).includes('원문 &lt;img&gt;'));
+  assert(scenarioHtml.includes('근거 &lt;script&gt;'));
+  assert(scenarioHtml.includes('출처 &lt;img src=x onerror=alert(1)&gt;'));
+  assert(!scenarioHtml.includes('<script>'));
+  assert(!scenarioHtml.includes('<img'));
   assert.equal(vm.runInContext('formatDose(100/30)',context),'3.3333');
   context.item={ok:true,drug:'<script>',daily_dose_mg:2,route:'oral',status_message:'ok',
     conversions:[{method:'WOODS',target:'chlorpromazine',value:null}]};
@@ -38,7 +64,7 @@ async function main() {
   assert(!candidateHtml.includes('data-candidate'));
   assert(!candidateHtml.includes('unsafe'));
   assert(!candidateHtml.includes('AI'));
-  console.log('UI request ordering, rounding, missing factors and escaping passed');
+  console.log('UI request ordering, scenario summaries, rounding, missing factors and escaping passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
 context.totals = [{method:'CMD',target_drug:'olanzapine',total_equivalent_dose_mg:12.5,unresolved_count:0},

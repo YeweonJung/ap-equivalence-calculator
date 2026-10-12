@@ -92,7 +92,7 @@ def test_exact_date_totals_audit_and_no_carryover():
         rx(day='2020-04-17', patient='001', drug='렉사프로 10mg', tabs='1'),
     ])
     wb = load_workbook(automatic_analysis({'input': source}, ['DDD']))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
     totals = records(wb, 'Results')
     assert [r['DDD (OLZ mg/day)'] for r in totals] == [0, 4, None]
     assert [r['patient_id'] for r in totals] == ['001'] * 3
@@ -130,7 +130,7 @@ def test_all_static_export_paths_keep_zero_and_audit_without_review(mode):
         response = client.post('/upload', data={'file': (stream, 'input.' + ('xlsx' if mode == 'xlsx' else 'csv'))})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] == 0
     assert records(wb, 'MedicationResults')[0][value_column('DDD')] == 0
     review = records(wb, 'Review')

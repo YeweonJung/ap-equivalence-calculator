@@ -55,6 +55,26 @@ function totalsHtml(totals, count) {
   }).join('')}</tbody></table><small>미환산 약물이 있는 방법은 전체 합계를 표시하지 않습니다. 아래에서 약물별 결과를 확인하세요.</small></div>`;
 }
 
+function scenariosHtml(cases, count) {
+  const summary = `<div class="parse-item quick-scenarios"><b>입력 약물 ${count}개 · 계산안별 합계</b><p>기본 방법의 값은 유지하고, 계수가 없는 약물만 각 보완 방법으로 계산합니다.</p><table class="conversion-table"><caption>계산안별 환산 결과 (mg/day)</caption><thead><tr><th>계산안</th><th>총합 · 기준약물</th><th>사용 방법</th><th>보완 방법</th><th>상태 · 확인 사항</th></tr></thead><tbody>${cases.map(scenario => {
+    const total = scenario.total == null ? '합산 불가' : `${formatDose(scenario.total)} mg/day`;
+    const target = scenario.target == null ? '' : ` · ${escapeHtml(scenario.target)}`;
+    const partial = scenario.partial == null ? '' : ` · 부분합 ${formatDose(scenario.partial)} mg/day`;
+    const missing = scenario.missing ? ` · 미환산 ${formatDose(scenario.missing)}건` : '';
+    const supplemented = scenario.supplemented ? ` · 보완 ${formatDose(scenario.supplemented)}건` : '';
+    return `<tr><th scope="row">${escapeHtml(scenario.case_id)}</th><td>${total}${target}${partial}</td><td>${escapeHtml(scenario.methods)}</td><td>${escapeHtml(scenario.complement || '없음')}</td><td>${escapeHtml(scenario.status)}${missing}${supplemented}${scenario.note ? `<br><small>${escapeHtml(scenario.note)}</small>` : ''}</td></tr>`;
+  }).join('')}</tbody></table></div>`;
+  const details = cases.map(scenario => `<details class="scenario-details"><summary>${escapeHtml(scenario.case_id)} 약물별 근거${scenario.note ? ` · ${escapeHtml(scenario.note)}` : ''}</summary><table class="conversion-table"><caption>${escapeHtml(scenario.case_id)} 약물별 환산 근거</caption><thead><tr><th>약물</th><th>적용 방법</th><th>환산 결과</th><th>근거</th><th>출처</th></tr></thead><tbody>${(scenario.details || []).map(detail => {
+    const medication = detail.original == null || detail.original === detail.drug
+      ? escapeHtml(detail.drug ?? detail.original)
+      : `${escapeHtml(detail.original)} → ${escapeHtml(detail.drug)}`;
+    const value = detail.value == null ? '—' : `${formatDose(detail.value)} mg/day${detail.target == null ? '' : ` · ${escapeHtml(detail.target)}`}`;
+    const basis = detail.basis == null || detail.basis === '' ? '' : `<br>${escapeHtml(detail.basis)}`;
+    return `<tr><th scope="row">${medication}</th><td>${escapeHtml(detail.actual || '—')}</td><td>${value}</td><td>${escapeHtml(detail.status)} ${escapeHtml(detail.reason)}${basis}</td><td>${escapeHtml(detail.source)}</td></tr>`;
+  }).join('')}</tbody></table></details>`).join('');
+  return summary + details;
+}
+
 async function runQuickCheck() {
   if (location.protocol === 'file:') {
     parseOutput.textContent = '이 HTML 파일을 직접 열면 계산할 수 없습니다. Flask 앱을 실행한 주소에서 이용해 주세요.';
@@ -82,7 +102,11 @@ async function runQuickCheck() {
     if (activeRequest !== controller || parseInput.value.trim() !== currentText) return;
     currentItems = data.items;
     exportButton.hidden = false;
-    parseOutput.innerHTML = totalsHtml(data.totals, data.items.length) + data.items.map(itemHtml).join('');
+    parseOutput.innerHTML = data.cases == null
+      ? totalsHtml(data.totals, data.items.length) + data.items.map(itemHtml).join('')
+      : scenariosHtml(data.cases, data.items.length)
+        + data.items.map((item, index) => item.ok ? '' : itemHtml(item, index)).join('')
+        + `<details class="original-totals"><summary>기존 방법별 결과</summary>${totalsHtml(data.totals, data.items.length)}${data.items.map((item, index) => item.ok ? itemHtml(item, index) : '').join('')}</details>`;
   } catch (error) {
     if (error.name !== 'AbortError' && activeRequest === controller) parseOutput.textContent = error.message || '분석하지 못했습니다.';
   } finally {

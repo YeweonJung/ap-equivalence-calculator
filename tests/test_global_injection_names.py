@@ -54,7 +54,7 @@ def test_catalog_has_sources_and_export_preserves_name_evidence():
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(raw.encode()),'example.csv')})
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames==['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames==['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
     audit=records(wb,'AuditTrail')
     assert audit[0]['recognized_product']=='Rykindo'
     assert audit[0]['product_name_source'].startswith('https://dailymed.nlm.nih.gov/')

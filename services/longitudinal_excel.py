@@ -35,6 +35,8 @@ def export_excel(records, results, details, metadata):
     wb = Workbook(out, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False})
     from services.output_overview import dated_overview, add_xlsxwriter
     date_label = '처방일' if metadata.get('policy') == 'prescription_date' else '기준일'
+    from services.supplemented import append_dated_sheets
+    append_dated_sheets(wb, details, results, date_label)
     add_xlsxwriter(wb, *dated_overview(results), date_label=date_label)
     wb.set_properties({'title': '환자별 날짜별 약물 환산 결과', 'comments': json.dumps(metadata, ensure_ascii=False)})
     methods_present = {r['method'] for r in results}
@@ -128,8 +130,6 @@ def export_excel(records, results, details, metadata):
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))
     write_table(wb, 'AuditTrail', audit_columns, audit_rows())
-    from services.supplemented import append_dated_sheets
-    append_dated_sheets(wb, details, results, date_label)
     wb.close()
     out.seek(0)
     return out

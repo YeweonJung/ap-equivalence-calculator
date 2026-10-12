@@ -26,7 +26,7 @@ def test_export_matches_parse_and_preserves_unresolved_rows():
         assert summary[f"{expected['method']} ({TARGETS[expected['method']]} mg/day)"] == expected['total_equivalent_dose_mg']
     assert wb['MedicationResults'].max_row == 4
     assert any(r['status'] == 'unknown_drug' for r in records(wb, 'MedicationResults'))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
 
 
 

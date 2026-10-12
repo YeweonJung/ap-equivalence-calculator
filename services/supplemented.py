@@ -4,6 +4,8 @@ import io
 import math
 from functools import lru_cache
 from pathlib import Path
+from collections import defaultdict
+from itertools import groupby
 
 from services.converter import available_targets, convert_drug, normalize_target
 from services.excel_tables import write_table
@@ -11,10 +13,10 @@ from services.exclusions import is_excluded, exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 
 PRIORITY = ('CMD', 'MED', 'ED95', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
-POLICY_VERSION = 'supplemented-1.0'
-POLICY_NOTE = ('기본 방법 우선. 계수 부재만 CMD → MED → ED95 → DDD → GARDNER → WOODS → '
-               'CPZ_FGA → CMD_DIRECT → CMD_INDIRECT 순서로 보완. 같은 기준약물로 계산한 혼합 결과이며, '
-               '단일 환산법의 결과가 아닙니다. 미환산 항목이 있으면 총합은 빈칸입니다. ' + POLICY_VERSION)
+POLICY_VERSION = 'supplemented-cases-2.0'
+POLICY_NOTE = ('기본 방법의 값을 유지하고, 계수가 없는 약물을 보완 방법별로 각각 계산합니다. '
+               '한 계산안에는 하나의 보완 방법만 사용합니다. 보완이 필요 없는 방법은 한 번만 표시합니다. '
+               '같은 기준약물로 계산한 혼합 결과이며 미환산 항목이 있으면 총합은 빈칸입니다. ' + POLICY_VERSION)
 SOURCES = {
     'CMD': 'https://pubmed.ncbi.nlm.nih.gov/25841041/',
     'MED': 'https://pubmed.ncbi.nlm.nih.gov/24493852/',
@@ -61,7 +63,7 @@ def convert_with_evidence(frame, method, target):
     return dict(value=value, dose=dose, factor=factor, basis=basis, source=source)
 
 
-def resolve(frame, base, blocker=''):
+def resolve(frame, base, blocker='', fallback=''):
     target = normalize_target(base)
     result = dict(base=base, target=target, actual='', value=None, dose=None,
                   factor=None, source='', basis='', supplemented=False, reason='', status='미환산')
@@ -71,10 +73,14 @@ def resolve(frame, base, blocker=''):
         return {**result, 'value': 0.0, 'status': '대상 외', 'reason': exclusion_basis(frame['drug'])}
     if frame.get('status') not in ('ready', 'converted', 'missing_factor'):
         return {**result, 'reason': frame.get('warning') or frame.get('status_message') or '약물·용량 확인'}
-    # Missing oral correspondence is a formulation problem, not a missing factor.
-    if frame.get('route') == 'injection' and base != 'DDD' and frame.get('oral_equivalent_mg') is None:
+    # A missing oral bridge cannot use oral factors. A separate depot-DDD case
+    # remains valid when the existing injection parser validated its formulation.
+    bridge_missing = frame.get('route') == 'injection' and base != 'DDD' and frame.get('oral_equivalent_mg') is None
+    if bridge_missing and fallback != 'DDD':
         return {**result, 'reason': '검증된 단일 경구 대응용량 없음'}
-    for method in (base,) + tuple(m for m in PRIORITY if m != base):
+    for method in (base,) + ((fallback,) if fallback and fallback != base else ()):
+        if bridge_missing and method != 'DDD':
+            continue
         try:
             evidence = convert_with_evidence(frame, method, target)
         except LookupError:
@@ -86,88 +92,136 @@ def resolve(frame, base, blocker=''):
         fallback = method != base
         return {**result, **evidence, 'actual': method, 'supplemented': fallback,
                 'status': '보완' if fallback else '원래 방법',
-                'reason': '기본 방법 계수 없음' if fallback else ''}
+                'reason': ('단일 경구 대응용량 없음; 제형별 DDD로 보완' if bridge_missing else
+                           '기본 방법 계수 없음') if fallback else ''}
     return {**result, 'reason': '적용 가능한 환산계수 없음'}
 
 
-def frame_rows(audits, methods):
+def medication_entry(frame, patient='P001', day='', blocker=''):
+    return dict(frame=frame, blocker=blocker, patient_id=str(patient), date=day,
+                original=frame.get('original'), drug=frame.get('drug'),
+                sheet=frame.get('sheet', ''), source_row=frame.get('source_row'),
+                column=frame.get('medication_column', ''), start=frame.get('source_start'),
+                note=frame.get('warning', ''))
+
+
+def cases_for_group(entries, methods, patient='P001', day=''):
+    """One base plus one alternative per case, never a Cartesian drug-method mix."""
+    def detail(entry, base, fallback=''):
+        evidence = resolve(entry['frame'], base, entry['blocker'], fallback)
+        return {**{k: v for k, v in entry.items() if k not in ('frame', 'blocker')},
+                **evidence, 'target': TARGETS[base]}
+
+    def case(base, fallback, rows):
+        case_id = base + ('+' + fallback if fallback else '')
+        values = [r['value'] for r in rows if r['value'] is not None]
+        missing = len(rows) - len(values)
+        complete = bool(rows) and missing == 0
+        amount = round(math.fsum(values), 4) if values else None
+        used = {r['actual'] for r in rows if r['actual']}
+        used = [m for m in (base, fallback) if m in used]
+        count = sum(r['supplemented'] for r in rows)
+        status = ('보완 완료' if count else '원래 방법') if complete else '미완료' if rows else '처방 없음'
+        return dict(patient_id=str(patient), date=day, case_id=case_id, base=base,
+                    complement=fallback, target=TARGETS[base], total=amount if complete else None,
+                    partial=amount if not complete else None, status=status, methods=' + '.join(used),
+                    supplemented=count, missing=missing,
+                    note=' · '.join(dict.fromkeys(r['note'] for r in rows if r['note'])),
+                    details=[{**r, 'case_id': case_id} for r in rows])
+
+    for base in methods:
+        original = [detail(entry, base) for entry in entries]
+        unresolved = [i for i, row in enumerate(original) if row['value'] is None]
+        emitted = False
+        if unresolved:
+            for fallback in PRIORITY:
+                if fallback == base or normalize_target(base) not in available_targets(fallback):
+                    continue
+                rows = list(original)
+                for i in unresolved:
+                    rows[i] = detail(entries[i], base, fallback)
+                if any(r['supplemented'] for r in rows):
+                    emitted = True
+                    yield case(base, fallback, rows)
+        if not emitted:
+            yield case(base, '', original)
+
+
+def quick_cases(items, methods):
+    return list(cases_for_group([medication_entry(item) for item in items], methods))
+
+
+def frame_cases(audits, methods, patients):
+    grouped = defaultdict(list)
     for row in audits:
-        for base in methods:
-            result = resolve(row, base)
-            yield dict(patient_id=str(row['patient']), date='', original=row.get('original'),
-                       drug=row.get('drug'), sheet=row.get('sheet'), source_row=row.get('source_row'),
-                       column=row.get('medication_column'), start=row.get('source_start'),
-                       note=row.get('warning', ''), **{**result, 'target': TARGETS[base]})
+        grouped[str(row['patient'])].append(medication_entry(row, row['patient']))
+    for patient in patients:
+        yield from cases_for_group(grouped[str(patient)], methods, patient)
 
 
-def dated_rows(details):
-    """Reuse exactly the selected patient/date rows and their original blockers."""
+def dated_cases(details, results):
+    """Consume the original selected rows; group one patient/date at a time."""
     from services.longitudinal_excel import reason_text
+    groups = {}
+    for r in results:
+        groups.setdefault((r['patient_id'], r['reference_date']), []).append(r['method'])
     details.seek(0)
     text = io.TextIOWrapper(details, encoding='utf-8-sig', newline='')
     try:
-        for row in csv.DictReader(text):
-            reasons = set(filter(None, row['reasons'].split(';'))) - {'missing_factor'}
-            frame = dict(drug=row['canonical'], daily_dose_mg=row['daily_mg'], route='oral',
-                         status='non_target' if row['status'] == 'non_target' else 'ready')
-            result = resolve(frame, row['method'], reason_text(reasons))
-            yield dict(patient_id=row['patient_id'], date=row['reference_date'], original=row['drug'],
-                       drug=row['canonical'], sheet=row['source_sheet'], source_row=int(row['source_row']),
-                       column='', start=None, note=reason_text(row['adjustments'].split(';')),
-                       **{**result, 'target': TARGETS[row['method']]})
+        batches = iter(groupby(csv.DictReader(text), key=lambda r: (r['patient_id'], r['reference_date'])))
+        pending = next(batches, None)
+        for (patient, day), methods in groups.items():
+            entries = []
+            if pending is not None and pending[0] == (patient, day):
+                for _, batch in groupby(pending[1], key=lambda r: (r['source_sheet'], r['source_row'])):
+                    # All methods carry the same input blockers, except missing_factor.
+                    row = next(batch)
+                    reasons = set(filter(None, row['reasons'].split(';'))) - {'missing_factor'}
+                    frame = dict(drug=row['canonical'], original=row['drug'], daily_dose_mg=row['daily_mg'],
+                                 route='oral', status='non_target' if row['status'] == 'non_target' else 'ready',
+                                 sheet=row['source_sheet'], source_row=int(row['source_row']),
+                                 warning=reason_text(row['adjustments'].split(';')))
+                    entries.append(medication_entry(frame, patient, day, reason_text(reasons)))
+                pending = next(batches, None)
+            yield from cases_for_group(entries, methods, patient, day)
     finally:
         text.detach()
 
 
-def write_supplemented(workbook, row_factory, groups, dated=False, date_label='처방일'):
-    """Two streaming passes keep large exports bounded and source rows auditable."""
-    totals = {key: dict(values=[], missing=0, count=0, supplements=0, methods=[], notes=[])
-              for key in groups}
-    for row in row_factory():
-        key = (row['patient_id'], row['date'], row['base'])
-        total = totals[key]
-        total['count'] += 1
-        if row['value'] is None:
-            total['missing'] += 1
-        else:
-            total['values'].append(row['value'])
-        total['supplements'] += int(row['supplemented'])
-        if row['actual'] and row['actual'] not in total['methods']:
-            total['methods'].append(row['actual'])
-        if row['note'] and row['note'] not in total['notes']:
-            total['notes'].append(row['note'])
-
+def write_supplemented(workbook, case_factory, dated=False, date_label='처방일'):
+    """Summary first, provenance second. Recompute by group to bound memory."""
     def summary():
-        for (patient, day, base), total in totals.items():
-            complete = total['count'] > 0 and total['missing'] == 0
-            value = math.fsum(total['values']) if total['values'] else None
-            status = ('보완 완료' if total['supplements'] else '원래 방법') if complete else '미완료' if total['count'] else '처방 없음'
-            yield dict(patient_id=patient, date=day, base=base, target=TARGETS[base],
-                       total=round(value, 4) if complete else None,
-                       partial=round(value, 4) if not complete and value is not None else None,
-                       status=status, supplemented=total['supplements'], missing=total['missing'],
-                       methods=' + '.join(total['methods']),
-                       note=' · '.join(total['notes']))
+        detail_count = 0
+        for index, result in enumerate(case_factory(), 1):
+            detail_count += len(result['details'])
+            if index > 1048575 or detail_count > 1048575:
+                raise ValueError('보완 계산안이 Excel 행 한도를 초과합니다. 환자별로 파일을 나눠 주세요.')
+            yield result
 
-    labels = dict(patient_id='환자 ID', date=date_label, base='기본 방법', target='기준약물',
-                  total='보완 총합 (mg/day)', partial='부분합 (mg/day)', status='처리',
-                  supplemented='보완 약물 수', missing='미환산 수', methods='사용 방법', note='확인할 사항')
     prefix = ['patient_id'] + (['date'] if dated else [])
-    columns = prefix + ['base', 'target', 'total', 'status', 'supplemented', 'missing', 'partial', 'methods', 'note']
+    labels = dict(patient_id='환자 ID', date=date_label, case_id='계산안', base='기본 방법',
+                  target='기준약물', total='보완 총합 (mg/day)', methods='사용 방법', complement='보완 방법',
+                  status='처리', supplemented='보완 약물 수', missing='미환산 수',
+                  partial='부분합 (mg/day)', note='확인할 사항')
+    columns = prefix + ['case_id', 'total', 'target', 'methods', 'complement', 'status', 'missing', 'partial', 'base', 'supplemented', 'note']
     ws = write_table(workbook, '보완합계', columns, summary(), labels=labels,
-                     widths=[18] + ([14] if dated else []) + [18, 14, 20, 16, 14, 12, 20, 30, 48],
+                     widths=[18] + ([14] if dated else []) + [28, 20, 14, 28, 18, 16, 12, 20, 18, 14, 48],
                      number_formats={'total': '0.00', 'partial': '0.00'}, wrap_columns=('note', 'methods'))
     ws.write_comment(0, columns.index('total'), POLICY_NOTE)
 
-    labels = dict(patient_id='환자 ID', date=date_label, base='기본 방법', actual='적용 방법',
+    def details_rows():
+        for result in case_factory():
+            yield from result['details']
+
+    labels = dict(patient_id='환자 ID', date=date_label, case_id='계산안', base='기본 방법', actual='적용 방법',
                   target='기준약물', drug='성분', dose='계산 용량 (mg/day)', factor='적용계수',
                   value='환산값 (mg/day)', status='처리', reason='사유', basis='용량 기준',
                   source='출처', original='원문 약물', sheet='원본 시트', source_row='원본 행',
                   column='원본 열', start='원문 시작위치', note='확인할 사항')
-    columns = prefix + ['base', 'drug', 'actual', 'target', 'dose', 'factor', 'value', 'status',
+    columns = prefix + ['case_id', 'drug', 'actual', 'value', 'target', 'status', 'base', 'dose', 'factor',
                         'reason', 'basis', 'source', 'original', 'sheet', 'source_row', 'column', 'start', 'note']
-    ws = write_table(workbook, '보완근거', columns, row_factory(), labels=labels,
-                     widths=[18] + ([14] if dated else []) + [18, 22, 18, 14, 20, 18, 20, 16, 32, 42, 65, 45, 20, 12, 20, 14, 48],
+    ws = write_table(workbook, '보완근거', columns, details_rows(), labels=labels,
+                     widths=[18] + ([14] if dated else []) + [28, 22, 18, 20, 14, 16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
                      number_formats={c: '0.############' for c in ('dose', 'factor', 'value')},
                      wrap_columns=('reason', 'basis', 'source', 'note'))
     ws.write_comment(0, columns.index('actual'), POLICY_NOTE)
@@ -175,10 +229,9 @@ def write_supplemented(workbook, row_factory, groups, dated=False, date_label='�
 
 def append_frame_sheets(workbook, audits, patient_rows, patient_checks):
     methods = [m for m in METHOD_ORDER if any(c['method'] == m for c in patient_checks)]
-    groups = [(str(r['patient_id']), '', m) for r in patient_rows for m in methods]
-    write_supplemented(workbook, lambda: frame_rows(audits, methods), groups)
+    patients = [r['patient_id'] for r in patient_rows]
+    write_supplemented(workbook, lambda: frame_cases(audits, methods, patients))
 
 
 def append_dated_sheets(workbook, details, results, date_label):
-    groups = [(r['patient_id'], r['reference_date'], r['method']) for r in results]
-    write_supplemented(workbook, lambda: dated_rows(details), groups, dated=True, date_label=date_label)
+    write_supplemented(workbook, lambda: dated_cases(details, results), dated=True, date_label=date_label)

@@ -11,7 +11,7 @@ from services.longitudinal import analyze_export, reference_pairs
 from tests.test_longitudinal import prepared, rx
 
 OLD_SHEETS = ['Results', 'MedicationResults', 'Review', 'AuditTrail']
-ALL_SHEETS = OLD_SHEETS + ['보완합계', '보완근거']
+ALL_SHEETS = ['보완합계', '보완근거'] + OLD_SHEETS
 
 
 def rows(wb, sheet):
@@ -64,7 +64,9 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
 
 def test_selected_method_still_can_use_other_methods_and_partial_is_not_total():
     wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownxyz 2mg\n', 'CMD')
-    result, = rows(wb, '보완합계')
+    results = rows(wb, '보완합계')
+    result = next(r for r in results if r['계산안'] == 'CMD+MED')
+    assert {r['보완 방법'] for r in results} == {'MED', 'ED95', 'DDD', 'GARDNER'}
     assert result['환자 ID'] == '0001'
     assert result['기본 방법'] == 'CMD'
     assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == 15
@@ -85,22 +87,23 @@ def test_dated_blockers_cannot_be_repaired_by_fallback(problem):
     records = prepared(data, 'prescription_date')
     wb = load_workbook(analyze_export(records, [('001', date(2020, 4, 15))],
                                     {'policy': 'prescription_date'}, methods=['CMD'], policy='prescription_date'))
-    summary, = rows(wb, '보완합계')
-    assert summary['보완 총합 (mg/day)'] is None and summary['미환산 수'] > 0
+    assert all(r['보완 총합 (mg/day)'] is None and r['미환산 수'] > 0 for r in rows(wb, '보완합계'))
 
 
 def test_reference_dates_and_no_record_are_preserved():
     records = prepared([rx(drug='Paliperidone 6mg tab', tabs='1')])
     pairs = [('P001', date(2020, 4, 15)), ('P001', date(2021, 1, 1))]
     wb = load_workbook(analyze_export(records, pairs, {}, methods=['CMD']))
-    first, empty = rows(wb, '보완합계')
+    output = rows(wb, '보완합계')
+    first, empty = output[0], output[-1]
     assert first['보완 총합 (mg/day)'] == 15
     assert empty['처리'] == '처방 없음' and empty['보완 총합 (mg/day)'] is None
 
 
 def test_same_patient_dates_not_combined_and_literal_ids():
     wb = upload('HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n=1+1,2026-10-01,Paliperidone 6mg tab,1\n=1+1,2026-10-02,Olanzapine 5mg tab,1\n', 'CMD')
-    first, second = rows(wb, '보완합계')
+    output = rows(wb, '보완합계')
+    first, second = output[0], output[-1]
     assert first['환자 ID'] == second['환자 ID'] == '=1+1'
     assert first['보완 총합 (mg/day)'] == 15 and second['보완 총합 (mg/day)'] == 5
     assert not any(c.data_type == 'f' or c.hyperlink for ws in wb for row in ws for c in row)

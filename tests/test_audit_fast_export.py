@@ -15,7 +15,7 @@ def test_audit_restores_mass_assumptions_and_unconverted_records():
     response = app.test_client().post('/upload', data={'file':(io.BytesIO(raw.encode()),'input.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames == ['Results', 'MedicationResults', 'Review', 'AuditTrail', '보완합계', '보완근거']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 4
     assert [r['status'] for r in audit] == ['converted','converted','unknown_drug','non_target']

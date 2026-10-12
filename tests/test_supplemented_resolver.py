@@ -5,12 +5,12 @@ from services.frames import convert_frame, parse_frames
 from services.supplemented import PRIORITY, resolve
 
 
-def converted(text, method):
+def converted(text, method, fallback=''):
     frames = parse_frames(text)
     assert len(frames) == 1
     frame = frames[0]
     item = convert_frame(frame, [method])
-    return frame, item, resolve(item, method)
+    return frame, item, resolve(item, method, fallback=fallback)
 
 
 def assert_evidence_arithmetic(result, drug, method, target):
@@ -20,7 +20,7 @@ def assert_evidence_arithmetic(result, drug, method, target):
 
 
 def test_oral_paliperidone_falls_back_from_cmd_to_med_at_olanzapine_target():
-    frame, item, result = converted("paliperidone 6mg", "CMD")
+    frame, item, result = converted("paliperidone 6mg", "CMD", "MED")
 
     assert item["conversions"][0]["value"] is None
     assert frame["route"] == "oral"
@@ -31,7 +31,7 @@ def test_oral_paliperidone_falls_back_from_cmd_to_med_at_olanzapine_target():
 
 
 def test_clopenthixol_falls_back_from_ddd_to_gardner():
-    _, item, result = converted("clopenthixol 60mg", "DDD")
+    _, item, result = converted("clopenthixol 60mg", "DDD", "GARDNER")
 
     assert item["conversions"][0]["value"] is None
     assert result["actual"] == "GARDNER"
@@ -41,7 +41,7 @@ def test_clopenthixol_falls_back_from_ddd_to_gardner():
 
 
 def test_cpz_fga_fallback_keeps_chlorpromazine_target():
-    _, item, result = converted("paliperidone 6mg", "CPZ_FGA")
+    _, item, result = converted("paliperidone 6mg", "CPZ_FGA", "DDD")
 
     assert item["conversions"][0]["target"] == "chlorpromazine"
     assert item["conversions"][0]["value"] is None
@@ -52,7 +52,7 @@ def test_cpz_fga_fallback_keeps_chlorpromazine_target():
 
 
 def test_ed95_fallback_uses_same_risperidone_target_for_other_method():
-    _, item, result = converted("clopenthixol 60mg", "ED95")
+    _, item, result = converted("clopenthixol 60mg", "ED95", "GARDNER")
 
     assert item["conversions"][0]["target"] == "risperidone"
     assert item["conversions"][0]["value"] is None

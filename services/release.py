@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.12-supplemented-equivalents'
+VERSION = '2026.10.12-supplemented-cases'
 
 
 def metadata():
@@ -12,7 +12,7 @@ def metadata():
     from services.feedback_learning import enabled, MODEL_VERSION
     root = Path(__file__).resolve().parents[1]
     return {'version': VERSION, 'commit': os.getenv('RENDER_GIT_COMMIT', ''),
-            'supplemented_policy': POLICY_VERSION, 'supplemented_priority': list(PRIORITY),
+            'supplemented_policy': POLICY_VERSION, 'supplemented_case_methods': list(PRIORITY),
             'name_llm_enabled': False,
             'name_llm_backend': None,
             'name_llm_worker_online': False,
