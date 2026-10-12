@@ -20,7 +20,9 @@
     "services/parser.py",
     "services/structured.py",
     "services/injections.py",
-    "tests/quick_check_ui.cjs"
+    "tests/quick_check_ui.cjs",
+    "tests/test_character_review.py",
+    "tests/test_quick_export.py"
   ],
   "original_source_sha256_lf": {
     "app.py": "b6c52161f0450ea727533483f1765b1c2449b9e36736cc4d6cb07fef6a992978",
@@ -90,7 +92,7 @@
     "services/converter.py": "365d4f60ff473cbfac8f542f195677752bd1df7836b1ad063b424ca4780e4348",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "50a3b20cc1b1abe51a9c20d202b16705395dc6f74918375475f7988b3f4632b0",
+    "services/exporter.py": "963f2929a4b36cd66f039e130d0a6aeb063dcb4119ac11adce478e0702326481",
     "services/file_reader.py": "ce58251292b168941e40d0e5aeefbfc5a272bc636e3fdd729a7eba4aec039301",
     "services/frames.py": "0b253d15b077715a1640a4faa302ededaed07b4096e9d3bb96a05bd72c3b2147",
     "services/injections.py": "8a29f1d62fac909b7c0830284e5235002e4194c4970505e5a5bd54c4752cf38e",
@@ -105,26 +107,26 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "6fe14cb544c4237b2c6a127946d4a69faca51b1454fc4b88982e544626d26f9c",
-    "services/release.py": "799c43d9339ac208243e99259a508bfdce59af2b50e512c2216a134a93ea960f",
+    "services/release.py": "36f1af756b935492cfa84298a41e0542cbb1e9fa0a29921542928a7c1e2e85df",
     "services/result_summary.py": "befd2dcac70070744b92125ca0e8ecd7f763873b44755d3611e75dab1038c073",
     "services/structured.py": "093213651a6dd77472efe91bcffd7892fd0c878d2ba97411c53c226ca706b4c1",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "1050d17e05a2c1b22d3a235fc9d26c240695a9989026bcb4bf0fa8b7e2739def",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "4d1f377c2dc7de9e5032fc1b492f5a48048db533b95b9b02f30c4f037bf8d247",
+    "templates/index.html": "4d0431fd3e01091836dd56e5d599d5a4af67c5782a124fa18b3634455347787b",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
     "tests/quick_check_ui.cjs": "a0380063bf566d2d877fbe8614e5eb729abc1bdbe474744ae1507478524c0da2",
-    "tests/test_character_review.py": "820e896b8664ccdf4954e7bed85be4784ce60b3e7313db4bf3c4ee9dc0a8240e",
-    "tests/test_equivalence_update.py": "41687cd39e037fc190c72f6a8a455ea05e622effdc07cf74798f91161d1c82a5",
-    "tests/test_frames.py": "ba946fbc48acac7a21833ece092dac2cf5847fb6b7f12951bc8544fe7a53d2e6",
-    "tests/test_integration.py": "159a325703b9e9f011c7eea25eca9d703d6f3cf87951b022a8d83c38376288af",
-    "tests/test_lai_methods.py": "820b1640e70341641435b20beef5785e40d64f0432bf7482f95e80fbd1634a1a",
+    "tests/test_character_review.py": "73bee945da9d303903ae7ff37771c6c46fa6c6923f3c09b5831bf35547c0c171",
+    "tests/test_equivalence_update.py": "d8ccdf93a1647ecfdaf57fe671b4e90349f176bd633129817559b655d24331c4",
+    "tests/test_frames.py": "fef90e625bb36e1c9ebe3a5cd66d4e63b2a54a4baa8b414fd1ddd636da63c6d5",
+    "tests/test_integration.py": "2cc6d600d324ff5ae6d384ce46eb37fc1b82e11bc29a2a4d25420c2a27c10bea",
+    "tests/test_lai_methods.py": "e0dd7fdec76e6e2a8f2395964b577a770680c8c5df260a0de1fb37d18dc72ac3",
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "d8e099dc52f5d166d1e32fb42f90e1825608fdee18bd42a5e357be83cda7cc24",
-    "tests/test_quick_export.py": "5bd2ebc615c028b2e46f8c171e259ace953328f78287d6e3835956ae64a6489b",
-    "tests/test_results_injections.py": "d5f77de3b5a15b645650d44f7c7c841097abf93f6c23179c60c6902f476d7913",
+    "tests/test_quick_export.py": "2c821ac71274de0bf23dafca6fa6be929160afdf92e9c2ad54da76ee072fa643",
+    "tests/test_results_injections.py": "459187d94438487f63bdf179eeac6d1ed33016ebda63f94b68127342999e1d69",
     "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
   },
   "patient_results_change": {
@@ -224,5 +226,6 @@
   "audit_fast_review": "User requested AuditTrail restored as a fourth visible sheet. Restore full per-medication audit and all dated source rows; write row-wise with shared XlsxWriter formats; precompile unchanged alias patterns. No automatic search or AI calls; conversion tables and totals unchanged.",
   "injection_release_review": "2026-09-28 user-authorized official-label risperidone product mappings; immutable oral factors; faster identical dictionary matching and Excel reads.",
   "product_alias_review": "User requested explicit Korean/English product spelling variants; shared identity dictionary, no fuzzy confirmation or factor changes.",
-  "global_injection_names_review": "User requested web-researched aliases. Reviewed catalog with source/date and review-only formulation guards; existing oral factors and archived AI artifacts unchanged."
+  "global_injection_names_review": "User requested web-researched aliases. Reviewed catalog with source/date and review-only formulation guards; existing oral factors and archived AI artifacts unchanged.",
+  "supplemented_review": "2026-10-12: user authorized separate supplemented totals and medication provenance sheets, base-first fixed fallback priority, same reference drug, unchanged pure sheets/factors and unresolved input guards; GitHub and Render release authorized."
 }

@@ -128,6 +128,8 @@ def export_excel(records, results, details, metadata):
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))
     write_table(wb, 'AuditTrail', audit_columns, audit_rows())
+    from services.supplemented import append_dated_sheets
+    append_dated_sheets(wb, details, results, date_label)
     wb.close()
     out.seek(0)
     return out

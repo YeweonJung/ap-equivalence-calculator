@@ -19,7 +19,7 @@ def text_height(value, width):
     return min(409, max(22, lines * 17 + 4))
 
 
-def write_table(workbook, name, columns, rows, widths=None, labels=None):
+def write_table(workbook, name, columns, rows, widths=None, labels=None, number_formats=None, wrap_columns=()):
     sheet = workbook.add_worksheet(name)
     header = workbook.add_format({'bold': True, 'font_color': '#222222', 'bg_color': '#EEEEEE',
                                   'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
@@ -27,6 +27,9 @@ def write_table(workbook, name, columns, rows, widths=None, labels=None):
     wrapped = workbook.add_format({'valign': 'top', 'text_wrap': True})
     number = workbook.add_format({'valign': 'top', 'num_format': 'General' if name == 'AuditTrail' else '0.00'})
     requested_widths = widths
+    wrapping = WRAPPED | set(wrap_columns)
+    custom_formats = {c: workbook.add_format({'valign': 'top', 'num_format': f})
+                      for c, f in (number_formats or {}).items()}
     widths, formats = [], []
     for i, column in enumerate(columns):
         width = 55 if column in WRAPPED else 22 if column in ('parsed', '약물') else 20
@@ -36,12 +39,12 @@ def write_table(workbook, name, columns, rows, widths=None, labels=None):
         if numeric: width = 18
         if requested_widths: width = requested_widths[i]
         widths.append(width)
-        formats.append(wrapped if column in WRAPPED else number if numeric else plain)
+        formats.append(custom_formats.get(column) or (wrapped if column in wrapping else number if numeric else plain))
         sheet.set_column(i, i, width, formats[-1])
     headings = [labels.get(c, c) for c in columns] if labels else columns
     sheet.set_row(0, max(text_height(h, widths[i]) for i, h in enumerate(headings)))
     sheet.write_row(0, 0, headings, header)
-    wrapped_indices = [i for i, c in enumerate(columns) if c in WRAPPED]
+    wrapped_indices = [i for i, c in enumerate(columns) if c in wrapping]
     count = 0
     for count, row in enumerate(rows, 1):
         values = [safe_value(row.get(c), c) for c in columns]

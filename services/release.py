@@ -3,14 +3,16 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.01-quick-method-totals'
+VERSION = '2026.10.12-supplemented-equivalents'
 
 
 def metadata():
+    from services.supplemented import POLICY_VERSION, PRIORITY
     from services.feedback_store import configured
     from services.feedback_learning import enabled, MODEL_VERSION
     root = Path(__file__).resolve().parents[1]
     return {'version': VERSION, 'commit': os.getenv('RENDER_GIT_COMMIT', ''),
+            'supplemented_policy': POLICY_VERSION, 'supplemented_priority': list(PRIORITY),
             'name_llm_enabled': False,
             'name_llm_backend': None,
             'name_llm_worker_online': False,
