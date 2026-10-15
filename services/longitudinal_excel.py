@@ -23,6 +23,7 @@ REASONS = {
     'oral_solid_unconfirmed': '경구 정제·캡슐 여부 확인',
     'injection_requires_review': '주사제 투여 정보 확인', 'variable_schedule': '복용 일정 확인',
     'missing_factor': '환산 계수 없음',
+    'injection_quantity_ambiguous': '주사 수량 확인: 하루 정 수를 주사 용량에 곱하지 않음',
 }
 
 
@@ -90,6 +91,7 @@ def export_excel(records, results, details, metadata):
                 issues.setdefault(key, set()).update(flags)
             missing = [r['method'] for r in batch if 'missing_factor' in r['reasons'].split(';')]
             note = (exclusion_basis(first['canonical']) + '. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
+            note = '; '.join(filter(None, [note, original.get('injection_error'), original.get('injection_frame', {}).get('calculation_note')]))
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
             append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical'], original['daily_mg']] +
                    [values.get(m) for m in methods] + [exclusion_label(first['canonical']) + ' (0)' if first['status'] == 'non_target' else '확인 필요' if flags else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
@@ -103,6 +105,7 @@ def export_excel(records, results, details, metadata):
         if key in issues or excluded:
             info = review_fields(r['canonical']) if excluded else {}
             note = '; '.join(filter(None, [exclusion_basis(r['canonical']) if excluded else '', reason_text(issues.get(key, set()))]))
+            note = '; '.join(filter(None, [note, r.get('injection_error')]))
             append(review_sheet, [r['patient'], r['date'], r['drug'], note, r['product'], *key, r['days'], r['daily'], r['duplicate_of'],
                                   info.get('recognized_drug'), info.get('drug_group'), info.get('calculation'), info.get('equivalent_contribution')])
             review_count += 1
@@ -115,7 +118,7 @@ def export_excel(records, results, details, metadata):
     audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product',
                      'prescription_date', 'days', 'daily_tablets', 'canonical',
                      'formulation', 'strength_mg', 'daily_mg', 'kind', 'drug_class', 'exclusion_basis', 'issues',
-                     'adjustments', 'duplicate_of', 'original_end', 'effective_end']
+                     'adjustments', 'duplicate_of', 'original_end', 'effective_end', 'injection_evidence', 'injection_error']
     def audit_rows():
         for r in records:
             def last_day(end):
@@ -128,7 +131,9 @@ def export_excel(records, results, details, metadata):
                        exclusion_basis=exclusion_basis(r['canonical']) if r['canonical'] in EXCLUDED_INGREDIENTS and r['kind'] == 'non_target' else '',
                        issues=';'.join(sorted(issues.get((r['source_sheet'], r['source_row']), set()))),
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
-                       original_end=last_day(r['end']), effective_end=last_day(r['effective_end']))
+                       original_end=last_day(r['end']), effective_end=last_day(r['effective_end']),
+                       injection_evidence=json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else '',
+                       injection_error=r.get('injection_error', ''))
     write_table(wb, 'AuditTrail', audit_columns, audit_rows())
     wb.close()
     out.seek(0)

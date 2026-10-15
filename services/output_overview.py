@@ -24,7 +24,7 @@ def patient_overview(rows, audits, checks):
             elif status in ('review', 'missing_unit'): notes.append('용량·단위 확인')
             if item.get('unit_assumed'): notes.append('mg 단위 가정')
             if item.get('frequency') == 'ASSUMED_QD': notes.append('1일 1회 가정')
-            if item.get('route') == 'injection' and status == 'converted': notes.append('주사제 환산 가정 확인')
+            if item.get('route') == 'injection' and status == 'converted': notes.append('주사제 계산 근거는 상세 시트 참조')
             if item.get('match_type') == 'user_confirmed_alias': notes.append('확인된 약어 적용')
         if 'ID 누락' in row.get('확인할 내용', ''): notes.append('환자 ID 확인')
         if not by_patient[str(row['patient_id'])]: notes.append('약물 입력 확인')

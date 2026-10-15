@@ -16,7 +16,7 @@ from services.parser import dictionary_match, DOSE_RE, _dose_to_mg
 from services.frames import formulation_info, antidepressant_conflict, drug_mentions
 from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS
 
-RULE_VERSION = 'prescription-date-2.0'
+RULE_VERSION = 'prescription-date-2.1-lai'
 FIELDS = {
     'patient': ['HID', 'patient_id', 'subject_id', '피험자ID', '환자ID', '연구번호'],
     'date': ['PRESCR_DATE', 'prescription_date', 'rx_date', '처방일', '처방일자'],
@@ -160,7 +160,22 @@ def prepare(frame, mapping, policy='review', provenance=None):
         name, form, strength, issues, kind = medication(r['drug'], r['product'])
         r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind)
         r['issues'].extend(issues)
-        if kind == 'non_target' and name in EXCLUDED_INGREDIENTS:
+        if form.startswith('injection') and policy == 'prescription_date' and name in TARGETS:
+            from services.dated_injections import prepare_injection
+            try:
+                injection = prepare_injection(r['drug'], r['product'], name)
+                # Only formulation/strength issues explicitly validated above are cleared.
+                cleared = {'injection_requires_review', 'strength_missing', 'product_strength_missing', 'strength_conflict'}
+                r['issues'] = [issue for issue in r['issues'] if issue not in cleared]
+                r.update(injection_frame=injection, daily_mg=injection['daily_dose_mg'],
+                         strength_mg=injection['dose_mg'])
+                if r['daily'] and daily != 1:
+                    r['issues'].append('injection_quantity_ambiguous')
+                r['kind'] = 'review' if r['issues'] else 'ready'
+            except ValueError as exc:
+                r['injection_error'] = str(exc)
+                r['kind'] = 'review'
+        elif kind == 'non_target' and name in EXCLUDED_INGREDIENTS:
             pass  # Dose is irrelevant to AP exclusion; preserve raw source fields.
         elif daily is None or daily > 100:
             r['issues'].append('invalid_daily_tablets')
@@ -270,10 +285,14 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
                 if is_antidepressant:
                     value = 0.0
                 elif not flags:
-                    key = (r['canonical'], r['daily_mg'], method)
+                    key = (r['canonical'], r['daily_mg'], method, json.dumps(r.get('injection_frame'), sort_keys=True))
                     if key not in conversions:
                         try:
-                            conversions[key] = convert_drug(*key[:2], method=method)
+                            if r.get('injection_frame'):
+                                from services.lai_support import convert_injection
+                                conversions[key] = convert_injection(r['injection_frame'], method, targets[method])
+                            else:
+                                conversions[key] = convert_drug(*key[:2], method=method)
                         except LookupError:
                             conversions[key] = None
                     value = conversions[key]
@@ -281,6 +300,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
                         flags.append('missing_factor')
                 rows_for_method[method].append(value)
                 detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='non_target' if is_antidepressant else 'review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']))
+                detail['injection_evidence'] = json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else ''
                 (detail_sink or details.append)(detail)
         for method in methods:
             values = rows_for_method[method]
@@ -316,7 +336,9 @@ def export_zip(records, results, details, metadata):
         for r in records:
             def last_day(end):
                 return (end - timedelta(days=1)).isoformat() if end else ''
-            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'])
+            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
+                       injection_evidence=json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else '',
+                       injection_error=r.get('injection_error', ''))
     out = io.BytesIO()
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         for name, rows in [('Results.csv', results), ('MedicationResults.csv', details),

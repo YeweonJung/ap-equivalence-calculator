@@ -171,6 +171,7 @@ def _frame(start, end, original):
             if len(doses) != 1:
                 raise ValueError('확인바람: 주사 용량을 하나로 확정할 수 없습니다.')
             frame.update(injection_values(frame))
+            frame['needs_review'] |= match_type != 'exact'
         except ValueError as exc:
             status = 'unsupported_formulation'
             frame['warning'] = str(exc)

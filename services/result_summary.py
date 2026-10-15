@@ -12,7 +12,7 @@ def result_rows(original, patient, items):
     rows = []
     for item in items:
         row = dict(patient=patient, original=original, 약물=item.get('drug') or item['original'])
-        notes = list(filter(None, [item.get('error'), item.get('warning')]))
+        notes = list(filter(None, [item.get('error'), item.get('warning'), item.get('calculation_note')]))
         missing = [c['method'] for c in item['conversions'] if c['value'] is None]
         if missing:
             notes.append('환산 계수 또는 제형별 근거 없음: ' + ', '.join(missing))

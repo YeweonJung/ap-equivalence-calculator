@@ -58,6 +58,11 @@ async function main() {
   const rendered=vm.runInContext('itemHtml(item,0)',context);
   assert(rendered.includes('해당 방법의 계수 없음'));
   assert(rendered.includes('&lt;script&gt;'));
+  context.item={ok:true,drug:'risperidone',route:'injection',needs_review:false,
+    status_message:'환산 완료',warning:'',calculation_note:'경구 대응용량 기반 추정 <script>',conversions:[]};
+  const injectionHtml=vm.runInContext('itemHtml(item,0)',context);
+  assert(injectionHtml.includes('경구 대응용량 기반 추정 &lt;script&gt;'));
+  assert(!injectionHtml.includes('검토 필요'));
   context.item={ok:false,original:'risperidnoe 2mg',error:'약물 미확인',
     suggestions:[{alias:'risperidone',drug:'risperidone',distance:1,explanation:'9번째 순서 교환: no → on <unsafe>'}]};
   const candidateHtml=vm.runInContext('itemHtml(item,0)',context);

@@ -15,7 +15,8 @@ def test_label_volume_does_not_change_injection_dose(dose, volume, suffix):
     assert actual['dose_mg'] == dose
     assert actual['injection_volume_ml'] == volume
     assert actual['daily_dose_mg'] == pytest.approx(baseline['daily_dose_mg'])
-    assert '주사액 부피' in actual['warning']
+    assert '주사액 부피' in actual['calculation_note']
+    assert actual['warning'] == '' and not actual['needs_review']
     actual = convert_frame(actual, ['DDD', 'CMD'])
     baseline = convert_frame(baseline, ['DDD', 'CMD'])
     assert actual['conversions'] == baseline['conversions']

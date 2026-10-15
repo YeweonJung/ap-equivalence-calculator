@@ -39,7 +39,7 @@ function itemHtml(item, index) {
   }).join('')}</tbody></table>`;
   const steps = item.route === 'injection' && item.active_moiety_mg != null
     ? `입력 ${escapeHtml(item.input_dose_mg)} mg → 활성성분 ${escapeHtml(item.active_moiety_mg)} mg / ${escapeHtml(item.interval_days)}일 → 경구 대응 ${item.oral_equivalent_mg == null ? '단일값 없음' : escapeHtml(item.oral_equivalent_mg) + ' mg/day'}<br>` : '';
-  return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}</div></div>`;
+  return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.calculation_note || '')} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}</div></div>`;
 }
 
 function totalsHtml(totals, count) {

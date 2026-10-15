@@ -7,7 +7,8 @@ from services.lai_mass import normalize_mass
 
 OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
 
-DEPOT_DDD = {'paliperidone': 2.5, 'aripiprazole': 13.3, 'risperidone': 2.7, 'olanzapine': 10}
+DEPOT_DDD = {'paliperidone': 2.5, 'aripiprazole': 13.3, 'risperidone': 2.7, 'olanzapine': 10, 'haloperidol': 3.3}
+HAL_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AD01'
 SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AX&showdescription=yes'
 CPZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01'
 
@@ -32,10 +33,12 @@ def injection_values(frame):
         raise ValueError('확인바람: 지원 주사제와 양의 투여용량이 필요합니다.')
     if re.search(r'loading|initiat|initio|초회|초기|부하|누락|재시작|missed|restart|day\s*[18]\b|PRN', text, re.I):
         raise ValueError('확인바람: 초기·부하·필요시 주사는 유지요법 DDD로 환산하지 않습니다.')
-    if re.search(r'\b(?:QD|BID|TID|QID|QHS|QAM|QOD|daily|q\d+h)\b|매일|1일|하루', text, re.I):
+    if re.search(r'\b(?:QD|BID|TID|QID|QHS|QAM|QOD|daily|q\d+h)\b|매일|(?<!\d)1일(?!\s*(?:간격|마다))|하루', text, re.I):
         raise ValueError('확인바람: LAI 투여간격과 일일 복용빈도가 함께 입력되었습니다.')
     profile = profile_for(text, drug, dose)
-    is_sc = profile in ('RIS_UZEDY', 'RIS_PERSERIS')
+    if drug == 'haloperidol' and re.search(r'ester|염\s*질량|에스터', text, re.I):
+        raise ValueError('확인바람: haloperidol base 표시량으로 입력해 주세요. 에스터 질량을 역산하지 않습니다.')
+    is_sc = profile in ('RIS_UZEDY', 'RIS_PERSERIS', 'RIS_LONGAVO')
     if re.search(r'\b(?:oral|tablet|capsule|PO)\b|경구|정제|캡슐', text, re.I):
         raise ValueError('확인바람: 주사 제품명과 경구 투여 표기가 충돌합니다.')
     if re.search(r'\bIV\b|intravenous|정맥', text, re.I):
@@ -55,7 +58,7 @@ def injection_values(frame):
     if bridge['oral_bridge_source'] and frame.get('product_name_source'):
         bridge['oral_bridge_source'] = '; '.join(dict.fromkeys(
             [frame['product_name_source'], bridge['oral_bridge_source']]))
-    warning = '확인바람: 유지요법 주사제 DDD 환산' + interval_note
+    warning = '유지요법 주사제 DDD 환산' + interval_note
     if volume_ml is not None:
         warning += f'; 주사액 부피 {volume_ml:g}mL는 용량 계산에서 제외, 표시 용량 {frame["dose_mg"]:g}mg 사용'
     if drug == 'paliperidone':
@@ -71,5 +74,5 @@ def injection_values(frame):
     daily = dose / days
     return dict(interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, **mass,
                 injection_cpz_ddd=daily / DEPOT_DDD[drug] * 300,
-                conversion_basis='WHO depot DDD', conversion_source=OLZ_SOURCE if drug == 'olanzapine' else SOURCE, **bridge,
-                warning=warning, needs_review=True)
+                conversion_basis='WHO depot DDD', conversion_source=OLZ_SOURCE if drug == 'olanzapine' else HAL_SOURCE if drug == 'haloperidol' else SOURCE, **bridge,
+                calculation_note=warning, warning='', needs_review=False)

@@ -1,6 +1,7 @@
 """Separate, traceable mixed-method estimates; pure-method exports stay intact."""
 import csv
 import io
+import json
 import math
 from functools import lru_cache
 from pathlib import Path
@@ -102,7 +103,7 @@ def medication_entry(frame, patient='P001', day='', blocker=''):
                 original=frame.get('original'), drug=frame.get('drug'),
                 sheet=frame.get('sheet', ''), source_row=frame.get('source_row'),
                 column=frame.get('medication_column', ''), start=frame.get('source_start'),
-                note=frame.get('warning', ''))
+                note='; '.join(filter(None, [frame.get('warning'), frame.get('calculation_note')])))
 
 
 def cases_for_group(entries, methods, patient='P001', day=''):
@@ -181,6 +182,8 @@ def dated_cases(details, results):
                                  route='oral', status='non_target' if row['status'] == 'non_target' else 'ready',
                                  sheet=row['source_sheet'], source_row=int(row['source_row']),
                                  warning=reason_text(row['adjustments'].split(';')))
+                    if row.get('injection_evidence'):
+                        frame.update(json.loads(row['injection_evidence']))
                     entries.append(medication_entry(frame, patient, day, reason_text(reasons)))
                 pending = next(batches, None)
             yield from cases_for_group(entries, methods, patient, day)

@@ -66,38 +66,38 @@
   {
     "product": "Longavo",
     "drug": "risperidone",
-    "profile": "RIS_LONGAVO_REVIEW",
+    "profile": "RIS_LONGAVO",
     "aliases": [
       "longavo"
     ],
     "source": "https://pdf.hres.ca/dpd_pm/00080831.PDF",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "캐나다 제품의 허가 간격 별도 검증; 미국 UZEDY 간격을 자동 적용하지 않음"
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "캐나다 허가표: 50/75/100/125mg 월 1회; 경구 2/3/4/5mg 대응. 두 달 간격 제외."
   },
   {
     "product": "Rykindo",
     "drug": "risperidone",
-    "profile": "RIS_RYKINDO_REVIEW",
+    "profile": "RIS_RYKINDO",
     "aliases": [
       "rykindo"
     ],
     "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=58534c96-96f5-4c2e-a061-92d4506aee91",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "25/37.5/50mg 14일 유지요법: depot DDD만; 단일 경구 대응값 없음."
   },
   {
     "product": "Risvan",
     "drug": "risperidone",
-    "profile": "RIS_RISVAN_REVIEW",
+    "profile": "RIS_RISVAN",
     "aliases": [
       "risvan"
     ],
     "source": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/214835s000lbl.pdf",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "공식 과거 허가문서 기반 이름 인식; Okedi 28일 표와 자동 병합하지 않음"
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "미국 2024 허가표: 75/100mg 월 1회와 경구 3/4mg 대응. Okedi 28일 표와 구분."
   },
   {
     "product": "Dongkook risperidone depot",
@@ -128,40 +128,40 @@
   {
     "product": "Niapelf",
     "drug": "paliperidone",
-    "profile": "PAL_NIAPELF_REVIEW",
+    "profile": "PP1M",
     "aliases": [
       "niapelf"
     ],
-    "source": "https://www.ema.europa.eu/en/medicines/human/EPAR/niapelf",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "source": "https://cima.aemps.es/cima/dochtml/ft/1241795003/FT_1241795003.html",
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "제품 허가표의 월 유지요법 및 활성성분 표시량 확인; 기존 PP1M 경구 대응표와 동일."
   },
   {
     "product": "Palmeux",
     "drug": "paliperidone",
-    "profile": "PAL_PALMEUX_REVIEW",
+    "profile": "PP1M",
     "aliases": [
       "palmeux"
     ],
-    "source": "https://www.advanzpharma.com/news/2023/advanz-pharma-launches-palmeux-paliperidone-1-month-long-acting-injection-across-various-european-countries",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "source": "https://cima.aemps.es/cima/dochtml/ft/86754/FT_86754.html",
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "제품별 월 유지요법 경구 대응표; 활성성분 표시량 기준."
   },
   {
     "product": "Paliperidone Teva injection",
     "drug": "paliperidone",
-    "profile": "PAL_TEVA_REVIEW",
+    "profile": "PP1M",
     "aliases": [
       "paliperidone teva injection",
       "paliperidone teva inj",
       "paliperidone teva prolonged release suspension"
     ],
-    "source": "https://www.hpra.ie/img/uploaded/swedocuments/Licence_PA0436-050-001_23022024160349.pdf",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "source": "https://assets.hpra.ie/products/Human/37833/Licence_PA0436-050-003_23022024160349.pdf",
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "제품 허가표의 활성성분 25/50/75/100/150mg 월 유지요법, 경구 3/3/6/9/12mg 대응."
   },
   {
     "product": "Paliperidone Mercury Pharma injection",
@@ -180,28 +180,28 @@
   {
     "product": "Haldol Decanoate",
     "drug": "haloperidol",
-    "profile": "HAL_DECANOATE_REVIEW",
+    "profile": "HAL_DECANOATE",
     "aliases": [
       "haldol decanoate",
       "haloperidol decanoate"
     ],
     "source": "https://www.medicines.org.uk/emc/product/15245/smpc",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "총 표시량 haloperidol base mg, 명시된 28일 간격, 300mg 이하 유지요법. WHO depot DDD 3.3mg; 단일 경구 역산 금지."
   },
   {
     "product": "Haldol Decanoate Korean name",
     "drug": "haloperidol",
-    "profile": "HAL_DECANOATE_REVIEW",
+    "profile": "HAL_DECANOATE",
     "aliases": [
       "할돌 데카노아스",
       "할로페리돌 데카노에이트"
     ],
-    "source": "https://health.kr/searchDrug/result_drug.asp?drug_cd=A11ABBBBB2722",
-    "checked_on": "2026-09-28",
-    "policy": "review",
-    "note": "제품명과 성분은 확인됨; 제품별 환산 검증 전이므로 계산 보류"
+    "source": "https://www.medicines.org.uk/emc/product/15245/smpc",
+    "checked_on": "2026-10-15",
+    "policy": "supported",
+    "note": "총 표시량 haloperidol base mg, 명시된 28일 간격, 300mg 이하 유지요법. WHO depot DDD 3.3mg; 단일 경구 역산 금지."
   },
   {
     "product": "Depixol depot",

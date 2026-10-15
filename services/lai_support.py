@@ -11,12 +11,17 @@ PAL_ORAL = {'PP1M': {25: 3, 50: 3, 75: 6, 100: 9, 150: 12},
             'PP3M': {175: 3, 263: 6, 350: 9, 525: 12}, 'PP6M': {700: 9, 1000: 12}}
 OLZ_ORAL = {(150, 14): 10, (300, 28): 10, (210, 14): 15, (405, 28): 15, (300, 14): 20}
 LABELS.update({
+    'RIS_LONGAVO': 'https://pdf.hres.ca/dpd_pm/00080831.PDF',
+    'RIS_RYKINDO': 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=58534c96-96f5-4c2e-a061-92d4506aee91',
+    'RIS_RISVAN': 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2024/214835s000lbl.pdf',
+    'HAL_DECANOATE': 'https://www.medicines.org.uk/emc/product/15245/smpc',
     'RIS_UZEDY': 'https://www.uzedy.com/globalassets/uzedy/prescribing-information.pdf',
     'RIS_PERSERIS': 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a4f21b1a-5691-4b14-a56d-651962d06f39',
     'RIS_MICROSPHERES': 'https://www.jnjlabels.com/package-insert/product-monograph/prescribing-information/RISPERDAL%20CONSTA-pi.pdf',
 })
 # Product label oral-dose correspondence; not direct LAI equivalence factors.
 RIS_SC_ORAL = {
+    'RIS_LONGAVO': {(50, 30): 2, (75, 30): 3, (100, 30): 4, (125, 30): 5},
     'RIS_UZEDY': {(50, 30): 2, (75, 30): 3, (100, 30): 4, (125, 30): 5,
                   (100, 60): 2, (150, 60): 3, (200, 60): 4, (250, 60): 5},
     'RIS_PERSERIS': {(90, 30): 3, (120, 30): 4},
@@ -83,7 +88,7 @@ def product_evidence(text):
         return {}
     evidence = dict(recognized_product='; '.join(dict.fromkeys(r['product'] for r in records)),
                     product_name_source='; '.join(dict.fromkeys(r['source'] for r in records)),
-                    product_name_checked_on='2026-09-28')
+                    product_name_checked_on='; '.join(dict.fromkeys(r['checked_on'] for r in records)))
     profiles = {r['profile'] for r in records}
     if len(profiles) == 1:
         evidence['lai_profile'] = next(iter(profiles))
@@ -116,7 +121,8 @@ def interval_days(text, profile):
     for pattern, unit in [(r'\bq\s*' + number + r'\s*(?:d|days?)(?![a-z])', 'day'),
                           (r'\bq\s*' + number + r'\s*(?:w|wk|weeks?)(?![a-z])', 'week'),
                           (r'\bq\s*' + number + r'\s*(?:mo|months?)(?![a-z])', 'month'),
-                          (number + r'\s*개월', 'month'), (number + r'\s*주\s*(?:마다|간격)', 'week'),
+                          (number + r'\s*개월', 'month'), (number + r'\s*주(?:\s*(?:마다|간격))?(?![가-힣])', 'week'),
+                          (number + r'\s*일\s*(?:마다|간격)', 'day'),
                           (r'\bevery\s+' + number + r'\s+days?\b', 'day'),
                           (r'\bevery\s+' + number + r'\s+weeks?\b', 'week'),
                           (r'\bevery\s+' + number + r'\s+months?\b', 'month')]:
@@ -170,6 +176,11 @@ def oral_bridge(drug, dose, days, profile):
             if (dose, days) not in RIS_SC_ORAL[profile]:
                 raise ValueError('확인바람: 피하 주사 제품별 유지용량과 투여간격을 확인해 주세요.')
             oral, source = RIS_SC_ORAL[profile][dose, days], LABELS[profile]
+        elif profile == 'RIS_RISVAN' and dose in (75, 100) and days == 30:
+            # US label, monthly regimen; do not merge with Okedi's 28-day table.
+            oral, source = {75: 3, 100: 4}[dose], LABELS[profile]
+        elif profile == 'RIS_RYKINDO' and dose in (25, 37.5, 50) and days == 14:
+            source = LABELS[profile]
         elif profile == 'RIS_ISM' and dose in (75, 100) and days == 28:
             # 100mg corresponds to oral >=4mg, not a single value.
             if dose == 75:
@@ -179,6 +190,13 @@ def oral_bridge(drug, dose, days, profile):
             source = LABELS[profile]
         else:
             raise ValueError('확인바람: risperidone LAI 제품명·용량·간격을 확인해 주세요.')
+    elif drug == 'haloperidol':
+        if profile != 'HAL_DECANOATE' or days != 28 or not 0 < dose <= 300:
+            raise ValueError('확인바람: haloperidol decanoate 표시용량과 4주 유지 투여간격을 확인해 주세요.')
+        # Label gives a range of oral multipliers, never a unique oral bridge.
+        source = LABELS[profile]
+    else:
+        raise ValueError('확인바람: 검증된 주사제 제형별 환산 근거가 없습니다.')
     return dict(lai_profile=profile, oral_equivalent_mg=oral, oral_bridge_source=source)
 
 
@@ -210,4 +228,7 @@ def bridge_info_rows():
                          interval_days=days, oral_equivalent_mg=oral, basis=BRIDGE_LABEL + '; 2개월 이후 유지요법', source=LABELS['OLZ_PAMOATE']))
     rows.append(dict(method='oral bridge', drug='risperidone', profile='RIS_ISM', dose_mg=75,
                      interval_days=28, oral_equivalent_mg=3, basis=BRIDGE_LABEL, source=LABELS['RIS_ISM']))
+    for dose, oral in ((75, 3), (100, 4)):
+        rows.append(dict(method='oral bridge', drug='risperidone', profile='RIS_RISVAN', dose_mg=dose,
+                         interval_days=30, oral_equivalent_mg=oral, basis=BRIDGE_LABEL, source=LABELS['RIS_RISVAN']))
     return rows
