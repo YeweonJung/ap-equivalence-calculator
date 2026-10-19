@@ -37,6 +37,7 @@
 .parser button{font-family:inherit}.parser input[type=checkbox]{width:16px;min-height:16px;vertical-align:middle}.parser details{margin-top:12px}.parser .manual-correction{padding:8px 12px;margin-top:8px}.parser small{line-height:1.7}.file-label.dragging{border-color:var(--blue);background:#f1f7ff}#upload-status:empty{display:none}#upload-status{font-size:12px;color:var(--muted);overflow-wrap:anywhere}#upload-status[data-error=true]{color:#a43720}
 .patient-result-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;font-size:11px}.patient-result-grid .cell{padding:10px 8px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:9px;font-weight:500;margin-top:4px}
 .base-choice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}.base-choice select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.base-choice small{color:var(--muted)}
+.supplement-guide{margin:16px 0 18px;padding:16px 18px;border-radius:12px;background:var(--soft)}.supplement-guide strong{font-size:17px}.supplement-guide p{margin:8px 0 4px;font-size:clamp(18px,2vw,23px);font-weight:800;line-height:1.7;color:#164f99;overflow-wrap:anywhere}.supplement-guide small{color:var(--muted);line-height:1.6}
 </style>
 </head>
 <body>
@@ -45,6 +46,8 @@
     <section class="main">
       <div class="wrap">
         <div class="title"><h1>엑셀을 올리고, 결과파일을 받으세요.</h1><p>약물명과 용량을 읽어 환산 결과를 자동으로 정리합니다.</p></div>
+        <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'CMD' %} selected{% endif %}>{{ method }}</option>{% endfor %}</select><small>파일 업로드와 한 줄 계산에 함께 적용됩니다.</small></div>
+        <div class="supplement-guide"><strong>값이 없을 때만, 이 순서로 보완</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'CMD')|join(' → ') }}</p><small>선택한 기준 방법은 제외됩니다. 먼저 계산된 값은 그대로 유지합니다.</small></div>
         <div class="flow">
           <section class="panel" aria-label="입력 엑셀 예시">
             <div class="panel-label"><span class="number">1</span>엑셀 입력</div>
@@ -68,8 +71,7 @@
           </section>
         </div>
         <section class="upload" aria-label="데이터 파일 업로드">
-          <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'CMD' %} selected{% endif %}>{{ method }}</option>{% endfor %}</select><small>파일 업로드와 한 줄 계산에 함께 적용됩니다.</small></div>
-          <p class="hint">첫 시트는 선택한 방법을 우선한 최종 합계, 두 번째는 약물별 모든 방법의 값입니다. 기준값이 없는 약물만 순서대로 보완합니다.</p>
+          <p class="hint">첫 시트는 최종 합계, 두 번째는 약물별 모든 방법의 값입니다.</p>
           <p class="hint">처방일 열이 있으면 환자 ID와 처방일별로 합산합니다. 다른 날짜의 처방은 기간이 겹쳐도 포함하지 않습니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">

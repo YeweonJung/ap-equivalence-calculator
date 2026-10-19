@@ -62,7 +62,8 @@ def _compose_structured_medication(row, drug_text, dose_col, unit_col, frequency
 
 @app.get("/")
 def home():
-    return render_template("index.html", methods=METHODS)
+    from services.supplemented import PRIORITY
+    return render_template("index.html", methods=METHODS, supplement_priority=PRIORITY)
 
 
 @app.get('/methods')

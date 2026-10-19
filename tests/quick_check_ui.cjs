@@ -3,9 +3,9 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const elements = {};
-for (const id of ['parse-button','parser-input','parse-results','export-quick','download-status','base-method']) {
+for (const id of ['parse-button','parser-input','parse-results','export-quick','download-status','base-method','supplement-order']) {
   elements['#'+id] = {value:'',textContent:'',innerHTML:'',disabled:false,hidden:true,
-    dataset:{apiUrl:'/api/parse',exportUrl:'/api/export'}, events:{},
+    dataset:{apiUrl:'/api/parse',exportUrl:'/api/export',priority:'CMD,MED,ED95,DDD,GARDNER,WOODS,CPZ_FGA,CMD_DIRECT,CMD_INDIRECT'}, events:{},
     addEventListener(event, handler) { this.events[event] = handler; }};
 }
 const requests=[];
@@ -16,6 +16,7 @@ vm.runInContext(fs.readFileSync(path.join(__dirname,'../static/quick_check.js'),
 const response = data => ({ok:true,headers:{get:()=> 'application/json'},json:async()=>data});
 const data = {items:[],totals:[]};
 async function main() {
+  assert.equal(elements['#supplement-order'].textContent,'MED → ED95 → DDD → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT');
   const input=elements['#parser-input'], button=elements['#parse-button'];
   input.value='old'; const old=button.events.click();
   input.value='new'; input.events.input();
@@ -74,6 +75,7 @@ async function main() {
   const oldBase=button.events.click();
   assert.equal(JSON.parse(requests[3].options.body).base_method,'DDD');
   base.value='MED'; base.events.change();
+  assert.equal(elements['#supplement-order'].textContent,'CMD → ED95 → DDD → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT');
   assert(requests[3].options.signal.aborted);
   requests[3].resolve(response(data)); await oldBase;
   assert.equal(elements['#parse-results'].textContent,'');

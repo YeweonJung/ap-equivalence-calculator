@@ -188,7 +188,9 @@ def dated_cases(details, results, base_method=None):
                                  sheet=row['source_sheet'], source_row=int(row['source_row']),
                                  warning=reason_text(row['adjustments'].split(';')))
                     if row.get('injection_evidence'):
-                        frame.update(json.loads(row['injection_evidence']))
+                        # The evidence contains normalized product text for calculation;
+                        # keep the submitted Korean label in the exported source column.
+                        frame.update({k: v for k, v in json.loads(row['injection_evidence']).items() if k != 'original'})
                     entries.append(medication_entry(frame, patient, day, reason_text(reasons)))
                 pending = next(batches, None)
             yield from cases_for_group(entries, [base_method or methods[0]], patient, day)

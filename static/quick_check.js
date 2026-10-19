@@ -4,6 +4,12 @@ const parseInput = document.querySelector('#parser-input');
 const parseOutput = document.querySelector('#parse-results');
 const baseSelect = document.querySelector('#base-method');
 const selectedBase = () => baseSelect?.value || 'CMD';
+const supplementOrder = document.querySelector('#supplement-order');
+function updateSupplementOrder() {
+  if (supplementOrder) supplementOrder.textContent = supplementOrder.dataset.priority.split(',')
+    .filter(method => method !== selectedBase()).join(' → ');
+}
+updateSupplementOrder();
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g,
   char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'}[char]));
 let currentText = '';
@@ -134,7 +140,7 @@ function clearQuickResult() {
   parseOutput.textContent = '';
 }
 parseInput.addEventListener('input', clearQuickResult);
-baseSelect?.addEventListener('change', clearQuickResult);
+baseSelect?.addEventListener('change', () => { updateSupplementOrder(); clearQuickResult(); });
 
 exportButton.addEventListener('click', async () => {
   const text = currentText;
