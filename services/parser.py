@@ -47,6 +47,9 @@ FREQUENCIES = (
     (re.compile(r"\b(weekly|once\s+(?:a\s+)?week)\b", re.I), "WEEKLY", 1.0 / 7.0),
 )
 QUANTITY_RE = re.compile(r"\s(?P<count>(?:\d+(?:\.\d+)?|\.\d+))\s*(?:t|tabs?|tablets?|caps?|capsules?|정|캡슐)\b", re.I)
+ORAL_CONCENTRATION_RE = re.compile(
+    r'(?:mg|mcg|ug|μg|g)\s*(?:/|\bper\b|\bin\b)\s*'
+    r'(?:(?:\d+(?:\.\d+)?|\.\d+)\s*)?(?:ml|l|cc)\b', re.I)
 
 
 def _frequency_matches(text):
@@ -140,13 +143,15 @@ def parse_medication(text):
         raise ValueError("약물 값이 비어 있습니다.")
     if re.search(r'\d\s*[/⁄]\s*\d+\s*(?:tabs?|tablets?|caps?|capsules?|정|캡슐)|[½¼¾]', original, re.I):
         raise ValueError('분수 정 수와 표시 mg의 의미가 불명확합니다. 1회 실제 mg과 빈도를 명시해 주세요.')
-    if re.search(r'(?:mg|mcg|ug|μg|g)\s*/\s*(?:ml|l)\b|\bq\s*\d+\s*[-~–]\s*\d+\s*h|\d+\s*[-~–]\s*\d+\s*(?:mg|mcg|ug|g)\b', original, re.I):
+    if ORAL_CONCENTRATION_RE.search(original) or re.search(r'\bq\s*\d+\s*[-~–]\s*\d+\s*h|\d+\s*[-~–]\s*\d+\s*(?:mg|mcg|ug|g)\b', original, re.I):
         raise ValueError('농도 또는 범위 용량·간격은 단일 일일 용량으로 확정할 수 없습니다.')
     from services.frames import drug_mentions, formulation_info
     if len({name for _, _, name in drug_mentions(original)}) > 1:
         raise ValueError("여러 약물이 있습니다. 약물별 Frame으로 분리해 주세요.")
     if formulation_info(original)["route"] == "injection":
         raise ValueError("주사제는 제형별 환산 근거 확인이 필요합니다.")
+    if formulation_info(original)["route"] == "transdermal":
+        raise ValueError("경피제·패치는 제형별 환산 근거 확인이 필요합니다.")
     mentions = drug_mentions(original)
     drug = mentions[0][2] if mentions else dictionary_match(original)
     match_type, match_score = "exact", 100.0

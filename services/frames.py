@@ -7,7 +7,7 @@ import unicodedata
 from difflib import SequenceMatcher
 
 from services.medication_splitter import split_medication_spans
-from services.parser import alias_map, dictionary_match, DOSE_RE, parse_medication, _dose_to_mg
+from services.parser import alias_map, dictionary_match, DOSE_RE, ORAL_CONCENTRATION_RE, parse_medication, _dose_to_mg
 
 from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, EXCLUSION_NOTE, is_excluded, CLASSES, exclusion_label, exclusion_basis
 
@@ -15,7 +15,7 @@ NON_TARGET = CLASSES
 LABELS = {
     'ready': '환산 가능', 'converted': '환산 완료', 'non_target': '항정신병약 환산 대상 아님',
     'unknown_drug': '약물 미확인', 'missing_unit': '단위 확인 필요',
-    'unsupported_formulation': '주사제 제형별 환산 근거 확인 필요',
+    'unsupported_formulation': '제형별 환산 근거 확인 필요',
     'missing_factor': '해당 환산법의 계수 없음', 'review': '입력 확인 필요',
 }
 
@@ -77,21 +77,28 @@ def antidepressant_conflict(text, drug):
 
 def formulation_info(text):
     from services.lai_support import PRODUCT_RE
-    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
+    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|intravenous|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
+    transdermal = re.search(r'\b(?:transdermal|patch(?:es)?)\b|경피|패치|첩부', text, re.I)
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
-    return {'route': 'injection' if injection else 'oral',
-            'formulation': form.group().upper() if form else ('INJECTION' if injection else 'ORAL'),
+    return {'route': 'transdermal' if transdermal else 'injection' if injection else 'oral',
+            'formulation': 'TRANSDERMAL' if transdermal else form.group().upper() if form else ('INJECTION' if injection else 'ORAL'),
             'interval': interval.group() if interval else ''}
 
 
 def _segments(text):
     for offset, end, chunk in split_medication_spans(text):
         mentions = drug_mentions(chunk)
+        concentration_spans = [match.span() for match in ORAL_CONCENTRATION_RE.finditer(chunk)]
         # A name followed by a dose also marks an unknown/typo drug boundary.
         generic = list(re.finditer(r'(?<!\w)[A-Za-z가-힣][A-Za-z가-힣*]*\s*(?=[+-]?(?:\d|\.\d))', _outside(chunk)))
-        starts = {start for start, _, _ in mentions}
+        # "per" is also a legacy perphenazine alias; inside a concentration
+        # it belongs to the unit expression and cannot start another drug.
+        starts = {start for start, _, _ in mentions
+                  if not any(left <= start < right for left, right in concentration_spans)}
         for match in generic:
+            if any(left <= match.start() < right for left, right in concentration_spans):
+                continue
             if re.match(r'pp[136]m\b', chunk[match.start():], re.I):
                 continue
             # Route + numeric frequency belongs to the preceding medication.
@@ -99,7 +106,7 @@ def _segments(text):
             # splitting "PO/NG 2 times a day" would discard the daily frequency.
             if match.group().strip().casefold() in {
                     'po', 'ng', 'oral', 'im', 'iv', 'sc', 'intramuscular',
-                    'subcutaneous', 'injectable'}:
+                    'subcutaneous', 'intravenous', 'injectable', 'transdermal', 'patch', 'patches'}:
                 continue
             if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
@@ -172,6 +179,9 @@ def _frame(start, end, original):
             frame['needs_review'] = match_type != 'exact'
             if drug in EXCLUDED_INGREDIENTS:
                 frame['exclusion_basis'] = exclusion_basis(drug)
+    elif info['route'] == 'transdermal':
+        status = 'unsupported_formulation'
+        frame['warning'] = '경피제·패치는 제형별 환산 근거가 없어 자동 환산하지 않습니다. 경구 용량으로 바꾸어 계산하지 마세요.'
     elif info['route'] == 'injection':
         from services.injections import injection_values
         try:

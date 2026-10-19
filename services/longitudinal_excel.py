@@ -21,6 +21,7 @@ REASONS = {
     'strength_conflict': '함량 불일치', 'strength_missing': '함량 누락',
     'product_strength_missing': '제품 함량 확인', 'release_form_conflict': '서방 여부 불일치',
     'oral_solid_unconfirmed': '경구 정제·캡슐 여부 확인',
+    'unsupported_route': '경피제·패치는 제형별 환산 근거 확인 필요',
     'injection_requires_review': '주사제 투여 정보 확인', 'variable_schedule': '복용 일정 확인',
     'missing_factor': '환산 계수 없음',
     'injection_quantity_ambiguous': '주사 수량 확인: 하루 정 수를 주사 용량에 곱하지 않음',

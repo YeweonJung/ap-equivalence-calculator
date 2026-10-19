@@ -1,0 +1,3497 @@
+{
+  "source_urls": [
+    "https://open.fda.gov/apis/drug/ndc/",
+    "https://synthetichealth.github.io/synthea-sample-data/downloads/synthea_sample_data_csv_apr2020.zip"
+  ],
+  "ndc_queries": [
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22risperidone%22+AND+finished%3Atrue&limit=100",
+      "sha256": "745aa61d5ad47e7081e4b2eca23ea8524790bd7ff66bcffb066e77eca4c0a2fb",
+      "returned": 100,
+      "total_matches": 176
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22olanzapine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "585571270f17ade88d1f0f67ccfda1578b8069162ad9baf7f35cdf8a3b7b500b",
+      "returned": 100,
+      "total_matches": 238
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22haloperidol%22+AND+finished%3Atrue&limit=100",
+      "sha256": "7dbcc5bcdbf1ac7332bb1e01d2ce32ad76fd95db786f4f5fc988de71aef50f79",
+      "returned": 100,
+      "total_matches": 232
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22quetiapine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "6f84a3813ae9ac911f104fe084a2f7122055a43d42844a85b998712f62f55c34",
+      "returned": 100,
+      "total_matches": 349
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22aripiprazole%22+AND+finished%3Atrue&limit=100",
+      "sha256": "e7b3ef53b9fd80d84262259a62ca1737db78b1c7932a5ab77683d432a1823678",
+      "returned": 100,
+      "total_matches": 274
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22clozapine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "fa75a4988852a7a0e5cf1fc12a6abba1469dbc94efcd983d0dea1ac157f52e48",
+      "returned": 48,
+      "total_matches": 48
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22chlorpromazine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "1d6055c84fc7cc302723f4b50f6817f8e1f47308d116e761cbe6780bf50e94c3",
+      "returned": 100,
+      "total_matches": 128
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22fluphenazine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "49f56be870b7a329635f5d6da1816f0813e15432ced0824fd55efafb84dd5149",
+      "returned": 100,
+      "total_matches": 117
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22perphenazine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "e8f2b1335c34cd36e4935afac7fd0c78f1399c0a452f41edc3982d204b29e234",
+      "returned": 78,
+      "total_matches": 78
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22ziprasidone%22+AND+finished%3Atrue&limit=100",
+      "sha256": "d653880bde0aae4eed31f521567dbd60ba946ab96f1101e8d7b9cc9d991c2b5d",
+      "returned": 84,
+      "total_matches": 84
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22paliperidone%22+AND+finished%3Atrue&limit=100",
+      "sha256": "0affe7c65dc16a332e269527174417f4315be9f0e9c24a95958d261315c64dec",
+      "returned": 86,
+      "total_matches": 86
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22lurasidone%22+AND+finished%3Atrue&limit=100",
+      "sha256": "c7a1fe30b8d269164be2630319a1cefa0a52cc014c00fce8d5c259957b7a01b7",
+      "returned": 100,
+      "total_matches": 136
+    },
+    {
+      "url": "https://api.fda.gov/drug/ndc.json?search=active_ingredients.name%3A%22asenapine%22+AND+finished%3Atrue&limit=100",
+      "sha256": "cd4f5c58a0c322c50c9776ee26f69e6e773d35e3c9659c4636d63327e9e80f2b",
+      "returned": 24,
+      "total_matches": 24
+    }
+  ],
+  "ndc_records_returned": 1120,
+  "ndc_excluded_records": 2,
+  "ndc_unique_product_patterns": 250,
+  "synthea_medication_rows": 42989,
+  "synthea_unique_descriptions": 134,
+  "synthea_zip_sha256": "4194b18c11eaedcf0d5d5dd448d8ac9661f14381e2ef9f109215dc42266cd38a",
+  "note": "Product descriptors only, no patient fields. QD and one oral unit are synthetic test conditions, not extracted prescription instructions. Concentration-only, combination and unsupported-route inputs must not receive oral equivalents.",
+  "cases": [
+    {
+      "id": "FDA001",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-1575",
+      "text": "RISPERIDONE .5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.5
+    },
+    {
+      "id": "FDA002",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-596",
+      "text": "risperidone 1 mg/mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "risperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA003",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-596",
+      "text": "risperidone 1 mg/1 mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "risperidone",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA004",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-525",
+      "text": "Risperidone 3 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 3.0
+    },
+    {
+      "id": "FDA005",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-1568",
+      "text": "RISPERIDONE 2 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA006",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-300",
+      "text": "risperidone 1 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA007",
+      "source": "openFDA NDC",
+      "product_ndc": "43547-339",
+      "text": "Risperidone .25 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.25
+    },
+    {
+      "id": "FDA008",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-600",
+      "text": "Risperidone .25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.25
+    },
+    {
+      "id": "FDA009",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-325",
+      "text": "risperidone 2 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA010",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-604",
+      "text": "Risperidone 3 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 3.0
+    },
+    {
+      "id": "FDA011",
+      "source": "openFDA NDC",
+      "product_ndc": "43547-344",
+      "text": "Risperidone 4 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 4.0
+    },
+    {
+      "id": "FDA012",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-601",
+      "text": "Risperidone .5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.5
+    },
+    {
+      "id": "FDA013",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-315",
+      "text": "risperidone 1 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA014",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-602",
+      "text": "Risperidone 1 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA015",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-603",
+      "text": "Risperidone 2 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA016",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-355",
+      "text": "risperidone 4 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 4.0
+    },
+    {
+      "id": "FDA017",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-605",
+      "text": "Risperidone 4 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 4.0
+    },
+    {
+      "id": "FDA018",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-335",
+      "text": "risperidone 3 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 3.0
+    },
+    {
+      "id": "FDA019",
+      "source": "openFDA NDC",
+      "product_ndc": "63304-949",
+      "text": "Risperidone .5 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.5
+    },
+    {
+      "id": "FDA020",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-212",
+      "text": "Risperidone .25 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "risperidone",
+      "daily_mg": 0.25
+    },
+    {
+      "id": "FDA021",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-166",
+      "text": "Olanzapine 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA022",
+      "source": "openFDA NDC",
+      "product_ndc": "72789-341",
+      "text": "Olanzapine 20 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA023",
+      "source": "openFDA NDC",
+      "product_ndc": "71335-0534",
+      "text": "Olanzapine 5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA024",
+      "source": "openFDA NDC",
+      "product_ndc": "0615-8566",
+      "text": "Olanzapine 15 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA025",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1565",
+      "text": "Olanzapine 10 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA026",
+      "source": "openFDA NDC",
+      "product_ndc": "63187-453",
+      "text": "Olanzapine 2.5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA027",
+      "source": "openFDA NDC",
+      "product_ndc": "83854-003",
+      "text": "OLANZAPINE 10 mg/2mL (INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "olanzapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA028",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1583",
+      "text": "Olanzapine 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA029",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-165",
+      "text": "Olanzapine 7.5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 7.5
+    },
+    {
+      "id": "FDA030",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1604",
+      "text": "Olanzapine 20 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA031",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1611",
+      "text": "Olanzapine 2.5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA032",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-631",
+      "text": "Olanzapine 5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA033",
+      "source": "openFDA NDC",
+      "product_ndc": "31722-308",
+      "text": "Olanzapine 10 mg/2mL (INJECTION, POWDER, FOR SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "olanzapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA034",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-632",
+      "text": "Olanzapine 7.5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 7.5
+    },
+    {
+      "id": "FDA035",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-634",
+      "text": "Olanzapine 15 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA036",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-652",
+      "text": "Olanzapine 15 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA037",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-650",
+      "text": "Olanzapine 5 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA038",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-653",
+      "text": "Olanzapine 20 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "olanzapine",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA039",
+      "source": "openFDA NDC",
+      "product_ndc": "55150-308",
+      "text": "OLANZAPINE 10 mg/1 (INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "olanzapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA040",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-252",
+      "text": "olanzapine and fuoxetine 12 mg/1 / 25 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA041",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-250",
+      "text": "olanzapine and fuoxetine 6 mg/1 / 25 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA042",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-251",
+      "text": "olanzapine and fuoxetine 6 mg/1 / 50 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA043",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-651",
+      "text": "olanzapine and samidorphan L-malate 5 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA044",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-253",
+      "text": "olanzapine and fuoxetine 12 mg/1 / 50 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA045",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-652",
+      "text": "olanzapine and samidorphan L-malate 10 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA046",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-653",
+      "text": "olanzapine and samidorphan L-malate 15 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA047",
+      "source": "openFDA NDC",
+      "product_ndc": "49884-277",
+      "text": "olanzapine and fuoxetine 3 mg/1 / 25 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA048",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-654",
+      "text": "olanzapine and samidorphan L-malate 20 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA049",
+      "source": "openFDA NDC",
+      "product_ndc": "0093-5503",
+      "text": "Olanzapine and Fluoxetine 3 mg/1 / 25 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA050",
+      "source": "openFDA NDC",
+      "product_ndc": "68382-081",
+      "text": "Haloperidol 20 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA051",
+      "source": "openFDA NDC",
+      "product_ndc": "63323-469",
+      "text": "HALOPERIDOL DECANOATE 50 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA052",
+      "source": "openFDA NDC",
+      "product_ndc": "68382-079",
+      "text": "Haloperidol 5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA053",
+      "source": "openFDA NDC",
+      "product_ndc": "63323-471",
+      "text": "HALOPERIDOL DECANOATE 100 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA054",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-0838",
+      "text": "Haloperidol 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA055",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0214",
+      "text": "haloperidol 2 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA056",
+      "source": "openFDA NDC",
+      "product_ndc": "0143-9501",
+      "text": "Haloperidol lactate 5 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA057",
+      "source": "openFDA NDC",
+      "product_ndc": "70756-624",
+      "text": "Haloperidol Decanoate 250 mg/5mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA058",
+      "source": "openFDA NDC",
+      "product_ndc": "70756-625",
+      "text": "Haloperidol Decanoate 500 mg/5mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA059",
+      "source": "openFDA NDC",
+      "product_ndc": "0832-1510",
+      "text": "Haloperidol .5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 0.5
+    },
+    {
+      "id": "FDA060",
+      "source": "openFDA NDC",
+      "product_ndc": "82619-106",
+      "text": "haloperidol 1 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "haloperidol",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA061",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0581",
+      "text": "Haloperidol 2 mg/mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA062",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0581",
+      "text": "Haloperidol 2 mg/1 mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA063",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-0035",
+      "text": "HALOPERIDOL LACTATE 5 mg/mL (INJECTION, SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "haloperidol",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA064",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-495",
+      "text": "Quetiapine Fumarate 400 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA065",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-270",
+      "text": "quetiapine 50 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA066",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-493",
+      "text": "Quetiapine Fumarate 200 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA067",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-271",
+      "text": "quetiapine 150 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA068",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-494",
+      "text": "Quetiapine Fumarate 300 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 300.0
+    },
+    {
+      "id": "FDA069",
+      "source": "openFDA NDC",
+      "product_ndc": "80425-0413",
+      "text": "quetiapine fumarate 100 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA070",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-272",
+      "text": "quetiapine 200 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA071",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-482",
+      "text": "Quetiapine Fumarate ER 200 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA072",
+      "source": "openFDA NDC",
+      "product_ndc": "50228-382",
+      "text": "Quetiapine 200 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA073",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-0637",
+      "text": "quetiapine 200 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA074",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-481",
+      "text": "Quetiapine Fumarate ER 150 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA075",
+      "source": "openFDA NDC",
+      "product_ndc": "50228-383",
+      "text": "Quetiapine 300 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 300.0
+    },
+    {
+      "id": "FDA076",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-0638",
+      "text": "quetiapine 300 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 300.0
+    },
+    {
+      "id": "FDA077",
+      "source": "openFDA NDC",
+      "product_ndc": "50228-384",
+      "text": "Quetiapine 400 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA078",
+      "source": "openFDA NDC",
+      "product_ndc": "51407-799",
+      "text": "Quetiapine 50 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA079",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-483",
+      "text": "Quetiapine Fumarate ER 400 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA080",
+      "source": "openFDA NDC",
+      "product_ndc": "0310-0284",
+      "text": "quetiapine 400 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA081",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-601",
+      "text": "Quetiapine 300 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 300.0
+    },
+    {
+      "id": "FDA082",
+      "source": "openFDA NDC",
+      "product_ndc": "71335-2462",
+      "text": "quetiapine fumarate 400 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA083",
+      "source": "openFDA NDC",
+      "product_ndc": "51407-800",
+      "text": "Quetiapine 150 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA084",
+      "source": "openFDA NDC",
+      "product_ndc": "16571-717",
+      "text": "Quetiapine Fumarate 25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA085",
+      "source": "openFDA NDC",
+      "product_ndc": "16571-718",
+      "text": "Quetiapine Fumarate 50 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA086",
+      "source": "openFDA NDC",
+      "product_ndc": "16571-719",
+      "text": "Quetiapine Fumarate 100 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA087",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-181",
+      "text": "quetiapine 400 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA088",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-180",
+      "text": "quetiapine 50 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA089",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-519",
+      "text": "Quetiapine Fumarate ER 200 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA090",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-251",
+      "text": "quetiapine 50 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA091",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-250",
+      "text": "quetiapine 25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA092",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-184",
+      "text": "quetiapine 100 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA093",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-255",
+      "text": "quetiapine 400 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA094",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-492",
+      "text": "Quetiapine Fumarate 150 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA095",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-252",
+      "text": "quetiapine 100 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA096",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-185",
+      "text": "quetiapine 25 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA097",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-253",
+      "text": "quetiapine 200 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA098",
+      "source": "openFDA NDC",
+      "product_ndc": "61269-254",
+      "text": "quetiapine 300 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 300.0
+    },
+    {
+      "id": "FDA099",
+      "source": "openFDA NDC",
+      "product_ndc": "16729-097",
+      "text": "QUETIAPINE FUMARATE 400 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 400.0
+    },
+    {
+      "id": "FDA100",
+      "source": "openFDA NDC",
+      "product_ndc": "16729-109",
+      "text": "QUETIAPINE FUMARATE 150 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA101",
+      "source": "openFDA NDC",
+      "product_ndc": "16729-132",
+      "text": "QUETIAPINE FUMARATE 50 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA102",
+      "source": "openFDA NDC",
+      "product_ndc": "34908-637",
+      "text": "quetiapine fumarate 200 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "quetiapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA103",
+      "source": "openFDA NDC",
+      "product_ndc": "71205-480",
+      "text": "Aripiprazole 2 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA104",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-2643",
+      "text": "aripiprazole 15 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA105",
+      "source": "openFDA NDC",
+      "product_ndc": "0904-7371",
+      "text": "Aripiprazole 30 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 30.0
+    },
+    {
+      "id": "FDA106",
+      "source": "openFDA NDC",
+      "product_ndc": "71335-1903",
+      "text": "Aripiprazole 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA107",
+      "source": "openFDA NDC",
+      "product_ndc": "60687-168",
+      "text": "Aripiprazole 5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA108",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-904",
+      "text": "Aripiprazole 1 mg/mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA109",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-904",
+      "text": "Aripiprazole 1 mg/1 mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA110",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-515",
+      "text": "Aripiprazole 15 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA111",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-514",
+      "text": "Aripiprazole 10 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA112",
+      "source": "openFDA NDC",
+      "product_ndc": "60687-202",
+      "text": "Aripiprazole 20 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA113",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-733",
+      "text": "Aripiprazole orally disintegrating 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA114",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-734",
+      "text": "Aripiprazole orally disintegrating 15 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 15.0
+    },
+    {
+      "id": "FDA115",
+      "source": "openFDA NDC",
+      "product_ndc": "59148-114",
+      "text": "Aripiprazole 960 mg/3.2mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA116",
+      "source": "openFDA NDC",
+      "product_ndc": "76483-102",
+      "text": "Aripiprazole 20 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA117",
+      "source": "openFDA NDC",
+      "product_ndc": "76483-103",
+      "text": "Aripiprazole 30 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 30.0
+    },
+    {
+      "id": "FDA118",
+      "source": "openFDA NDC",
+      "product_ndc": "59148-102",
+      "text": "Aripiprazole 720 mg/2.4mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA119",
+      "source": "openFDA NDC",
+      "product_ndc": "72603-445",
+      "text": "Aripiprazole oral 1 mg/mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA120",
+      "source": "openFDA NDC",
+      "product_ndc": "72603-445",
+      "text": "Aripiprazole oral 1 mg/1 mL (SOLUTION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA121",
+      "source": "openFDA NDC",
+      "product_ndc": "15370-402",
+      "text": "ARIPIPRAZOLE 5 mg/1 (FILM, SOLUBLE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA122",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-401",
+      "text": "aripiprazole lauroxil 441 mg/1.6mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA123",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-402",
+      "text": "aripiprazole lauroxil 662 mg/2.4mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA124",
+      "source": "openFDA NDC",
+      "product_ndc": "15370-401",
+      "text": "ARIPIPRAZOLE 2 mg/1 (FILM, SOLUBLE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA125",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-403",
+      "text": "aripiprazole lauroxil 882 mg/3.2mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA126",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-404",
+      "text": "aripiprazole lauroxil 1064 mg/3.9mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA127",
+      "source": "openFDA NDC",
+      "product_ndc": "15370-403",
+      "text": "ARIPIPRAZOLE 10 mg/1 (FILM, SOLUBLE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "aripiprazole",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA128",
+      "source": "openFDA NDC",
+      "product_ndc": "65757-500",
+      "text": "aripiprazole lauroxil 675 mg/2.4mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "aripiprazole",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA129",
+      "source": "openFDA NDC",
+      "product_ndc": "0093-5377",
+      "text": "Clozapine 200 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA130",
+      "source": "openFDA NDC",
+      "product_ndc": "52817-601",
+      "text": "Clozapine 50 mg/mL (SUSPENSION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "clozapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA131",
+      "source": "openFDA NDC",
+      "product_ndc": "52817-601",
+      "text": "Clozapine 50 mg/1 mL (SUSPENSION; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "clozapine",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA132",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-845",
+      "text": "CLOZAPINE 50 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA133",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-844",
+      "text": "CLOZAPINE 25 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA134",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-846",
+      "text": "CLOZAPINE 100 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA135",
+      "source": "openFDA NDC",
+      "product_ndc": "0093-5376",
+      "text": "Clozapine 150 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 150.0
+    },
+    {
+      "id": "FDA136",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-847",
+      "text": "CLOZAPINE 200 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA137",
+      "source": "openFDA NDC",
+      "product_ndc": "0093-5416",
+      "text": "Clozapine 12.5 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 12.5
+    },
+    {
+      "id": "FDA138",
+      "source": "openFDA NDC",
+      "product_ndc": "0093-5417",
+      "text": "Clozapine 25 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA139",
+      "source": "openFDA NDC",
+      "product_ndc": "51079-288",
+      "text": "clozapine 100 mg/1 (TABLET, ORALLY DISINTEGRATING; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "clozapine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA140",
+      "source": "openFDA NDC",
+      "product_ndc": "51407-434",
+      "text": "Chlorpromazine Hydrochloride 10 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA141",
+      "source": "openFDA NDC",
+      "product_ndc": "62332-735",
+      "text": "Chlorpromazine 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA142",
+      "source": "openFDA NDC",
+      "product_ndc": "60687-949",
+      "text": "Chlorpromazine Hydrochloride 50 mg/1 (TABLET, SUGAR COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA143",
+      "source": "openFDA NDC",
+      "product_ndc": "60687-960",
+      "text": "Chlorpromazine Hydrochloride 100 mg/1 (TABLET, SUGAR COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA144",
+      "source": "openFDA NDC",
+      "product_ndc": "62332-738",
+      "text": "Chlorpromazine 100 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA145",
+      "source": "openFDA NDC",
+      "product_ndc": "62332-736",
+      "text": "Chlorpromazine 25 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA146",
+      "source": "openFDA NDC",
+      "product_ndc": "62332-737",
+      "text": "Chlorpromazine 50 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA147",
+      "source": "openFDA NDC",
+      "product_ndc": "62332-739",
+      "text": "Chlorpromazine 200 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA148",
+      "source": "openFDA NDC",
+      "product_ndc": "50268-163",
+      "text": "CHLORPROMAZINE HYDROCHLORIDE 25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA149",
+      "source": "openFDA NDC",
+      "product_ndc": "60687-971",
+      "text": "Chlorpromazine Hydrochloride 200 mg/1 (TABLET, SUGAR COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA150",
+      "source": "openFDA NDC",
+      "product_ndc": "50268-162",
+      "text": "CHLORPROMAZINE HYDROCHLORIDE 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA151",
+      "source": "openFDA NDC",
+      "product_ndc": "50268-166",
+      "text": "CHLORPROMAZINE HYDROCHLORIDE 200 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA152",
+      "source": "openFDA NDC",
+      "product_ndc": "50268-164",
+      "text": "CHLORPROMAZINE HYDROCHLORIDE 50 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA153",
+      "source": "openFDA NDC",
+      "product_ndc": "50268-165",
+      "text": "CHLORPROMAZINE HYDROCHLORIDE 100 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA154",
+      "source": "openFDA NDC",
+      "product_ndc": "70771-1778",
+      "text": "Chlorpromazine Hydrochloride 25 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA155",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-140",
+      "text": "CHLORPROMAZINE HCI 25 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA156",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-3510",
+      "text": "Chlorpromazine Hydrochloride 25 mg/1 (TABLET, SUGAR COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA157",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-567",
+      "text": "Chlorpromazine Hydrochloride 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA158",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-568",
+      "text": "Chlorpromazine Hydrochloride 25 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA159",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-569",
+      "text": "Chlorpromazine Hydrochloride 50 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA160",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-570",
+      "text": "Chlorpromazine Hydrochloride 100 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA161",
+      "source": "openFDA NDC",
+      "product_ndc": "59651-571",
+      "text": "Chlorpromazine Hydrochloride 200 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA162",
+      "source": "openFDA NDC",
+      "product_ndc": "90096-131",
+      "text": "ChlorproMAZINE Hydrochloride 10 mg/1 (TABLET, SUGAR COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA163",
+      "source": "openFDA NDC",
+      "product_ndc": "0527-2962",
+      "text": "Chlorpromazine Hydrochloride 25 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 25.0
+    },
+    {
+      "id": "FDA164",
+      "source": "openFDA NDC",
+      "product_ndc": "0527-2963",
+      "text": "Chlorpromazine Hydrochloride 50 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 50.0
+    },
+    {
+      "id": "FDA165",
+      "source": "openFDA NDC",
+      "product_ndc": "0527-2964",
+      "text": "Chlorpromazine Hydrochloride 100 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 100.0
+    },
+    {
+      "id": "FDA166",
+      "source": "openFDA NDC",
+      "product_ndc": "0527-2965",
+      "text": "Chlorpromazine Hydrochloride 200 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": 200.0
+    },
+    {
+      "id": "FDA167",
+      "source": "openFDA NDC",
+      "product_ndc": "72888-457",
+      "text": "chlorpromazine hydrochloride 30 mg/mL (CONCENTRATE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA168",
+      "source": "openFDA NDC",
+      "product_ndc": "72888-457",
+      "text": "chlorpromazine hydrochloride 30 mg/1 mL (CONCENTRATE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "chlorpromazine",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA169",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1567",
+      "text": "Fluphenazine Hydrochloride 1 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA170",
+      "source": "openFDA NDC",
+      "product_ndc": "70710-1489",
+      "text": "Fluphenazine Hydrochloride 2.5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA171",
+      "source": "openFDA NDC",
+      "product_ndc": "68083-476",
+      "text": "fluphenazine decanoate 25 mg/mL (INJECTION, SOLUTION; INTRAMUSCULAR SUBCUTANEOUS) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA172",
+      "source": "openFDA NDC",
+      "product_ndc": "70710-1490",
+      "text": "Fluphenazine Hydrochloride 5 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA173",
+      "source": "openFDA NDC",
+      "product_ndc": "70710-1491",
+      "text": "Fluphenazine Hydrochloride 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA174",
+      "source": "openFDA NDC",
+      "product_ndc": "55150-267",
+      "text": "FLUPHENAZINE DECANOATE 125 mg/5mL (INJECTION, SOLUTION; INTRAMUSCULAR SUBCUTANEOUS) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA175",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0653",
+      "text": "Fluphenazine Hydrochloride 5 mg/mL (SOLUTION, CONCENTRATE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA176",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0653",
+      "text": "Fluphenazine Hydrochloride 5 mg/1 mL (SOLUTION, CONCENTRATE; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA177",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0654",
+      "text": "Fluphenazine Hydrochloride .5 mg/mL (ELIXIR; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA178",
+      "source": "openFDA NDC",
+      "product_ndc": "0121-0654",
+      "text": "Fluphenazine Hydrochloride .5 mg/1 mL (ELIXIR; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null,
+      "transformation": "Equivalent explicit denominator: mg/mL to mg/1 mL; administered volume remains unspecified"
+    },
+    {
+      "id": "FDA179",
+      "source": "openFDA NDC",
+      "product_ndc": "70954-273",
+      "text": "Fluphenazine Hydrochloride 1 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 1.0
+    },
+    {
+      "id": "FDA180",
+      "source": "openFDA NDC",
+      "product_ndc": "70954-274",
+      "text": "Fluphenazine Hydrochloride 2.5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA181",
+      "source": "openFDA NDC",
+      "product_ndc": "70954-275",
+      "text": "Fluphenazine Hydrochloride 5 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA182",
+      "source": "openFDA NDC",
+      "product_ndc": "70954-276",
+      "text": "Fluphenazine Hydrochloride 10 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "fluphenazine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA183",
+      "source": "openFDA NDC",
+      "product_ndc": "63323-281",
+      "text": "FLUPHENAZINE HYDROCHLORIDE 2.5 mg/mL (INJECTION, SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "fluphenazine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA184",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0442",
+      "text": "perphenazine and amitriptyline hydrochloride 2 mg/1 / 25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA185",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-4144",
+      "text": "PERPHENAZINE 16 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 16.0
+    },
+    {
+      "id": "FDA186",
+      "source": "openFDA NDC",
+      "product_ndc": "64980-293",
+      "text": "PERPHENAZINE 16 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 16.0
+    },
+    {
+      "id": "FDA187",
+      "source": "openFDA NDC",
+      "product_ndc": "64980-290",
+      "text": "PERPHENAZINE 2 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA188",
+      "source": "openFDA NDC",
+      "product_ndc": "64980-291",
+      "text": "PERPHENAZINE 4 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 4.0
+    },
+    {
+      "id": "FDA189",
+      "source": "openFDA NDC",
+      "product_ndc": "64980-292",
+      "text": "PERPHENAZINE 8 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 8.0
+    },
+    {
+      "id": "FDA190",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0042",
+      "text": "perphenazine and amitriptyline hydrochloride 4 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA191",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0574",
+      "text": "perphenazine and amitriptyline hydrochloride 4 mg/1 / 25 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA192",
+      "source": "openFDA NDC",
+      "product_ndc": "70771-1041",
+      "text": "perphenazine 2 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 2.0
+    },
+    {
+      "id": "FDA193",
+      "source": "openFDA NDC",
+      "product_ndc": "70771-1042",
+      "text": "perphenazine 4 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 4.0
+    },
+    {
+      "id": "FDA194",
+      "source": "openFDA NDC",
+      "product_ndc": "70771-1043",
+      "text": "perphenazine 8 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "perphenazine",
+      "daily_mg": 8.0
+    },
+    {
+      "id": "FDA195",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0073",
+      "text": "perphenazine and amitriptyline hydrochloride 4 mg/1 / 50 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA196",
+      "source": "openFDA NDC",
+      "product_ndc": "0378-0330",
+      "text": "perphenazine and amitriptyline hydrochloride 2 mg/1 / 10 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "hold",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "FDA197",
+      "source": "openFDA NDC",
+      "product_ndc": "63187-431",
+      "text": "Ziprasidone HCl 40 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA198",
+      "source": "openFDA NDC",
+      "product_ndc": "68071-3418",
+      "text": "ziprasidone hydrochloride 20 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA199",
+      "source": "openFDA NDC",
+      "product_ndc": "0904-6272",
+      "text": "Ziprasidone 80 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA200",
+      "source": "openFDA NDC",
+      "product_ndc": "60429-765",
+      "text": "Ziprasidone HCl 20 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA201",
+      "source": "openFDA NDC",
+      "product_ndc": "60429-768",
+      "text": "Ziprasidone HCl 80 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA202",
+      "source": "openFDA NDC",
+      "product_ndc": "60429-767",
+      "text": "Ziprasidone HCl 60 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA203",
+      "source": "openFDA NDC",
+      "product_ndc": "71335-0585",
+      "text": "Ziprasidone Hydrochloride 60 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA204",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-993",
+      "text": "Ziprasidone 60 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA205",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-991",
+      "text": "Ziprasidone 20 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA206",
+      "source": "openFDA NDC",
+      "product_ndc": "62135-992",
+      "text": "Ziprasidone 40 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA207",
+      "source": "openFDA NDC",
+      "product_ndc": "43598-848",
+      "text": "ziprasidone mesylate 20 mg/mL (INJECTION, POWDER, LYOPHILIZED, FOR SOLUTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "ziprasidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA208",
+      "source": "openFDA NDC",
+      "product_ndc": "0049-0354",
+      "text": "ziprasidone 40 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA209",
+      "source": "openFDA NDC",
+      "product_ndc": "58151-134",
+      "text": "ziprasidone 80 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA210",
+      "source": "openFDA NDC",
+      "product_ndc": "58151-131",
+      "text": "ziprasidone 20 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA211",
+      "source": "openFDA NDC",
+      "product_ndc": "58151-133",
+      "text": "ziprasidone 60 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA212",
+      "source": "openFDA NDC",
+      "product_ndc": "68071-3563",
+      "text": "Ziprasidone Hydrochloride 40 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA213",
+      "source": "openFDA NDC",
+      "product_ndc": "68001-453",
+      "text": "Ziprasidone Hydrochloride 80 mg/1 (CAPSULE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "ziprasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA214",
+      "source": "openFDA NDC",
+      "product_ndc": "72526-110",
+      "text": "paliperidone palmitate 351 mg/2.25mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA215",
+      "source": "openFDA NDC",
+      "product_ndc": "43975-349",
+      "text": "PALIPERIDONE 1.5 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 1.5
+    },
+    {
+      "id": "FDA216",
+      "source": "openFDA NDC",
+      "product_ndc": "43975-350",
+      "text": "PALIPERIDONE 3 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 3.0
+    },
+    {
+      "id": "FDA217",
+      "source": "openFDA NDC",
+      "product_ndc": "43975-351",
+      "text": "PALIPERIDONE 6 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 6.0
+    },
+    {
+      "id": "FDA218",
+      "source": "openFDA NDC",
+      "product_ndc": "43975-352",
+      "text": "PALIPERIDONE 9 mg/1 (TABLET, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 9.0
+    },
+    {
+      "id": "FDA219",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-561",
+      "text": "paliperidone palmitate 78 mg/.5mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA220",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-560",
+      "text": "paliperidone palmitate 39 mg/.25mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA221",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-564",
+      "text": "paliperidone palmitate 234 mg/1.5mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA222",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-562",
+      "text": "paliperidone palmitate 117 mg/.75mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA223",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-563",
+      "text": "paliperidone palmitate 156 mg/mL (INJECTION; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA224",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-611",
+      "text": "paliperidone palmitate 1092 mg/3.5mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA225",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-612",
+      "text": "paliperidone palmitate 1560 mg/5mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA226",
+      "source": "openFDA NDC",
+      "product_ndc": "72819-158",
+      "text": "paliperidone 3 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 3.0
+    },
+    {
+      "id": "FDA227",
+      "source": "openFDA NDC",
+      "product_ndc": "72819-159",
+      "text": "paliperidone 6 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 6.0
+    },
+    {
+      "id": "FDA228",
+      "source": "openFDA NDC",
+      "product_ndc": "72819-160",
+      "text": "paliperidone 9 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 9.0
+    },
+    {
+      "id": "FDA229",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-609",
+      "text": "paliperidone palmitate 819 mg/2.63mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA230",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-606",
+      "text": "paliperidone palmitate 273 mg/.88mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA231",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-607",
+      "text": "paliperidone palmitate 410 mg/1.32mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA232",
+      "source": "openFDA NDC",
+      "product_ndc": "50458-608",
+      "text": "paliperidone palmitate 546 mg/1.75mL (INJECTION, SUSPENSION, EXTENDED RELEASE; INTRAMUSCULAR) QD",
+      "kind": "hold",
+      "expected_drug": "paliperidone",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA233",
+      "source": "openFDA NDC",
+      "product_ndc": "47335-744",
+      "text": "Paliperidone 1.5 mg/1 (TABLET, FILM COATED, EXTENDED RELEASE; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "paliperidone",
+      "daily_mg": 1.5
+    },
+    {
+      "id": "FDA234",
+      "source": "openFDA NDC",
+      "product_ndc": "65162-881",
+      "text": "Lurasidone Hydrochloride 80 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA235",
+      "source": "openFDA NDC",
+      "product_ndc": "65162-882",
+      "text": "Lurasidone Hydrochloride 120 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 120.0
+    },
+    {
+      "id": "FDA236",
+      "source": "openFDA NDC",
+      "product_ndc": "23155-887",
+      "text": "Lurasidone Hydrochloride 20 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA237",
+      "source": "openFDA NDC",
+      "product_ndc": "23155-888",
+      "text": "Lurasidone Hydrochloride 40 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA238",
+      "source": "openFDA NDC",
+      "product_ndc": "23155-889",
+      "text": "Lurasidone Hydrochloride 60 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA239",
+      "source": "openFDA NDC",
+      "product_ndc": "23155-890",
+      "text": "Lurasidone Hydrochloride 80 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA240",
+      "source": "openFDA NDC",
+      "product_ndc": "23155-891",
+      "text": "Lurasidone Hydrochloride 120 mg/1 (TABLET, FILM COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 120.0
+    },
+    {
+      "id": "FDA241",
+      "source": "openFDA NDC",
+      "product_ndc": "65162-880",
+      "text": "Lurasidone Hydrochloride 40 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA242",
+      "source": "openFDA NDC",
+      "product_ndc": "65162-879",
+      "text": "Lurasidone Hydrochloride 20 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA243",
+      "source": "openFDA NDC",
+      "product_ndc": "68382-859",
+      "text": "Lurasidone hydrochloride 60 mg/1 (TABLET, COATED; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA244",
+      "source": "openFDA NDC",
+      "product_ndc": "70518-4427",
+      "text": "lurasidone hydrochloride 40 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA245",
+      "source": "openFDA NDC",
+      "product_ndc": "67046-1654",
+      "text": "LURASIDONE HYDROCHLORIDE 60 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 60.0
+    },
+    {
+      "id": "FDA246",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-953",
+      "text": "LURASIDONE HYDROCHLORIDE 20 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 20.0
+    },
+    {
+      "id": "FDA247",
+      "source": "openFDA NDC",
+      "product_ndc": "72189-598",
+      "text": "Lurasidone HCL 40 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 40.0
+    },
+    {
+      "id": "FDA248",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-956",
+      "text": "LURASIDONE HYDROCHLORIDE 80 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 80.0
+    },
+    {
+      "id": "FDA249",
+      "source": "openFDA NDC",
+      "product_ndc": "65862-957",
+      "text": "LURASIDONE HYDROCHLORIDE 120 mg/1 (TABLET; ORAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "lurasidone",
+      "daily_mg": 120.0
+    },
+    {
+      "id": "FDA250",
+      "source": "openFDA NDC",
+      "product_ndc": "69539-059",
+      "text": "ASENAPINE MALEATE 10 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA251",
+      "source": "openFDA NDC",
+      "product_ndc": "69539-057",
+      "text": "ASENAPINE MALEATE 5 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA252",
+      "source": "openFDA NDC",
+      "product_ndc": "46708-544",
+      "text": "Asenapine 2.5 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA253",
+      "source": "openFDA NDC",
+      "product_ndc": "46708-198",
+      "text": "Asenapine 5 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 5.0
+    },
+    {
+      "id": "FDA254",
+      "source": "openFDA NDC",
+      "product_ndc": "69539-245",
+      "text": "ASENAPINE MALEATE 2.5 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 2.5
+    },
+    {
+      "id": "FDA255",
+      "source": "openFDA NDC",
+      "product_ndc": "46708-199",
+      "text": "Asenapine 10 mg/1 (TABLET; SUBLINGUAL) QD",
+      "kind": "oral_one_unit_synthetic",
+      "expected_drug": "asenapine",
+      "daily_mg": 10.0
+    },
+    {
+      "id": "FDA256",
+      "source": "openFDA NDC",
+      "product_ndc": "68968-0173",
+      "text": "ASENAPINE 5.7 mg/d (FILM, EXTENDED RELEASE; TRANSDERMAL) QD",
+      "kind": "hold",
+      "expected_drug": "asenapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA257",
+      "source": "openFDA NDC",
+      "product_ndc": "68968-0172",
+      "text": "ASENAPINE 3.8 mg/d (FILM, EXTENDED RELEASE; TRANSDERMAL) QD",
+      "kind": "hold",
+      "expected_drug": "asenapine",
+      "daily_mg": null
+    },
+    {
+      "id": "FDA258",
+      "source": "openFDA NDC",
+      "product_ndc": "68968-0174",
+      "text": "ASENAPINE 7.6 mg/d (FILM, EXTENDED RELEASE; TRANSDERMAL) QD",
+      "kind": "hold",
+      "expected_drug": "asenapine",
+      "daily_mg": null
+    },
+    {
+      "id": "SYN001",
+      "source": "Synthea April 2020 sample",
+      "text": "0.25 ML Leuprolide Acetate 30 MG/ML Prefilled Syringe",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN002",
+      "source": "Synthea April 2020 sample",
+      "text": "1 ML DOCEtaxel 20 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN003",
+      "source": "Synthea April 2020 sample",
+      "text": "1 ML Epinephrine 1 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN004",
+      "source": "Synthea April 2020 sample",
+      "text": "1 ML Epoetin Alfa 4000 UNT/ML Injection [Epogen]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN005",
+      "source": "Synthea April 2020 sample",
+      "text": "1 ML medroxyPROGESTERone acetate 150 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN006",
+      "source": "Synthea April 2020 sample",
+      "text": "1 ML medroxyprogesterone acetate 150 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN007",
+      "source": "Synthea April 2020 sample",
+      "text": "10 ML Doxorubicin Hydrochloride 2 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN008",
+      "source": "Synthea April 2020 sample",
+      "text": "10 ML Furosemide 10 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN009",
+      "source": "Synthea April 2020 sample",
+      "text": "10 ML oxaliplatin 5 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN010",
+      "source": "Synthea April 2020 sample",
+      "text": "100 ML Epirubicin Hydrochloride 2 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN011",
+      "source": "Synthea April 2020 sample",
+      "text": "100 ML zoledronic acid 0.04 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN012",
+      "source": "Synthea April 2020 sample",
+      "text": "12 HR Cefaclor 500 MG Extended Release Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN013",
+      "source": "Synthea April 2020 sample",
+      "text": "120 ACTUAT Fluticasone propionate 0.044 MG/ACTUAT Metered Dose Inhaler",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN014",
+      "source": "Synthea April 2020 sample",
+      "text": "168 HR Ethinyl Estradiol 0.00146 MG/HR / norelgestromin 0.00625 MG/HR Transdermal System",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN015",
+      "source": "Synthea April 2020 sample",
+      "text": "24 HR Donepezil hydrochloride 10 MG / Memantine hydrochloride 28 MG Extended Release Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN016",
+      "source": "Synthea April 2020 sample",
+      "text": "24 HR Metformin hydrochloride 500 MG Extended Release Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN017",
+      "source": "Synthea April 2020 sample",
+      "text": "24 HR metoprolol succinate 100 MG Extended Release Oral Tablet [Toprol]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN018",
+      "source": "Synthea April 2020 sample",
+      "text": "24hr nicotine transdermal patch",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN019",
+      "source": "Synthea April 2020 sample",
+      "text": "3 ML Amiodarone hydrocholoride 50 MG/ML Prefilled Syringe",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN020",
+      "source": "Synthea April 2020 sample",
+      "text": "5 ML fulvestrant 50 MG/ML Prefilled Syringe",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN021",
+      "source": "Synthea April 2020 sample",
+      "text": "5 ML hyaluronidase-oysk 2000 UNT/ML / trastuzumab 120 MG/ML Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN022",
+      "source": "Synthea April 2020 sample",
+      "text": "60 ACTUAT Fluticasone propionate 0.25 MG/ACTUAT / salmeterol 0.05 MG/ACTUAT Dry Powder Inhaler",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN023",
+      "source": "Synthea April 2020 sample",
+      "text": "Abuse-Deterrent 12 HR Oxycodone Hydrochloride 15 MG Extended Release Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN024",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 160 MG Chewable Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN025",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 21.7 MG/ML / Dextromethorphan Hydrobromide 1 MG/ML / doxylamine succinate 0.417 MG/ML Oral Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN026",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 300 MG / HYDROcodone Bitartrate 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN027",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 325 MG / HYDROcodone Bitartrate 7.5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN028",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 325 MG / Oxycodone Hydrochloride 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN029",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 325 MG / oxyCODONE Hydrochloride 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN030",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen 325 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN031",
+      "source": "Synthea April 2020 sample",
+      "text": "Acetaminophen/Hydrocodone",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN032",
+      "source": "Synthea April 2020 sample",
+      "text": "Alendronic acid 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN033",
+      "source": "Synthea April 2020 sample",
+      "text": "Allopurinol 100 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN034",
+      "source": "Synthea April 2020 sample",
+      "text": "Alteplase 100 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN035",
+      "source": "Synthea April 2020 sample",
+      "text": "Amlodipine 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN036",
+      "source": "Synthea April 2020 sample",
+      "text": "Amoxicillin 250 MG / Clavulanate 125 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN037",
+      "source": "Synthea April 2020 sample",
+      "text": "Amoxicillin 250 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN038",
+      "source": "Synthea April 2020 sample",
+      "text": "Amoxicillin 500 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN039",
+      "source": "Synthea April 2020 sample",
+      "text": "Ampicillin 100 MG/ML Injectable Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN040",
+      "source": "Synthea April 2020 sample",
+      "text": "Aspirin 81 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN041",
+      "source": "Synthea April 2020 sample",
+      "text": "Astemizole 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN042",
+      "source": "Synthea April 2020 sample",
+      "text": "Atenolol 50 MG / Chlorthalidone 25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN043",
+      "source": "Synthea April 2020 sample",
+      "text": "Atorvastatin 80 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN044",
+      "source": "Synthea April 2020 sample",
+      "text": "Atropine Sulfate 1 MG/ML Injectable Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN045",
+      "source": "Synthea April 2020 sample",
+      "text": "Camila 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN046",
+      "source": "Synthea April 2020 sample",
+      "text": "Captopril 25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN047",
+      "source": "Synthea April 2020 sample",
+      "text": "Carbamazepine[Tegretol]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN048",
+      "source": "Synthea April 2020 sample",
+      "text": "Cefaclor 250 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN049",
+      "source": "Synthea April 2020 sample",
+      "text": "Cefuroxime 250 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN050",
+      "source": "Synthea April 2020 sample",
+      "text": "Chlorpheniramine Maleate 2 MG/ML Oral Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN051",
+      "source": "Synthea April 2020 sample",
+      "text": "Chlorpheniramine Maleate 4 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN052",
+      "source": "Synthea April 2020 sample",
+      "text": "Cisplatin 50 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN053",
+      "source": "Synthea April 2020 sample",
+      "text": "Clopidogrel 75 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN054",
+      "source": "Synthea April 2020 sample",
+      "text": "Colchicine 0.6 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN055",
+      "source": "Synthea April 2020 sample",
+      "text": "Cyclophosphamide 1000 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN056",
+      "source": "Synthea April 2020 sample",
+      "text": "Diazepam 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN057",
+      "source": "Synthea April 2020 sample",
+      "text": "Digoxin 0.125 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN058",
+      "source": "Synthea April 2020 sample",
+      "text": "Donepezil hydrochloride 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN059",
+      "source": "Synthea April 2020 sample",
+      "text": "Donepezil hydrochloride 23 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN060",
+      "source": "Synthea April 2020 sample",
+      "text": "Doxycycline Monohydrate 100 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN061",
+      "source": "Synthea April 2020 sample",
+      "text": "Doxycycline Monohydrate 50 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN062",
+      "source": "Synthea April 2020 sample",
+      "text": "Errin 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN063",
+      "source": "Synthea April 2020 sample",
+      "text": "Estrostep Fe 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN064",
+      "source": "Synthea April 2020 sample",
+      "text": "Etonogestrel 68 MG Drug Implant",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN065",
+      "source": "Synthea April 2020 sample",
+      "text": "Etoposide 100 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN066",
+      "source": "Synthea April 2020 sample",
+      "text": "FLUoxetine 20 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN067",
+      "source": "Synthea April 2020 sample",
+      "text": "Fexofenadine hydrochloride 30 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN068",
+      "source": "Synthea April 2020 sample",
+      "text": "Fexofenadine hydrochloride 60 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN069",
+      "source": "Synthea April 2020 sample",
+      "text": "Furosemide 40 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN070",
+      "source": "Synthea April 2020 sample",
+      "text": "Galantamine 4 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN071",
+      "source": "Synthea April 2020 sample",
+      "text": "Hydrochlorothiazide 12.5 MG",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN072",
+      "source": "Synthea April 2020 sample",
+      "text": "Hydrochlorothiazide 25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN073",
+      "source": "Synthea April 2020 sample",
+      "text": "Hydrocortisone 10 MG/ML Topical Cream",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN074",
+      "source": "Synthea April 2020 sample",
+      "text": "Ibuprofen 100 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN075",
+      "source": "Synthea April 2020 sample",
+      "text": "Ibuprofen 200 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN076",
+      "source": "Synthea April 2020 sample",
+      "text": "Insulin Lispro 100 UNT/ML Injectable Solution [Humalog]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN077",
+      "source": "Synthea April 2020 sample",
+      "text": "Jolivette 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN078",
+      "source": "Synthea April 2020 sample",
+      "text": "Kyleena 19.5 MG Intrauterine System",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN079",
+      "source": "Synthea April 2020 sample",
+      "text": "Leucovorin 100 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN080",
+      "source": "Synthea April 2020 sample",
+      "text": "Levora 0.15/30 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN081",
+      "source": "Synthea April 2020 sample",
+      "text": "Levothyroxine Sodium 0.075 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN082",
+      "source": "Synthea April 2020 sample",
+      "text": "Liletta 52 MG Intrauterine System",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN083",
+      "source": "Synthea April 2020 sample",
+      "text": "Loratadine 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN084",
+      "source": "Synthea April 2020 sample",
+      "text": "Loratadine 5 MG Chewable Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN085",
+      "source": "Synthea April 2020 sample",
+      "text": "Memantine hydrochloride 2 MG/ML Oral Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN086",
+      "source": "Synthea April 2020 sample",
+      "text": "Meperidine Hydrochloride 50 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN087",
+      "source": "Synthea April 2020 sample",
+      "text": "Mestranol / Norethynodrel [Enovid]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN088",
+      "source": "Synthea April 2020 sample",
+      "text": "Methotrexate 2.5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN089",
+      "source": "Synthea April 2020 sample",
+      "text": "Methylphenidate Hydrochloride 20 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN090",
+      "source": "Synthea April 2020 sample",
+      "text": "Mirena 52 MG Intrauterine System",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN091",
+      "source": "Synthea April 2020 sample",
+      "text": "NDA020503 200 ACTUAT Albuterol 0.09 MG/ACTUAT Metered Dose Inhaler",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN092",
+      "source": "Synthea April 2020 sample",
+      "text": "NDA020800 0.3 ML Epinephrine 1 MG/ML Auto-Injector",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN093",
+      "source": "Synthea April 2020 sample",
+      "text": "NITROFURANTOIN  MACROCRYSTALS 50 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN094",
+      "source": "Synthea April 2020 sample",
+      "text": "Naproxen 500 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN095",
+      "source": "Synthea April 2020 sample",
+      "text": "Naproxen sodium 220 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN096",
+      "source": "Synthea April 2020 sample",
+      "text": "Natazia 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN097",
+      "source": "Synthea April 2020 sample",
+      "text": "Nitrofurantoin 5 MG/ML Oral Suspension",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN098",
+      "source": "Synthea April 2020 sample",
+      "text": "Nitroglycerin 0.4 MG/ACTUAT Mucosal Spray",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN099",
+      "source": "Synthea April 2020 sample",
+      "text": "Norinyl 1+50 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN100",
+      "source": "Synthea April 2020 sample",
+      "text": "NuvaRing 0.12/0.015 MG per 24HR 21 Day Vaginal Ring",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN101",
+      "source": "Synthea April 2020 sample",
+      "text": "Ortho Tri-Cyclen 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN102",
+      "source": "Synthea April 2020 sample",
+      "text": "PACLitaxel 100 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN103",
+      "source": "Synthea April 2020 sample",
+      "text": "Paclitaxel 100 MG Injection",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN104",
+      "source": "Synthea April 2020 sample",
+      "text": "Penicillin G 375 MG/ML Injectable Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN105",
+      "source": "Synthea April 2020 sample",
+      "text": "Penicillin V Potassium 250 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN106",
+      "source": "Synthea April 2020 sample",
+      "text": "Penicillin V Potassium 500 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN107",
+      "source": "Synthea April 2020 sample",
+      "text": "Phenazopyridine hydrochloride 100 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN108",
+      "source": "Synthea April 2020 sample",
+      "text": "Seasonique 91 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN109",
+      "source": "Synthea April 2020 sample",
+      "text": "Sertraline 100 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN110",
+      "source": "Synthea April 2020 sample",
+      "text": "Simvastatin 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN111",
+      "source": "Synthea April 2020 sample",
+      "text": "Simvastatin 20 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN112",
+      "source": "Synthea April 2020 sample",
+      "text": "Tacrine 10 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN113",
+      "source": "Synthea April 2020 sample",
+      "text": "Tamoxifen 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN114",
+      "source": "Synthea April 2020 sample",
+      "text": "Terfenadine 60 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN115",
+      "source": "Synthea April 2020 sample",
+      "text": "Trinessa 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN116",
+      "source": "Synthea April 2020 sample",
+      "text": "Verapamil Hydrochloride 40 MG",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN117",
+      "source": "Synthea April 2020 sample",
+      "text": "Vitamin B 12 5 MG/ML Injectable Solution",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN118",
+      "source": "Synthea April 2020 sample",
+      "text": "Warfarin Sodium 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN119",
+      "source": "Synthea April 2020 sample",
+      "text": "Yaz 28 Day Pack",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN120",
+      "source": "Synthea April 2020 sample",
+      "text": "amLODIPine 5 MG / Hydrochlorothiazide 12.5 MG / Olmesartan medoxomil 20 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN121",
+      "source": "Synthea April 2020 sample",
+      "text": "atomoxetine 100 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN122",
+      "source": "Synthea April 2020 sample",
+      "text": "cetirizine hydrochloride 10 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN123",
+      "source": "Synthea April 2020 sample",
+      "text": "cetirizine hydrochloride 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN124",
+      "source": "Synthea April 2020 sample",
+      "text": "clonazePAM 0.25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN125",
+      "source": "Synthea April 2020 sample",
+      "text": "cycloSPORINE  modified 100 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN126",
+      "source": "Synthea April 2020 sample",
+      "text": "diphenhydrAMINE Hydrochloride 25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN127",
+      "source": "Synthea April 2020 sample",
+      "text": "exemestane 25 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN128",
+      "source": "Synthea April 2020 sample",
+      "text": "ferrous sulfate 325 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN129",
+      "source": "Synthea April 2020 sample",
+      "text": "insulin human  isophane 70 UNT/ML / Regular Insulin  Human 30 UNT/ML Injectable Suspension [Humulin]",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN130",
+      "source": "Synthea April 2020 sample",
+      "text": "neratinib 40 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN131",
+      "source": "Synthea April 2020 sample",
+      "text": "palbociclib 100 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN132",
+      "source": "Synthea April 2020 sample",
+      "text": "predniSONE 5 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN133",
+      "source": "Synthea April 2020 sample",
+      "text": "pregabalin 100 MG Oral Capsule",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    },
+    {
+      "id": "SYN134",
+      "source": "Synthea April 2020 sample",
+      "text": "ribociclib 200 MG Oral Tablet",
+      "kind": "no_antipsychotic_conversion",
+      "expected_drug": null,
+      "daily_mg": null
+    }
+  ]
+}

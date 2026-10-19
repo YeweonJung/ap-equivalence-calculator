@@ -12,7 +12,7 @@ from datetime import date, timedelta
 from functools import lru_cache
 
 from services.converter import available_methods, convert_drug, normalize_target, lookup
-from services.parser import dictionary_match, DOSE_RE, _dose_to_mg
+from services.parser import dictionary_match, DOSE_RE, ORAL_CONCENTRATION_RE, _dose_to_mg
 from services.frames import formulation_info, antidepressant_conflict, drug_mentions
 from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS
 
@@ -101,6 +101,10 @@ def medication(drug, product):
         return canonical or '', form, None, ['unknown_drug'], 'review'
     if product_canonical and product_canonical != canonical:
         issues.append('ingredient_conflict')
+    if formulation_info(combined)['route'] == 'transdermal':
+        return canonical, 'transdermal:' + release, None, issues + ['unsupported_route'], 'review'
+    if not injection and ORAL_CONCENTRATION_RE.search(combined):
+        return canonical, form, None, issues + ['oral_solid_unconfirmed'], 'review'
     doses = list(DOSE_RE.finditer(drug))
     pdoses = list(DOSE_RE.finditer(product))
     strength = _dose_to_mg(float(doses[0]['dose']), doses[0]['unit']) if len(doses) == 1 else None
