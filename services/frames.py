@@ -187,8 +187,7 @@ def _frame(start, end, original):
             frame.update({key: value for key, value in parsed.items() if key not in {'original','match_type','match_score'}})
             frame['needs_review'] |= match_type != 'exact'
             if text != original:
-                frame['warning'] = '; '.join(filter(None, [frame['warning'], '표기 정규화 적용']))
-                frame['needs_review'] = True
+                frame['calculation_note'] = '; '.join(filter(None, [frame.get('calculation_note'), '표기 정규화 적용']))
         except ValueError as exc:
             status = 'review'
             frame['warning'] = str(exc)
@@ -244,7 +243,8 @@ def convert_frame(frame, methods):
         item['error'] = '선택한 환산법의 계수 또는 제형별 근거 없음: ' + ', '.join(methods)
     elif not item['ok']:
         item['error'] = item['warning'] or item['status_message']
-    return item
+    from services.evidence import attach_evidence
+    return attach_evidence(item, methods)
 
 
 def summarize_frames(items, methods):

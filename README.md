@@ -1,4 +1,6 @@
-최신 업데이트: [Woods·Gardner·LAI 변환과 검증 안내](EQUIVALENCE_UPDATE.md).
+최신 업데이트: [근거 추적·단위 평가·방법별 민감도 분석](docs/EVIDENCE_EVALUATION_KO.md) (2026-10-19).
+
+기존 2,318개 계수는 보존합니다. 환산계수표의 약물별 근거 메타데이터, `/methods` 안내, 선택형 민감도 분석 4개 시트, 로컬 평가 도구를 추가했습니다. 근거 등급은 정식 평가가 없어 `not_assessed`로 표시합니다. [이전 Woods·Gardner·LAI 안내](EQUIVALENCE_UPDATE.md).
 
 # AP Equivalence Calculator
 

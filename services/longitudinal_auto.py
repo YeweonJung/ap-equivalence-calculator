@@ -17,7 +17,7 @@ def date_cell(value):
     return text
 
 
-def automatic_analysis(sheets, methods, source_sha256='', release=None):
+def automatic_analysis(sheets, methods, source_sha256='', release=None, include_sensitivity=False):
     standardized, provenance, mappings = [], [], {}
     for sheet, frame in sheets.items():
         if frame.empty:
@@ -52,7 +52,7 @@ def automatic_analysis(sheets, methods, source_sha256='', release=None):
         for r in results:
             r['reference_basis'] = 'each_prescription_date'
     return analyze_export(records, pairs, dict(policy='prescription_date', mode='automatic', mapping=mappings,
-                      source_sha256=source_sha256, release=release or {},
+                      source_sha256=source_sha256, release=release or {}, include_sensitivity=include_sensitivity,
                       reference_rule='Group by patient ID and exact prescription date; ignore overlapping durations and reference-date columns.',
                       date_basis='exact_prescription_date', dose_basis='recognized_daily_tablets_column'),
                       methods=methods, policy='prescription_date', result_transform=annotate)

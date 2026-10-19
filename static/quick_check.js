@@ -37,9 +37,10 @@ function itemHtml(item, index) {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';
     return `<tr><th scope="row">${escapeHtml(value.method)}</th><td>${value.value == null ? `— (${reason})` : `${formatDose(value.value)} · ${escapeHtml(value.target)}${value.basis?.startsWith('경구') ? ' (경구 대응 추정)' : ''}`}</td></tr>`;
   }).join('')}</tbody></table>`;
+  const evidence = `<details><summary>약물별 환산 근거 · 등급 평가 여부</summary><p>정식 GRADE 평가 미실시. 매칭 점수는 임상적 확률이 아닙니다.</p>${item.conversions.map(c => `<p><b>${escapeHtml(c.method)}</b> · ${escapeHtml(c.evidence?.calculation_basis || c.basis || '')}<br>${escapeHtml(c.evidence?.evidence_source || '계수 또는 적용 근거 없음')}<br>${escapeHtml(c.evidence?.exclusion_conditions || '')}</p>`).join('')}<a href="/methods">근거와 적용 한계 보기</a></details>`;
   const steps = item.route === 'injection' && item.active_moiety_mg != null
     ? `입력 ${escapeHtml(item.input_dose_mg)} mg → 활성성분 ${escapeHtml(item.active_moiety_mg)} mg / ${escapeHtml(item.interval_days)}일 → 경구 대응 ${item.oral_equivalent_mg == null ? '단일값 없음' : escapeHtml(item.oral_equivalent_mg) + ' mg/day'}<br>` : '';
-  return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.calculation_note || '')} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}</div></div>`;
+  return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.calculation_note || '')} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}${evidence}</div></div>`;
 }
 
 function totalsHtml(totals, count) {
@@ -135,7 +136,7 @@ exportButton.addEventListener('click', async () => {
   downloadStatus.textContent = 'Excel 생성 중…';
   try {
     const response = await fetch(exportButton.dataset.exportUrl, {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text})
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text, include_sensitivity: document.querySelector('#quick-sensitivity')?.checked === true})
     });
     if (!response.ok || !response.headers.get('content-type')?.includes('spreadsheetml')) throw new Error('Excel을 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.');
     const blob = await response.blob();

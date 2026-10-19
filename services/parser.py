@@ -138,6 +138,10 @@ def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
         raise ValueError("약물 값이 비어 있습니다.")
+    if re.search(r'\d\s*[/⁄]\s*\d+\s*(?:tabs?|tablets?|caps?|capsules?|정|캡슐)|[½¼¾]', original, re.I):
+        raise ValueError('분수 정 수와 표시 mg의 의미가 불명확합니다. 1회 실제 mg과 빈도를 명시해 주세요.')
+    if re.search(r'(?:mg|mcg|ug|μg|g)\s*/\s*(?:ml|l)\b|\bq\s*\d+\s*[-~–]\s*\d+\s*h|\d+\s*[-~–]\s*\d+\s*(?:mg|mcg|ug|g)\b', original, re.I):
+        raise ValueError('농도 또는 범위 용량·간격은 단일 일일 용량으로 확정할 수 없습니다.')
     from services.frames import drug_mentions, formulation_info
     if len({name for _, _, name in drug_mentions(original)}) > 1:
         raise ValueError("여러 약물이 있습니다. 약물별 Frame으로 분리해 주세요.")

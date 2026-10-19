@@ -83,7 +83,7 @@ def calculate():
         if sum(counts.get(p, 0) for p, _ in pairs) > 10000000:
             raise ValueError('처리량이 큽니다. 기준일이나 피험자를 나눠 주세요.')
         release = metadata()
-        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='exact_prescription_date', dose_basis='tablets_per_day', release=release), policy=policy)
+        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='exact_prescription_date', dose_basis='tablets_per_day', release=release, include_sensitivity=request.form.get('include_sensitivity') == 'yes'), policy=policy)
         from services.longitudinal_excel import FILENAME, MIMETYPE
         return send_file(out, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE)
     except (ValueError, TypeError) as exc:

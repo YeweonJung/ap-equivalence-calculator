@@ -65,6 +65,24 @@ def home():
     return render_template("index.html", methods=METHODS)
 
 
+@app.get('/methods')
+def evidence_page():
+    from services.evidence import method_info, VERSION
+    return render_template('methods.html', methods=method_info(), version=VERSION)
+
+
+@app.get('/api/methods')
+def evidence_api():
+    from services.evidence import method_info, VERSION
+    return jsonify(version=VERSION, methods=method_info())
+
+
+@app.get('/evidence.csv')
+def evidence_download():
+    return send_file(BASE_DIR / 'lookup/master_lookup.csv', as_attachment=True,
+                     download_name='AP_equivalence_evidence.csv', max_age=0)
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -128,7 +146,7 @@ def export_quick_check():
     workbook.save(content)
     content.seek(0)
     uploaded = FileStorage(stream=content, filename='quick_check.xlsx')
-    return process_upload(uploaded, 'ALL')
+    return process_upload(uploaded, 'ALL', include_sensitivity=request.get_json().get('include_sensitivity') is True)
 
 
 @app.post("/api/parse")
@@ -150,10 +168,10 @@ def parse_text():
 def upload():
     uploaded_file = request.files.get("file")
     method = request.form.get("method", "ALL").strip().upper() or "ALL"
-    return process_upload(uploaded_file, method)
+    return process_upload(uploaded_file, method, include_sensitivity=request.form.get('include_sensitivity') == 'yes')
 
 
-def process_upload(uploaded_file, method):
+def process_upload(uploaded_file, method, include_sensitivity=False):
     try:
         validate_file(uploaded_file)
         selected_methods = METHODS if method == "ALL" else [method]
@@ -178,7 +196,7 @@ def process_upload(uploaded_file, method):
                 from services.longitudinal_auto import automatic_analysis
                 from services.release import metadata
                 output = automatic_analysis(sheets, selected_methods,
-                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata())
+                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata(), include_sensitivity=include_sensitivity)
                 from services.longitudinal_excel import FILENAME, MIMETYPE
                 response = send_file(output, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE, max_age=0)
                 response.headers['Cache-Control'] = 'no-store'
@@ -232,14 +250,14 @@ def process_upload(uploaded_file, method):
                             record = {**context, **parsed, "source_text": raw_medication}
                             conversions = parsed["conversions"]
                             audit_rows.append({**record, "parsed": parsed["drug"],
-                                               "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None)})
+                                               "unavailable_methods": ", ".join(c["method"] for c in conversions if c["value"] is None) if conversions else ", ".join(selected_methods)})
                             if not parsed["ok"] or parsed.get("unit_assumed"):
                                 error_rows.append({**record, "error": parsed.get("error") or parsed["warning"] or parsed["status_message"]})
 
                         patients[patient_id].extend(cell_items)
                         summary_rows.extend(result_rows(raw_medication, patient_id, cell_items))
             patient_rows, patient_checks = patient_results(patients, selected_methods)
-            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
+            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks, include_sensitivity=include_sensitivity)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(

@@ -118,9 +118,11 @@ def export_excel(records, results, details, metadata):
     audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product',
                      'prescription_date', 'days', 'daily_tablets', 'canonical',
                      'formulation', 'strength_mg', 'daily_mg', 'kind', 'drug_class', 'exclusion_basis', 'issues',
-                     'adjustments', 'duplicate_of', 'original_end', 'effective_end', 'injection_evidence', 'injection_error']
+                     'adjustments', 'duplicate_of', 'original_end', 'effective_end', 'injection_evidence', 'injection_error', 'factor_evidence', 'unavailable_methods']
     def audit_rows():
         for r in records:
+            from services.evidence import dated_evidence
+            evidence = dated_evidence(r, methods)
             def last_day(end):
                 return (end - timedelta(days=1)).isoformat() if end else None
             yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'],
@@ -133,8 +135,12 @@ def export_excel(records, results, details, metadata):
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']),
                        injection_evidence=json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else '',
-                       injection_error=r.get('injection_error', ''))
+                       injection_error=r.get('injection_error', ''), factor_evidence=evidence,
+                       unavailable_methods=';'.join(e['method'] for e in json.loads(evidence) if not e['available']) if r['kind'] != 'non_target' else '')
     write_table(wb, 'AuditTrail', audit_columns, audit_rows())
+    if metadata.get('include_sensitivity'):
+        from services.sensitivity import append_sheets, dated_observations
+        append_sheets(wb, dated_observations(results))
     wb.close()
     out.seek(0)
     return out
