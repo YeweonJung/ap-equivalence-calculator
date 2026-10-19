@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.19-public-products-fixes'
+VERSION = '2026.10.20-korean-selected-base'
 
 
 def metadata():
@@ -28,5 +28,6 @@ def metadata():
             'antidepressant_names_sha256': hashlib.sha256((root / 'lookup/antidepressant_names.json').read_bytes()).hexdigest(),
             'companion_medications_sha256': hashlib.sha256((root / 'lookup/companion_medications.json').read_bytes()).hexdigest(),
             'injection_names_sha256': hashlib.sha256((root / 'lookup/injection_product_names.json').read_bytes()).hexdigest(),
+            'korean_products_sha256': hashlib.sha256((root / 'lookup/korean_public_products.json').read_bytes()).hexdigest(),
             'lookup_sha256': hashlib.sha256((root / 'lookup/master_lookup.csv').read_bytes()).hexdigest(),
             'anchors_sha256': hashlib.sha256((root / 'lookup/equivalence_anchors.csv').read_bytes()).hexdigest()}

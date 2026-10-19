@@ -16,9 +16,9 @@ def calculate(text, methods=METHOD_ORDER):
     return quick_cases(items, methods)
 
 
-def test_base_values_fixed_and_every_supported_alternative_is_a_separate_case():
+def test_base_values_fixed_and_first_available_supplement_only():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD', ['CMD'])
-    assert [c['case_id'] for c in cases] == ['CMD+MED', 'CMD+ED95', 'CMD+DDD', 'CMD+GARDNER']
+    assert [c['case_id'] for c in cases] == ['CMD+MED']
     for case in cases:
         base, alternative = case['details']
         assert base['actual'] == 'CMD' and base['value'] == 5
@@ -29,14 +29,16 @@ def test_base_values_fixed_and_every_supported_alternative_is_a_separate_case():
         assert all(r['case_id'] == case['case_id'] for r in case['details'])
 
 
-def test_a_case_does_not_chain_different_fallbacks_to_complete_the_total():
+def test_missing_drugs_are_filled_in_order_without_replacing_earlier_values():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD, clopenthixol 60mg QD', ['CMD'])
-    med = next(c for c in cases if c['complement'] == 'MED')
-    assert med['total'] is None and med['partial'] == 20 and med['missing'] == 1
-    assert med['details'][-1]['value'] is None
-    gardner = next(c for c in cases if c['complement'] == 'GARDNER')
-    assert gardner['total'] is not None and gardner['missing'] == 0
-    assert {r['actual'] for r in gardner['details']} == {'CMD', 'GARDNER'}
+    result, = cases
+    assert result['case_id'] == 'CMD+MED+GARDNER'
+    assert [r['actual'] for r in result['details']] == ['CMD', 'MED', 'GARDNER']
+    assert result['details'][0]['value'] == 5
+    assert result['details'][1]['value'] == 15
+    expected = 20 + convert_drug('clopenthixol', 60, 'GARDNER', 'olanzapine')
+    assert result['total'] == pytest.approx(round(expected, 4))
+    assert result['partial'] is None and result['missing'] == 0
 
 
 def test_complete_base_is_not_repeated_for_every_fallback():
@@ -95,7 +97,8 @@ def test_quick_api_and_excel_cases_and_medication_methods_match_exactly():
     text = 'olanzapine 5mg QD, paliperidone 6mg QD, unknownxyz 2mg'
     client = app.test_client()
     data = client.post('/api/parse', json={'text': text}).json
-    assert data['case_policy'] == 'supplemented-cases-2.0'
+    assert data['case_policy'] == 'selected-base-sequential-3.0'
+    assert data['base_method'] == 'CMD' and len(data['cases']) == 1
     response = client.post('/api/export', json={'text': text})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
@@ -113,7 +116,7 @@ def test_quick_api_and_excel_cases_and_medication_methods_match_exactly():
         assert row['부분합 (mg/day)'] == case['partial']
         assert (row['보완 방법'] or '') == case['complement']
         assert row['미환산 수'] == case['missing']
-        assert [(r['성분'], r['적용 방법'] or '') for r in detail_rows if r['계산안'] == case['case_id']] == [
+        assert [(r['성분'], r['적용 방법'] or '') for r in detail_rows] == [
             (r['drug'], r['actual']) for r in case['details']]
 
 
@@ -127,9 +130,9 @@ def test_date_and_sheet_provenance_with_repeated_source_row_numbers():
     wb = load_workbook(automatic_analysis(sheets, ['CMD']))
     data = list(wb['보완합계'].values)
     summaries = [dict(zip(data[0], row)) for row in data[1:]]
-    assert len([r for r in summaries if r['환자 ID'] == '001']) == 4
+    assert len([r for r in summaries if r['환자 ID'] == '001']) == 1
     assert next(r for r in summaries if r['환자 ID'] == '001' and r['계산안'] == 'CMD+MED')['보완 총합 (mg/day)'] == 20
     data = list(wb['보완근거'].values)
     detail = [dict(zip(data[0], row)) for row in data[1:]]
-    cmd_med = [r for r in detail if r['환자 ID'] == '001' and r['계산안'] == 'CMD+MED']
+    cmd_med = [r for r in detail if r['환자 ID'] == '001']
     assert {(r['원본 시트'], r['원본 행']) for r in cmd_med} == {('First', 2), ('Second', 2)}

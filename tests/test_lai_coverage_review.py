@@ -96,7 +96,7 @@ def test_dated_lai_uses_interval_not_days_supply_and_keeps_bridge_in_export():
     text = io.TextIOWrapper(stream, encoding='utf-8-sig', newline='')
     writer = csv.DictWriter(text, fieldnames=list(detail[0]))
     writer.writeheader(); writer.writerows(detail); text.flush()
-    cases = list(dated_cases(stream, results))
+    cases = list(dated_cases(stream, results, base_method='MED'))
     assert next(c for c in cases if c['base'] == 'MED')['total'] == pytest.approx(round(3/0.267, 4))
     text.detach()
 

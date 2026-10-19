@@ -474,7 +474,7 @@
       "cleaning_decreased_n": 1
     }
   },
-  "total_seconds": 0.08521980000659823,
+  "total_seconds": 0.10536230000434443,
   "external_api_cost_usd": 0,
   "cost_note": "내장 규칙 파서는 외부 API 호출 0건. 하드웨어·전력·인건비는 미측정. 외부 예측의 비용은 별도 기록.",
   "notes": [
@@ -509,7 +509,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.04677319998154417
+      "elapsed_seconds": 0.0703854999737814
     },
     {
       "id": "SYN002",
@@ -535,7 +535,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0011884999694302678
+      "elapsed_seconds": 0.0012164999498054385
     },
     {
       "id": "SYN003",
@@ -561,7 +561,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0009270000155083835
+      "elapsed_seconds": 0.0006491999956779182
     },
     {
       "id": "SYN004",
@@ -587,7 +587,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00041820004116743803
+      "elapsed_seconds": 0.00040659995283931494
     },
     {
       "id": "SYN005",
@@ -613,7 +613,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003958999877795577
+      "elapsed_seconds": 0.00037969998084008694
     },
     {
       "id": "SYN006",
@@ -639,7 +639,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003724999842233956
+      "elapsed_seconds": 0.00035930000012740493
     },
     {
       "id": "SYN007",
@@ -665,7 +665,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00036910001654177904
+      "elapsed_seconds": 0.0003305000136606395
     },
     {
       "id": "SYN008",
@@ -691,7 +691,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003073999541811645
+      "elapsed_seconds": 0.0003415999817661941
     },
     {
       "id": "SYN009",
@@ -717,7 +717,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00033549999352544546
+      "elapsed_seconds": 0.00038679997669532895
     },
     {
       "id": "SYN010",
@@ -743,7 +743,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.0003971999976783991
+      "elapsed_seconds": 0.00046199996722862124
     },
     {
       "id": "SYN011",
@@ -769,7 +769,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.023939200036693364
+      "elapsed_seconds": 0.0214074999676086
     },
     {
       "id": "SYN012",
@@ -795,7 +795,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.0004800999886356294
+      "elapsed_seconds": 0.0005082999705336988
     },
     {
       "id": "SYN013",
@@ -821,7 +821,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.00035499996738508344
+      "elapsed_seconds": 0.00037320004776120186
     },
     {
       "id": "SYN014",
@@ -847,7 +847,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.0003622000222094357
+      "elapsed_seconds": 0.0003760000108741224
     },
     {
       "id": "SYN015",
@@ -873,7 +873,7 @@
         "wrong_drug": 0
       },
       "cleaning": "unchanged",
-      "elapsed_seconds": 0.0003907000063918531
+      "elapsed_seconds": 0.000318799982778728
     },
     {
       "id": "SYN016",
@@ -899,7 +899,7 @@
         "wrong_drug": 0
       },
       "cleaning": "unchanged",
-      "elapsed_seconds": 0.00151269999332726
+      "elapsed_seconds": 0.00034909998066723347
     },
     {
       "id": "SYN017",
@@ -925,7 +925,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0008668000227771699
+      "elapsed_seconds": 0.0006366000161506236
     },
     {
       "id": "SYN018",
@@ -951,7 +951,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003912000101990998
+      "elapsed_seconds": 0.0002829000004567206
     },
     {
       "id": "SYN019",
@@ -977,7 +977,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0008073999779298902
+      "elapsed_seconds": 0.00029930000891909003
     },
     {
       "id": "SYN020",
@@ -1003,7 +1003,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00019990000873804092
+      "elapsed_seconds": 0.00018829997861757874
     },
     {
       "id": "SYN021",
@@ -1029,7 +1029,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00018810003530234098
+      "elapsed_seconds": 0.00017919996753335
     },
     {
       "id": "SYN022",
@@ -1055,7 +1055,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0006292000180110335
+      "elapsed_seconds": 0.0004017999744974077
     },
     {
       "id": "SYN023",
@@ -1081,7 +1081,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0007755999686196446
+      "elapsed_seconds": 0.001061399991158396
     },
     {
       "id": "SYN024",
@@ -1107,7 +1107,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003141000051982701
+      "elapsed_seconds": 0.0007467999821528792
     },
     {
       "id": "SYN025",
@@ -1133,7 +1133,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0004820000031031668
+      "elapsed_seconds": 0.0008853999897837639
     },
     {
       "id": "SYN026",
@@ -1159,7 +1159,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00031129998387768865
+      "elapsed_seconds": 0.0004978000069968402
     },
     {
       "id": "SYN027",
@@ -1185,7 +1185,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.000298700004350394
+      "elapsed_seconds": 0.00039060000563040376
     },
     {
       "id": "SYN028",
@@ -1211,14 +1211,14 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00030129996594041586
+      "elapsed_seconds": 0.000354300020262599
     }
   ],
   "dataset_sha256": "cdb868e14bdc5918553ba4c0d35e02d8728c848c8ff8ed72cb412f0a34ea125f",
   "release": {
-    "version": "2026.10.19-public-products-fixes",
+    "version": "2026.10.20-korean-selected-base",
     "commit": "",
-    "supplemented_policy": "supplemented-cases-2.0",
+    "supplemented_policy": "selected-base-sequential-3.0",
     "supplemented_case_methods": [
       "CMD",
       "MED",
@@ -1247,6 +1247,7 @@
     "antidepressant_names_sha256": "32d62fa7ce65c3724b1b9e79d5843aaeca2b03d465c04190090d3dc7a9ceeb5c",
     "companion_medications_sha256": "fb5b666cdc3be2fd92508f0b44bccd740c5b6275ba28290f0ea246b2e1f80975",
     "injection_names_sha256": "76edd5bde9bca3bb5d44c2243837bd29f4a901549b8d05b312bc4154dab329f8",
+    "korean_products_sha256": "59a312dc318e6377b5977d25f1e2e7dc8fd4149fe61b31e22ac666928ceba632",
     "lookup_sha256": "c5edfebb61ef57171de8b93e90e81a86463a97af4455249d3faf00ae1eb46012",
     "anchors_sha256": "855cd365099049516219969fcf2f9be09b98b1a1f478e57f42e05da010fb1037"
   },

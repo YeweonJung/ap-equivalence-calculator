@@ -81,6 +81,9 @@ def number(value):
 
 @lru_cache(maxsize=4096)
 def medication(drug, product):
+    from services.korean_products import normalize_product
+    drug, _ = normalize_product(drug)
+    product, _ = normalize_product(product)
     canonical = dictionary_match(drug)
     product_canonical = dictionary_match(product) if product else None
     issues = []

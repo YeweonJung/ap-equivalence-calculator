@@ -2,9 +2,12 @@
 const parseButton = document.querySelector('#parse-button');
 const parseInput = document.querySelector('#parser-input');
 const parseOutput = document.querySelector('#parse-results');
+const baseSelect = document.querySelector('#base-method');
+const selectedBase = () => baseSelect?.value || 'CMD';
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g,
   char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'}[char]));
 let currentText = '';
+let currentBase = 'CMD';
 let currentItems = [];
 let activeRequest = null;
 const exportButton = document.querySelector('#export-quick');
@@ -57,21 +60,21 @@ function totalsHtml(totals, count) {
 }
 
 function scenariosHtml(cases, count) {
-  const summary = `<div class="parse-item quick-scenarios"><b>입력 약물 ${count}개 · 계산안별 합계</b><p>기본 방법의 값은 유지하고, 계수가 없는 약물만 각 보완 방법으로 계산합니다.</p><table class="conversion-table"><caption>계산안별 환산 결과 (mg/day)</caption><thead><tr><th>계산안</th><th>총합 · 기준약물</th><th>사용 방법</th><th>보완 방법</th><th>상태 · 확인 사항</th></tr></thead><tbody>${cases.map(scenario => {
+  const summary = `<div class="parse-item quick-scenarios"><b>입력 약물 ${count}개 · 최종 합계</b><p>기준 ${escapeHtml(currentBase)}의 값을 유지하고, 계수가 없는 약물만 순차 보완합니다.</p><table class="conversion-table"><caption>환산 결과 (mg/day)</caption><thead><tr><th>기준 방법</th><th>총합 · 기준약물</th><th>사용 방법</th><th>보완 방법</th><th>상태 · 확인 사항</th></tr></thead><tbody>${cases.map(scenario => {
     const total = scenario.total == null ? '합산 불가' : `${formatDose(scenario.total)} mg/day`;
     const target = scenario.target == null ? '' : ` · ${escapeHtml(scenario.target)}`;
     const partial = scenario.partial == null ? '' : ` · 부분합 ${formatDose(scenario.partial)} mg/day`;
     const missing = scenario.missing ? ` · 미환산 ${formatDose(scenario.missing)}건` : '';
     const supplemented = scenario.supplemented ? ` · 보완 ${formatDose(scenario.supplemented)}건` : '';
-    return `<tr><th scope="row">${escapeHtml(scenario.case_id)}</th><td>${total}${target}${partial}</td><td>${escapeHtml(scenario.methods)}</td><td>${escapeHtml(scenario.complement || '없음')}</td><td>${escapeHtml(scenario.status)}${missing}${supplemented}${scenario.note ? `<br><small>${escapeHtml(scenario.note)}</small>` : ''}</td></tr>`;
+    return `<tr><th scope="row">${escapeHtml(scenario.base)}</th><td>${total}${target}${partial}</td><td>${escapeHtml(scenario.methods)}</td><td>${escapeHtml(scenario.complement || '없음')}</td><td>${escapeHtml(scenario.status)}${missing}${supplemented}${scenario.note ? `<br><small>${escapeHtml(scenario.note)}</small>` : ''}</td></tr>`;
   }).join('')}</tbody></table></div>`;
-  const details = cases.map(scenario => `<details class="scenario-details"><summary>${escapeHtml(scenario.case_id)} 약물별 근거${scenario.note ? ` · ${escapeHtml(scenario.note)}` : ''}</summary><table class="conversion-table"><caption>${escapeHtml(scenario.case_id)} 약물별 환산 근거</caption><thead><tr><th>약물</th><th>적용 방법</th><th>환산 결과</th><th>근거</th><th>출처</th></tr></thead><tbody>${(scenario.details || []).map(detail => {
+  const details = cases.map(scenario => `<details class="scenario-details"><summary>${escapeHtml(scenario.case_id)} 약물별 근거</summary><table class="conversion-table"><caption>${escapeHtml(scenario.case_id)} 약물별 환산 근거</caption><thead><tr><th>약물</th><th>적용 방법</th><th>환산 결과</th><th>근거</th><th>출처</th></tr></thead><tbody>${(scenario.details || []).map(detail => {
     const medication = detail.original == null || detail.original === detail.drug
       ? escapeHtml(detail.drug ?? detail.original)
       : `${escapeHtml(detail.original)} → ${escapeHtml(detail.drug)}`;
     const value = detail.value == null ? '—' : `${formatDose(detail.value)} mg/day${detail.target == null ? '' : ` · ${escapeHtml(detail.target)}`}`;
     const basis = detail.basis == null || detail.basis === '' ? '' : `<br>${escapeHtml(detail.basis)}`;
-    return `<tr><th scope="row">${medication}</th><td>${escapeHtml(detail.actual || '—')}</td><td>${value}</td><td>${escapeHtml(detail.status)} ${escapeHtml(detail.reason)}${basis}</td><td>${escapeHtml(detail.source)}</td></tr>`;
+    return `<tr><th scope="row">${medication}</th><td>${escapeHtml(detail.actual || '—')}</td><td>${value}</td><td>${escapeHtml(detail.status)} ${escapeHtml(detail.reason)}${basis}${detail.note ? `<br>${escapeHtml(detail.note)}` : ''}</td><td>${escapeHtml(detail.source)}</td></tr>`;
   }).join('')}</tbody></table></details>`).join('');
   return summary + details;
 }
@@ -89,18 +92,20 @@ async function runQuickCheck() {
   downloadStatus.textContent = '';
   currentItems = [];
   currentText = parseInput.value.trim();
+  currentBase = selectedBase();
+  const base = currentBase;
   parseOutput.textContent = '확인 중…';
   try {
     const response = await fetch(parseOutput.dataset.apiUrl, {
       method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({text: currentText}), signal: controller.signal
+      body: JSON.stringify({text: currentText, base_method: base}), signal: controller.signal
     });
     if (!response.headers.get('content-type')?.includes('application/json')) {
       throw new Error('계산 서버 응답을 확인할 수 없습니다. 앱 실행 주소와 서버 상태를 확인해 주세요.');
     }
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || '계산 요청을 처리하지 못했습니다.');
-    if (activeRequest !== controller || parseInput.value.trim() !== currentText) return;
+    if (activeRequest !== controller || parseInput.value.trim() !== currentText || selectedBase() !== base) return;
     currentItems = data.items;
     exportButton.hidden = false;
     parseOutput.innerHTML = data.cases == null
@@ -119,7 +124,7 @@ parseButton.addEventListener('click', runQuickCheck);
 parseInput.addEventListener('keydown', event => {
   if (event.key === 'Enter' && !event.isComposing && !parseButton.disabled) runQuickCheck();
 });
-parseInput.addEventListener('input', () => {
+function clearQuickResult() {
   activeRequest?.abort();
   activeRequest = null;
   parseButton.disabled = false;
@@ -127,20 +132,23 @@ parseInput.addEventListener('input', () => {
   downloadStatus.textContent = '';
   currentItems = [];
   parseOutput.textContent = '';
-});
+}
+parseInput.addEventListener('input', clearQuickResult);
+baseSelect?.addEventListener('change', clearQuickResult);
 
 exportButton.addEventListener('click', async () => {
   const text = currentText;
-  if (!currentItems.length || parseInput.value.trim() !== text) return;
+  const base = currentBase;
+  if (!currentItems.length || parseInput.value.trim() !== text || selectedBase() !== base) return;
   exportButton.disabled = true;
   downloadStatus.textContent = 'Excel 생성 중…';
   try {
     const response = await fetch(exportButton.dataset.exportUrl, {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text})
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text,base_method:base})
     });
     if (!response.ok || !response.headers.get('content-type')?.includes('spreadsheetml')) throw new Error('Excel을 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.');
     const blob = await response.blob();
-    if (parseInput.value.trim() !== text) return;
+    if (parseInput.value.trim() !== text || selectedBase() !== base) return;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url; link.download = 'AP_equivalence_quick_check.xlsx';
@@ -148,7 +156,7 @@ exportButton.addEventListener('click', async () => {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     downloadStatus.textContent = 'Excel 저장을 시작했습니다. 변환 근거와 검토표가 함께 포함됩니다.';
   } catch (error) {
-    if (parseInput.value.trim() === text) downloadStatus.textContent = error.message;
+    if (parseInput.value.trim() === text && selectedBase() === base) downloadStatus.textContent = error.message;
   } finally { exportButton.disabled = false; }
 });
 parseOutput.addEventListener('click', event => {

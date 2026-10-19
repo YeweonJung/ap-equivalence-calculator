@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const elements = {};
-for (const id of ['parse-button','parser-input','parse-results','export-quick','download-status']) {
+for (const id of ['parse-button','parser-input','parse-results','export-quick','download-status','base-method']) {
   elements['#'+id] = {value:'',textContent:'',innerHTML:'',disabled:false,hidden:true,
     dataset:{apiUrl:'/api/parse',exportUrl:'/api/export'}, events:{},
     addEventListener(event, handler) { this.events[event] = handler; }};
@@ -69,7 +69,22 @@ async function main() {
   assert(!candidateHtml.includes('data-candidate'));
   assert(!candidateHtml.includes('unsafe'));
   assert(!candidateHtml.includes('AI'));
-  console.log('UI request ordering, scenario summaries, rounding, missing factors and escaping passed');
+  const base=elements['#base-method'];
+  base.value='DDD';
+  const oldBase=button.events.click();
+  assert.equal(JSON.parse(requests[3].options.body).base_method,'DDD');
+  base.value='MED'; base.events.change();
+  assert(requests[3].options.signal.aborted);
+  requests[3].resolve(response(data)); await oldBase;
+  assert.equal(elements['#parse-results'].textContent,'');
+  assert.equal(elements['#export-quick'].hidden,true);
+  const newBase=button.events.click();
+  assert.equal(JSON.parse(requests[4].options.body).base_method,'MED');
+  requests[4].resolve(response({items:[{ok:true,conversions:[]}],totals:[],cases:[]})); await newBase;
+  const exporting=elements['#export-quick'].events.click();
+  assert.equal(JSON.parse(requests[5].options.body).base_method,'MED');
+  requests[5].resolve({ok:false,headers:{get:()=>''}}); await exporting;
+  console.log('UI request ordering, selected base, export, summaries and escaping passed');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
 context.totals = [{method:'CMD',target_drug:'olanzapine',total_equivalent_dose_mg:12.5,unresolved_count:0},

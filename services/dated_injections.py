@@ -6,6 +6,9 @@ from services.parser import DOSE_RE, _dose_to_mg
 
 
 def prepare_injection(drug_text, product_text, canonical):
+    from services.korean_products import normalize_product
+    drug_text, drug_note = normalize_product(drug_text)
+    product_text, product_note = normalize_product(product_text)
     text = ' '.join(filter(None, (drug_text, product_text)))
     amounts = []
     for raw in (drug_text, product_text):
@@ -29,6 +32,11 @@ def prepare_injection(drug_text, product_text, canonical):
     frame = dict(original=text, drug=canonical, dose_mg=dose, route='injection',
                  status='ready', match_type='exact', **product_evidence(text))
     frame.update(injection_values(frame))
+    for note in (drug_note, product_note):
+        if note:
+            existing = frame.get('calculation_note', '')
+            frame.update(note)
+            frame['calculation_note'] = '; '.join(filter(None, [existing, note['calculation_note']]))
     if frame['active_moiety_mg'] != normalized[0]:
         raise ValueError('확인바람: 두 필드의 주사 표시량 기준이 서로 다릅니다.')
     return frame

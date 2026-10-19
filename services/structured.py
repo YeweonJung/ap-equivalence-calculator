@@ -3,7 +3,7 @@ from services.exclusions import is_excluded
 import re
 from services.frames import parse_frames
 from services.medication_splitter import split_medications
-from services.parser import DOSE_RE, _frequency_matches, alias_map
+from services.parser import DOSE_RE, _dose_to_mg, _frequency_matches, alias_map
 from services.upload_aliases import CONFIRMED_UPLOAD_ALIASES, parse_upload_frames
 
 
@@ -47,6 +47,41 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
     def value(column):
         result = str(row.get(column, '')).strip() if column is not None else ''
         return '' if result.casefold() in {'nan', 'none', 'null'} else result
+
+    from services.korean_products import normalize_product
+    normalized, product = normalize_product(raw)
+    if product and (value(dose_col) or value(frequency_col)):
+        # The label already supplies a strength. Keep separate schedule fields,
+        # but never silently choose between conflicting label/column doses.
+        local = row.copy()
+        if dose_col is not None:
+            local[dose_col] = ''
+        text = compose(local, raw, dose_col, unit_col, frequency_col)
+        frames = parse_upload_frames(text)
+        issue = ''
+        if value(dose_col):
+            supplied = compose(row, '', dose_col, unit_col, None).split()[0]
+            supplied = DOSE_RE.fullmatch(supplied)
+            nominal = DOSE_RE.search(normalized)
+            try:
+                if not supplied or _dose_to_mg(float(supplied['dose']), supplied['unit']) != _dose_to_mg(float(nominal['dose']), nominal['unit']):
+                    issue = '상품명 함량과 용량 열이 다르거나 용량 단위가 불명확합니다.'
+            except (ValueError, TypeError):
+                issue = '상품명 함량과 용량 열을 확인해 주세요.'
+        frequency = compose(local, '', dose_col, None, frequency_col).strip()
+        if frequency:
+            try:
+                valid = bool(_frequency_matches(frequency)) or bool(re.fullmatch(
+                    r'q\s*\d+\s*(?:d|days?|w|wk|weeks?|mo|months?)|every\s+\d+\s+(?:days?|weeks?|months?)|monthly|weekly|매월|매주|\d+\s*개월|\d+\s*주\s*(?:마다|간격)', frequency, re.I))
+            except ValueError:
+                valid = False
+            if not valid:
+                issue = f'지원하지 않는 복용 빈도: {frequency}'
+        if issue:
+            for frame in frames:
+                frame.update(status='review', status_message='입력 확인 필요', warning=issue,
+                             daily_dose_mg=None, needs_review=True)
+        return frames
 
     if DOSE_RE.search(raw) or dose_col is None:
         return parse_upload_frames(raw)

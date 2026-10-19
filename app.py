@@ -132,10 +132,19 @@ def quick_check_text():
     return text
 
 
+def selected_base(value=None):
+    if value is None:
+        return 'CMD'
+    if not isinstance(value, str) or value.strip().upper() not in METHODS:
+        raise ValueError('지원하는 기준 방법을 하나 선택해 주세요.')
+    return value.strip().upper()
+
+
 @app.post('/api/export')
 def export_quick_check():
     try:
         text = quick_check_text()
+        base_method = selected_base(request.get_json().get('base_method'))
     except ValueError as exc:
         return jsonify({'error': str(exc)}), 400
     workbook = Workbook()
@@ -146,13 +155,14 @@ def export_quick_check():
     workbook.save(content)
     content.seek(0)
     uploaded = FileStorage(stream=content, filename='quick_check.xlsx')
-    return process_upload(uploaded, 'ALL')
+    return process_upload(uploaded, 'ALL', base_method)
 
 
 @app.post("/api/parse")
 def parse_text():
     try:
         text = quick_check_text()
+        base_method = selected_base(request.get_json().get('base_method'))
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
@@ -161,22 +171,24 @@ def parse_text():
             attach_feedback(item)
     from services.supplemented import quick_cases, POLICY_VERSION
     return jsonify({"items": items, "totals": summarize_frames(items, METHODS),
-                    "cases": quick_cases(items, METHODS), "case_policy": POLICY_VERSION})
+                    "cases": quick_cases(items, [base_method]), "case_policy": POLICY_VERSION,
+                    "base_method": base_method})
 
 
 @app.post("/upload")
 def upload():
     uploaded_file = request.files.get("file")
     method = request.form.get("method", "ALL").strip().upper() or "ALL"
-    return process_upload(uploaded_file, method)
+    return process_upload(uploaded_file, method, request.form.get('base_method'))
 
 
-def process_upload(uploaded_file, method):
+def process_upload(uploaded_file, method, base_method=None):
     try:
         validate_file(uploaded_file)
         selected_methods = METHODS if method == "ALL" else [method]
         for selected_method in selected_methods:
             normalize_target(selected_method)
+        base_method = selected_base(base_method if base_method is not None else ('CMD' if method == 'ALL' else method))
     except ValueError as exc:
         return render_template("error.html", message=str(exc)), 400
 
@@ -196,7 +208,7 @@ def process_upload(uploaded_file, method):
                 from services.longitudinal_auto import automatic_analysis
                 from services.release import metadata
                 output = automatic_analysis(sheets, selected_methods,
-                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata())
+                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata(), base_method=base_method)
                 from services.longitudinal_excel import FILENAME, MIMETYPE
                 response = send_file(output, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE, max_age=0)
                 response.headers['Cache-Control'] = 'no-store'
@@ -257,7 +269,7 @@ def process_upload(uploaded_file, method):
                         patients[patient_id].extend(cell_items)
                         summary_rows.extend(result_rows(raw_medication, patient_id, cell_items))
             patient_rows, patient_checks = patient_results(patients, selected_methods)
-            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
+            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks, base_method=base_method)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(

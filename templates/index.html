@@ -35,7 +35,8 @@
 
 
 .parser button{font-family:inherit}.parser input[type=checkbox]{width:16px;min-height:16px;vertical-align:middle}.parser details{margin-top:12px}.parser .manual-correction{padding:8px 12px;margin-top:8px}.parser small{line-height:1.7}.file-label.dragging{border-color:var(--blue);background:#f1f7ff}#upload-status:empty{display:none}#upload-status{font-size:12px;color:var(--muted);overflow-wrap:anywhere}#upload-status[data-error=true]{color:#a43720}
-.patient-result-grid{display:grid;grid-template-columns:1.1fr repeat(4,1fr);font-size:11px}.patient-result-grid .cell{padding:10px 5px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+5){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:8px;font-weight:500;margin-top:4px}@media(max-width:400px){.patient-result-grid{font-size:9px}.patient-result-grid .cell{padding:9px 3px}.patient-result-grid small{font-size:7px}}
+.patient-result-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;font-size:11px}.patient-result-grid .cell{padding:10px 8px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:9px;font-weight:500;margin-top:4px}
+.base-choice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}.base-choice select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.base-choice small{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -58,16 +59,17 @@
           <section class="panel" aria-label="환자별 총합계 결과 예시">
             <div class="panel-label"><span class="number">2</span>결과파일 받기</div>
             <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="patient-result-grid">
-              <div class="cell">patient_id</div><div class="cell">CMD<small>OLZ mg/day</small></div><div class="cell">MED<small>OLZ mg/day</small></div><div class="cell">DDD<small>OLZ mg/day</small></div><div class="cell">ED95<small>RIS mg/day</small></div>
-              <div class="cell">patient1</div><div class="cell">10.00</div><div class="cell">14.98</div><div class="cell">8.00</div><div class="cell">4.00</div>
-              <div class="cell">patient2</div><div class="cell">10.71</div><div class="cell">11.25</div><div class="cell">10.00</div><div class="cell">8.22</div>
+              <div class="cell">환자 ID</div><div class="cell">최종 합계<small>기준 CMD · OLZ mg/day</small></div><div class="cell">사용 방법</div>
+              <div class="cell">P001</div><div class="cell">10.00</div><div class="cell">CMD</div>
+              <div class="cell">P002</div><div class="cell">10.71</div><div class="cell">CMD</div>
             </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>환자별 총합계:</b> 복용 약물을 환산법별로 합산</span></div>
-            <div class="hint"><span>예시 · 환자 1명당 한 행으로 정리됩니다.</span></div>
+            <div class="hint"><span class="check">✓</span><span><b>첫 시트:</b> 기준 방법의 값이 없을 때만 순차 보완</span></div>
+            <div class="hint"><span><b>두 번째 시트:</b> 약물별 모든 방법의 값을 나란히 비교</span></div>
           </section>
         </div>
         <section class="upload" aria-label="데이터 파일 업로드">
-          <p class="hint">첫 시트는 계산안별 총합·사용 방법·보완 방법, 두 번째는 약물별 적용 근거입니다. 기존 4개 시트도 함께 제공합니다.</p>
+          <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'CMD' %} selected{% endif %}>{{ method }}</option>{% endfor %}</select><small>파일 업로드와 한 줄 계산에 함께 적용됩니다.</small></div>
+          <p class="hint">첫 시트는 선택한 방법을 우선한 최종 합계, 두 번째는 약물별 모든 방법의 값입니다. 기준값이 없는 약물만 순서대로 보완합니다.</p>
           <p class="hint">처방일 열이 있으면 환자 ID와 처방일별로 합산합니다. 다른 날짜의 처방은 기간이 겹쳐도 포함하지 않습니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
@@ -79,7 +81,7 @@
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 보완 방법별 총합을 비교하고, 계산안을 펼쳐 약물별 적용 방법을 확인하세요.</p></div>
+      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 위에서 고른 기준 방법으로 계산하고, 값이 없는 약물만 순차 보완합니다.</p></div>
       <div class="parser"><p>2개 예시: risperidone 2mg, olanzapine 5mg<br>3개 예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
     <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>

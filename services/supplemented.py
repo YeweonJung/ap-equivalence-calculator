@@ -1,4 +1,4 @@
-"""Separate, traceable mixed-method estimates; pure-method exports stay intact."""
+"""Selected-base sequential estimates; pure-method exports stay intact."""
 import csv
 import io
 import json
@@ -14,9 +14,9 @@ from services.exclusions import is_excluded, exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 
 PRIORITY = ('CMD', 'MED', 'ED95', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
-POLICY_VERSION = 'supplemented-cases-2.0'
-POLICY_NOTE = ('기본 방법의 값을 유지하고, 계수가 없는 약물을 보완 방법별로 각각 계산합니다. '
-               '한 계산안에는 하나의 보완 방법만 사용합니다. 보완이 필요 없는 방법은 한 번만 표시합니다. '
+POLICY_VERSION = 'selected-base-sequential-3.0'
+POLICY_NOTE = ('선택한 기본 방법의 값을 유지하고, 계수가 없는 약물만 나머지 방법 순서에서 처음 계산 가능한 값으로 보완합니다. '
+               '보완 순서: CMD → MED → ED95 → DDD → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT (기본 방법 제외). '
                '같은 기준약물로 계산한 혼합 결과이며 미환산 항목이 있으면 총합은 빈칸입니다. ' + POLICY_VERSION)
 SOURCES = {
     'CMD': 'https://pubmed.ncbi.nlm.nih.gov/25841041/',
@@ -103,49 +103,54 @@ def medication_entry(frame, patient='P001', day='', blocker=''):
                 original=frame.get('original'), drug=frame.get('drug'),
                 sheet=frame.get('sheet', ''), source_row=frame.get('source_row'),
                 column=frame.get('medication_column', ''), start=frame.get('source_start'),
+                review_note=frame.get('warning') or '',
                 note='; '.join(filter(None, [frame.get('warning'), frame.get('calculation_note')])))
 
 
 def cases_for_group(entries, methods, patient='P001', day=''):
-    """One base plus one alternative per case, never a Cartesian drug-method mix."""
+    """Keep base values; fill only missing coefficients in a fixed order."""
     def detail(entry, base, fallback=''):
         evidence = resolve(entry['frame'], base, entry['blocker'], fallback)
         return {**{k: v for k, v in entry.items() if k not in ('frame', 'blocker')},
-                **evidence, 'target': TARGETS[base]}
+                **evidence, 'target': TARGETS[base],
+                **{method: resolve(entry['frame'], method, entry['blocker'])['value']
+                   for method in METHOD_ORDER}}
 
-    def case(base, fallback, rows):
-        case_id = base + ('+' + fallback if fallback else '')
+    def case(base, rows):
+        fallbacks = [method for method in PRIORITY if method != base
+                     and any(r['actual'] == method for r in rows)]
+        case_id = '+'.join([base] + fallbacks)
         values = [r['value'] for r in rows if r['value'] is not None]
         missing = len(rows) - len(values)
         complete = bool(rows) and missing == 0
         amount = round(math.fsum(values), 4) if values else None
         used = {r['actual'] for r in rows if r['actual']}
-        used = [m for m in (base, fallback) if m in used]
+        used = [m for m in [base] + fallbacks if m in used]
         count = sum(r['supplemented'] for r in rows)
         status = ('보완 완료' if count else '원래 방법') if complete else '미완료' if rows else '처방 없음'
         return dict(patient_id=str(patient), date=day, case_id=case_id, base=base,
-                    complement=fallback, target=TARGETS[base], total=amount if complete else None,
+                    complement=' → '.join(fallbacks), target=TARGETS[base], total=amount if complete else None,
                     partial=amount if not complete else None, status=status, methods=' + '.join(used),
                     supplemented=count, missing=missing,
-                    note=' · '.join(dict.fromkeys(r['note'] for r in rows if r['note'])),
+                    note=' · '.join(dict.fromkeys(r['review_note'] for r in rows if r['review_note'])),
+                    supplement_order=[m for m in PRIORITY if m != base],
                     details=[{**r, 'case_id': case_id} for r in rows])
 
     for base in methods:
         original = [detail(entry, base) for entry in entries]
         unresolved = [i for i, row in enumerate(original) if row['value'] is None]
-        emitted = False
         if unresolved:
             for fallback in PRIORITY:
                 if fallback == base or normalize_target(base) not in available_targets(fallback):
                     continue
-                rows = list(original)
                 for i in unresolved:
-                    rows[i] = detail(entries[i], base, fallback)
-                if any(r['supplemented'] for r in rows):
-                    emitted = True
-                    yield case(base, fallback, rows)
-        if not emitted:
-            yield case(base, '', original)
+                    candidate = detail(entries[i], base, fallback)
+                    if candidate['value'] is not None:
+                        original[i] = candidate
+                unresolved = [i for i in unresolved if original[i]['value'] is None]
+                if not unresolved:
+                    break
+        yield case(base, original)
 
 
 def quick_cases(items, methods):
@@ -160,7 +165,7 @@ def frame_cases(audits, methods, patients):
         yield from cases_for_group(grouped[str(patient)], methods, patient)
 
 
-def dated_cases(details, results):
+def dated_cases(details, results, base_method=None):
     """Consume the original selected rows; group one patient/date at a time."""
     from services.longitudinal_excel import reason_text
     groups = {}
@@ -186,7 +191,7 @@ def dated_cases(details, results):
                         frame.update(json.loads(row['injection_evidence']))
                     entries.append(medication_entry(frame, patient, day, reason_text(reasons)))
                 pending = next(batches, None)
-            yield from cases_for_group(entries, methods, patient, day)
+            yield from cases_for_group(entries, [base_method or methods[0]], patient, day)
     finally:
         text.detach()
 
@@ -221,20 +226,21 @@ def write_supplemented(workbook, case_factory, dated=False, date_label='처방�
                   value='환산값 (mg/day)', status='처리', reason='사유', basis='용량 기준',
                   source='출처', original='원문 약물', sheet='원본 시트', source_row='원본 행',
                   column='원본 열', start='원문 시작위치', note='확인할 사항')
-    columns = prefix + ['case_id', 'drug', 'actual', 'value', 'target', 'status', 'base', 'dose', 'factor',
+    labels.update({m: f'{m} ({TARGETS[m]} mg/day)' for m in METHOD_ORDER})
+    columns = prefix + ['drug', 'actual', 'value', 'target'] + list(METHOD_ORDER) + ['status', 'base', 'dose', 'factor',
                         'reason', 'basis', 'source', 'original', 'sheet', 'source_row', 'column', 'start', 'note']
     ws = write_table(workbook, '보완근거', columns, details_rows(), labels=labels,
-                     widths=[18] + ([14] if dated else []) + [28, 22, 18, 20, 14, 16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
-                     number_formats={c: '0.############' for c in ('dose', 'factor', 'value')},
+                     widths=[18] + ([14] if dated else []) + [22, 18, 20, 14] + [18] * len(METHOD_ORDER) + [16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
+                     number_formats={c: '0.############' for c in ('dose', 'factor', 'value', *METHOD_ORDER)},
                      wrap_columns=('reason', 'basis', 'source', 'note'))
     ws.write_comment(0, columns.index('actual'), POLICY_NOTE)
 
 
-def append_frame_sheets(workbook, audits, patient_rows, patient_checks):
+def append_frame_sheets(workbook, audits, patient_rows, patient_checks, base_method=None):
     methods = [m for m in METHOD_ORDER if any(c['method'] == m for c in patient_checks)]
     patients = [r['patient_id'] for r in patient_rows]
-    write_supplemented(workbook, lambda: frame_cases(audits, methods, patients))
+    write_supplemented(workbook, lambda: frame_cases(audits, [base_method or (methods[0] if methods else 'CMD')], patients))
 
 
-def append_dated_sheets(workbook, details, results, date_label):
-    write_supplemented(workbook, lambda: dated_cases(details, results), dated=True, date_label=date_label)
+def append_dated_sheets(workbook, details, results, date_label, base_method=None):
+    write_supplemented(workbook, lambda: dated_cases(details, results, base_method), dated=True, date_label=date_label)

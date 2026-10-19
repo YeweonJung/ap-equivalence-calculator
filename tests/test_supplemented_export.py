@@ -66,7 +66,8 @@ def test_selected_method_still_can_use_other_methods_and_partial_is_not_total():
     wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownxyz 2mg\n', 'CMD')
     results = rows(wb, '보완합계')
     result = next(r for r in results if r['계산안'] == 'CMD+MED')
-    assert {r['보완 방법'] for r in results} == {'MED', 'ED95', 'DDD', 'GARDNER'}
+    assert {r['보완 방법'] for r in results} == {'MED'}
+    assert len(results) == 1
     assert result['환자 ID'] == '0001'
     assert result['기본 방법'] == 'CMD'
     assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == 15

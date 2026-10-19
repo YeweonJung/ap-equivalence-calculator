@@ -89,6 +89,8 @@ def formulation_info(text):
 def _segments(text):
     for offset, end, chunk in split_medication_spans(text):
         mentions = drug_mentions(chunk)
+        from services.korean_products import PATTERN as PRODUCT_LABEL_PATTERN
+        product_label = PRODUCT_LABEL_PATTERN.match(chunk)
         concentration_spans = [match.span() for match in ORAL_CONCENTRATION_RE.finditer(chunk)]
         # A name followed by a dose also marks an unknown/typo drug boundary.
         generic = list(re.finditer(r'(?<!\w)[A-Za-z가-힣][A-Za-z가-힣*]*\s*(?=[+-]?(?:\d|\.\d))', _outside(chunk)))
@@ -111,6 +113,8 @@ def _segments(text):
             if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
         starts = sorted(starts)
+        if product_label:
+            starts = [start for start in starts if start == 0 or start >= product_label.end()]
         # Split only after a preceding dose: brand/generic synonyms stay together.
         cuts = [0]
         for start in starts:
@@ -123,7 +127,9 @@ def _segments(text):
 
 
 def _frame(start, end, original):
-    text = unicodedata.normalize('NFKC', original)
+    from services.korean_products import normalize_product
+    normalized_product, product_note = normalize_product(original)
+    text = unicodedata.normalize('NFKC', normalized_product)
     text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
@@ -187,7 +193,7 @@ def _frame(start, end, original):
         try:
             if len(doses) != 1:
                 raise ValueError('확인바람: 주사 용량을 하나로 확정할 수 없습니다.')
-            frame.update(injection_values(frame))
+            frame.update(injection_values({**frame, 'original': text}))
             frame['needs_review'] |= match_type != 'exact'
         except ValueError as exc:
             status = 'unsupported_formulation'
@@ -212,6 +218,9 @@ def _frame(start, end, original):
         # Parsing never performs candidate retrieval or calls an AI service.
         frame['suggestions'] = []
         frame['name_candidates'] = '[]'
+    if product_note:
+        frame.update({k: v for k, v in product_note.items() if k != 'calculation_note'})
+        frame['calculation_note'] = '; '.join(filter(None, [product_note['calculation_note'], frame.get('calculation_note')]))
     frame.update(status=status, status_message=exclusion_label(drug) + ' (환산값 0)' if status == 'non_target' and drug in EXCLUDED_INGREDIENTS else LABELS[status])
     return frame
 

@@ -25,6 +25,7 @@ CASES = [
 SOURCES = {
     'quick': 'patient_id,medication\n001,risperidone 2mg QD\n001,paliperidone 6mg QD\n002,unknownxyz 5mg\n003,lithium 600mg\n004,Sustenna 156mg monthly\n',
     'dated': 'HID,PRESCR_DATE,DRUG,TABS_PER_DAY,COMMERCIAL_DRUG\n001,2026-10-19,Risperidone 2mg tab,1,\n002,2026-10-19,Paliperidone 6mg tab,1,\n003,2026-10-19,unknownxyz 5mg tab,1,\n004,2026-10-19,risperidone 75mg,,Longavo 75mg monthly\n',
+    'korean-structured': 'patient_id,drug,dose,unit,frequency\n001,클자핀정25밀리그램(클로자핀)_(25mg/1정),25,mg,BID\n002,아빌리파이메인테나주사400밀리그램,,,q4w\n003,클자핀정25밀리그램,50,mg,QD\n',
 }
 
 
@@ -49,7 +50,8 @@ def main():
     assert b'include-sensitivity' not in request('/longitudinal')
     assert 'sensitivity_version' not in release
     for i,text in enumerate(CASES,1):
-        payload={'text':text}
+        from services.result_summary import METHOD_ORDER
+        payload={'text':text,'base_method':METHOD_ORDER[(i-1)%len(METHOD_ORDER)]}
         expected=local.post('/api/parse',json=payload).json
         actual=json.loads(request('/api/parse',json.dumps(payload).encode(),'application/json'))
         assert actual['totals']==expected['totals'], i
@@ -69,14 +71,15 @@ def main():
         checked.append(dict(case=label,sheets=a.sheetnames))
         print(f'Excel {label}: {len(a.sheetnames)} worksheets matched',flush=True)
     for name,text in SOURCES.items():
+        selected='ED95' if name=='dated' else 'MED'
         raw=text.encode()
-        expected=local.post('/upload',data={'file':(io.BytesIO(raw),'synthetic.csv')})
+        expected=local.post('/upload',data={'file':(io.BytesIO(raw),'synthetic.csv'),'base_method':selected})
         assert expected.status_code==200, expected.data[:1000]
         boundary='ap-synthetic-'+uuid.uuid4().hex
-        body=(f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="synthetic.csv"\r\nContent-Type: text/csv\r\n\r\n').encode()+raw+f'\r\n--{boundary}--\r\n'.encode()
+        body=(f'--{boundary}\r\nContent-Disposition: form-data; name="base_method"\r\n\r\n{selected}\r\n--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="synthetic.csv"\r\nContent-Type: text/csv\r\n\r\n').encode()+raw+f'\r\n--{boundary}--\r\n'.encode()
         actual=request('/upload',body,'multipart/form-data; boundary='+boundary)
         compare_excel(expected.data,actual,name)
-    payload=dict(text='risperidone 2mg QD, paliperidone 6mg QD')
+    payload=dict(text='risperidone 2mg QD, paliperidone 6mg QD',base_method='ED95')
     compare_excel(local.post('/api/export',json=payload).data,
                   request('/api/export',json.dumps(payload).encode(),'application/json'),'quick-api')
     report=dict(commit=args.commit,version=VERSION,api_cases=len(CASES),workbooks=checked,

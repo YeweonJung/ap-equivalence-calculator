@@ -1,0 +1,5134 @@
+{
+  "source": "https://www.khidi.or.kr/board/view?linkId=48942231&menuId=MENU01869",
+  "download": "https://www.khidi.or.kr/fileDownload?fileDownType=C&fileId=1&paramMenuId=MENU01869&titleId=526047",
+  "snapshot_date": "2026-04-01",
+  "checked_on": "2026-10-19",
+  "sha256": "0c36ef6e516914a0dcb31c54384b5c25a23e6e70eb69c6066a2888760006ef13",
+  "note": "Product names and nominal per-unit strengths only; prescription frequency is never taken from claims days. Exact catalog matches only.",
+  "products": [
+    {
+      "source_row": 1612,
+      "code": "651900760",
+      "name": "명인클로르프로마진염산염정100밀리그램(수출명:클로진정100mg)_(0.1g/1정)",
+      "drug": "chlorpromazine",
+      "ingredient": "chlorpromazine hydrochloride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "chlorpromazine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인클로르프로마진염산염정100밀리그램",
+        "명인클로르프로마진염산염정100밀리그램(수출명:클로진정100mg)",
+        "명인클로르프로마진염산염정100밀리그램(수출명:클로진정100mg)_(0.1g/1정)"
+      ]
+    },
+    {
+      "source_row": 1613,
+      "code": "657200020",
+      "name": "네오마찐정100밀리그램(클로르프로마진염산염)_(0.1g/1정)",
+      "drug": "chlorpromazine",
+      "ingredient": "chlorpromazine hydrochloride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "chlorpromazine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "네오마찐정100밀리그램(클로르프로마진염산염)_(0.1g/1정)",
+        "네오마찐정100밀리그램",
+        "네오마찐정100밀리그램(클로르프로마진염산염)"
+      ]
+    },
+    {
+      "source_row": 1614,
+      "code": "651900770",
+      "name": "명인클로르프로마진염산염정200mg_(0.2g/1정)",
+      "drug": "chlorpromazine",
+      "ingredient": "chlorpromazine hydrochloride   0.2g",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "chlorpromazine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인클로르프로마진염산염정200mg_",
+        "명인클로르프로마진염산염정200mg",
+        "명인클로르프로마진염산염정200mg_(0.2g/1정)"
+      ]
+    },
+    {
+      "source_row": 1615,
+      "code": "651900780",
+      "name": "명인클로르프로마진염산염정50mg(수출명:클로진정50mg)_(50mg/1정)",
+      "drug": "chlorpromazine",
+      "ingredient": "chlorpromazine hydrochloride   50mg",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "chlorpromazine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인클로르프로마진염산염정50mg",
+        "명인클로르프로마진염산염정50mg(수출명:클로진정50mg)",
+        "명인클로르프로마진염산염정50mg(수출명:클로진정50mg)_(50mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1620,
+      "code": "642706230",
+      "name": "클자핀정100밀리그램(클로자핀)_(0.1g/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "clozapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클자핀정100밀리그램(클로자핀)_(0.1g/1정)",
+        "클자핀정100밀리그램(클로자핀)",
+        "클자핀정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1621,
+      "code": "657203420",
+      "name": "클로자릴정100밀리그램(클로자핀)_(0.1g/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "clozapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클로자릴정100밀리그램(클로자핀)_(0.1g/1정)",
+        "클로자릴정100밀리그램",
+        "클로자릴정100밀리그램(클로자핀)"
+      ]
+    },
+    {
+      "source_row": 1622,
+      "code": "642706240",
+      "name": "클자핀정25밀리그램(클로자핀)_(25mg/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   25mg",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "clozapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클자핀정25밀리그램",
+        "클자핀정25밀리그램(클로자핀)",
+        "클자핀정25밀리그램(클로자핀)_(25mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1623,
+      "code": "657203410",
+      "name": "클로자릴정25밀리그램(클로자핀)_(25mg/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   25mg",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "clozapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클로자릴정25밀리그램(클로자핀)_(25mg/1정)",
+        "클로자릴정25밀리그램",
+        "클로자릴정25밀리그램(클로자핀)"
+      ]
+    },
+    {
+      "source_row": 1624,
+      "code": "642706610",
+      "name": "클자핀정50밀리그램(클로자핀)_(50mg/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   50mg",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "clozapine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클자핀정50밀리그램(클로자핀)_(50mg/1정)",
+        "클자핀정50밀리그램",
+        "클자핀정50밀리그램(클로자핀)"
+      ]
+    },
+    {
+      "source_row": 1625,
+      "code": "642706630",
+      "name": "클자핀정200밀리그램(클로자핀)_(0.2g/1정)",
+      "drug": "clozapine",
+      "ingredient": "clozapine   0.2g",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "clozapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "클자핀정200밀리그램(클로자핀)",
+        "클자핀정200밀리그램",
+        "클자핀정200밀리그램(클로자핀)_(0.2g/1정)"
+      ]
+    },
+    {
+      "source_row": 1689,
+      "code": "657200870",
+      "name": "페리돌정1.5밀리그램(할로페리돌)_(1.5mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   1.5mg",
+      "route": "내복",
+      "dose_mg": 1.5,
+      "normalized": "haloperidol 1.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "페리돌정1.5밀리그램",
+        "페리돌정1.5밀리그램(할로페리돌)",
+        "페리돌정1.5밀리그램(할로페리돌)_(1.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1690,
+      "code": "651900970",
+      "name": "명인할로페리돌정1.5밀리그람_(1.5mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   1.5mg",
+      "route": "내복",
+      "dose_mg": 1.5,
+      "normalized": "haloperidol 1.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인할로페리돌정1.5밀리그람",
+        "명인할로페리돌정1.5밀리그람_",
+        "명인할로페리돌정1.5밀리그람_(1.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1691,
+      "code": "657200900",
+      "name": "페리돌정10밀리그램(할로페리돌)_(10mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "haloperidol 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "페리돌정10밀리그램(할로페리돌)",
+        "페리돌정10밀리그램(할로페리돌)_(10mg/1정)",
+        "페리돌정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1692,
+      "code": "651900980",
+      "name": "명인할로페리돌정10밀리그램(수출명:로펠-엠정(할로페리돌))_(10mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "haloperidol 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인할로페리돌정10밀리그램",
+        "명인할로페리돌정10밀리그램(수출명:로펠-엠정(할로페리돌))_(10mg/1정)",
+        "명인할로페리돌정10밀리그램(수출명:로펠-엠정(할로페리돌))"
+      ]
+    },
+    {
+      "source_row": 1693,
+      "code": "657200910",
+      "name": "페리돌정20밀리그램(할로페리돌)_(20mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   20mg",
+      "route": "내복",
+      "dose_mg": 20.0,
+      "normalized": "haloperidol 20mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "페리돌정20밀리그램(할로페리돌)_(20mg/1정)",
+        "페리돌정20밀리그램",
+        "페리돌정20밀리그램(할로페리돌)"
+      ]
+    },
+    {
+      "source_row": 1694,
+      "code": "651900990",
+      "name": "명인할로페리돌정20밀리그람_(20mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   20mg",
+      "route": "내복",
+      "dose_mg": 20.0,
+      "normalized": "haloperidol 20mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인할로페리돌정20밀리그람_",
+        "명인할로페리돌정20밀리그람_(20mg/1정)",
+        "명인할로페리돌정20밀리그람"
+      ]
+    },
+    {
+      "source_row": 1695,
+      "code": "651901000",
+      "name": "명인할로페리돌정3밀리그램_(3mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "haloperidol 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인할로페리돌정3밀리그램_(3mg/1정)",
+        "명인할로페리돌정3밀리그램",
+        "명인할로페리돌정3밀리그램_"
+      ]
+    },
+    {
+      "source_row": 1696,
+      "code": "657200880",
+      "name": "페리돌정3밀리그램(할로페리돌)_(3mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "haloperidol 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "페리돌정3밀리그램(할로페리돌)",
+        "페리돌정3밀리그램",
+        "페리돌정3밀리그램(할로페리돌)_(3mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1697,
+      "code": "657200890",
+      "name": "페리돌정5밀리그램(할로페리돌)_(5mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "haloperidol 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "페리돌정5밀리그램(할로페리돌)",
+        "페리돌정5밀리그램(할로페리돌)_(5mg/1정)",
+        "페리돌정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1698,
+      "code": "651901010",
+      "name": "명인할로페리돌정5밀리그램_(5mg/1정)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "haloperidol 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인할로페리돌정5밀리그램",
+        "명인할로페리돌정5밀리그램_",
+        "명인할로페리돌정5밀리그램_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1705,
+      "code": "651902180",
+      "name": "티세르신정100밀리그램(레보메프로마진말레산염)_(0.1353g/1정)",
+      "drug": "levomepromazine",
+      "ingredient": "levomepromazine maleate (as levomepromazine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "levomepromazine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티세르신정100밀리그램(레보메프로마진말레산염)_(0.1353g/1정)",
+        "티세르신정100밀리그램(레보메프로마진말레산염)",
+        "티세르신정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1706,
+      "code": "651902190",
+      "name": "티세르신정25밀리그람(말레인산레보메프로마진)_(33.8mg/1정)",
+      "drug": "levomepromazine",
+      "ingredient": "levomepromazine maleate (as levomepromazine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "levomepromazine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티세르신정25밀리그람(말레인산레보메프로마진)_(33.8mg/1정)",
+        "티세르신정25밀리그람",
+        "티세르신정25밀리그람(말레인산레보메프로마진)"
+      ]
+    },
+    {
+      "source_row": 1707,
+      "code": "651902200",
+      "name": "티세르신정50밀리그램(레보메프로마진말레산염)_(67.7mg/1정)",
+      "drug": "levomepromazine",
+      "ingredient": "levomepromazine maleate (as levomepromazine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "levomepromazine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티세르신정50밀리그램(레보메프로마진말레산염)",
+        "티세르신정50밀리그램(레보메프로마진말레산염)_(67.7mg/1정)",
+        "티세르신정50밀리그램"
+      ]
+    },
+    {
+      "source_row": 1752,
+      "code": "657202160",
+      "name": "자이레핀정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이레핀정10밀리그램(올란자핀)_(10mg/1정)",
+        "자이레핀정10밀리그램(올란자핀)",
+        "자이레핀정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1753,
+      "code": "642405060",
+      "name": "영진올란자핀정10밀리그램_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "영진올란자핀정10밀리그램_",
+        "영진올란자핀정10밀리그램_(10mg/1정)",
+        "영진올란자핀정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1754,
+      "code": "653005550",
+      "name": "올자펙스정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자펙스정10밀리그램",
+        "올자펙스정10밀리그램(올란자핀)_(10mg/1정)",
+        "올자펙스정10밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1755,
+      "code": "651903280",
+      "name": "뉴로자핀정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "뉴로자핀정10밀리그램",
+        "뉴로자핀정10밀리그램(올란자핀)_(10mg/1정)",
+        "뉴로자핀정10밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1756,
+      "code": "642705690",
+      "name": "올자핀정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자핀정10밀리그램(올란자핀)_(10mg/1정)",
+        "올자핀정10밀리그램(올란자핀)",
+        "올자핀정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1757,
+      "code": "643904000",
+      "name": "산도스올란자핀정10밀리그램_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "산도스올란자핀정10밀리그램_(10mg/1정)",
+        "산도스올란자핀정10밀리그램",
+        "산도스올란자핀정10밀리그램_"
+      ]
+    },
+    {
+      "source_row": 1758,
+      "code": "642002520",
+      "name": "올라핀정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올라핀정10밀리그램(올란자핀)_(10mg/1정)",
+        "올라핀정10밀리그램(올란자핀)",
+        "올라핀정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1759,
+      "code": "645304970",
+      "name": "자이자핀정10mg(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이자핀정10mg",
+        "자이자핀정10mg(올란자핀)",
+        "자이자핀정10mg(올란자핀)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1760,
+      "code": "640005830",
+      "name": "에이프렉사정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에이프렉사정10밀리그램(올란자핀)",
+        "에이프렉사정10밀리그램",
+        "에이프렉사정10밀리그램(올란자핀)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1761,
+      "code": "698003780",
+      "name": "피엠에스올란자핀정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스올란자핀정10밀리그램(올란자핀)_(10mg/1정)",
+        "피엠에스올란자핀정10밀리그램(올란자핀)",
+        "피엠에스올란자핀정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1762,
+      "code": "641908410",
+      "name": "자이프렉사정10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이프렉사정10밀리그램(올란자핀)",
+        "자이프렉사정10밀리그램(올란자핀)_(10mg/1정)",
+        "자이프렉사정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 1763,
+      "code": "626900640",
+      "name": "테바올란자핀정10밀리그램_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "테바올란자핀정10밀리그램_",
+        "테바올란자핀정10밀리그램",
+        "테바올란자핀정10밀리그램_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1764,
+      "code": "642802390",
+      "name": "자이피스오디정 10밀리그램(올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이피스오디정 10밀리그램(올란자핀)",
+        "자이피스오디정 10밀리그램",
+        "자이피스오디정 10밀리그램(올란자핀)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1765,
+      "code": "670801360",
+      "name": "자이프렉사자이디스확산정10밀리그램(미세올란자핀)_(10mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "olanzapine 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이프렉사자이디스확산정10밀리그램(미세올란자핀)",
+        "자이프렉사자이디스확산정10밀리그램",
+        "자이프렉사자이디스확산정10밀리그램(미세올란자핀)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1766,
+      "code": "657202210",
+      "name": "자이레핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이레핀정5밀리그램",
+        "자이레핀정5밀리그램(올란자핀)",
+        "자이레핀정5밀리그램(올란자핀)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1767,
+      "code": "642405070",
+      "name": "영진올란자핀정5밀리그램_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "영진올란자핀정5밀리그램_",
+        "영진올란자핀정5밀리그램_(5mg/1정)",
+        "영진올란자핀정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1768,
+      "code": "642705720",
+      "name": "올자핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자핀정5밀리그램(올란자핀)",
+        "올자핀정5밀리그램",
+        "올자핀정5밀리그램(올란자핀)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1769,
+      "code": "651903220",
+      "name": "뉴로자핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "뉴로자핀정5밀리그램",
+        "뉴로자핀정5밀리그램(올란자핀)_(5mg/1정)",
+        "뉴로자핀정5밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1770,
+      "code": "645304960",
+      "name": "자이자핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이자핀정5밀리그램(올란자핀)_(5mg/1정)",
+        "자이자핀정5밀리그램",
+        "자이자핀정5밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1771,
+      "code": "640005880",
+      "name": "에이프렉사정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에이프렉사정5밀리그램",
+        "에이프렉사정5밀리그램(올란자핀)",
+        "에이프렉사정5밀리그램(올란자핀)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1772,
+      "code": "643904010",
+      "name": "산도스올란자핀정5밀리그램_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "산도스올란자핀정5밀리그램",
+        "산도스올란자핀정5밀리그램_",
+        "산도스올란자핀정5밀리그램_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1773,
+      "code": "653005560",
+      "name": "올자펙스정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자펙스정5밀리그램(올란자핀)_(5mg/1정)",
+        "올자펙스정5밀리그램(올란자핀)",
+        "올자펙스정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1774,
+      "code": "698003800",
+      "name": "피엠에스올란자핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스올란자핀정5밀리그램(올란자핀)",
+        "피엠에스올란자핀정5밀리그램",
+        "피엠에스올란자핀정5밀리그램(올란자핀)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1775,
+      "code": "626900650",
+      "name": "테바올란자핀정5밀리그램_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "테바올란자핀정5밀리그램_",
+        "테바올란자핀정5밀리그램_(5mg/1정)",
+        "테바올란자핀정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1776,
+      "code": "641908390",
+      "name": "자이프렉사정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이프렉사정5밀리그램(올란자핀)",
+        "자이프렉사정5밀리그램(올란자핀)_(5mg/1정)",
+        "자이프렉사정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1777,
+      "code": "642002510",
+      "name": "올라핀정5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올라핀정5밀리그램(올란자핀)",
+        "올라핀정5밀리그램(올란자핀)_(5mg/1정)",
+        "올라핀정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1778,
+      "code": "642802420",
+      "name": "자이피스오디정 5밀리그램(올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이피스오디정 5밀리그램(올란자핀)_(5mg/1정)",
+        "자이피스오디정 5밀리그램(올란자핀)",
+        "자이피스오디정 5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1779,
+      "code": "670801370",
+      "name": "자이프렉사자이디스확산정5밀리그램(미세올란자핀)_(5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "olanzapine 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이프렉사자이디스확산정5밀리그램(미세올란자핀)",
+        "자이프렉사자이디스확산정5밀리그램(미세올란자핀)_(5mg/1정)",
+        "자이프렉사자이디스확산정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1780,
+      "code": "657202200",
+      "name": "자이레핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이레핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+        "자이레핀정2.5밀리그램(올란자핀)",
+        "자이레핀정2.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1781,
+      "code": "651903290",
+      "name": "뉴로자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "뉴로자핀정2.5밀리그램",
+        "뉴로자핀정2.5밀리그램(올란자핀)",
+        "뉴로자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1782,
+      "code": "645307110",
+      "name": "자이자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+        "자이자핀정2.5밀리그램",
+        "자이자핀정2.5밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1783,
+      "code": "640005870",
+      "name": "에이프렉사정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에이프렉사정2.5밀리그램(올란자핀)",
+        "에이프렉사정2.5밀리그램",
+        "에이프렉사정2.5밀리그램(올란자핀)_(2.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1784,
+      "code": "643904020",
+      "name": "산도스올란자핀정2.5밀리그램_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "산도스올란자핀정2.5밀리그램_",
+        "산도스올란자핀정2.5밀리그램_(2.5mg/1정)",
+        "산도스올란자핀정2.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1785,
+      "code": "653007160",
+      "name": "올자펙스정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자펙스정2.5밀리그램(올란자핀)",
+        "올자펙스정2.5밀리그램",
+        "올자펙스정2.5밀리그램(올란자핀)_(2.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1786,
+      "code": "642705710",
+      "name": "올자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "올자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+        "올자핀정2.5밀리그램(올란자핀)",
+        "올자핀정2.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1787,
+      "code": "698003790",
+      "name": "피엠에스올란자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스올란자핀정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+        "피엠에스올란자핀정2.5밀리그램",
+        "피엠에스올란자핀정2.5밀리그램(올란자핀)"
+      ]
+    },
+    {
+      "source_row": 1788,
+      "code": "641908400",
+      "name": "자이프렉사정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "자이프렉사정2.5밀리그램(올란자핀)_(2.5mg/1정)",
+        "자이프렉사정2.5밀리그램(올란자핀)",
+        "자이프렉사정2.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1789,
+      "code": "626900630",
+      "name": "테바올란자핀정2.5밀리그램_(2.5mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   2.5mg",
+      "route": "내복",
+      "dose_mg": 2.5,
+      "normalized": "olanzapine 2.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "테바올란자핀정2.5밀리그램_",
+        "테바올란자핀정2.5밀리그램_(2.5mg/1정)",
+        "테바올란자핀정2.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1790,
+      "code": "626900690",
+      "name": "테바올란자핀정15밀리그램_(15mg/1정)",
+      "drug": "olanzapine",
+      "ingredient": "olanzapine   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "olanzapine 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "테바올란자핀정15밀리그램_",
+        "테바올란자핀정15밀리그램_(15mg/1정)",
+        "테바올란자핀정15밀리그램"
+      ]
+    },
+    {
+      "source_row": 1816,
+      "code": "651900920",
+      "name": "명인페르페나진정4밀리그램_(4mg/1정)",
+      "drug": "perphenazine",
+      "ingredient": "perphenazine   4mg",
+      "route": "내복",
+      "dose_mg": 4.0,
+      "normalized": "perphenazine 4mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인페르페나진정4밀리그램",
+        "명인페르페나진정4밀리그램_",
+        "명인페르페나진정4밀리그램_(4mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1817,
+      "code": "651900940",
+      "name": "명인피모짓4밀리그람정_(4mg/1정)",
+      "drug": "pimozide",
+      "ingredient": "pimozide   4mg",
+      "route": "내복",
+      "dose_mg": 4.0,
+      "normalized": "pimozide 4mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명인피모짓4밀리그람정_(4mg/1정)",
+        "명인피모짓4밀리그람정",
+        "명인피모짓4밀리그람정_"
+      ]
+    },
+    {
+      "source_row": 1818,
+      "code": "653000640",
+      "name": "리스돈정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스돈정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리스돈정1밀리그램",
+        "리스돈정1밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1819,
+      "code": "651900380",
+      "name": "리스펜정1밀리그람(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜정1밀리그람(리스페리돈)_(1mg/1정)",
+        "리스펜정1밀리그람(리스페리돈)",
+        "리스펜정1밀리그람"
+      ]
+    },
+    {
+      "source_row": 1820,
+      "code": "645305640",
+      "name": "리스달정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스달정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리스달정1밀리그램(리스페리돈)",
+        "리스달정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 1821,
+      "code": "657200230",
+      "name": "리페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리페리돈정1밀리그램",
+        "리페리돈정1밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1822,
+      "code": "627600020",
+      "name": "피엠에스리스페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스리스페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+        "피엠에스리스페리돈정1밀리그램",
+        "피엠에스리스페리돈정1밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1823,
+      "code": "642900390",
+      "name": "리스프리정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스프리정1밀리그램",
+        "리스프리정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리스프리정1밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1824,
+      "code": "645403330",
+      "name": "리소페린정1mg(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리소페린정1mg",
+        "리소페린정1mg(리스페리돈)",
+        "리소페린정1mg(리스페리돈)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1825,
+      "code": "698004520",
+      "name": "리페넥스정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페넥스정1밀리그램",
+        "리페넥스정1밀리그램(리스페리돈)",
+        "리페넥스정1밀리그램(리스페리돈)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1826,
+      "code": "647304230",
+      "name": "엘페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "엘페리돈정1밀리그램(리스페리돈)",
+        "엘페리돈정1밀리그램(리스페리돈)_(1mg/1정)",
+        "엘페리돈정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 1827,
+      "code": "649002320",
+      "name": "리페돈정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페돈정1밀리그램",
+        "리페돈정1밀리그램(리스페리돈)",
+        "리페돈정1밀리그램(리스페리돈)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1828,
+      "code": "646902480",
+      "name": "리스페달정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스페달정1밀리그램(리스페리돈)",
+        "리스페달정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리스페달정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 1829,
+      "code": "651904500",
+      "name": "리스펜오디정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜오디정1밀리그램(리스페리돈)",
+        "리스펜오디정1밀리그램(리스페리돈)_(1mg/1정)",
+        "리스펜오디정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 1830,
+      "code": "643506180",
+      "name": "리스피돈오디정1밀리그램(리스페리돈)_(1mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "risperidone 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스피돈오디정1밀리그램(리스페리돈)",
+        "리스피돈오디정1밀리그램",
+        "리스피돈오디정1밀리그램(리스페리돈)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1831,
+      "code": "653000630",
+      "name": "리스돈정(리스페리돈)(수출명:에스씨페르달정)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스돈정(리스페리돈)(수출명:에스씨페르달정)",
+        "리스돈정(리스페리돈)(수출명:에스씨페르달정)_(2mg/1정)",
+        "리스돈정"
+      ]
+    },
+    {
+      "source_row": 1832,
+      "code": "651900390",
+      "name": "리스펜정2밀리그람(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜정2밀리그람(리스페리돈)",
+        "리스펜정2밀리그람",
+        "리스펜정2밀리그람(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1833,
+      "code": "657200240",
+      "name": "리페리돈정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페리돈정2밀리그램",
+        "리페리돈정2밀리그램(리스페리돈)",
+        "리페리돈정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1834,
+      "code": "645305650",
+      "name": "리스달정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스달정2밀리그램(리스페리돈)",
+        "리스달정2밀리그램",
+        "리스달정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1835,
+      "code": "627600030",
+      "name": "피엠에스리스페리돈정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스리스페리돈정2밀리그램(리스페리돈)_(2mg/1정)",
+        "피엠에스리스페리돈정2밀리그램",
+        "피엠에스리스페리돈정2밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1836,
+      "code": "649503240",
+      "name": "유니페리돈정(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "유니페리돈정(리스페리돈)_(2mg/1정)",
+        "유니페리돈정",
+        "유니페리돈정(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1837,
+      "code": "642900400",
+      "name": "리스프리정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스프리정2밀리그램",
+        "리스프리정2밀리그램(리스페리돈)",
+        "리스프리정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1838,
+      "code": "661904380",
+      "name": "리스펠돈정2mg(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펠돈정2mg(리스페리돈)_(2mg/1정)",
+        "리스펠돈정2mg(리스페리돈)",
+        "리스펠돈정2mg"
+      ]
+    },
+    {
+      "source_row": 1839,
+      "code": "698004430",
+      "name": "리페넥스정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페넥스정2밀리그램(리스페리돈)",
+        "리페넥스정2밀리그램",
+        "리페넥스정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1840,
+      "code": "645400270",
+      "name": "리소페린정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리소페린정2밀리그램",
+        "리소페린정2밀리그램(리스페리돈)",
+        "리소페린정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1841,
+      "code": "646902470",
+      "name": "리스페달정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스페달정2밀리그램(리스페리돈)",
+        "리스페달정2밀리그램",
+        "리스페달정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1842,
+      "code": "647304220",
+      "name": "엘페리돈정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "엘페리돈정2밀리그램",
+        "엘페리돈정2밀리그램(리스페리돈)",
+        "엘페리돈정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1843,
+      "code": "649002330",
+      "name": "리페돈정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페돈정2밀리그램",
+        "리페돈정2밀리그램(리스페리돈)",
+        "리페돈정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1844,
+      "code": "651904510",
+      "name": "리스펜오디정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜오디정2밀리그램",
+        "리스펜오디정2밀리그램(리스페리돈)",
+        "리스펜오디정2밀리그램(리스페리돈)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1845,
+      "code": "643506170",
+      "name": "리스피돈오디정2밀리그램(리스페리돈)_(2mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "risperidone 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스피돈오디정2밀리그램",
+        "리스피돈오디정2밀리그램(리스페리돈)_(2mg/1정)",
+        "리스피돈오디정2밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1846,
+      "code": "653004990",
+      "name": "리스돈정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스돈정3밀리그램(리스페리돈)_(3mg/1정)",
+        "리스돈정3밀리그램",
+        "리스돈정3밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1847,
+      "code": "657200250",
+      "name": "리페리돈정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페리돈정3밀리그램(리스페리돈)",
+        "리페리돈정3밀리그램",
+        "리페리돈정3밀리그램(리스페리돈)_(3mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1848,
+      "code": "651900400",
+      "name": "리스펜정3밀리그람(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜정3밀리그람(리스페리돈)_(3mg/1정)",
+        "리스펜정3밀리그람(리스페리돈)",
+        "리스펜정3밀리그람"
+      ]
+    },
+    {
+      "source_row": 1849,
+      "code": "627600040",
+      "name": "피엠에스리스페리돈정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스리스페리돈정3밀리그램(리스페리돈)",
+        "피엠에스리스페리돈정3밀리그램",
+        "피엠에스리스페리돈정3밀리그램(리스페리돈)_(3mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1850,
+      "code": "645305660",
+      "name": "리스달정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스달정3밀리그램(리스페리돈)_(3mg/1정)",
+        "리스달정3밀리그램(리스페리돈)",
+        "리스달정3밀리그램"
+      ]
+    },
+    {
+      "source_row": 1851,
+      "code": "698004540",
+      "name": "리페넥스정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페넥스정3밀리그램",
+        "리페넥스정3밀리그램(리스페리돈)_(3mg/1정)",
+        "리페넥스정3밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1852,
+      "code": "646902460",
+      "name": "리스페달정3밀리그램(리스페리돈)_(3mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "risperidone 3mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스페달정3밀리그램",
+        "리스페달정3밀리그램(리스페리돈)",
+        "리스페달정3밀리그램(리스페리돈)_(3mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1853,
+      "code": "653006180",
+      "name": "리스돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스돈정0.5밀리그램",
+        "리스돈정0.5밀리그램(리스페리돈)",
+        "리스돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1854,
+      "code": "651900370",
+      "name": "리스펜정0.5밀리그람(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스펜정0.5밀리그람(리스페리돈)",
+        "리스펜정0.5밀리그람",
+        "리스펜정0.5밀리그람(리스페리돈)_(0.5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1855,
+      "code": "657200220",
+      "name": "리페리돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페리돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+        "리페리돈정0.5밀리그램(리스페리돈)",
+        "리페리돈정0.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1856,
+      "code": "645306940",
+      "name": "리스달정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스달정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+        "리스달정0.5밀리그램(리스페리돈)",
+        "리스달정0.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 1857,
+      "code": "627600050",
+      "name": "피엠에스리스페리돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스리스페리돈정0.5밀리그램",
+        "피엠에스리스페리돈정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+        "피엠에스리스페리돈정0.5밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1858,
+      "code": "698004530",
+      "name": "리페넥스정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리페넥스정0.5밀리그램",
+        "리페넥스정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+        "리페넥스정0.5밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1859,
+      "code": "646902490",
+      "name": "리스페달정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+      "drug": "risperidone",
+      "ingredient": "risperidone   0.5mg",
+      "route": "내복",
+      "dose_mg": 0.5,
+      "normalized": "risperidone 0.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "리스페달정0.5밀리그램(리스페리돈)_(0.5mg/1정)",
+        "리스페달정0.5밀리그램",
+        "리스페달정0.5밀리그램(리스페리돈)"
+      ]
+    },
+    {
+      "source_row": 1896,
+      "code": "651901280",
+      "name": "설피딘정200mg(설피리드)수출명:피리덴정200mg(설피리드)_(0.2g/1정)",
+      "drug": "sulpiride",
+      "ingredient": "sulpiride   0.2g",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "sulpiride 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "설피딘정200mg",
+        "설피딘정200mg(설피리드)수출명:피리덴정200mg(설피리드)_(0.2g/1정)",
+        "설피딘정200mg(설피리드)수출명:피리덴정200mg(설피리드)"
+      ]
+    },
+    {
+      "source_row": 1918,
+      "code": "642400260",
+      "name": "로도핀정100mg(죠테핀)_(0.1g/1정)",
+      "drug": "zotepine",
+      "ingredient": "zotepine   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "zotepine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "로도핀정100mg",
+        "로도핀정100mg(죠테핀)",
+        "로도핀정100mg(죠테핀)_(0.1g/1정)"
+      ]
+    },
+    {
+      "source_row": 1919,
+      "code": "642400240",
+      "name": "로도핀정25mg(죠테핀)_(25mg/1정)",
+      "drug": "zotepine",
+      "ingredient": "zotepine   25mg",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "zotepine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "로도핀정25mg(죠테핀)_(25mg/1정)",
+        "로도핀정25mg(죠테핀)",
+        "로도핀정25mg"
+      ]
+    },
+    {
+      "source_row": 1920,
+      "code": "642400250",
+      "name": "로도핀정50mg(죠테핀)_(50mg/1정)",
+      "drug": "zotepine",
+      "ingredient": "zotepine   50mg",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "zotepine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "로도핀정50mg(죠테핀)_(50mg/1정)",
+        "로도핀정50mg",
+        "로도핀정50mg(죠테핀)"
+      ]
+    },
+    {
+      "source_row": 1925,
+      "code": "651903270",
+      "name": "큐로켈정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정25밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "큐로켈정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1926,
+      "code": "642402070",
+      "name": "쿠티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정25밀리그램",
+        "쿠티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쿠티아핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1927,
+      "code": "643802950",
+      "name": "신신쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "신신쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "신신쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "신신쿠에티아핀정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1928,
+      "code": "642902670",
+      "name": "큐티핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐티핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "큐티핀정25밀리그램",
+        "큐티핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1929,
+      "code": "642003950",
+      "name": "쎄로티핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로티핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쎄로티핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로티핀정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1930,
+      "code": "642707360",
+      "name": "동화쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "동화쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "동화쿠에티아핀정25밀리그램",
+        "동화쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1931,
+      "code": "645303330",
+      "name": "카세핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "카세핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1932,
+      "code": "694002920",
+      "name": "쎄로타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로타핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로타핀정25밀리그램",
+        "쎄로타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1933,
+      "code": "657201180",
+      "name": "쿠에타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀정25밀리그램",
+        "쿠에타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1934,
+      "code": "653004370",
+      "name": "쿠에티정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티정25밀리그램",
+        "쿠에티정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쿠에티정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1935,
+      "code": "628901650",
+      "name": "에큐민정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에큐민정25밀리그램",
+        "에큐민정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "에큐민정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1936,
+      "code": "642307030",
+      "name": "삼성쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "삼성쿠에티아핀정25밀리그램",
+        "삼성쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "삼성쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1937,
+      "code": "646004700",
+      "name": "퀘티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "퀘티아핀정25밀리그램",
+        "퀘티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "퀘티아핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1938,
+      "code": "649002370",
+      "name": "케타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "케타핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "케타핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "케타핀정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1939,
+      "code": "649104030",
+      "name": "쿠에핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에핀정25mg",
+        "쿠에핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쿠에핀정25mg(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1940,
+      "code": "649507590",
+      "name": "콰이치정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "콰이치정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "콰이치정25밀리그램",
+        "콰이치정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1941,
+      "code": "651602450",
+      "name": "한화쿼테아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한화쿼테아핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "한화쿼테아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "한화쿼테아핀정25밀리그램"
+      ]
+    },
+    {
+      "source_row": 1942,
+      "code": "657807290",
+      "name": "세로큐정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로큐정25밀리그램",
+        "세로큐정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "세로큐정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1943,
+      "code": "658502290",
+      "name": "쿠에티나정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티나정25밀리그램",
+        "쿠에티나정25밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티나정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1944,
+      "code": "661905080",
+      "name": "쿠아틴정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아틴정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쿠아틴정25밀리그램",
+        "쿠아틴정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1945,
+      "code": "678601010",
+      "name": "쿠아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "쿠아핀정25밀리그램",
+        "쿠아핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1946,
+      "code": "679801870",
+      "name": "티디핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티디핀정25밀리그램(쿠에티아핀푸마르산염)",
+        "티디핀정25밀리그램",
+        "티디핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1947,
+      "code": "698003080",
+      "name": "피엠에스쿠에티아핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스쿠에티아핀정25mg",
+        "피엠에스쿠에티아핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "피엠에스쿠에티아핀정25mg(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1948,
+      "code": "652606720",
+      "name": "쎄로켈정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈정25밀리그램",
+        "쎄로켈정25밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)"
+      ]
+    },
+    {
+      "source_row": 1949,
+      "code": "643504510",
+      "name": "스무디핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "스무디핀정25밀리그램",
+        "스무디핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "스무디핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1950,
+      "code": "649804210",
+      "name": "명문쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명문쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "명문쿠에티아핀정25밀리그램",
+        "명문쿠에티아핀정25밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1951,
+      "code": "660702930",
+      "name": "세로아핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   25mg)",
+      "route": "내복",
+      "dose_mg": 25.0,
+      "normalized": "quetiapine 25mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로아핀정25mg(쿠에티아핀푸마르산염)",
+        "세로아핀정25mg(쿠에티아핀푸마르산염)_(28.78mg/1정)",
+        "세로아핀정25mg"
+      ]
+    },
+    {
+      "source_row": 1952,
+      "code": "651901980",
+      "name": "큐로켈정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "큐로켈정100밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1953,
+      "code": "642401380",
+      "name": "쿠티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정100밀리그램",
+        "쿠티아핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "쿠티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1954,
+      "code": "643802960",
+      "name": "신신쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "신신쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "신신쿠에티아핀정100밀리그램",
+        "신신쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1955,
+      "code": "690301220",
+      "name": "비엘쿠에티정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "비엘쿠에티정100밀리그램",
+        "비엘쿠에티정100밀리그램(쿠에티아핀푸마르산염)",
+        "비엘쿠에티정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1956,
+      "code": "642707340",
+      "name": "동화쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "동화쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "동화쿠에티아핀정100밀리그램",
+        "동화쿠에티아핀정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1957,
+      "code": "657201130",
+      "name": "쿠에타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "쿠에타핀정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1958,
+      "code": "694002910",
+      "name": "쎄로타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로타핀정100밀리그램",
+        "쎄로타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "쎄로타핀정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1959,
+      "code": "645301550",
+      "name": "카세핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀정100밀리그램",
+        "카세핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1960,
+      "code": "642902890",
+      "name": "큐티핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11512g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐티핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "큐티핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11512g/1정)",
+        "큐티핀정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1961,
+      "code": "642003920",
+      "name": "쎄로티핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로티핀정100밀리그램",
+        "쎄로티핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "쎄로티핀정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1962,
+      "code": "653004360",
+      "name": "쿠에티정(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티정(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "쿠에티정",
+        "쿠에티정(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1963,
+      "code": "652606730",
+      "name": "쎄로켈정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "쎄로켈정100밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1964,
+      "code": "651602440",
+      "name": "한화쿼테아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한화쿼테아핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "한화쿼테아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "한화쿼테아핀정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1965,
+      "code": "698003100",
+      "name": "피엠에스쿠에티아핀정100mg(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스쿠에티아핀정100mg",
+        "피엠에스쿠에티아핀정100mg(쿠에티아핀푸마르산염)",
+        "피엠에스쿠에티아핀정100mg(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1966,
+      "code": "628901680",
+      "name": "에큐민정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에큐민정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "에큐민정100밀리그램",
+        "에큐민정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1967,
+      "code": "646004710",
+      "name": "퀘티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "퀘티아핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "퀘티아핀정100밀리그램",
+        "퀘티아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1968,
+      "code": "649002360",
+      "name": "케타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "케타핀정100밀리그램",
+        "케타핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "케타핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1969,
+      "code": "649507600",
+      "name": "콰이치정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "콰이치정100밀리그램",
+        "콰이치정100밀리그램(쿠에티아핀푸마르산염)",
+        "콰이치정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1970,
+      "code": "657807320",
+      "name": "세로큐정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로큐정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "세로큐정100밀리그램(쿠에티아핀푸마르산염)",
+        "세로큐정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 1971,
+      "code": "661905090",
+      "name": "쿠아틴정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아틴정100밀리그램",
+        "쿠아틴정100밀리그램(쿠에티아핀푸마르산염)",
+        "쿠아틴정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1972,
+      "code": "678601030",
+      "name": "쿠아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아핀정100밀리그램(쿠에티아핀푸마르산염)",
+        "쿠아핀정100밀리그램",
+        "쿠아핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1973,
+      "code": "643504640",
+      "name": "스무디핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "스무디핀정100밀리그램",
+        "스무디핀정100밀리그램(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "스무디핀정100밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1974,
+      "code": "649801490",
+      "name": "명문쿠에티아핀정(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명문쿠에티아핀정",
+        "명문쿠에티아핀정(쿠에티아핀푸마르산염)",
+        "명문쿠에티아핀정(쿠에티아핀푸마르산염)_(0.11513g/1정)"
+      ]
+    },
+    {
+      "source_row": 1975,
+      "code": "660702920",
+      "name": "세로아핀정100mg(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.1g)",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "quetiapine 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로아핀정100mg",
+        "세로아핀정100mg(쿠에티아핀푸마르산염)_(0.11513g/1정)",
+        "세로아핀정100mg(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1976,
+      "code": "651903300",
+      "name": "큐로켈정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정200밀리그램",
+        "큐로켈정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "큐로켈정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1977,
+      "code": "642402100",
+      "name": "쿠티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쿠티아핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠티아핀정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1978,
+      "code": "642003900",
+      "name": "쎄로티핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로티핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쎄로티핀정200밀리그램",
+        "쎄로티핀정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1979,
+      "code": "653004380",
+      "name": "쿠에티정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쿠에티정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1980,
+      "code": "642707350",
+      "name": "동화쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "동화쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "동화쿠에티아핀정200밀리그램",
+        "동화쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)"
+      ]
+    },
+    {
+      "source_row": 1981,
+      "code": "657201170",
+      "name": "쿠에타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀정200밀리그램",
+        "쿠에타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)"
+      ]
+    },
+    {
+      "source_row": 1982,
+      "code": "645303320",
+      "name": "카세핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀정200밀리그램",
+        "카세핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)"
+      ]
+    },
+    {
+      "source_row": 1983,
+      "code": "642902900",
+      "name": "큐티핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐티핀정200밀리그램",
+        "큐티핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+        "큐티핀정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1984,
+      "code": "643504520",
+      "name": "스무디핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "스무디핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "스무디핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "스무디핀정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1985,
+      "code": "652606740",
+      "name": "쎄로켈정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈정200밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쎄로켈정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1986,
+      "code": "694002890",
+      "name": "쎄로타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로타핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쎄로타핀정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1987,
+      "code": "698003090",
+      "name": "피엠에스쿠에티아핀정200mg(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스쿠에티아핀정200mg(쿠에티아핀푸마르산염)",
+        "피엠에스쿠에티아핀정200mg",
+        "피엠에스쿠에티아핀정200mg(쿠에티아핀푸마르산염)_(0.23026g/1정)"
+      ]
+    },
+    {
+      "source_row": 1988,
+      "code": "073001070",
+      "name": "티아펜정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티아펜정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "티아펜정200밀리그램",
+        "티아펜정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1989,
+      "code": "628901660",
+      "name": "에큐민정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "에큐민정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "에큐민정200밀리그램",
+        "에큐민정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1990,
+      "code": "649002350",
+      "name": "케타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "케타핀정200밀리그램(쿠에티아핀푸마르산염)",
+        "케타핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "케타핀정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1991,
+      "code": "649804200",
+      "name": "명문쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명문쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "명문쿠에티아핀정200밀리그램",
+        "명문쿠에티아핀정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1992,
+      "code": "657807310",
+      "name": "세로큐정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로큐정200밀리그램",
+        "세로큐정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "세로큐정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1993,
+      "code": "661905110",
+      "name": "쿠아틴정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아틴정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쿠아틴정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠아틴정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 1994,
+      "code": "678601550",
+      "name": "쿠아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠아핀정200밀리그램",
+        "쿠아핀정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쿠아핀정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1995,
+      "code": "651903330",
+      "name": "큐로켈정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정300밀리그램",
+        "큐로켈정300밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)"
+      ]
+    },
+    {
+      "source_row": 1996,
+      "code": "642402110",
+      "name": "쿠티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정300밀리그램(쿠에티아핀푸마르산염)",
+        "쿠티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "쿠티아핀정300밀리그램"
+      ]
+    },
+    {
+      "source_row": 1997,
+      "code": "657201260",
+      "name": "쿠에타핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "쿠에타핀정300밀리그램",
+        "쿠에타핀정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1998,
+      "code": "642707330",
+      "name": "동화쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "동화쿠에티아핀정300밀리그램",
+        "동화쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "동화쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 1999,
+      "code": "642003910",
+      "name": "쎄로티핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로티핀정300밀리그램",
+        "쎄로티핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "쎄로티핀정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2000,
+      "code": "645303480",
+      "name": "카세핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀정300밀리그램",
+        "카세핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "카세핀정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2001,
+      "code": "653004390",
+      "name": "쿠에티정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티정300밀리그램",
+        "쿠에티정300밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)"
+      ]
+    },
+    {
+      "source_row": 2002,
+      "code": "698003110",
+      "name": "피엠에스쿠에티아핀정300mg(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "피엠에스쿠에티아핀정300mg",
+        "피엠에스쿠에티아핀정300mg(쿠에티아핀푸마르산염)",
+        "피엠에스쿠에티아핀정300mg(쿠에티아핀푸마르산염)_(0.34539g/1정)"
+      ]
+    },
+    {
+      "source_row": 2003,
+      "code": "073001100",
+      "name": "티아펜정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "티아펜정300밀리그램",
+        "티아펜정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "티아펜정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2004,
+      "code": "649804230",
+      "name": "명문쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "명문쿠에티아핀정300밀리그램",
+        "명문쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "명문쿠에티아핀정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2005,
+      "code": "657807300",
+      "name": "세로큐정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "세로큐정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "세로큐정300밀리그램(쿠에티아핀푸마르산염)",
+        "세로큐정300밀리그램"
+      ]
+    },
+    {
+      "source_row": 2006,
+      "code": "694002900",
+      "name": "쎄로타핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로타핀정300밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로타핀정300밀리그램",
+        "쎄로타핀정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)"
+      ]
+    },
+    {
+      "source_row": 2007,
+      "code": "652606760",
+      "name": "쎄로켈정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈정300밀리그램(쿠에티아핀푸마르산염)_(0.34539g/1정)",
+        "쎄로켈정300밀리그램",
+        "쎄로켈정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2008,
+      "code": "651904380",
+      "name": "큐로켈정50밀리그램(쿠에티아핀푸마르산염)_(57.57mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정50밀리그램",
+        "큐로켈정50밀리그램(쿠에티아핀푸마르산염)_(57.57mg/1정)",
+        "큐로켈정50밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2009,
+      "code": "642404840",
+      "name": "쿠티아핀정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정50밀리그램",
+        "쿠티아핀정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "쿠티아핀정50밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2010,
+      "code": "657203320",
+      "name": "쿠에타핀정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정50밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "쿠에타핀정50밀리그램"
+      ]
+    },
+    {
+      "source_row": 2011,
+      "code": "651904270",
+      "name": "큐로켈서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈서방정50밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "큐로켈서방정50밀리그램"
+      ]
+    },
+    {
+      "source_row": 2012,
+      "code": "657202840",
+      "name": "쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "쿠에타핀서방정50밀리그램",
+        "쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2013,
+      "code": "657204210",
+      "name": "환인쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "환인쿠에타핀서방정50밀리그램",
+        "환인쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "환인쿠에타핀서방정50밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2014,
+      "code": "645305790",
+      "name": "카세핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀서방정50밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀서방정50밀리그램",
+        "카세핀서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2015,
+      "code": "653005730",
+      "name": "쿠에티서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티서방정50밀리그램",
+        "쿠에티서방정50밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2016,
+      "code": "652606800",
+      "name": "쎄로켈서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   50mg)",
+      "route": "내복",
+      "dose_mg": 50.0,
+      "normalized": "quetiapine 50mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈서방정50밀리그램(쿠에티아핀푸마르산염)_(57.56mg/1정)",
+        "쎄로켈서방정50밀리그램",
+        "쎄로켈서방정50밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2017,
+      "code": "651904290",
+      "name": "큐로켈서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈서방정200밀리그램",
+        "큐로켈서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+        "큐로켈서방정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2018,
+      "code": "653005740",
+      "name": "쿠에티서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티서방정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+        "쿠에티서방정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 2019,
+      "code": "657202860",
+      "name": "쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+        "쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀서방정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 2020,
+      "code": "657204090",
+      "name": "환인쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "환인쿠에타핀서방정200밀리그램",
+        "환인쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "환인쿠에타핀서방정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2021,
+      "code": "645305800",
+      "name": "카세핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀서방정200밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23024g/1정)",
+        "카세핀서방정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 2022,
+      "code": "652606770",
+      "name": "쎄로켈서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.2g)",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "quetiapine 200mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈서방정200밀리그램(쿠에티아핀푸마르산염)_(0.23026g/1정)",
+        "쎄로켈서방정200밀리그램",
+        "쎄로켈서방정200밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2023,
+      "code": "651904300",
+      "name": "큐로켈서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈서방정300밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+        "큐로켈서방정300밀리그램"
+      ]
+    },
+    {
+      "source_row": 2024,
+      "code": "657202870",
+      "name": "쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀서방정300밀리그램",
+        "쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)"
+      ]
+    },
+    {
+      "source_row": 2025,
+      "code": "657204110",
+      "name": "환인쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34538g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "환인쿠에타핀서방정300밀리그램",
+        "환인쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34538g/1정)",
+        "환인쿠에타핀서방정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2026,
+      "code": "645305770",
+      "name": "카세핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀서방정300밀리그램",
+        "카세핀서방정300밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)"
+      ]
+    },
+    {
+      "source_row": 2027,
+      "code": "653005760",
+      "name": "쿠에티서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티서방정300밀리그램",
+        "쿠에티서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34536g/1정)",
+        "쿠에티서방정300밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2028,
+      "code": "652606790",
+      "name": "쎄로켈서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34538g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.3g)",
+      "route": "내복",
+      "dose_mg": 300.0,
+      "normalized": "quetiapine 300mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈서방정300밀리그램(쿠에티아핀푸마르산염)_(0.34538g/1정)",
+        "쎄로켈서방정300밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈서방정300밀리그램"
+      ]
+    },
+    {
+      "source_row": 2029,
+      "code": "651904310",
+      "name": "큐로켈서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈서방정400밀리그램",
+        "큐로켈서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+        "큐로켈서방정400밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2030,
+      "code": "653005770",
+      "name": "쿠에티서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티서방정400밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티서방정400밀리그램",
+        "쿠에티서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)"
+      ]
+    },
+    {
+      "source_row": 2031,
+      "code": "657202880",
+      "name": "쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+        "쿠에타핀서방정400밀리그램"
+      ]
+    },
+    {
+      "source_row": 2032,
+      "code": "657204100",
+      "name": "환인쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.4605g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "환인쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.4605g/1정)",
+        "환인쿠에타핀서방정400밀리그램",
+        "환인쿠에타핀서방정400밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2033,
+      "code": "645305780",
+      "name": "카세핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀서방정400밀리그램(쿠에티아핀푸마르산염)_(0.46048g/1정)",
+        "카세핀서방정400밀리그램",
+        "카세핀서방정400밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2034,
+      "code": "652606810",
+      "name": "쎄로켈서방정400밀리그램(쿠에티아핀푸마르산염)_(0.4605g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.4g)",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "quetiapine 400mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈서방정400밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈서방정400밀리그램(쿠에티아핀푸마르산염)_(0.4605g/1정)",
+        "쎄로켈서방정400밀리그램"
+      ]
+    },
+    {
+      "source_row": 2035,
+      "code": "651904280",
+      "name": "큐로켈서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+        "큐로켈서방정150밀리그램",
+        "큐로켈서방정150밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2036,
+      "code": "653005750",
+      "name": "쿠에티서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에티서방정150밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에티서방정150밀리그램",
+        "쿠에티서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)"
+      ]
+    },
+    {
+      "source_row": 2037,
+      "code": "645305810",
+      "name": "카세핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀서방정150밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+        "카세핀서방정150밀리그램"
+      ]
+    },
+    {
+      "source_row": 2038,
+      "code": "657202850",
+      "name": "쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17268g/1정)",
+        "쿠에타핀서방정150밀리그램",
+        "쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2039,
+      "code": "657204120",
+      "name": "환인쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17269g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "환인쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)",
+        "환인쿠에타핀서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17269g/1정)",
+        "환인쿠에타핀서방정150밀리그램"
+      ]
+    },
+    {
+      "source_row": 2040,
+      "code": "652606750",
+      "name": "쎄로켈서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17269g/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   0.15g)",
+      "route": "내복",
+      "dose_mg": 150.0,
+      "normalized": "quetiapine 150mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쎄로켈서방정150밀리그램",
+        "쎄로켈서방정150밀리그램(쿠에티아핀푸마르산염)",
+        "쎄로켈서방정150밀리그램(쿠에티아핀푸마르산염)_(0.17269g/1정)"
+      ]
+    },
+    {
+      "source_row": 2041,
+      "code": "642707620",
+      "name": "동화쿠에티아핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   12.5mg)",
+      "route": "내복",
+      "dose_mg": 12.5,
+      "normalized": "quetiapine 12.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "동화쿠에티아핀정12.5밀리그램",
+        "동화쿠에티아핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+        "동화쿠에티아핀정12.5밀리그램(쿠에티아핀푸마르산염)"
+      ]
+    },
+    {
+      "source_row": 2042,
+      "code": "645306620",
+      "name": "카세핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   12.5mg)",
+      "route": "내복",
+      "dose_mg": 12.5,
+      "normalized": "quetiapine 12.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "카세핀정12.5밀리그램(쿠에티아핀푸마르산염)",
+        "카세핀정12.5밀리그램",
+        "카세핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2043,
+      "code": "651904730",
+      "name": "큐로켈정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   12.5mg)",
+      "route": "내복",
+      "dose_mg": 12.5,
+      "normalized": "quetiapine 12.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "큐로켈정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+        "큐로켈정12.5밀리그램(쿠에티아핀푸마르산염)",
+        "큐로켈정12.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 2044,
+      "code": "642404830",
+      "name": "쿠티아핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   12.5mg)",
+      "route": "내복",
+      "dose_mg": 12.5,
+      "normalized": "quetiapine 12.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠티아핀정12.5밀리그램(쿠에티아핀푸마르산염)",
+        "쿠티아핀정12.5밀리그램",
+        "쿠티아핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2045,
+      "code": "657203130",
+      "name": "쿠에타핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+      "drug": "quetiapine",
+      "ingredient": "quetiapine fumarate (as quetiapine   12.5mg)",
+      "route": "내복",
+      "dose_mg": 12.5,
+      "normalized": "quetiapine 12.5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "쿠에타핀정12.5밀리그램(쿠에티아핀푸마르산염)",
+        "쿠에타핀정12.5밀리그램(쿠에티아핀푸마르산염)_(14.39mg/1정)",
+        "쿠에타핀정12.5밀리그램"
+      ]
+    },
+    {
+      "source_row": 2046,
+      "code": "651903620",
+      "name": "아미썰정400밀리그램(아미설피리드)_(0.4g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.4g",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "amisulpride 400mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아미썰정400밀리그램",
+        "아미썰정400밀리그램(아미설피리드)_(0.4g/1정)",
+        "아미썰정400밀리그램(아미설피리드)"
+      ]
+    },
+    {
+      "source_row": 2047,
+      "code": "653005650",
+      "name": "아칸솔정400mg(아미설프리드)_(0.4g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.4g",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "amisulpride 400mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아칸솔정400mg",
+        "아칸솔정400mg(아미설프리드)",
+        "아칸솔정400mg(아미설프리드)_(0.4g/1정)"
+      ]
+    },
+    {
+      "source_row": 2048,
+      "code": "649504440",
+      "name": "폴라리스정400밀리그램(아미설프리드)_(0.4g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.4g",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "amisulpride 400mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "폴라리스정400밀리그램(아미설프리드)_(0.4g/1정)",
+        "폴라리스정400밀리그램(아미설프리드)",
+        "폴라리스정400밀리그램"
+      ]
+    },
+    {
+      "source_row": 2049,
+      "code": "652100610",
+      "name": "솔리안정400밀리그램(아미설프리드)_(0.4g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.4g",
+      "route": "내복",
+      "dose_mg": 400.0,
+      "normalized": "amisulpride 400mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "솔리안정400밀리그램(아미설프리드)",
+        "솔리안정400밀리그램",
+        "솔리안정400밀리그램(아미설프리드)_(0.4g/1정)"
+      ]
+    },
+    {
+      "source_row": 2050,
+      "code": "651903810",
+      "name": "아미썰정100밀리그램(아미설피리드)_(0.1g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "amisulpride 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아미썰정100밀리그램(아미설피리드)",
+        "아미썰정100밀리그램(아미설피리드)_(0.1g/1정)",
+        "아미썰정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 2051,
+      "code": "653005640",
+      "name": "아칸솔정100mg(아미설프리드)_(0.1g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "amisulpride 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아칸솔정100mg(아미설프리드)_(0.1g/1정)",
+        "아칸솔정100mg",
+        "아칸솔정100mg(아미설프리드)"
+      ]
+    },
+    {
+      "source_row": 2052,
+      "code": "649506050",
+      "name": "폴라리스정100밀리그램(아미설피리드)_(0.1g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "amisulpride 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "폴라리스정100밀리그램",
+        "폴라리스정100밀리그램(아미설피리드)_(0.1g/1정)",
+        "폴라리스정100밀리그램(아미설피리드)"
+      ]
+    },
+    {
+      "source_row": 2053,
+      "code": "652100590",
+      "name": "솔리안정100밀리그램(아미설프리드)_(0.1g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.1g",
+      "route": "내복",
+      "dose_mg": 100.0,
+      "normalized": "amisulpride 100mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "솔리안정100밀리그램(아미설프리드)_(0.1g/1정)",
+        "솔리안정100밀리그램(아미설프리드)",
+        "솔리안정100밀리그램"
+      ]
+    },
+    {
+      "source_row": 2054,
+      "code": "651903820",
+      "name": "아미썰정200밀리그램(아미설피리드)_(0.2g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.2g",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "amisulpride 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아미썰정200밀리그램(아미설피리드)_(0.2g/1정)",
+        "아미썰정200밀리그램(아미설피리드)",
+        "아미썰정200밀리그램"
+      ]
+    },
+    {
+      "source_row": 2055,
+      "code": "652100600",
+      "name": "솔리안정200밀리그램(아미설프리드)_(0.2g/1정)",
+      "drug": "amisulpride",
+      "ingredient": "amisulpride   0.2g",
+      "route": "내복",
+      "dose_mg": 200.0,
+      "normalized": "amisulpride 200mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "솔리안정200밀리그램(아미설프리드)",
+        "솔리안정200밀리그램",
+        "솔리안정200밀리그램(아미설프리드)_(0.2g/1정)"
+      ]
+    },
+    {
+      "source_row": 2065,
+      "code": "653005430",
+      "name": "아라빌정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아라빌정10밀리그램(아리피프라졸)",
+        "아라빌정10밀리그램",
+        "아라빌정10밀리그램(아리피프라졸)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2066,
+      "code": "642403800",
+      "name": "아리피진정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피진정10밀리그램(아리피프라졸)_(10mg/1정)",
+        "아리피진정10밀리그램(아리피프라졸)",
+        "아리피진정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 2067,
+      "code": "651903560",
+      "name": "레피졸정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정10밀리그램(아리피프라졸)",
+        "레피졸정10밀리그램(아리피프라졸)_(10mg/1정)",
+        "레피졸정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 2068,
+      "code": "642002700",
+      "name": "아빌라핀정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌라핀정10밀리그램",
+        "아빌라핀정10밀리그램(아리피프라졸)_(10mg/1정)",
+        "아빌라핀정10밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2069,
+      "code": "657202290",
+      "name": "아리피졸정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정10밀리그램(아리피프라졸)_(10mg/1정)",
+        "아리피졸정10밀리그램",
+        "아리피졸정10밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2070,
+      "code": "671706760",
+      "name": "아리졸정10밀리그램(아리피프라졸(미분화))_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리졸정10밀리그램",
+        "아리졸정10밀리그램(아리피프라졸(미분화))_(10mg/1정)",
+        "아리졸정10밀리그램(아리피프라졸(미분화))"
+      ]
+    },
+    {
+      "source_row": 2071,
+      "code": "642706260",
+      "name": "아리피코정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피코정10밀리그램",
+        "아리피코정10밀리그램(아리피프라졸)",
+        "아리피코정10밀리그램(아리피프라졸)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2072,
+      "code": "645305410",
+      "name": "한림아리피프라졸정10밀리그램_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한림아리피프라졸정10밀리그램_(10mg/1정)",
+        "한림아리피프라졸정10밀리그램_",
+        "한림아리피프라졸정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 2073,
+      "code": "649900120",
+      "name": "아빌리파이정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이정10밀리그램(아리피프라졸)",
+        "아빌리파이정10밀리그램",
+        "아빌리파이정10밀리그램(아리피프라졸)_(10mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2074,
+      "code": "649900350",
+      "name": "아빌리파이오디정10밀리그램(아리피프라졸)_(10mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   10mg",
+      "route": "내복",
+      "dose_mg": 10.0,
+      "normalized": "aripiprazole 10mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이오디정10밀리그램(아리피프라졸)_(10mg/1정)",
+        "아빌리파이오디정10밀리그램(아리피프라졸)",
+        "아빌리파이오디정10밀리그램"
+      ]
+    },
+    {
+      "source_row": 2075,
+      "code": "653005440",
+      "name": "아라빌정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아라빌정15밀리그램",
+        "아라빌정15밀리그램(아리피프라졸)",
+        "아라빌정15밀리그램(아리피프라졸)_(15mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2076,
+      "code": "642403810",
+      "name": "아리피진정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피진정15밀리그램",
+        "아리피진정15밀리그램(아리피프라졸)_(15mg/1정)",
+        "아리피진정15밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2077,
+      "code": "651903530",
+      "name": "레피졸정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정15밀리그램",
+        "레피졸정15밀리그램(아리피프라졸)",
+        "레피졸정15밀리그램(아리피프라졸)_(15mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2078,
+      "code": "642002730",
+      "name": "아빌라핀정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌라핀정15밀리그램",
+        "아빌라핀정15밀리그램(아리피프라졸)_(15mg/1정)",
+        "아빌라핀정15밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2079,
+      "code": "657202280",
+      "name": "아리피졸정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정15밀리그램(아리피프라졸)",
+        "아리피졸정15밀리그램(아리피프라졸)_(15mg/1정)",
+        "아리피졸정15밀리그램"
+      ]
+    },
+    {
+      "source_row": 2080,
+      "code": "671706770",
+      "name": "아리졸정15밀리그램(아리피프라졸(미분화))_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리졸정15밀리그램",
+        "아리졸정15밀리그램(아리피프라졸(미분화))_(15mg/1정)",
+        "아리졸정15밀리그램(아리피프라졸(미분화))"
+      ]
+    },
+    {
+      "source_row": 2081,
+      "code": "642706270",
+      "name": "아리피코정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피코정15밀리그램(아리피프라졸)_(15mg/1정)",
+        "아리피코정15밀리그램",
+        "아리피코정15밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2082,
+      "code": "645305430",
+      "name": "한림아리피프라졸정15밀리그램_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한림아리피프라졸정15밀리그램_(15mg/1정)",
+        "한림아리피프라졸정15밀리그램",
+        "한림아리피프라졸정15밀리그램_"
+      ]
+    },
+    {
+      "source_row": 2083,
+      "code": "649900130",
+      "name": "아빌리파이정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이정15밀리그램",
+        "아빌리파이정15밀리그램(아리피프라졸)_(15mg/1정)",
+        "아빌리파이정15밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2084,
+      "code": "649900360",
+      "name": "아빌리파이오디정15밀리그램(아리피프라졸)_(15mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   15mg",
+      "route": "내복",
+      "dose_mg": 15.0,
+      "normalized": "aripiprazole 15mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이오디정15밀리그램",
+        "아빌리파이오디정15밀리그램(아리피프라졸)",
+        "아빌리파이오디정15밀리그램(아리피프라졸)_(15mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2085,
+      "code": "653005450",
+      "name": "아라빌정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아라빌정5밀리그램",
+        "아라빌정5밀리그램(아리피프라졸)",
+        "아라빌정5밀리그램(아리피프라졸)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2086,
+      "code": "642404240",
+      "name": "아리피진정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피진정5밀리그램(아리피프라졸)",
+        "아리피진정5밀리그램",
+        "아리피진정5밀리그램(아리피프라졸)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2087,
+      "code": "651903570",
+      "name": "레피졸정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정5밀리그램(아리피프라졸)",
+        "레피졸정5밀리그램(아리피프라졸)_(5mg/1정)",
+        "레피졸정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 2088,
+      "code": "657202400",
+      "name": "아리피졸정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정5밀리그램",
+        "아리피졸정5밀리그램(아리피프라졸)_(5mg/1정)",
+        "아리피졸정5밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2089,
+      "code": "642707370",
+      "name": "아리피코정5밀리그램(아리피프라졸(미분화))_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피코정5밀리그램",
+        "아리피코정5밀리그램(아리피프라졸(미분화))",
+        "아리피코정5밀리그램(아리피프라졸(미분화))_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2090,
+      "code": "645305420",
+      "name": "한림아리피프라졸정5밀리그램_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한림아리피프라졸정5밀리그램_",
+        "한림아리피프라졸정5밀리그램",
+        "한림아리피프라졸정5밀리그램_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2091,
+      "code": "671706750",
+      "name": "아리졸정5밀리그램(아리피프라졸(미분화))_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리졸정5밀리그램(아리피프라졸(미분화))",
+        "아리졸정5밀리그램",
+        "아리졸정5밀리그램(아리피프라졸(미분화))_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2092,
+      "code": "642002720",
+      "name": "아빌라핀정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌라핀정5밀리그램",
+        "아빌라핀정5밀리그램(아리피프라졸)",
+        "아빌라핀정5밀리그램(아리피프라졸)_(5mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2093,
+      "code": "649900110",
+      "name": "아빌리파이정5밀리그램(아리피프라졸)_(5mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   5mg",
+      "route": "내복",
+      "dose_mg": 5.0,
+      "normalized": "aripiprazole 5mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이정5밀리그램(아리피프라졸)",
+        "아빌리파이정5밀리그램(아리피프라졸)_(5mg/1정)",
+        "아빌리파이정5밀리그램"
+      ]
+    },
+    {
+      "source_row": 2094,
+      "code": "657202800",
+      "name": "아리피졸정2밀리그램(아리피프라졸)_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정2밀리그램",
+        "아리피졸정2밀리그램(아리피프라졸)_(2mg/1정)",
+        "아리피졸정2밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2095,
+      "code": "653006790",
+      "name": "아라빌정2밀리그램(아리피프라졸(미분화))_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아라빌정2밀리그램(아리피프라졸(미분화))_(2mg/1정)",
+        "아라빌정2밀리그램(아리피프라졸(미분화))",
+        "아라빌정2밀리그램"
+      ]
+    },
+    {
+      "source_row": 2096,
+      "code": "642405090",
+      "name": "아리피진정2밀리그램(아리피프라졸(미분화))_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피진정2밀리그램",
+        "아리피진정2밀리그램(아리피프라졸(미분화))",
+        "아리피진정2밀리그램(아리피프라졸(미분화))_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2097,
+      "code": "642005180",
+      "name": "아빌라핀정2밀리그램(아리피프라졸)_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌라핀정2밀리그램",
+        "아빌라핀정2밀리그램(아리피프라졸)_(2mg/1정)",
+        "아빌라핀정2밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2098,
+      "code": "651905230",
+      "name": "레피졸정2밀리그램(아리피프라졸)_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정2밀리그램(아리피프라졸)_(2mg/1정)",
+        "레피졸정2밀리그램",
+        "레피졸정2밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2099,
+      "code": "645307280",
+      "name": "한림아리피프라졸정2밀리그램_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한림아리피프라졸정2밀리그램_",
+        "한림아리피프라졸정2밀리그램_(2mg/1정)",
+        "한림아리피프라졸정2밀리그램"
+      ]
+    },
+    {
+      "source_row": 2100,
+      "code": "642707860",
+      "name": "아리피코정2밀리그램(아리피프라졸(미분화))_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피코정2밀리그램",
+        "아리피코정2밀리그램(아리피프라졸(미분화))_(2mg/1정)",
+        "아리피코정2밀리그램(아리피프라졸(미분화))"
+      ]
+    },
+    {
+      "source_row": 2101,
+      "code": "649900250",
+      "name": "아빌리파이정2밀리그램(아리피프라졸)_(2mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   2mg",
+      "route": "내복",
+      "dose_mg": 2.0,
+      "normalized": "aripiprazole 2mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이정2밀리그램",
+        "아빌리파이정2밀리그램(아리피프라졸)",
+        "아빌리파이정2밀리그램(아리피프라졸)_(2mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2102,
+      "code": "657202820",
+      "name": "아리피졸정30밀리그램(아리피프라졸)_(30mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   30mg",
+      "route": "내복",
+      "dose_mg": 30.0,
+      "normalized": "aripiprazole 30mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정30밀리그램(아리피프라졸)_(30mg/1정)",
+        "아리피졸정30밀리그램(아리피프라졸)",
+        "아리피졸정30밀리그램"
+      ]
+    },
+    {
+      "source_row": 2103,
+      "code": "651904410",
+      "name": "레피졸정30밀리그램(아리피프라졸)_(30mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   30mg",
+      "route": "내복",
+      "dose_mg": 30.0,
+      "normalized": "aripiprazole 30mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정30밀리그램",
+        "레피졸정30밀리그램(아리피프라졸)_(30mg/1정)",
+        "레피졸정30밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2104,
+      "code": "653006880",
+      "name": "아라빌정1밀리그램(아리피프라졸(미분화))_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아라빌정1밀리그램",
+        "아라빌정1밀리그램(아리피프라졸(미분화))",
+        "아라빌정1밀리그램(아리피프라졸(미분화))_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2105,
+      "code": "642405110",
+      "name": "아리피진정1밀리그램(아리피프라졸(미분화))_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피진정1밀리그램(아리피프라졸(미분화))_(1mg/1정)",
+        "아리피진정1밀리그램",
+        "아리피진정1밀리그램(아리피프라졸(미분화))"
+      ]
+    },
+    {
+      "source_row": 2106,
+      "code": "645307260",
+      "name": "한림아리피프라졸정1밀리그램_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "한림아리피프라졸정1밀리그램_(1mg/1정)",
+        "한림아리피프라졸정1밀리그램_",
+        "한림아리피프라졸정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 2107,
+      "code": "657203970",
+      "name": "아리피졸정1밀리그램(아리피프라졸)_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피졸정1밀리그램(아리피프라졸)",
+        "아리피졸정1밀리그램",
+        "아리피졸정1밀리그램(아리피프라졸)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2108,
+      "code": "642707850",
+      "name": "아리피코정1밀리그램(아리피프라졸(미분화))_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아리피코정1밀리그램(아리피프라졸(미분화))",
+        "아리피코정1밀리그램(아리피프라졸(미분화))_(1mg/1정)",
+        "아리피코정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 2109,
+      "code": "651905220",
+      "name": "레피졸정1밀리그램(아리피프라졸)_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "레피졸정1밀리그램",
+        "레피졸정1밀리그램(아리피프라졸)_(1mg/1정)",
+        "레피졸정1밀리그램(아리피프라졸)"
+      ]
+    },
+    {
+      "source_row": 2110,
+      "code": "642005170",
+      "name": "아빌라핀정1밀리그램(아리피프라졸)_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌라핀정1밀리그램(아리피프라졸)",
+        "아빌라핀정1밀리그램",
+        "아빌라핀정1밀리그램(아리피프라졸)_(1mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2111,
+      "code": "649900540",
+      "name": "아빌리파이정1밀리그램(아리피프라졸)_(1mg/1정)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   1mg",
+      "route": "내복",
+      "dose_mg": 1.0,
+      "normalized": "aripiprazole 1mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "아빌리파이정1밀리그램(아리피프라졸)",
+        "아빌리파이정1밀리그램(아리피프라졸)_(1mg/1정)",
+        "아빌리파이정1밀리그램"
+      ]
+    },
+    {
+      "source_row": 2112,
+      "code": "073400090",
+      "name": "젤독스캡슐20밀리그램(염산지프라시돈일수화물)_(22.65mg/1캡슐)",
+      "drug": "ziprasidone",
+      "ingredient": "ziprasidone hydrochloride monohydrate (as ziprasidone   20mg)",
+      "route": "내복",
+      "dose_mg": 20.0,
+      "normalized": "ziprasidone 20mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "젤독스캡슐20밀리그램(염산지프라시돈일수화물)",
+        "젤독스캡슐20밀리그램",
+        "젤독스캡슐20밀리그램(염산지프라시돈일수화물)_(22.65mg/1캡슐)"
+      ]
+    },
+    {
+      "source_row": 2113,
+      "code": "073400120",
+      "name": "젤독스캡슐40밀리그램(염산지프라시돈일수화물)_(45.3mg/1캡슐)",
+      "drug": "ziprasidone",
+      "ingredient": "ziprasidone hydrochloride monohydrate (as ziprasidone   40mg)",
+      "route": "내복",
+      "dose_mg": 40.0,
+      "normalized": "ziprasidone 40mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "젤독스캡슐40밀리그램(염산지프라시돈일수화물)_(45.3mg/1캡슐)",
+        "젤독스캡슐40밀리그램(염산지프라시돈일수화물)",
+        "젤독스캡슐40밀리그램"
+      ]
+    },
+    {
+      "source_row": 2114,
+      "code": "073400100",
+      "name": "젤독스캡슐60밀리그램(염산지프라시돈일수화물)_(67.95mg/1캡슐)",
+      "drug": "ziprasidone",
+      "ingredient": "ziprasidone hydrochloride monohydrate (as ziprasidone   60mg)",
+      "route": "내복",
+      "dose_mg": 60.0,
+      "normalized": "ziprasidone 60mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "젤독스캡슐60밀리그램",
+        "젤독스캡슐60밀리그램(염산지프라시돈일수화물)_(67.95mg/1캡슐)",
+        "젤독스캡슐60밀리그램(염산지프라시돈일수화물)"
+      ]
+    },
+    {
+      "source_row": 2115,
+      "code": "073400110",
+      "name": "젤독스캡슐80밀리그램(염산지프라시돈일수화물)_(90.6mg/1캡슐)",
+      "drug": "ziprasidone",
+      "ingredient": "ziprasidone hydrochloride monohydrate (as ziprasidone   80mg)",
+      "route": "내복",
+      "dose_mg": 80.0,
+      "normalized": "ziprasidone 80mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "젤독스캡슐80밀리그램",
+        "젤독스캡슐80밀리그램(염산지프라시돈일수화물)_(90.6mg/1캡슐)",
+        "젤독스캡슐80밀리그램(염산지프라시돈일수화물)"
+      ]
+    },
+    {
+      "source_row": 2248,
+      "code": "651904590",
+      "name": "팔리스펜서방정3mg(팔리페리돈)_(3mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "paliperidone 3mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "팔리스펜서방정3mg(팔리페리돈)_(3mg/1정)",
+        "팔리스펜서방정3mg",
+        "팔리스펜서방정3mg(팔리페리돈)"
+      ]
+    },
+    {
+      "source_row": 2249,
+      "code": "646902290",
+      "name": "인베가서방정3밀리그램(팔리페리돈)_(3mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   3mg",
+      "route": "내복",
+      "dose_mg": 3.0,
+      "normalized": "paliperidone 3mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "인베가서방정3밀리그램(팔리페리돈)",
+        "인베가서방정3밀리그램(팔리페리돈)_(3mg/1정)",
+        "인베가서방정3밀리그램"
+      ]
+    },
+    {
+      "source_row": 2250,
+      "code": "651904600",
+      "name": "팔리스펜서방정6mg(팔리페리돈)_(6mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   6mg",
+      "route": "내복",
+      "dose_mg": 6.0,
+      "normalized": "paliperidone 6mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "팔리스펜서방정6mg(팔리페리돈)",
+        "팔리스펜서방정6mg",
+        "팔리스펜서방정6mg(팔리페리돈)_(6mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2251,
+      "code": "646902310",
+      "name": "인베가서방정6밀리그램(팔리페리돈)_(6mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   6mg",
+      "route": "내복",
+      "dose_mg": 6.0,
+      "normalized": "paliperidone 6mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "인베가서방정6밀리그램",
+        "인베가서방정6밀리그램(팔리페리돈)",
+        "인베가서방정6밀리그램(팔리페리돈)_(6mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2252,
+      "code": "651904610",
+      "name": "팔리스펜서방정9mg(팔리페리돈)_(9mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   9mg",
+      "route": "내복",
+      "dose_mg": 9.0,
+      "normalized": "paliperidone 9mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "팔리스펜서방정9mg(팔리페리돈)",
+        "팔리스펜서방정9mg",
+        "팔리스펜서방정9mg(팔리페리돈)_(9mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2253,
+      "code": "646902320",
+      "name": "인베가서방정9밀리그램(팔리페리돈)_(9mg/1정)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone   9mg",
+      "route": "내복",
+      "dose_mg": 9.0,
+      "normalized": "paliperidone 9mg tablet XR",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "인베가서방정9밀리그램",
+        "인베가서방정9밀리그램(팔리페리돈)",
+        "인베가서방정9밀리그램(팔리페리돈)_(9mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2285,
+      "code": "642204800",
+      "name": "라투다정20밀리그램(루라시돈염산염)_(20mg/1정)",
+      "drug": "lurasidone",
+      "ingredient": "lurasidone hydrochloride   20mg",
+      "route": "내복",
+      "dose_mg": 20.0,
+      "normalized": "lurasidone 20mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "라투다정20밀리그램(루라시돈염산염)_(20mg/1정)",
+        "라투다정20밀리그램",
+        "라투다정20밀리그램(루라시돈염산염)"
+      ]
+    },
+    {
+      "source_row": 2286,
+      "code": "642204810",
+      "name": "라투다정40밀리그램(루라시돈염산염)_(40mg/1정)",
+      "drug": "lurasidone",
+      "ingredient": "lurasidone hydrochloride   40mg",
+      "route": "내복",
+      "dose_mg": 40.0,
+      "normalized": "lurasidone 40mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "라투다정40밀리그램",
+        "라투다정40밀리그램(루라시돈염산염)",
+        "라투다정40밀리그램(루라시돈염산염)_(40mg/1정)"
+      ]
+    },
+    {
+      "source_row": 2287,
+      "code": "642204790",
+      "name": "라투다정60밀리그램(루라시돈염산염)_(60mg/1정)",
+      "drug": "lurasidone",
+      "ingredient": "lurasidone hydrochloride   60mg",
+      "route": "내복",
+      "dose_mg": 60.0,
+      "normalized": "lurasidone 60mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "라투다정60밀리그램(루라시돈염산염)_(60mg/1정)",
+        "라투다정60밀리그램(루라시돈염산염)",
+        "라투다정60밀리그램"
+      ]
+    },
+    {
+      "source_row": 2288,
+      "code": "642204780",
+      "name": "라투다정80밀리그램(루라시돈염산염)_(80mg/1정)",
+      "drug": "lurasidone",
+      "ingredient": "lurasidone hydrochloride   80mg",
+      "route": "내복",
+      "dose_mg": 80.0,
+      "normalized": "lurasidone 80mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "라투다정80밀리그램(루라시돈염산염)_(80mg/1정)",
+        "라투다정80밀리그램",
+        "라투다정80밀리그램(루라시돈염산염)"
+      ]
+    },
+    {
+      "source_row": 2289,
+      "code": "642204770",
+      "name": "라투다정120밀리그램(루라시돈염산염)_(0.12g/1정)",
+      "drug": "lurasidone",
+      "ingredient": "lurasidone hydrochloride   0.12g",
+      "route": "내복",
+      "dose_mg": 120.0,
+      "normalized": "lurasidone 120mg tablet",
+      "synthetic_frequency": "QD",
+      "aliases": [
+        "라투다정120밀리그램",
+        "라투다정120밀리그램(루라시돈염산염)_(0.12g/1정)",
+        "라투다정120밀리그램(루라시돈염산염)"
+      ]
+    },
+    {
+      "source_row": 17415,
+      "code": "657200921",
+      "name": "페리돌주(할로페리돌)_(5mg/1mL)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   5mg(5mg/mL)",
+      "route": "주사",
+      "dose_mg": 5.0,
+      "normalized": "haloperidol injection 5mg active",
+      "synthetic_frequency": "",
+      "aliases": [
+        "페리돌주(할로페리돌)_(5mg/1mL)",
+        "페리돌주(할로페리돌)",
+        "페리돌주"
+      ]
+    },
+    {
+      "source_row": 17416,
+      "code": "651901021",
+      "name": "명인할로페리돌주사_(5mg/1mL)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol   5mg(5mg/mL)",
+      "route": "주사",
+      "dose_mg": 5.0,
+      "normalized": "haloperidol injection 5mg active",
+      "synthetic_frequency": "",
+      "aliases": [
+        "명인할로페리돌주사_",
+        "명인할로페리돌주사_(5mg/1mL)",
+        "명인할로페리돌주사"
+      ]
+    },
+    {
+      "source_row": 17417,
+      "code": "076100071",
+      "name": "할돌데카노아스주사(할로페리돌데카노에이트)_(70.52mg/1mL)",
+      "drug": "haloperidol",
+      "ingredient": "haloperidol decanoate (as haloperidol   50mg(50mg/mL))",
+      "route": "주사",
+      "dose_mg": 50.0,
+      "normalized": "haloperidol decanoate 50mg active",
+      "synthetic_frequency": "q4w",
+      "aliases": [
+        "할돌데카노아스주사",
+        "할돌데카노아스주사(할로페리돌데카노에이트)",
+        "할돌데카노아스주사(할로페리돌데카노에이트)_(70.52mg/1mL)"
+      ]
+    },
+    {
+      "source_row": 17420,
+      "code": "649900411",
+      "name": "아빌리파이메인테나주사300밀리그램(아리피프라졸일수화물)_(0.312g/1.5mL)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   0.3g(0.2g/mL)",
+      "route": "주사",
+      "dose_mg": 300.0,
+      "normalized": "maintena 300mg active",
+      "synthetic_frequency": "q4w",
+      "aliases": [
+        "아빌리파이메인테나주사300밀리그램",
+        "아빌리파이메인테나주사300밀리그램(아리피프라졸일수화물)",
+        "아빌리파이메인테나주사300밀리그램(아리피프라졸일수화물)_(0.312g/1.5mL)"
+      ]
+    },
+    {
+      "source_row": 17421,
+      "code": "649900421",
+      "name": "아빌리파이메인테나주사400밀리그램(아리피프라졸일수화물)_(0.416g/2mL)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   0.4g(0.2g/mL)",
+      "route": "주사",
+      "dose_mg": 400.0,
+      "normalized": "maintena 400mg active",
+      "synthetic_frequency": "q4w",
+      "aliases": [
+        "아빌리파이메인테나주사400밀리그램(아리피프라졸일수화물)_(0.416g/2mL)",
+        "아빌리파이메인테나주사400밀리그램",
+        "아빌리파이메인테나주사400밀리그램(아리피프라졸일수화물)"
+      ]
+    },
+    {
+      "source_row": 17422,
+      "code": "649900561",
+      "name": "아빌리파이아심투파이주사960밀리그램(아리피프라졸일수화물)_(0.96g/3.2mL)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole   0.96g(0.3g/mL)",
+      "route": "주사",
+      "dose_mg": 960.0,
+      "normalized": "asimtufii 960mg active",
+      "synthetic_frequency": "q8w",
+      "aliases": [
+        "아빌리파이아심투파이주사960밀리그램(아리피프라졸일수화물)",
+        "아빌리파이아심투파이주사960밀리그램",
+        "아빌리파이아심투파이주사960밀리그램(아리피프라졸일수화물)_(0.96g/3.2mL)"
+      ]
+    },
+    {
+      "source_row": 17423,
+      "code": "649900551",
+      "name": "아빌리파이아심투파이주사720밀리그램(아리피프라졸일수화물)_(0.72g/2.4mL)",
+      "drug": "aripiprazole",
+      "ingredient": "aripiprazole  0.72g(0.3g/mL)",
+      "route": "주사",
+      "dose_mg": 720.0,
+      "normalized": "asimtufii 720mg active",
+      "synthetic_frequency": "q8w",
+      "aliases": [
+        "아빌리파이아심투파이주사720밀리그램",
+        "아빌리파이아심투파이주사720밀리그램(아리피프라졸일수화물)_(0.72g/2.4mL)",
+        "아빌리파이아심투파이주사720밀리그램(아리피프라졸일수화물)"
+      ]
+    },
+    {
+      "source_row": 17424,
+      "code": "646901561",
+      "name": "인베가서스티나주사39mg(팔리페리돈팔미테이트)_(39mg/0.25mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   25mg(0.1g/mL))",
+      "route": "주사",
+      "dose_mg": 25.0,
+      "normalized": "sustenna 25mg active",
+      "synthetic_frequency": "q1mo",
+      "aliases": [
+        "인베가서스티나주사39mg",
+        "인베가서스티나주사39mg(팔리페리돈팔미테이트)",
+        "인베가서스티나주사39mg(팔리페리돈팔미테이트)_(39mg/0.25mL)"
+      ]
+    },
+    {
+      "source_row": 17425,
+      "code": "646901571",
+      "name": "인베가서스티나주사78mg(팔리페리돈팔미테이트)_(78mg/0.5mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   50mg(0.1g/mL))",
+      "route": "주사",
+      "dose_mg": 50.0,
+      "normalized": "sustenna 50mg active",
+      "synthetic_frequency": "q1mo",
+      "aliases": [
+        "인베가서스티나주사78mg",
+        "인베가서스티나주사78mg(팔리페리돈팔미테이트)_(78mg/0.5mL)",
+        "인베가서스티나주사78mg(팔리페리돈팔미테이트)"
+      ]
+    },
+    {
+      "source_row": 17426,
+      "code": "646901581",
+      "name": "인베가서스티나주사117mg(팔리페리돈팔미테이트)_(0.117g/0.75mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   75mg(0.1g/mL))",
+      "route": "주사",
+      "dose_mg": 75.0,
+      "normalized": "sustenna 75mg active",
+      "synthetic_frequency": "q1mo",
+      "aliases": [
+        "인베가서스티나주사117mg(팔리페리돈팔미테이트)_(0.117g/0.75mL)",
+        "인베가서스티나주사117mg",
+        "인베가서스티나주사117mg(팔리페리돈팔미테이트)"
+      ]
+    },
+    {
+      "source_row": 17427,
+      "code": "646901591",
+      "name": "인베가서스티나주사156mg(팔리페리돈팔미테이트)_(0.156g/1mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.1g(0.1g/mL))",
+      "route": "주사",
+      "dose_mg": 100.0,
+      "normalized": "sustenna 100mg active",
+      "synthetic_frequency": "q1mo",
+      "aliases": [
+        "인베가서스티나주사156mg(팔리페리돈팔미테이트)",
+        "인베가서스티나주사156mg(팔리페리돈팔미테이트)_(0.156g/1mL)",
+        "인베가서스티나주사156mg"
+      ]
+    },
+    {
+      "source_row": 17428,
+      "code": "646901601",
+      "name": "인베가서스티나주사234mg(팔리페리돈팔미테이트)_(0.234g/1.5mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.15g(0.1g/mL))",
+      "route": "주사",
+      "dose_mg": 150.0,
+      "normalized": "sustenna 150mg active",
+      "synthetic_frequency": "q1mo",
+      "aliases": [
+        "인베가서스티나주사234mg",
+        "인베가서스티나주사234mg(팔리페리돈팔미테이트)",
+        "인베가서스티나주사234mg(팔리페리돈팔미테이트)_(0.234g/1.5mL)"
+      ]
+    },
+    {
+      "source_row": 17429,
+      "code": "646902141",
+      "name": "인베가트린자주사(팔리페리돈팔미테이트)_(0.273g/0.875mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.175g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 175.0,
+      "normalized": "trinza 175mg active",
+      "synthetic_frequency": "q3mo",
+      "aliases": [
+        "인베가트린자주사(팔리페리돈팔미테이트)_(0.273g/0.875mL)"
+      ]
+    },
+    {
+      "source_row": 17430,
+      "code": "646902161",
+      "name": "인베가트린자주사(팔리페리돈팔미테이트)_(0.4103g/1.315mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.263g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 263.0,
+      "normalized": "trinza 263mg active",
+      "synthetic_frequency": "q3mo",
+      "aliases": [
+        "인베가트린자주사(팔리페리돈팔미테이트)_(0.4103g/1.315mL)"
+      ]
+    },
+    {
+      "source_row": 17431,
+      "code": "646902151",
+      "name": "인베가트린자주사(팔리페리돈팔미테이트)_(0.546g/1.75mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.35g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 350.0,
+      "normalized": "trinza 350mg active",
+      "synthetic_frequency": "q3mo",
+      "aliases": [
+        "인베가트린자주사(팔리페리돈팔미테이트)_(0.546g/1.75mL)"
+      ]
+    },
+    {
+      "source_row": 17432,
+      "code": "646902171",
+      "name": "인베가트린자주사(팔리페리돈팔미테이트)_(0.819g/2.625mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.525g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 525.0,
+      "normalized": "trinza 525mg active",
+      "synthetic_frequency": "q3mo",
+      "aliases": [
+        "인베가트린자주사(팔리페리돈팔미테이트)_(0.819g/2.625mL)"
+      ]
+    },
+    {
+      "source_row": 17433,
+      "code": "646902671",
+      "name": "인베가하피에라주사(팔리페리돈팔미테이트)_(1.092g/3.5mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   0.7g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 700.0,
+      "normalized": "hafyera 700mg active",
+      "synthetic_frequency": "q6mo",
+      "aliases": [
+        "인베가하피에라주사(팔리페리돈팔미테이트)_(1.092g/3.5mL)"
+      ]
+    },
+    {
+      "source_row": 17434,
+      "code": "646902681",
+      "name": "인베가하피에라주사(팔리페리돈팔미테이트)_(1.56g/5mL)",
+      "drug": "paliperidone",
+      "ingredient": "paliperidone palmitate (as paliperidone   1g(0.2g/mL))",
+      "route": "주사",
+      "dose_mg": 1000.0,
+      "normalized": "hafyera 1000mg active",
+      "synthetic_frequency": "q6mo",
+      "aliases": [
+        "인베가하피에라주사(팔리페리돈팔미테이트)_(1.56g/5mL)"
+      ]
+    }
+  ]
+}

@@ -33,7 +33,7 @@
       const url = URL.createObjectURL(await response.blob()), link = document.createElement('a');
       link.href = url;link.download = 'AP_equivalence_results.xlsx';
       document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url), 60000);
-      status.textContent = '계산 완료. Excel의 Results에서 환자별 결과를 확인하세요.';
+      status.textContent = '계산 완료. 첫 시트에서 최종 합계, 두 번째 시트에서 약물별 모든 방법의 값을 확인하세요.';
     } catch (error) {status.textContent = error.message || '연결을 확인한 뒤 다시 시도해 주세요.';status.dataset.error = 'true';}
     finally {busy = false;button.disabled = false;file.disabled = false;button.textContent = '다시 계산하기 →';}
   });
