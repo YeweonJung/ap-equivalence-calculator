@@ -94,6 +94,13 @@ def _segments(text):
         for match in generic:
             if re.match(r'pp[136]m\b', chunk[match.start():], re.I):
                 continue
+            # Route + numeric frequency belongs to the preceding medication.
+            # Splitting "IV 1 times a day" would discard the injection guard;
+            # splitting "PO/NG 2 times a day" would discard the daily frequency.
+            if match.group().strip().casefold() in {
+                    'po', 'ng', 'oral', 'im', 'iv', 'sc', 'intramuscular',
+                    'subcutaneous', 'injectable'}:
+                continue
             if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
         starts = sorted(starts)

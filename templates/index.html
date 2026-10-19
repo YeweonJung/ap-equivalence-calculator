@@ -71,7 +71,6 @@
           <p class="hint">처방일 열이 있으면 환자 ID와 처방일별로 합산합니다. 다른 날짜의 처방은 기간이 겹쳐도 포함하지 않습니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
-            <label style="grid-column:1/-1;font-size:13px"><input type="checkbox" name="include_sensitivity" value="yes"> 방법별 민감도 분석 추가 (가능집단·공통집단·포함/제외 사유)</label>
             <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
             <button type="submit" id="submit-button">결과파일 받기</button>
           </form><p id="upload-status" role="status" aria-live="polite"></p>
@@ -82,11 +81,10 @@
     <section class="try"><div class="wrap try-grid">
       <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 보완 방법별 총합을 비교하고, 계산안을 펼쳐 약물별 적용 방법을 확인하세요.</p></div>
       <div class="parser"><p>2개 예시: risperidone 2mg, olanzapine 5mg<br>3개 예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
-      <label style="font-size:13px"><input type="checkbox" id="quick-sensitivity"> 한 줄 결과 Excel에도 방법별 민감도 분석 추가</label>
     </div></section>
     <section class="methods"><div class="wrap method-list"><span><b>CMD</b> 임상시험 평균용량</span><span><b>MED</b> 최소유효용량</span><span><b>ED95</b> 95% 유효용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>
   </main>
-  <footer><a href="/methods">환산 근거·적용 한계·민감도 분석 안내</a><br>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
+  <footer><a href="/methods">환산 근거·적용 한계 안내</a><br>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
   <script src="{{ url_for('static', filename='home_upload.js') }}"></script>
   <script src="{{ url_for('static', filename='quick_check.js') }}"></script>
 </body>

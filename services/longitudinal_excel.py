@@ -138,9 +138,6 @@ def export_excel(records, results, details, metadata):
                        injection_error=r.get('injection_error', ''), factor_evidence=evidence,
                        unavailable_methods=';'.join(e['method'] for e in json.loads(evidence) if not e['available']) if r['kind'] != 'non_target' else '')
     write_table(wb, 'AuditTrail', audit_columns, audit_rows())
-    if metadata.get('include_sensitivity'):
-        from services.sensitivity import append_sheets, dated_observations
-        append_sheets(wb, dated_observations(results))
     wb.close()
     out.seek(0)
     return out

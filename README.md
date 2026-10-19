@@ -1,6 +1,8 @@
-최신 업데이트: [근거 추적·단위 평가·방법별 민감도 분석](docs/EVIDENCE_EVALUATION_KO.md) (2026-10-19).
+최신 업데이트: [근거 추적·단위 검증](docs/EVIDENCE_EVALUATION_KO.md) (2026-10-19).
 
-기존 2,318개 계수는 보존합니다. 환산계수표의 약물별 근거 메타데이터, `/methods` 안내, 선택형 민감도 분석 4개 시트, 로컬 평가 도구를 추가했습니다. 근거 등급은 정식 평가가 없어 `not_assessed`로 표시합니다. [이전 Woods·Gardner·LAI 안내](EQUIVALENCE_UPDATE.md).
+[공개 처방 데이터 검증](docs/PUBLIC_DATA_VERIFICATION_KO.md): 경로 뒤 숫자 빈도가 별도 약물로 분리되던 오류를 수정했습니다. 결과는 추가 분석 없이 기존 6개 시트로 제공합니다.
+
+기존 2,318개 계수는 보존합니다. 환산계수표의 약물별 근거 메타데이터, `/methods` 안내, 로컬 평가 도구를 추가했습니다. 결과는 기존 6개 시트로 제공합니다. 근거 등급은 정식 평가가 없어 `not_assessed`로 표시합니다. [이전 Woods·Gardner·LAI 안내](EQUIVALENCE_UPDATE.md).
 
 # AP Equivalence Calculator
 

@@ -44,8 +44,10 @@ def main():
     local=app.test_client()
     assert json.loads(request('/api/methods'))==local.get('/api/methods').json
     assert request('/evidence.csv').replace(b'\r\n',b'\n')==(ROOT/'lookup/master_lookup.csv').read_bytes().replace(b'\r\n',b'\n')
-    assert '환산 근거와 연구용 비교' in request('/methods').decode()
-    assert b'include_sensitivity' in request('/')
+    assert '환산 근거와 적용 한계' in request('/methods').decode()
+    assert b'include_sensitivity' not in request('/')
+    assert b'include-sensitivity' not in request('/longitudinal')
+    assert 'sensitivity_version' not in release
     for i,text in enumerate(CASES,1):
         payload={'text':text}
         expected=local.post('/api/parse',json=payload).json
@@ -61,24 +63,22 @@ def main():
     checked=[]
     def compare_excel(expected, actual, label):
         a,b=load_workbook(io.BytesIO(expected)),load_workbook(io.BytesIO(actual))
-        assert a.sheetnames==b.sheetnames
+        assert a.sheetnames==b.sheetnames==['보완합계','보완근거','Results','MedicationResults','Review','AuditTrail']
         for name in a.sheetnames:
             assert list(a[name].values)==list(b[name].values), (label,name)
         checked.append(dict(case=label,sheets=a.sheetnames))
         print(f'Excel {label}: {len(a.sheetnames)} worksheets matched',flush=True)
     for name,text in SOURCES.items():
-        for option in ('','yes'):
-            raw=text.encode()
-            expected=local.post('/upload',data={'file':(io.BytesIO(raw),'synthetic.csv'), 'include_sensitivity':option})
-            assert expected.status_code==200, expected.data[:1000]
-            boundary='ap-synthetic-'+uuid.uuid4().hex
-            body=(f'--{boundary}\r\nContent-Disposition: form-data; name="include_sensitivity"\r\n\r\n{option}\r\n'
-                  f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="synthetic.csv"\r\nContent-Type: text/csv\r\n\r\n').encode()+raw+f'\r\n--{boundary}--\r\n'.encode()
-            actual=request('/upload',body,'multipart/form-data; boundary='+boundary)
-            compare_excel(expected.data,actual,name+('-research' if option else '-default'))
-    payload=dict(text='risperidone 2mg QD, paliperidone 6mg QD',include_sensitivity=True)
+        raw=text.encode()
+        expected=local.post('/upload',data={'file':(io.BytesIO(raw),'synthetic.csv')})
+        assert expected.status_code==200, expected.data[:1000]
+        boundary='ap-synthetic-'+uuid.uuid4().hex
+        body=(f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="synthetic.csv"\r\nContent-Type: text/csv\r\n\r\n').encode()+raw+f'\r\n--{boundary}--\r\n'.encode()
+        actual=request('/upload',body,'multipart/form-data; boundary='+boundary)
+        compare_excel(expected.data,actual,name)
+    payload=dict(text='risperidone 2mg QD, paliperidone 6mg QD')
     compare_excel(local.post('/api/export',json=payload).data,
-                  request('/api/export',json.dumps(payload).encode(),'application/json'),'quick-api-research')
+                  request('/api/export',json.dumps(payload).encode(),'application/json'),'quick-api')
     report=dict(commit=args.commit,version=VERSION,api_cases=len(CASES),workbooks=checked,
                 all_worksheets_match=True,health='ok',evidence_download_matches=True,
                 synthetic_only=True)

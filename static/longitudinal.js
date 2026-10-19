@@ -31,7 +31,6 @@
     const form = new FormData();
     form.append('file', $('rx-file').files[0]); form.append('mapping', JSON.stringify(mapping));
     form.append('mode', 'all_dates'); form.append('ack', $('ack').checked ? 'yes' : '');
-    form.append('include_sensitivity', $('include-sensitivity').checked ? 'yes' : '');
     $('calculate').disabled = true; $('status').textContent = '환자·처방일별 용량을 계산하고 있습니다…';
     try {
       const response = await fetch('/api/longitudinal/analyze', {method:'POST', body:form});

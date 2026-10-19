@@ -136,7 +136,7 @@ exportButton.addEventListener('click', async () => {
   downloadStatus.textContent = 'Excel 생성 중…';
   try {
     const response = await fetch(exportButton.dataset.exportUrl, {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text, include_sensitivity: document.querySelector('#quick-sensitivity')?.checked === true})
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text})
     });
     if (!response.ok || !response.headers.get('content-type')?.includes('spreadsheetml')) throw new Error('Excel을 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.');
     const blob = await response.blob();

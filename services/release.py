@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.19-evidence-evaluation-sensitivity'
+VERSION = '2026.10.19-public-data-fixes'
 
 
 def metadata():
@@ -12,10 +12,9 @@ def metadata():
     from services.feedback_learning import enabled, MODEL_VERSION
     root = Path(__file__).resolve().parents[1]
     from services.evidence import VERSION as evidence_version
-    from services.sensitivity import VERSION as sensitivity_version
     return {'version': VERSION, 'commit': os.getenv('RENDER_GIT_COMMIT', ''),
             'supplemented_policy': POLICY_VERSION, 'supplemented_case_methods': list(PRIORITY),
-            'evidence_metadata_version': evidence_version, 'sensitivity_version': sensitivity_version,
+            'evidence_metadata_version': evidence_version,
             'evidence_grade_policy': 'not_assessed_no_inferred_GRADE',
             'name_llm_enabled': False,
             'name_llm_backend': None,

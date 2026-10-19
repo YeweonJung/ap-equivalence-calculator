@@ -474,7 +474,7 @@
       "cleaning_decreased_n": 1
     }
   },
-  "total_seconds": 0.0701641000341624,
+  "total_seconds": 0.06647520000115037,
   "external_api_cost_usd": 0,
   "cost_note": "내장 규칙 파서는 외부 API 호출 0건. 하드웨어·전력·인건비는 미측정. 외부 예측의 비용은 별도 기록.",
   "notes": [
@@ -509,7 +509,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.03619129996513948
+      "elapsed_seconds": 0.036520599969662726
     },
     {
       "id": "SYN002",
@@ -535,7 +535,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0006945999921299517
+      "elapsed_seconds": 0.00044629996409639716
     },
     {
       "id": "SYN003",
@@ -561,7 +561,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00045900000259280205
+      "elapsed_seconds": 0.00029769999673590064
     },
     {
       "id": "SYN004",
@@ -587,7 +587,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00041040003998205066
+      "elapsed_seconds": 0.0002683000057004392
     },
     {
       "id": "SYN005",
@@ -613,7 +613,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00041969999438151717
+      "elapsed_seconds": 0.0002866999711841345
     },
     {
       "id": "SYN006",
@@ -639,7 +639,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0013014000141993165
+      "elapsed_seconds": 0.0002906000008806586
     },
     {
       "id": "SYN007",
@@ -665,7 +665,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00046200002543628216
+      "elapsed_seconds": 0.00027790002059191465
     },
     {
       "id": "SYN008",
@@ -691,7 +691,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003424000460654497
+      "elapsed_seconds": 0.00025189999723806977
     },
     {
       "id": "SYN009",
@@ -717,7 +717,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0003714999766089022
+      "elapsed_seconds": 0.0003027999773621559
     },
     {
       "id": "SYN010",
@@ -743,7 +743,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.0004447000101208687
+      "elapsed_seconds": 0.00035099999513477087
     },
     {
       "id": "SYN011",
@@ -769,7 +769,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.022572699992451817
+      "elapsed_seconds": 0.02054689999204129
     },
     {
       "id": "SYN012",
@@ -795,7 +795,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.00041660002898424864
+      "elapsed_seconds": 0.00048049999168142676
     },
     {
       "id": "SYN013",
@@ -821,7 +821,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.00030989997321739793
+      "elapsed_seconds": 0.0003377000102773309
     },
     {
       "id": "SYN014",
@@ -847,7 +847,7 @@
         "wrong_drug": 0
       },
       "cleaning": "decreased",
-      "elapsed_seconds": 0.0003087000222876668
+      "elapsed_seconds": 0.00034440000308677554
     },
     {
       "id": "SYN015",
@@ -873,7 +873,7 @@
         "wrong_drug": 0
       },
       "cleaning": "unchanged",
-      "elapsed_seconds": 0.00026790000265464187
+      "elapsed_seconds": 0.00029229995561763644
     },
     {
       "id": "SYN016",
@@ -899,7 +899,7 @@
         "wrong_drug": 0
       },
       "cleaning": "unchanged",
-      "elapsed_seconds": 0.00031049997778609395
+      "elapsed_seconds": 0.0003589999978430569
     },
     {
       "id": "SYN017",
@@ -925,7 +925,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0005249000387266278
+      "elapsed_seconds": 0.0005650999955832958
     },
     {
       "id": "SYN018",
@@ -951,7 +951,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0002177999704144895
+      "elapsed_seconds": 0.00022799998987466097
     },
     {
       "id": "SYN019",
@@ -977,7 +977,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00023589999182149768
+      "elapsed_seconds": 0.0002557000261731446
     },
     {
       "id": "SYN020",
@@ -1003,7 +1003,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00014750001719221473
+      "elapsed_seconds": 0.00015979999443516135
     },
     {
       "id": "SYN021",
@@ -1029,7 +1029,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0001441999920643866
+      "elapsed_seconds": 0.00015670002903789282
     },
     {
       "id": "SYN022",
@@ -1055,7 +1055,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00034420000156387687
+      "elapsed_seconds": 0.00035580003168433905
     },
     {
       "id": "SYN023",
@@ -1081,7 +1081,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0007242999854497612
+      "elapsed_seconds": 0.0007597999647259712
     },
     {
       "id": "SYN024",
@@ -1107,7 +1107,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.00028979999478906393
+      "elapsed_seconds": 0.00028110004495829344
     },
     {
       "id": "SYN025",
@@ -1133,7 +1133,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0004697000258602202
+      "elapsed_seconds": 0.00040550000267103314
     },
     {
       "id": "SYN026",
@@ -1159,7 +1159,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0002688000095076859
+      "elapsed_seconds": 0.0002847999567165971
     },
     {
       "id": "SYN027",
@@ -1185,7 +1185,7 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0002528000040911138
+      "elapsed_seconds": 0.0002739999908953905
     },
     {
       "id": "SYN028",
@@ -1211,12 +1211,12 @@
         "wrong_drug": 0
       },
       "cleaning": null,
-      "elapsed_seconds": 0.0002464999561198056
+      "elapsed_seconds": 0.00027220003539696336
     }
   ],
   "dataset_sha256": "cdb868e14bdc5918553ba4c0d35e02d8728c848c8ff8ed72cb412f0a34ea125f",
   "release": {
-    "version": "2026.10.19-evidence-evaluation-sensitivity",
+    "version": "2026.10.19-public-data-fixes",
     "commit": "",
     "supplemented_policy": "supplemented-cases-2.0",
     "supplemented_case_methods": [
@@ -1231,7 +1231,6 @@
       "CMD_INDIRECT"
     ],
     "evidence_metadata_version": "2026.10.19-evidence-1",
-    "sensitivity_version": "2026.10.19-sensitivity-1",
     "evidence_grade_policy": "not_assessed_no_inferred_GRADE",
     "name_llm_enabled": false,
     "name_llm_backend": null,

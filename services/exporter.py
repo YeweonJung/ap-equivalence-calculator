@@ -21,7 +21,7 @@ AUDIT_COLUMNS = [
 ]
 
 
-def export_results(audit_rows, error_rows, directory, summary_rows=None, patient_rows=None, patient_checks=None, include_sensitivity=False):
+def export_results(audit_rows, error_rows, directory, summary_rows=None, patient_rows=None, patient_checks=None):
     output_file = Path(directory) / 'result.xlsx'
     display_rows = with_result_notes(patient_rows or [], audit_rows, error_rows, patient_checks or [])
     columns = ['patient', 'original', '약물', 'daily_dose_mg'] + [value_column(m) for m in METHOD_ORDER] + [
@@ -50,7 +50,4 @@ def export_results(audit_rows, error_rows, directory, summary_rows=None, patient
         write_table(wb, 'MedicationResults', columns, medications)
         write_table(wb, 'Review', review_columns, reviews, labels={'patient': '환자 ID', 'original': '원문 약물', 'recognized_drug': '인식 성분', 'drug_group': '약물 분류', 'calculation': '계산 처리', 'equivalent_contribution': '항정신병약 환산 기여값', 'error': '확인할 내용', 'sheet': '원본 시트', 'source_row': '원본 행', 'medication_column': '원본 열'})
         write_table(wb, 'AuditTrail', AUDIT_COLUMNS, audit_rows)
-        if include_sensitivity:
-            from services.sensitivity import append_sheets, frame_observations
-            append_sheets(wb, frame_observations(patient_checks or [], {r.get('patient') for r in error_rows}))
     return output_file

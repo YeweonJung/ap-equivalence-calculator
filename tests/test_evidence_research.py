@@ -10,7 +10,6 @@ from app import app
 from services.frames import parse_frames, convert_frame
 from services.evidence import METADATA_COLUMNS, evidence_index
 from services.evaluation import evaluate
-from services.sensitivity import summarize
 from tests.workbook_helpers import records
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,37 +62,19 @@ def test_ambiguous_fraction_concentration_and_ranges_abstain(text):
     'patient_id,medication\n001,risperidone 2mg QD\n002,paliperidone 6mg QD\n003,unknownxyz 5mg\n004,lithium 600mg\n',
     'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-19,Risperidone 2mg tab,1\n002,2026-10-19,Paliperidone 6mg tab,1\n003,2026-10-19,unknownxyz 5mg tab,1\n004,2026-10-19,Lithium 600mg tab,1\n'
 ])
-def test_opt_in_export_preserves_six_sheets_and_adds_traceable_sensitivity(source):
+def test_export_keeps_six_sheets_even_with_obsolete_options(source):
     def export(opt):
         r=app.test_client().post('/upload',data={'file':(io.BytesIO(source.encode()),'synthetic.csv'), 'include_sensitivity':opt})
         assert r.status_code == 200, r.data[:1000]
         return load_workbook(io.BytesIO(r.data))
-    ordinary, research = export(''), export('yes')
+    ordinary, legacy_request = export(''), export('yes')
     assert ordinary.sheetnames == OLD_SHEETS
-    assert research.sheetnames == OLD_SHEETS + ['MethodCoverage','MethodComparison','MethodEligibility','MethodInfo']
+    assert legacy_request.sheetnames == OLD_SHEETS
     for name in OLD_SHEETS:
-        assert list(ordinary[name].values) == list(research[name].values)
-    for ws in research:
+        assert list(ordinary[name].values) == list(legacy_request[name].values)
+    for ws in ordinary:
         assert ws.freeze_panes is None and ws.auto_filter.ref.startswith('A1:')
-    coverage = {r['환산 방법']:r for r in records(research,'MethodCoverage')}
-    assert coverage['CMD']['검토 불필요 완전합계 수'] == 1
-    assert coverage['MED']['검토 불필요 완전합계 수'] == 2
-    assert coverage['DDD']['대상 외 전용 수'] == 1
-    assert coverage['MED']['전체 환자·날짜 수'] == 4
-    assert all('factor_evidence' in r for r in records(research, 'AuditTrail'))
-
-
-def test_sensitivity_comparison_uses_paired_units_and_never_mixes_scales():
-    rows = [dict(patient_id=p, date='', method=m, value=v, review=False, excluded=False, status='complete')
-            for p,m,v in [('001','CMD',2),('001','MED',4),('002','CMD',6),('002','MED',8),('003','CMD',None),('003','MED',100),('001','ED95',1)]]
-    report=summarize(rows)
-    paired=next(r for r in report['comparisons'] if {r['left'],r['right']}=={'CMD','MED'})
-    assert paired['paired_n']==2 and paired['mean_difference']==2
-    for r in report['comparisons']:
-        if 'ED95' in (r['left'],r['right']):
-            assert r['paired_n'] is None and r['mean_difference'] is None
-    with pytest.raises(ValueError):
-        summarize(rows + [rows[0]])
+    assert all('factor_evidence' in r for r in records(ordinary, 'AuditTrail'))
 
 
 def test_evaluation_counts_wrong_answers_missing_fields_false_alerts_and_both_directions():
@@ -118,7 +99,9 @@ def test_evidence_download_and_pages_are_available():
     assert client.get('/methods').status_code==200
     assert len(client.get('/api/methods').json['methods'])==9
     assert b'evidence_grade' in client.get('/evidence.csv').data
-    assert b'include_sensitivity' in client.get('/').data
+    assert b'include_sensitivity' not in client.get('/').data
+    assert '방법별 민감도 분석' not in client.get('/methods').get_data(as_text=True)
+    assert 'sensitivity_version' not in client.get('/version').json
     assert client.get('/version').json['evidence_grade_policy']=='not_assessed_no_inferred_GRADE'
 
 
@@ -130,11 +113,7 @@ def test_deterministic_unit_normalization_is_a_note_not_a_false_alert(text):
     assert '정규화' in item['calculation_note']
 
 
-def test_quick_research_export_and_missing_id_exclusion():
+def test_quick_export_keeps_six_sheets_with_obsolete_options():
     response=app.test_client().post('/api/export', json={'text':'risperidone 2mg QD', 'include_sensitivity':True})
     assert response.status_code==200
-    assert 'MethodCoverage' in load_workbook(io.BytesIO(response.data)).sheetnames
-    response=app.test_client().post('/upload',data={'include_sensitivity':'yes',
-        'file':(io.BytesIO(b'patient_id,medication\n,risperidone 2mg QD\n'),'synthetic.csv')})
-    wb=load_workbook(io.BytesIO(response.data))
-    assert all(r['검토 불필요 완전합계 수']==0 for r in records(wb,'MethodCoverage'))
+    assert load_workbook(io.BytesIO(response.data)).sheetnames == OLD_SHEETS

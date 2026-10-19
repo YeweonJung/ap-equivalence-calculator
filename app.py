@@ -146,7 +146,7 @@ def export_quick_check():
     workbook.save(content)
     content.seek(0)
     uploaded = FileStorage(stream=content, filename='quick_check.xlsx')
-    return process_upload(uploaded, 'ALL', include_sensitivity=request.get_json().get('include_sensitivity') is True)
+    return process_upload(uploaded, 'ALL')
 
 
 @app.post("/api/parse")
@@ -168,10 +168,10 @@ def parse_text():
 def upload():
     uploaded_file = request.files.get("file")
     method = request.form.get("method", "ALL").strip().upper() or "ALL"
-    return process_upload(uploaded_file, method, include_sensitivity=request.form.get('include_sensitivity') == 'yes')
+    return process_upload(uploaded_file, method)
 
 
-def process_upload(uploaded_file, method, include_sensitivity=False):
+def process_upload(uploaded_file, method):
     try:
         validate_file(uploaded_file)
         selected_methods = METHODS if method == "ALL" else [method]
@@ -196,7 +196,7 @@ def process_upload(uploaded_file, method, include_sensitivity=False):
                 from services.longitudinal_auto import automatic_analysis
                 from services.release import metadata
                 output = automatic_analysis(sheets, selected_methods,
-                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata(), include_sensitivity=include_sensitivity)
+                    source_sha256=hashlib.sha256(upload_path.read_bytes()).hexdigest(), release=metadata())
                 from services.longitudinal_excel import FILENAME, MIMETYPE
                 response = send_file(output, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE, max_age=0)
                 response.headers['Cache-Control'] = 'no-store'
@@ -257,7 +257,7 @@ def process_upload(uploaded_file, method, include_sensitivity=False):
                         patients[patient_id].extend(cell_items)
                         summary_rows.extend(result_rows(raw_medication, patient_id, cell_items))
             patient_rows, patient_checks = patient_results(patients, selected_methods)
-            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks, include_sensitivity=include_sensitivity)
+            output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
             return send_file(
