@@ -227,13 +227,14 @@ def write_supplemented(workbook, case_factory, dated=False, date_label='처방�
                   source='출처', original='원문 약물', sheet='원본 시트', source_row='원본 행',
                   column='원본 열', start='원문 시작위치', note='확인할 사항')
     labels.update({m: f'{m} ({TARGETS[m]} mg/day)' for m in METHOD_ORDER})
-    columns = prefix + ['drug', 'actual', 'value', 'target'] + list(METHOD_ORDER) + ['status', 'base', 'dose', 'factor',
+    columns = prefix + ['drug'] + list(METHOD_ORDER) + ['actual', 'value', 'target', 'status', 'base', 'dose', 'factor',
                         'reason', 'basis', 'source', 'original', 'sheet', 'source_row', 'column', 'start', 'note']
     ws = write_table(workbook, '보완근거', columns, details_rows(), labels=labels,
-                     widths=[18] + ([14] if dated else []) + [22, 18, 20, 14] + [18] * len(METHOD_ORDER) + [16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
+                     widths=[14] + ([14] if dated else []) + [20] + [15] * len(METHOD_ORDER) + [18, 20, 14, 16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
                      number_formats={c: '0.############' for c in ('dose', 'factor', 'value', *METHOD_ORDER)},
                      wrap_columns=('reason', 'basis', 'source', 'note'))
     ws.write_comment(0, columns.index('actual'), POLICY_NOTE)
+    ws.set_zoom(85)
 
 
 def append_frame_sheets(workbook, audits, patient_rows, patient_checks, base_method=None):

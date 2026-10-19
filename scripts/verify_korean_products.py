@@ -7,7 +7,8 @@ import io
 import json
 from pathlib import Path
 import sys
-import requests
+from urllib.request import Request, urlopen
+import uuid
 from openpyxl import load_workbook
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -59,6 +60,11 @@ def main():
     parser.add_argument('--source',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
+    def request(path, data=None, content_type=None):
+        req=Request(args.base.rstrip('/')+path,data=data,
+                    headers={'Content-Type':content_type} if content_type else {})
+        with urlopen(req,timeout=120) as response:
+            return response.read()
     if args.source:
         assert hashlib.sha256(args.source.read_bytes()).hexdigest()==CATALOG['sha256']
         source=load_workbook(args.source,read_only=True,data_only=True)
@@ -67,15 +73,13 @@ def main():
             row=original[p['source_row']-1]
             assert (str(row[8]),row[9],row[7],row[1])==(p['code'],p['name'],p['ingredient'],p['route'])
     client=app.test_client()
-    version=requests.get(args.base+'/version',timeout=60).json() if args.base else client.get('/version').json
+    version=json.loads(request('/version')) if args.base else client.get('/version').json
     if args.commit: assert version['commit']==args.commit,version
     cases=list(product_cases())
     def check(case):
         payload={'text':case['text'],'base_method':'CMD'}
         if args.base:
-            response=requests.post(args.base+'/api/parse',json=payload,timeout=60)
-            response.raise_for_status()
-            data=response.json()
+            data=json.loads(request('/api/parse',json.dumps(payload).encode(),'application/json'))
         else:
             data=client.post('/api/parse',json=payload).json
         return dict(id=case['id'],errors=errors_for(case,data['items']))
@@ -97,8 +101,10 @@ def main():
         expected=load_workbook(io.BytesIO(local.data))
         content=local.data
         if args.base:
-            response=requests.post(args.base+'/upload',files={'file':(name+'.csv',raw,'text/csv')},data={'base_method':'CMD'},timeout=120)
-            response.raise_for_status(); content=response.content
+            boundary='ap-korean-'+uuid.uuid4().hex
+            body=(f'--{boundary}\r\nContent-Disposition: form-data; name="base_method"\r\n\r\nCMD\r\n'
+                  f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{name}.csv"\r\nContent-Type: text/csv\r\n\r\n').encode()+raw+f'\r\n--{boundary}--\r\n'.encode()
+            content=request('/upload',body,'multipart/form-data; boundary='+boundary)
         (args.output.parent/(name+'.xlsx')).write_bytes(content)
         actual=load_workbook(io.BytesIO(content))
         assert actual.sheetnames==expected.sheetnames
