@@ -10,7 +10,7 @@ from services import supplemented
 from services.longitudinal import analyze_export, reference_pairs
 from tests.test_longitudinal import prepared, rx
 
-OLD_SHEETS = ['Results', 'MedicationResults', 'Review', 'AuditTrail']
+OLD_SHEETS = ['Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 ALL_SHEETS = ['보완합계', '보완근거'] + OLD_SHEETS
 
 

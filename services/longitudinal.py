@@ -339,17 +339,18 @@ def safe_csv(rows, columns=None):
 
 
 def export_zip(records, results, details, metadata):
+    from services.result_status import classify
     def audit_rows():
         for r in records:
             def last_day(end):
                 return (end - timedelta(days=1)).isoformat() if end else ''
             yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        injection_evidence=json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else '',
-                       injection_error=r.get('injection_error', ''))
+                       injection_error=r.get('injection_error', ''), **classify(r))
     out = io.BytesIO()
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         for name, rows in [('Results.csv', results), ('MedicationResults.csv', details),
-                           ('Audit.csv', audit_rows()), ('Review.csv', (r for r in audit_rows() if r['issues']))]:
+                           ('Audit.csv', audit_rows()), ('Review.csv', (r for r in audit_rows() if r['review_required']))]:
             with z.open(name, 'w') as destination:
                 if hasattr(rows, 'read'):
                     rows.seek(0)

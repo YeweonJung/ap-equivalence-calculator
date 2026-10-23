@@ -180,6 +180,8 @@ def _frame(start, end, original):
         if drug in EXCLUDED_INGREDIENTS and antidepressant_conflict(text, drug):
             status = 'review'
             frame['warning'] = '배제 대상 약물과 다른 성분 또는 미확인 복합 표기가 함께 있습니다. 약물별로 분리해 주세요.'
+            if len({name for _, _, name in drug_mentions(re.sub(r'[()\[\]{}（）]', ' ', text))}) > 1:
+                frame['error_code'] = 'ingredient_conflict'
         else:
             status = 'non_target'
             frame['needs_review'] = match_type != 'exact'
@@ -270,7 +272,8 @@ def convert_frame(frame, methods):
     elif not item['ok']:
         item['error'] = item['warning'] or item['status_message']
     from services.evidence import attach_evidence
-    return attach_evidence(item, methods)
+    from services.result_status import decorate
+    return decorate(attach_evidence(item, methods))
 
 
 def summarize_frames(items, methods):
@@ -295,5 +298,6 @@ def summarize_frames(items, methods):
                            converted_count=len(values), unresolved_count=len(relevant)-len(values),
                            excluded_count=len(items)-len(relevant),
                            status='non_target' if excluded_only else 'complete' if complete else 'incomplete' if relevant else 'non_target',
-                           needs_review=not complete or any(i['needs_review'] for i in relevant)))
+                           needs_review=not complete or any(i['needs_review'] for i in relevant),
+                           review_required=any(i.get('review_required', False) for i in items)))
     return totals

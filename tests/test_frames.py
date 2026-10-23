@@ -88,7 +88,7 @@ def test_excel_retains_all_statuses_and_numbered_groups():
     assert sheets['MedicationResults']['status'].tolist() == ['converted', 'non_target', 'converted', 'missing_factor']
     assert set(sheets['MedicationResults'].loc[sheets['MedicationResults']['status'] == 'converted', '약물']) == {'risperidone', 'olanzapine'}
     assert 'method_warning' not in sheets['MedicationResults']
-    assert list(sheets) == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert list(sheets) == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 
 
 def test_invalid_schedule_does_not_create_a_second_drug():

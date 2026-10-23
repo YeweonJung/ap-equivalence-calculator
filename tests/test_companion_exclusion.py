@@ -19,11 +19,7 @@ def test_source_ingredients_in_quick_and_dated_exports(row):
     wb = load_workbook(io.BytesIO(response.data))
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] == 0
     review = records(wb, 'Review')
-    assert len(review) == 1
-    assert review[0]['인식 성분'] == name
-    assert review[0]['약물 분류'] == CLASS_LABELS[CLASSES[name]]
-    assert review[0]['계산 처리'] == '배제 완료'
-    assert review[0]['항정신병약 환산 기여값'] == 0
+    assert review == []
     audit = records(wb, 'AuditTrail')[0]
     assert audit['drug_class'] == CLASSES[name]
     assert row['source_cell'] in audit['exclusion_basis']
@@ -35,9 +31,7 @@ def test_source_ingredients_in_quick_and_dated_exports(row):
     wb = load_workbook(automatic_analysis({'input': df}, ['DDD']))
     assert [r['DDD (OLZ mg/day)'] for r in records(wb, 'Results')] == [0, 4]
     review = records(wb, 'Review')
-    assert len(review) == 2
-    assert all(r['인식 성분'] == name and r['약물 분류'] == CLASS_LABELS[CLASSES[name]]
-               and r['항정신병약 환산 기여값'] == 0 for r in review)
+    assert review == []
     audit = records(wb, 'AuditTrail')[0]
     assert audit['drug_class'] == CLASSES[name]
     assert row['source_cell'] in audit['exclusion_basis']
@@ -81,8 +75,6 @@ def test_uploads_exclude_all_source_companions_with_raw_fields(mode):
     assert len(records(wb, 'Results')) == 39
     assert all(r['DDD (OLZ mg/day)'] == 0 for r in records(wb, 'Results'))
     review = records(wb, 'Review')
-    assert len(review) == 39
-    assert {r['인식 성분'] for r in review} == set(names)
-    assert all(r['약물 분류'] and r['계산 처리'] == '배제 완료' and r['항정신병약 환산 기여값'] == 0 for r in review)
+    assert review == []
     assert len(records(wb, 'AuditTrail')) == 39
     assert all(r['source_text'] and r['exclusion_basis'] for r in records(wb, 'AuditTrail'))

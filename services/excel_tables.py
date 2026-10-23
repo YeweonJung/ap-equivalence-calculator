@@ -1,7 +1,7 @@
 """Fast row-wise workbook tables; values remain literal and formats are reused."""
 import math
 
-WRAPPED = {'recognized_product', 'product_name_source', 'original', 'source_text', 'warning', 'error', '환산 근거', 'conversion_basis',
+WRAPPED = {'status_label', '상태설명', 'recognized_product', 'product_name_source', 'original', 'source_text', 'warning', 'error', '환산 근거', 'conversion_basis',
            'conversion_source', 'oral_bridge_source', 'mass_source', 'unavailable_methods',
            'name_candidates', 'unit_candidates', 'issues', 'adjustments', '확인할 내용', '확인할 사항', '원문 약물', '원문 제품'}
 
@@ -19,8 +19,8 @@ def text_height(value, width):
     return min(409, max(22, lines * 17 + 4))
 
 
-def write_table(workbook, name, columns, rows, widths=None, labels=None, number_formats=None, wrap_columns=()):
-    sheet = workbook.add_worksheet(name)
+def write_table(workbook, name, columns, rows, widths=None, labels=None, number_formats=None, wrap_columns=(), worksheet=None):
+    sheet = worksheet if worksheet is not None else workbook.add_worksheet(name)
     header = workbook.add_format({'bold': True, 'font_color': '#222222', 'bg_color': '#EEEEEE',
                                   'align': 'left', 'valign': 'vcenter', 'text_wrap': True})
     plain = workbook.add_format({'valign': 'top'})

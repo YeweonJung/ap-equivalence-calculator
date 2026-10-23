@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.20-mixed-prescription-order'
+VERSION = '2026.10.23-status-codes'
 
 
 def metadata():
@@ -12,7 +12,9 @@ def metadata():
     from services.feedback_learning import enabled, MODEL_VERSION
     root = Path(__file__).resolve().parents[1]
     from services.evidence import VERSION as evidence_version
+    from services.result_status import POLICY_VERSION as review_policy
     return {'version': VERSION, 'commit': os.getenv('RENDER_GIT_COMMIT', ''),
+            'review_policy': review_policy,
             'supplemented_policy': POLICY_VERSION, 'supplemented_case_methods': list(PRIORITY),
             'evidence_metadata_version': evidence_version,
             'evidence_grade_policy': 'not_assessed_no_inferred_GRADE',

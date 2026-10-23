@@ -21,5 +21,6 @@ def test_all_sheets_are_plain_unfrozen_filterable_tables(source):
     headers = [c.value for c in wb['Review'][1]]
     assert '확인할 내용' in headers and '원문 약물' in headers
     assert '원본 행' in headers
-    values = list(wb['Review'].values)
+    assert wb['Review'].max_row == 1
+    values = list(wb['MedicationResults'].values)
     assert any('unknownxyz' in str(row) for row in values[1:])

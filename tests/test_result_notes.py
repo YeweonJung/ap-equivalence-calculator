@@ -25,5 +25,5 @@ def test_input_warning_keeps_existing_total_but_requires_review():
          'needs_review': True, 'warning': '복용 빈도 없음'}], [], [
         {'patient_id': 'P1', 'method': 'CMD', 'status': 'complete'}])[0]
     assert result['CMD'] == 100
-    assert result['결과 상태'] == '입력 확인 필요'
+    assert result['결과 상태'] == 'c: 정보부족'
     assert '복용 빈도 없음' in result['확인할 내용']

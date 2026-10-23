@@ -59,13 +59,17 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
         text = compose(local, raw, dose_col, unit_col, frequency_col)
         frames = parse_upload_frames(text)
         issue = ''
+        error_code = ''
         if value(dose_col):
             supplied = compose(row, '', dose_col, unit_col, None).split()[0]
             supplied = DOSE_RE.fullmatch(supplied)
             nominal = DOSE_RE.search(normalized)
             try:
-                if not supplied or _dose_to_mg(float(supplied['dose']), supplied['unit']) != _dose_to_mg(float(nominal['dose']), nominal['unit']):
+                if not supplied:
                     issue = '상품명 함량과 용량 열이 다르거나 용량 단위가 불명확합니다.'
+                elif _dose_to_mg(float(supplied['dose']), supplied['unit']) != _dose_to_mg(float(nominal['dose']), nominal['unit']):
+                    issue = '상품명 함량과 용량 열이 다릅니다.'
+                    error_code = 'strength_conflict'
             except (ValueError, TypeError):
                 issue = '상품명 함량과 용량 열을 확인해 주세요.'
         frequency = compose(local, '', dose_col, None, frequency_col).strip()
@@ -80,7 +84,7 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
         if issue:
             for frame in frames:
                 frame.update(status='review', status_message='입력 확인 필요', warning=issue,
-                             daily_dose_mg=None, needs_review=True)
+                             daily_dose_mg=None, needs_review=True, error_code=error_code)
         return frames
 
     if DOSE_RE.search(raw) or dose_col is None:
@@ -144,6 +148,7 @@ def structured_frames(row, raw, dose_col, unit_col, frequency_col, compose):
                 continue
             if unit_conflict:
                 frame.update(status='review', status_message='용량 단위 불일치',
+                             error_code='unit_conflict',
                              warning='용량 셀과 단위 열의 단위가 다릅니다. 원본을 확인하세요.',
                              daily_dose_mg=None, needs_review=True)
             lai_frequency = frame.get('route') == 'injection' and bool(re.fullmatch(

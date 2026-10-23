@@ -51,7 +51,7 @@ def test_patch_text_in_dated_upload_never_uses_tablet_factors():
         dose_columns=[key for key in row if key.endswith('mg/day)')]
         assert len(dose_columns)>1
         assert all(row[key] is None for key in dose_columns)
-        assert row['결과 상태']=='확인 필요'
+        assert row['상태코드']=='a' and row['검토필요'] is False
         assert '경피제·패치' in row['확인할 내용']
 
 

@@ -40,7 +40,7 @@ async function recordCorrection(item, index, alias, source) {
 
 function itemHtml(item, index) {
   if (!item.ok) {
-    return `<div class="parse-item error"><b>${escapeHtml(item.original)}</b> — ${escapeHtml(item.error)}${(item.learned_suggestions || []).map(c => `<div>이전 수정 사례의 추천: <button type="button" class="learned-correction" data-item="${index}" data-alias="${escapeHtml(c.alias)}">${escapeHtml(c.alias)} 확인 후 적용</button></div>`).join('')}${feedbackHtml(item, index)}</div>`;
+    return `<div class="parse-item${item.review_required ? ' error' : ''}" data-review="${!!item.review_required}"><b>${escapeHtml(item.original)}</b> — <strong>${escapeHtml(item.status_label)}</strong><div class="values">${escapeHtml(item.error)}</div>${(item.learned_suggestions || []).map(c => `<div>이전 수정 사례의 추천: <button type="button" class="learned-correction" data-item="${index}" data-alias="${escapeHtml(c.alias)}">${escapeHtml(c.alias)} 확인 후 적용</button></div>`).join('')}${feedbackHtml(item, index)}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';
@@ -49,7 +49,7 @@ function itemHtml(item, index) {
   const evidence = `<details><summary>약물별 환산 근거 · 등급 평가 여부</summary><p>정식 GRADE 평가 미실시. 매칭 점수는 임상적 확률이 아닙니다.</p>${item.conversions.map(c => `<p><b>${escapeHtml(c.method)}</b> · ${escapeHtml(c.evidence?.calculation_basis || c.basis || '')}<br>${escapeHtml(c.evidence?.evidence_source || '계수 또는 적용 근거 없음')}<br>${escapeHtml(c.evidence?.exclusion_conditions || '')}</p>`).join('')}<a href="/methods">근거와 적용 한계 보기</a></details>`;
   const steps = item.route === 'injection' && item.active_moiety_mg != null
     ? `입력 ${escapeHtml(item.input_dose_mg)} mg → 활성성분 ${escapeHtml(item.active_moiety_mg)} mg / ${escapeHtml(item.interval_days)}일 → 경구 대응 ${item.oral_equivalent_mg == null ? '단일값 없음' : escapeHtml(item.oral_equivalent_mg) + ' mg/day'}<br>` : '';
-  return `<div class="parse-item"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span>${escapeHtml(item.status_message)}${item.needs_review ? ' · 검토 필요' : ''}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.calculation_note || '')} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}${evidence}</div></div>`;
+  return `<div class="parse-item" data-review="${!!item.review_required}"><div class="parse-top"><b>${escapeHtml(item.drug)}${item.daily_dose_mg == null ? '' : ` · ${formatDose(item.daily_dose_mg)} mg/day${item.route === 'injection' ? ' (평균 주사 성분량)' : ''}`}</b><span class="${item.review_required ? 'error-code' : ''}">${escapeHtml(item.status_code ? item.status_label : item.status_message)}</span></div><div class="values">${steps}${escapeHtml(item.warning)} ${escapeHtml(item.calculation_note || '')} ${escapeHtml(item.route === 'injection' ? item.formulation : '')}<br>${values}${evidence}</div></div>`;
 }
 
 function totalsHtml(totals, count) {
@@ -60,7 +60,7 @@ function totalsHtml(totals, count) {
     if (total.partial_equivalent_dose_mg != null) notes.push(`부분합 ${formatDose(total.partial_equivalent_dose_mg)} mg/day`);
     if (total.unresolved_count) notes.push(`미환산 ${total.unresolved_count}건`);
     if (total.excluded_count) notes.push(`환산 대상 외 ${total.excluded_count}건 (0 기여)`);
-    if (total.needs_review) notes.push('검토 필요');
+    if (total.review_required) notes.push('x: 오류 · 검토필요');
     return `<tr><th scope="row">${escapeHtml(total.method)} · ${escapeHtml(total.target_drug)}</th><td>${result}</td><td>${escapeHtml(notes.join(' · ') || '합산 완료')}</td></tr>`;
   }).join('')}</tbody></table><small>미환산 약물이 있는 방법은 전체 합계를 표시하지 않습니다. 아래에서 약물별 결과를 확인하세요.</small></div>`;
 }
@@ -72,7 +72,7 @@ function scenariosHtml(cases, count) {
     const partial = scenario.partial == null ? '' : ` · 부분합 ${formatDose(scenario.partial)} mg/day`;
     const missing = scenario.missing ? ` · 미환산 ${formatDose(scenario.missing)}건` : '';
     const supplemented = scenario.supplemented ? ` · 보완 ${formatDose(scenario.supplemented)}건` : '';
-    return `<tr><th scope="row">${escapeHtml(scenario.base)}</th><td>${total}${target}${partial}</td><td>${escapeHtml(scenario.methods)}</td><td>${escapeHtml(scenario.complement || '없음')}</td><td>${escapeHtml(scenario.status)}${missing}${supplemented}${scenario.note ? `<br><small>${escapeHtml(scenario.note)}</small>` : ''}</td></tr>`;
+    return `<tr><th scope="row">${escapeHtml(scenario.base)}</th><td>${total}${target}${partial}</td><td>${escapeHtml(scenario.methods)}</td><td>${escapeHtml(scenario.complement || '없음')}</td><td>${escapeHtml(scenario.status)}${missing}${supplemented}${scenario.status_code ? `<br>${escapeHtml(scenario.status_label)}` : ''}${scenario.note ? `<br><small>${escapeHtml(scenario.note)}</small>` : ''}</td></tr>`;
   }).join('')}</tbody></table></div>`;
   const details = cases.map(scenario => `<details class="scenario-details"><summary>${escapeHtml(scenario.case_id)} 약물별 근거</summary><table class="conversion-table"><caption>${escapeHtml(scenario.case_id)} 약물별 환산 근거</caption><thead><tr><th>약물</th><th>적용 방법</th><th>환산 결과</th><th>근거</th><th>출처</th></tr></thead><tbody>${(scenario.details || []).map(detail => {
     const medication = detail.original == null || detail.original === detail.drug

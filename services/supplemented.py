@@ -12,6 +12,7 @@ from services.converter import available_targets, convert_drug, normalize_target
 from services.excel_tables import write_table
 from services.exclusions import is_excluded, exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
+from services.result_status import classify, combine, COLUMNS, HEADERS
 
 PRIORITY = ('CMD', 'MED', 'ED95', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
 POLICY_VERSION = 'selected-base-sequential-3.0'
@@ -99,7 +100,7 @@ def resolve(frame, base, blocker='', fallback=''):
 
 
 def medication_entry(frame, patient='P001', day='', blocker=''):
-    return dict(frame=frame, blocker=blocker, patient_id=str(patient), date=day,
+    return dict(**classify(frame), frame=frame, blocker=blocker, patient_id=str(patient), date=day,
                 original=frame.get('original'), drug=frame.get('drug'),
                 sheet=frame.get('sheet', ''), source_row=frame.get('source_row'),
                 column=frame.get('medication_column', ''), start=frame.get('source_start'),
@@ -134,7 +135,7 @@ def cases_for_group(entries, methods, patient='P001', day=''):
                     supplemented=count, missing=missing,
                     note=' · '.join(dict.fromkeys(r['review_note'] for r in rows if r['review_note'])),
                     supplement_order=[m for m in PRIORITY if m != base],
-                    details=[{**r, 'case_id': case_id} for r in rows])
+                    details=[{**r, 'case_id': case_id} for r in rows], **combine(*rows))
 
     for base in methods:
         original = [detail(entry, base) for entry in entries]
@@ -165,10 +166,11 @@ def frame_cases(audits, methods, patients):
         yield from cases_for_group(grouped[str(patient)], methods, patient)
 
 
-def dated_cases(details, results, base_method=None):
+def dated_cases(details, results, base_method=None, records=()):
     """Consume the original selected rows; group one patient/date at a time."""
     from services.longitudinal_excel import reason_text
     groups = {}
+    source = {(r['source_sheet'], r['source_row']): r for r in records}
     for r in results:
         groups.setdefault((r['patient_id'], r['reference_date']), []).append(r['method'])
     details.seek(0)
@@ -181,9 +183,12 @@ def dated_cases(details, results, base_method=None):
             if pending is not None and pending[0] == (patient, day):
                 for _, batch in groupby(pending[1], key=lambda r: (r['source_sheet'], r['source_row'])):
                     # All methods carry the same input blockers, except missing_factor.
-                    row = next(batch)
-                    reasons = set(filter(None, row['reasons'].split(';'))) - {'missing_factor'}
-                    frame = dict(drug=row['canonical'], original=row['drug'], daily_dose_mg=row['daily_mg'],
+                    batch = list(batch)
+                    row = batch[0]
+                    all_reasons = {c for item in batch for c in item['reasons'].split(';') if c}
+                    reasons = all_reasons - {'missing_factor'}
+                    frame = dict(source.get((row['source_sheet'], int(row['source_row'])), {}),
+                                 drug=row['canonical'], original=row['drug'], daily_dose_mg=row['daily_mg'], issues=all_reasons,
                                  route='oral', status='non_target' if row['status'] == 'non_target' else 'ready',
                                  sheet=row['source_sheet'], source_row=int(row['source_row']),
                                  warning=reason_text(row['adjustments'].split(';')))
@@ -213,9 +218,10 @@ def write_supplemented(workbook, case_factory, dated=False, date_label='처방�
                   target='기준약물', total='보완 총합 (mg/day)', methods='사용 방법', complement='보완 방법',
                   status='처리', supplemented='보완 약물 수', missing='미환산 수',
                   partial='부분합 (mg/day)', note='확인할 사항')
-    columns = prefix + ['case_id', 'total', 'target', 'methods', 'complement', 'status', 'missing', 'partial', 'base', 'supplemented', 'note']
+    labels.update(HEADERS)
+    columns = prefix + ['case_id', 'total', 'target', 'methods', 'complement', 'status'] + COLUMNS + ['missing', 'partial', 'base', 'supplemented', 'note']
     ws = write_table(workbook, '보완합계', columns, summary(), labels=labels,
-                     widths=[18] + ([14] if dated else []) + [28, 20, 14, 28, 18, 16, 12, 20, 18, 14, 48],
+                     widths=[18] + ([14] if dated else []) + [28, 20, 14, 28, 18, 16] + [14, 48, 12] + [12, 20, 18, 14, 48],
                      number_formats={'total': '0.00', 'partial': '0.00'}, wrap_columns=('note', 'methods'))
     ws.write_comment(0, columns.index('total'), POLICY_NOTE)
 
@@ -228,11 +234,12 @@ def write_supplemented(workbook, case_factory, dated=False, date_label='처방�
                   value='환산값 (mg/day)', status='처리', reason='사유', basis='용량 기준',
                   source='출처', original='원문 약물', sheet='원본 시트', source_row='원본 행',
                   column='원본 열', start='원문 시작위치', note='확인할 사항')
+    labels.update(HEADERS)
     labels.update({m: f'{m} ({TARGETS[m]} mg/day)' for m in METHOD_ORDER})
-    columns = prefix + ['drug'] + list(METHOD_ORDER) + ['actual', 'value', 'target', 'status', 'base', 'dose', 'factor',
+    columns = prefix + ['drug'] + COLUMNS + list(METHOD_ORDER) + ['actual', 'value', 'target', 'status', 'base', 'dose', 'factor',
                         'reason', 'basis', 'source', 'original', 'sheet', 'source_row', 'column', 'start', 'note']
     ws = write_table(workbook, '보완근거', columns, details_rows(), labels=labels,
-                     widths=[14] + ([14] if dated else []) + [20] + [15] * len(METHOD_ORDER) + [18, 20, 14, 16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
+                     widths=[14] + ([14] if dated else []) + [20] + [14, 48, 12] + [15] * len(METHOD_ORDER) + [18, 20, 14, 16, 18, 20, 18, 32, 42, 65, 45, 20, 12, 20, 14, 48],
                      number_formats={c: '0.############' for c in ('dose', 'factor', 'value', *METHOD_ORDER)},
                      wrap_columns=('reason', 'basis', 'source', 'note'))
     ws.write_comment(0, columns.index('actual'), POLICY_NOTE)
@@ -245,5 +252,5 @@ def append_frame_sheets(workbook, audits, patient_rows, patient_checks, base_met
     write_supplemented(workbook, lambda: frame_cases(audits, [base_method or (methods[0] if methods else 'CMD')], patients))
 
 
-def append_dated_sheets(workbook, details, results, date_label, base_method=None):
-    write_supplemented(workbook, lambda: dated_cases(details, results, base_method), dated=True, date_label=date_label)
+def append_dated_sheets(workbook, details, results, date_label, base_method=None, records=()):
+    write_supplemented(workbook, lambda: dated_cases(details, results, base_method, records), dated=True, date_label=date_label)

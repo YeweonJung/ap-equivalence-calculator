@@ -55,7 +55,7 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     from tests.workbook_helpers import records
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     meds = records(wb, 'MedicationResults')
     summary = records(wb, 'Results')
     assert meds[0]['original'] == 'ris 2, olz 5'
@@ -66,7 +66,8 @@ def test_results_sheet_blank_failures_and_errors_for_assumed_units():
     assert meds[4][value_column('DDD')] == pytest.approx(400 / 30, abs=0.0001)
     assert summary[2]['DDD (OLZ mg/day)'] == pytest.approx(400 / 30, abs=0.0001)
     assert summary[2]['CMD (OLZ mg/day)'] is None
-    assert len([r for r in records(wb, 'Review') if '단위 미기재' in r['error']]) == 2
+    assert len([r for r in records(wb, 'AuditTrail') if '단위 미기재' in str(r['warning']) and 'c' in r['상태코드']]) == 2
+    assert records(wb, 'Review') == []
 
 
 
@@ -81,4 +82,6 @@ def test_structured_default_mg_stays_auditable():
     response = app.test_client().post('/upload', data={'method':'DDD', 'file':(io.BytesIO(csv.encode()),'structured.csv')})
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
     assert sheets['MedicationResults']['daily_dose_mg'].tolist() == [4,10]
-    assert sheets['Review']['확인할 내용'].str.contains('확인바람').all()
+    assert sheets['Review'].empty
+    assert sheets['AuditTrail']['상태코드'].str.contains('c').all()
+    assert sheets['AuditTrail']['warning'].str.contains('확인바람').all()

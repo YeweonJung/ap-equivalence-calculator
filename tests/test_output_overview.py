@@ -16,10 +16,10 @@ def test_overview_keeps_values_and_explains_blanks():
     assert sheet.cell(3,ddd).value=='—'
     assert sheet['B3'].value=='계산 보류'
     assert '환산계수 없음' in sheet.cell(3,len(headers)).value
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     assert all(s.sheet_state == 'visible' for s in wb)
     assert wb['Results'].sheet_state=='visible'
-    assert sheet.freeze_panes is None and sheet.auto_filter.ref=='A1:L3'
+    assert sheet.freeze_panes is None and sheet.auto_filter.ref=='A1:O3'
     wb.close()
 
 

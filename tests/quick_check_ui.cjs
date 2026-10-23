@@ -54,6 +54,13 @@ async function main() {
   assert(!scenarioHtml.includes('<script>'));
   assert(!scenarioHtml.includes('<img'));
   assert.equal(vm.runInContext('formatDose(100/30)',context),'3.3333');
+  context.item={ok:false, original:'unknownxyz 2mg QD', error:'약물 미확인',
+    status_label:'b: 인식불가', review_required:false};
+  const unknownHtml=vm.runInContext('itemHtml(item,0)',context);
+  assert(unknownHtml.includes('b: 인식불가') && !unknownHtml.includes('parse-item error'));
+  context.item={ok:false, original:'risperidone -2mg QD', error:'용량은 0보다 커야 합니다.',
+    status_label:'x: 오류 · 검토필요', review_required:true};
+  assert(vm.runInContext('itemHtml(item,0)',context).includes('parse-item error'));
   context.item={ok:true,drug:'<script>',daily_dose_mg:2,route:'oral',status_message:'ok',
     conversions:[{method:'WOODS',target:'chlorpromazine',value:null}]};
   const rendered=vm.runInContext('itemHtml(item,0)',context);

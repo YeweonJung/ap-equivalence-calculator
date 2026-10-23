@@ -13,7 +13,7 @@ from services.evaluation import evaluate
 from tests.workbook_helpers import records
 
 ROOT = Path(__file__).resolve().parents[1]
-OLD_SHEETS = ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+OLD_SHEETS = ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 
 
 def test_metadata_complete_grade_honest_factors_preserved_and_rebuild_idempotent(tmp_path, monkeypatch):

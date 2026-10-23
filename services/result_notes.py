@@ -1,5 +1,6 @@
 """Explain unavailable patient totals without changing any calculated values."""
 from collections import defaultdict
+from services.result_status import classify, combine
 
 NOTE_COLUMNS = ['결과 상태', '확인할 내용', '환산 완료 방법', '환산 불가 방법']
 
@@ -35,8 +36,11 @@ def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
             notes.append('환산 계수 또는 제형별 근거 없음: ' + ', '.join(unavailable))
         if unavailable:
             notes.append('빈칸은 0이 아닙니다. 미환산 약물이 있는 방법은 총합계를 표시하지 않습니다.')
-        if errors[patient] or any(a.get('needs_review') for a in audits[patient]):
-            status = '입력 확인 필요'
+        codes = combine(*(classify(a) for a in audits[patient] + errors[patient]))
+        if codes['review_required']:
+            status = '오류 · 검토필요'
+        elif codes['status_code'] and codes['status_code'] != 'e':
+            status = codes['status_label']
         elif complete and unavailable:
             status = '일부 방법 환산 불가'
         elif complete:
@@ -48,7 +52,7 @@ def with_result_notes(patient_rows, audit_rows, error_rows, patient_checks):
             notes.append('입력된 약물은 환산 대상이 아닙니다.')
         else:
             status = '환산 불가'
-        result.append({**row, '결과 상태': status,
+        result.append({**row, **codes, '결과 상태': status,
                        '확인할 내용': '\n'.join(dict.fromkeys(notes)),
                        '환산 완료 방법': ', '.join(c['method'] for c in complete),
                        '환산 불가 방법': ', '.join(unavailable)})

@@ -19,7 +19,7 @@ def test_patient_sums_across_rows_keep_ids_and_method_order():
     wb = upload('patient_id,medication\n001,risperidone 2mg QD\n001,olanzapine 5mg QD\n002,risperidone 1mg QD\nNA,risperidone 1mg QD\n')
     result = rows(wb, 'Results')
     assert [r['patient_id'] for r in result] == ['001', '002', 'NA']
-    assert list(result[0])[:4] == ['patient_id', '결과 상태', 'CMD (OLZ mg/day)', 'DDD (OLZ mg/day)']
+    assert list(result[0])[:7] == ['patient_id', '결과 상태', '상태코드', '상태설명', '검토필요', 'CMD (OLZ mg/day)', 'DDD (OLZ mg/day)']
     expected = app.test_client().post('/api/parse', json={'text': 'risperidone 2mg QD; olanzapine 5mg QD'}).json['totals']
     for total in expected:
         column = f"{total['method']} ({TARGETS[total['method']]} mg/day)"
@@ -33,7 +33,8 @@ def test_incomplete_patient_never_exports_partial_as_total():
     assert result[0]['결과 상태'] == '계산 보류'
     assert '약물명 확인' in result[0]['확인할 내용']
     assert result[1]['DDD (OLZ mg/day)'] is not None
-    assert any('unknownxyz' in r['original'] for r in rows(wb, 'Review'))
+    assert any('unknownxyz' in str(r['original']) and r['상태코드'] == 'b' for r in rows(wb, 'AuditTrail'))
+    assert rows(wb, 'Review') == []
 
 
 
@@ -43,7 +44,8 @@ def test_missing_ids_are_separate_and_empty_prescription_is_blank():
     assert len(result) == 3
     assert len({r['patient_id'] for r in result}) == 3
     assert result[2]['DDD (OLZ mg/day)'] is None
-    assert len(rows(wb, 'Review')) >= 2
+    assert rows(wb, 'Review') == []
+    assert sum('ID 누락' in str(r['error']) for r in rows(wb, 'AuditTrail')) == 2
 
 
 def test_excel_multisheet_and_multiple_medication_columns():

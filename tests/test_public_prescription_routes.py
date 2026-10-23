@@ -73,5 +73,5 @@ def test_public_pattern_upload_and_quick_download_match_safe_api_values():
     response = client.post('/api/export', json={'text': 'QUEtiapine Fumarate 100mg PO/NG 2 times a day'})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert len(wb.sheetnames) == 6
+    assert len(wb.sheetnames) == 7
     assert records(wb, 'MedicationResults')[0]['daily_dose_mg'] == 200

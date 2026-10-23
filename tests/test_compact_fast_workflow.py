@@ -32,9 +32,10 @@ def test_public_paths_never_search_or_wait_for_ai(monkeypatch, backend):
     ]:
         assert response.status_code == 200
         wb = load_workbook(io.BytesIO(response.data))
-        assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+        assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
         assert all(s.sheet_state == 'visible' for s in wb)
-        assert wb['Review'].max_row > 1
+        assert wb['Review'].max_row == 1
+        assert records(wb, 'AuditTrail')[0]['상태코드'] == 'b'
         assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
 
 
@@ -52,6 +53,6 @@ def test_no_duplicate_totals_or_candidate_columns_and_review_is_traceable():
     assert not any('총 환산값' in h or h == 'name_candidates' for h in meds[0])
     assert meds[0][value_column('DDD')] == 4
     assert all(meds[1][value_column(m)] is None for m in METHOD_ORDER)
-    issue = next(r for r in records(wb, 'Review') if 'unknownxyz' in r['original'])
+    issue = next(r for r in records(wb, 'AuditTrail') if 'unknownxyz' in r['original'])
     assert issue['source_row'] == 3 and issue['medication_column'] == 'medication'
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None

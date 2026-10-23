@@ -123,7 +123,7 @@ def table(wb, name):
 
 def check_workbook(content, prescriptions, base, quick=False):
     wb = load_workbook(io.BytesIO(content))
-    assert wb.sheetnames==['보완합계','보완근거','Results','MedicationResults','Review','AuditTrail']
+    assert wb.sheetnames==['보완합계','보완근거','Results','MedicationResults','Review','AuditTrail','코드안내']
     summaries, details = table(wb,'보완합계'), table(wb,'보완근거')
     assert len(summaries)==len(prescriptions)
     assert len(details)==sum(len(p['rows']) for p in prescriptions)

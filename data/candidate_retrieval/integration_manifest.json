@@ -78,7 +78,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "73a1e07d124234f4ecf951b5e11e446c9accff83a8a5aa836e2d98cd42ecff37",
+    "app.py": "ba3d6aa51522e79134d97c2e9025d8a78533254ecc134a2fda444cc684c940e1",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -93,9 +93,9 @@
     "services/converter.py": "365d4f60ff473cbfac8f542f195677752bd1df7836b1ad063b424ca4780e4348",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "bcad3c02a5be8694d9b839ab07b9916cc289b6227e41381421ef58c33a1da709",
+    "services/exporter.py": "04d545521944ebc8f13d410e282d7e2522ebf8f7cfa3de5296fe07ca43ddd629",
     "services/file_reader.py": "ce58251292b168941e40d0e5aeefbfc5a272bc636e3fdd729a7eba4aec039301",
-    "services/frames.py": "daeb7f71f078499459cee307e7ad1ad4ee134b41cfd7347c6cf5e38c76e19b5e",
+    "services/frames.py": "b633611feee9bc151a8fbd000d15340654831796242ce71b116057ca1de2d2b8",
     "services/injections.py": "67c5dded0e422fda3cc2627bd472ebde7a43dd3e249d53be919c9031c719eb14",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
     "services/lai_support.py": "f8254618191b5075f8b38b235266650a174795e71bc418c2c55e0043cc03c57d",
@@ -108,26 +108,26 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "e340451944cfd9d72996192e208b0adea7b6911c1dc394c549db247905e480f7",
-    "services/release.py": "e69c001cd19a5899abd8ac4d2ea97663087fa4f1b258ad97bdb39040457fd9a3",
+    "services/release.py": "befd6077e3dce1dabb0034f32bfb7262aa986832f7b5ae1b50d2413b03d7a568",
     "services/result_summary.py": "918d2a2cbc51858d63cae4bf33d91c2daffb3b1658f94ee94e1da769d3658072",
-    "services/structured.py": "cb2ffb9e54df0e905689ee866242d281feb74ffc43e8e6bb329fa3980b7979ed",
+    "services/structured.py": "a7757cdcc56792c98f25b01928cb7fca8555dd1b5b4140c2172738244ba2a50b",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
-    "static/quick_check.js": "8a4a171046c35b7fd7a3d992927d8edf763215603b7eb434261cd13dcd9a0250",
+    "static/quick_check.js": "a3179f5161198e69b1c7196cd3234ca9684a42a7d208fb350e5e3309e758764a",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "b72c0efd972547ff396e24a938d66264c4531a70e3b94d945b6ee12e6e216055",
+    "templates/index.html": "dab84fe697bb2ad9486fb3817d03b70c1a847d5b088ee86f87b400bfb13bb518",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
-    "tests/quick_check_ui.cjs": "010e6e935dfb7a539f9d525ed80d6c1731b7c3f19b20e19863f49e693bc44327",
-    "tests/test_character_review.py": "4bb5c46c97c9f2a5447b89386d175592fae676c18c023445c42e00b34e14f5e5",
-    "tests/test_equivalence_update.py": "45573d8553e508787f83d4ff6f710ab949147433f06f46ba42c498367e13c3d6",
-    "tests/test_frames.py": "7eb09a852302bd8d0d250033ac3d98846e7ddda9af1f476895b35ca5b607d10c",
-    "tests/test_integration.py": "3ba9a5171c57a96b36d5e6756061e3d43c36fc3de27a1fa7dc04143c3452ea9d",
-    "tests/test_lai_methods.py": "e3785c21a0d24e5afad86ae6bfd95b1019ab00b201e9ef9f8246853d7df7f967",
+    "tests/quick_check_ui.cjs": "198fc47d12077c223c5504647ae5b011ebd346d3ca51a5c83af02760a0412406",
+    "tests/test_character_review.py": "fbf5df82c9f80dd643ed2ba3f024d6ca16661a4e64908025fddf3ec763dbae6d",
+    "tests/test_equivalence_update.py": "43e51e5a98b961444448e8f58e96d21fbe86d6753338a985827fd37f585e5497",
+    "tests/test_frames.py": "580e5df40ed85f01335ee08f9b2bbc96b03a7194d5186cdb3d621386ffe5df3d",
+    "tests/test_integration.py": "a4b0797167edcb8938ceea53f497a14d532a30f28b594f4c7c48ec8d4922b727",
+    "tests/test_lai_methods.py": "31da9e1fbe65b0b55cc51cfdfa0f45dbbd13c224aded668cf785db454cdefab9",
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
     "tests/test_quick_check.py": "d8e099dc52f5d166d1e32fb42f90e1825608fdee18bd42a5e357be83cda7cc24",
-    "tests/test_quick_export.py": "e3eca86fc3de0b39cc05d1adbff4006f3c8099dfbe9dab0fba39809956015a3e",
-    "tests/test_results_injections.py": "5db0a6a51bc3f36bf3c29611f7b5ad540dfa137ab190f260c45edaf2c015f55e",
+    "tests/test_quick_export.py": "107b8662ef951373bbe50aa58efdbce687dd4dc819be1ed5464c96a4fb38b06e",
+    "tests/test_results_injections.py": "34be152ae912d51a9fb32078f2b2631b8df513a3c1eca8a6e706c112dd04ead1",
     "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
   },
   "patient_results_change": {
@@ -229,5 +229,87 @@
   "product_alias_review": "User requested explicit Korean/English product spelling variants; shared identity dictionary, no fuzzy confirmation or factor changes.",
   "global_injection_names_review": "User requested web-researched aliases. Reviewed catalog with source/date and review-only formulation guards; existing oral factors and archived AI artifacts unchanged.",
   "supplemented_review": "2026-10-12: user authorized separate supplemented totals and medication provenance sheets, base-first fixed fallback priority, same reference drug, unchanged pure sheets/factors and unresolved input guards; GitHub and Render release authorized.",
-  "supplemented_cases_review": "2026-10-12: user authorized fixed-base separate alternative-method cases, summary/provenance first two sheets, same cases in quick API/UI and Excel, preserve pure results and lookup factors, test and deploy to GitHub/Render."
+  "supplemented_cases_review": "2026-10-12: user authorized fixed-base separate alternative-method cases, summary/provenance first two sheets, same cases in quick API/UI and Excel, preserve pure results and lookup factors, test and deploy to GitHub/Render.",
+  "authorized_review_policy_updates": [
+    {
+      "date": "2026-10-23",
+      "reason": "User requested Review for actionable unresolved errors only; normal exclusions and partial method coverage remain informational; factor values and frozen models unchanged",
+      "files": {
+        "services/exporter.py": {
+          "before": "bcad3c02a5be8694d9b839ab07b9916cc289b6227e41381421ef58c33a1da709",
+          "after": "3c164abd3cb1bbd00b308029b106101a050ebb6d4245d33a44a193bedf3b86a6"
+        },
+        "tests/test_integration.py": {
+          "before": "3ba9a5171c57a96b36d5e6756061e3d43c36fc3de27a1fa7dc04143c3452ea9d",
+          "after": "fbf4755926978f7044f0876fc8123d0f93ab10bad85ee5c7a824118bef56848d"
+        }
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "reason": "User explicitly requested a-failure/b-unrecognized style result codes and Review only for demonstrated errors, visible on homepage and worksheets; numerical values and frozen assets unchanged",
+      "files": {
+        "app.py": {
+          "before": "73a1e07d124234f4ecf951b5e11e446c9accff83a8a5aa836e2d98cd42ecff37",
+          "after": "ba3d6aa51522e79134d97c2e9025d8a78533254ecc134a2fda444cc684c940e1"
+        },
+        "services/exporter.py": {
+          "before": "3c164abd3cb1bbd00b308029b106101a050ebb6d4245d33a44a193bedf3b86a6",
+          "after": "04d545521944ebc8f13d410e282d7e2522ebf8f7cfa3de5296fe07ca43ddd629"
+        },
+        "services/frames.py": {
+          "before": "daeb7f71f078499459cee307e7ad1ad4ee134b41cfd7347c6cf5e38c76e19b5e",
+          "after": "b633611feee9bc151a8fbd000d15340654831796242ce71b116057ca1de2d2b8"
+        },
+        "services/release.py": {
+          "before": "e69c001cd19a5899abd8ac4d2ea97663087fa4f1b258ad97bdb39040457fd9a3",
+          "after": "befd6077e3dce1dabb0034f32bfb7262aa986832f7b5ae1b50d2413b03d7a568"
+        },
+        "services/structured.py": {
+          "before": "cb2ffb9e54df0e905689ee866242d281feb74ffc43e8e6bb329fa3980b7979ed",
+          "after": "a7757cdcc56792c98f25b01928cb7fca8555dd1b5b4140c2172738244ba2a50b"
+        },
+        "static/quick_check.js": {
+          "before": "8a4a171046c35b7fd7a3d992927d8edf763215603b7eb434261cd13dcd9a0250",
+          "after": "a3179f5161198e69b1c7196cd3234ca9684a42a7d208fb350e5e3309e758764a"
+        },
+        "templates/index.html": {
+          "before": "b72c0efd972547ff396e24a938d66264c4531a70e3b94d945b6ee12e6e216055",
+          "after": "dab84fe697bb2ad9486fb3817d03b70c1a847d5b088ee86f87b400bfb13bb518"
+        },
+        "tests/test_character_review.py": {
+          "before": "4bb5c46c97c9f2a5447b89386d175592fae676c18c023445c42e00b34e14f5e5",
+          "after": "fbf5df82c9f80dd643ed2ba3f024d6ca16661a4e64908025fddf3ec763dbae6d"
+        },
+        "tests/test_equivalence_update.py": {
+          "before": "45573d8553e508787f83d4ff6f710ab949147433f06f46ba42c498367e13c3d6",
+          "after": "43e51e5a98b961444448e8f58e96d21fbe86d6753338a985827fd37f585e5497"
+        },
+        "tests/test_frames.py": {
+          "before": "7eb09a852302bd8d0d250033ac3d98846e7ddda9af1f476895b35ca5b607d10c",
+          "after": "580e5df40ed85f01335ee08f9b2bbc96b03a7194d5186cdb3d621386ffe5df3d"
+        },
+        "tests/test_integration.py": {
+          "before": "fbf4755926978f7044f0876fc8123d0f93ab10bad85ee5c7a824118bef56848d",
+          "after": "a4b0797167edcb8938ceea53f497a14d532a30f28b594f4c7c48ec8d4922b727"
+        },
+        "tests/test_lai_methods.py": {
+          "before": "e3785c21a0d24e5afad86ae6bfd95b1019ab00b201e9ef9f8246853d7df7f967",
+          "after": "31da9e1fbe65b0b55cc51cfdfa0f45dbbd13c224aded668cf785db454cdefab9"
+        },
+        "tests/test_quick_export.py": {
+          "before": "e3eca86fc3de0b39cc05d1adbff4006f3c8099dfbe9dab0fba39809956015a3e",
+          "after": "107b8662ef951373bbe50aa58efdbce687dd4dc819be1ed5464c96a4fb38b06e"
+        },
+        "tests/test_results_injections.py": {
+          "before": "5db0a6a51bc3f36bf3c29611f7b5ad540dfa137ab190f260c45edaf2c015f55e",
+          "after": "34be152ae912d51a9fb32078f2b2631b8df513a3c1eca8a6e706c112dd04ead1"
+        },
+        "tests/quick_check_ui.cjs": {
+          "before": "010e6e935dfb7a539f9d525ed80d6c1731b7c3f19b20e19863f49e693bc44327",
+          "after": "198fc47d12077c223c5504647ae5b011ebd346d3ca51a5c83af02760a0412406"
+        }
+      }
+    }
+  ]
 }

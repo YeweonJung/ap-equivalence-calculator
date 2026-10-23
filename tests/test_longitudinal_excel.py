@@ -22,7 +22,7 @@ def test_wide_workbook_preserves_each_method_and_date_and_review_sources():
     pairs = reference_pairs(records, 'all_dates')
     expected, details = analyze(records, pairs)
     wb = load_workbook(analyze_export(records, pairs, {'policy': 'review'}))
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     actual = {(r['patient_id'], r['기준일']): r for r in rows(wb, 'Results')}
     assert len(actual) == len(pairs)
     for r in expected:
@@ -58,4 +58,6 @@ def test_missing_factor_and_no_record_stay_blank_with_korean_guidance():
     assert output[0]['GARDNER (OLZ mg/day)'] is not None
     assert '해당 날짜' in output[1]['확인할 내용']
     assert output[1]['GARDNER (OLZ mg/day)'] is None
-    assert '환산 계수 없음' in rows(wb, 'Review')[0]['확인할 내용']
+    assert rows(wb, 'Review') == []
+    assert rows(wb, 'MedicationResults')[0]['상태코드'] == 'a'
+    assert 'missing_factor' in rows(wb, 'AuditTrail')[0]['issues']

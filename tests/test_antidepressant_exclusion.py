@@ -92,18 +92,18 @@ def test_exact_date_totals_audit_and_no_carryover():
         rx(day='2020-04-17', patient='001', drug='렉사프로 10mg', tabs='1'),
     ])
     wb = load_workbook(automatic_analysis({'input': source}, ['DDD']))
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     totals = records(wb, 'Results')
     assert [r['DDD (OLZ mg/day)'] for r in totals] == [0, 4, None]
     assert [r['patient_id'] for r in totals] == ['001'] * 3
     details = records(wb, 'MedicationResults')
     assert len(details) == 5
-    excluded = [r for r in details if r['결과 상태'] == '항우울제 제외 (0)']
+    excluded = [r for r in details if r['상태코드'] == 'e']
     assert len(excluded) == 3
     assert all(r['DDD (OLZ mg/day)'] == 0 for r in excluded)
     review = records(wb, 'Review')
-    assert len(review) == 4  # Three informational exclusions and one unknown drug.
-    assert len([r for r in review if r['계산 처리'] == '배제 완료']) == 3
+    assert review == []
+    assert any(r['상태코드'] == 'b' and 'unknownxyz' in r['원문 약물'] for r in details)
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 5
     assert audit[0]['drug_class'] == 'antidepressant'
@@ -130,12 +130,11 @@ def test_all_static_export_paths_keep_zero_and_audit_without_review(mode):
         response = client.post('/upload', data={'file': (stream, 'input.' + ('xlsx' if mode == 'xlsx' else 'csv'))})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] == 0
     assert records(wb, 'MedicationResults')[0][value_column('DDD')] == 0
     review = records(wb, 'Review')
-    assert len(review) == 1 and review[0]['인식 성분'] == 'sertraline'
-    assert review[0]['항정신병약 환산 기여값'] == 0
+    assert review == []
     audit = records(wb, 'AuditTrail')[0]
     assert audit['drug_class'] == 'antidepressant' and audit['status'] == 'non_target'
     assert audit['exclusion_basis'] and audit['source_text']

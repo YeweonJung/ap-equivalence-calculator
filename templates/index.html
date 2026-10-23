@@ -38,6 +38,7 @@
 .patient-result-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;font-size:11px}.patient-result-grid .cell{padding:10px 8px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:9px;font-weight:500;margin-top:4px}
 .base-choice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}.base-choice select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.base-choice small{color:var(--muted)}
 .supplement-guide{margin:16px 0 18px;padding:16px 18px;border-radius:12px;background:var(--soft)}.supplement-guide strong{font-size:17px}.supplement-guide p{margin:8px 0 4px;font-size:clamp(18px,2vw,23px);font-weight:800;line-height:1.7;color:#164f99;overflow-wrap:anywhere}.supplement-guide small{color:var(--muted);line-height:1.6}
+    .status-guide{margin:16px 0;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13px;line-height:1.7}.status-codes{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0}.status-codes span{padding:3px 8px;background:var(--soft);border-radius:6px}.status-codes .error-code{color:#a43720;background:#fff1ed}.status-guide p{margin:6px 0;color:var(--muted)}.parse-item[data-review=true]{border-color:#c35b44}.parse-top .error-code{color:#a43720}
 </style>
 </head>
 <body>
@@ -48,6 +49,12 @@
         <div class="title"><h1>엑셀을 올리고, 결과파일을 받으세요.</h1><p>약물명과 용량을 읽어 환산 결과를 자동으로 정리합니다.</p></div>
         <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'CMD' %} selected{% endif %}>{{ method }}</option>{% endfor %}</select><small>파일 업로드와 한 줄 계산에 함께 적용됩니다.</small></div>
         <div class="supplement-guide"><strong>값이 없을 때만, 이 순서로 보완</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'CMD')|join(' → ') }}</p><small>선택한 기준 방법은 제외됩니다. 먼저 계산된 값은 그대로 유지합니다.</small></div>
+        <section class="status-guide" aria-label="결과 상태 코드 안내">
+          <strong>검토필요는 오류가 확인된 x 항목만 표시합니다.</strong>
+          <div class="status-codes">{% for code, label, description in status_legend %}<span{% if code == 'x' %} class="error-code"{% endif %} title="{{ description }}"><b>{{ code }}:</b> {{ label }}</span>{% endfor %}</div>
+          <p>결과 시트의 ‘상태코드·상태설명’에서 사유를 확인하세요. Review 시트에는 x 오류만 모이며, 자세한 뜻은 ‘코드안내’ 시트에 있습니다.</p>
+          <p>a는 일부 또는 전체 방법의 환산 근거가 없는 경우입니다. 빈칸은 0이 아니며, 미환산 항목이 있으면 전체 합계 대신 부분합을 구분해 표시합니다.</p>
+        </section>
         <div class="flow">
           <section class="panel" aria-label="입력 엑셀 예시">
             <div class="panel-label"><span class="number">1</span>엑셀 입력</div>

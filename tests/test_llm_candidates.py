@@ -101,8 +101,9 @@ def test_export_keeps_unconfirmed_candidates(monkeypatch):
     assert rows[0]['original']
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
-    assert any(r['error'] for r in records(wb, 'Review'))
-    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert records(wb, 'Review') == []
+    assert any(r['상태코드'] == 'b' for r in records(wb, 'AuditTrail'))
+    assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 
 
 def test_windows_mlx_fails_without_import(monkeypatch):

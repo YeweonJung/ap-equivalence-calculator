@@ -22,13 +22,14 @@ def test_no_factor_is_in_errors_and_medication_explanation():
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data),read_only=True)
     errors=workbook_rows(wb,'Review')
-    assert any('blonanserin' in r['original'] and '계수' in r['error'] for r in errors)
+    assert errors == []
+    assert 'a' in workbook_rows(wb,'MedicationResults')[0]['상태코드']
     medication=workbook_rows(wb,'MedicationResults')[0]
     assert '계수' in medication['환산 근거']
     result=workbook_rows(wb,'Results')[0]
     assert result['DDD (OLZ mg/day)'] is None
     assert '환산계수 없음' in result['확인할 내용']
-    assert any('DDD' in r['error'] for r in errors)
+    assert any('DDD' in str(r['unavailable_methods']) for r in workbook_rows(wb,'AuditTrail'))
     wb.close()
 
 

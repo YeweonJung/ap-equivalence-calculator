@@ -46,10 +46,9 @@ def test_offset_header_multisheet_xlsx_and_review_rows():
     audit = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert audit.loc[audit["약물"] == "lithium", "status"].tolist() == ["non_target"]
     lithium = errors[errors['인식 성분'] == 'lithium']
-    assert len(lithium) == 1
-    assert lithium.iloc[0]['약물 분류'] == '기분조절제'
-    assert lithium.iloc[0]['계산 처리'] == '배제 완료'
-    assert lithium.iloc[0]['항정신병약 환산 기여값'] == 0
+    assert lithium.empty
+    # Normal exclusion remains visible in the detail, outside the action queue.
+    assert len(audit[audit['약물'] == 'lithium']) == 1
 
 
 def test_parser_api_marks_unknown_drugs_for_review():
@@ -127,7 +126,7 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
     original_column = [cell.value for cell in saved["MedicationResults"][1]].index("original") + 1
     originals = [saved["MedicationResults"].cell(row=row, column=original_column).value for row in range(2, saved["MedicationResults"].max_row + 1)]
     assert originals[0].startswith("'") and saved["MedicationResults"].cell(row=2, column=original_column).data_type != "f"
-    assert saved.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail']
+    assert saved.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
     assert saved["MedicationResults"].freeze_panes is None
     assert saved["MedicationResults"].auto_filter.ref == saved["MedicationResults"].dimensions
     assert saved["MedicationResults"].column_dimensions["E"].width > 11
