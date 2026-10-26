@@ -2,7 +2,7 @@ from services.exclusions import is_excluded, exclusion_label
 """Compact presentation layer; underlying numeric results stay unchanged."""
 from collections import defaultdict
 from services.result_summary import TARGETS
-from services.result_status import COLUMNS, HEADERS, combine
+from services.result_status import COLUMNS, HEADERS, combine, display_value
 
 ORDER = ('CMD', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'MED', 'ED95', 'CMD_DIRECT', 'CMD_INDIRECT')
 NAME = 'Results'
@@ -56,7 +56,7 @@ def layout(methods, rows, dated=False, date_label='처방일'):
         values = [row['values'].get(m) for m in methods]
         count = sum(v is not None for v in values)
         status = '산출 완료' if count == len(methods) and count else '일부 산출' if count else '계산 보류'
-        prefix = [row['id']] + ([row['date']] if dated else []) + [status] + [row.get(c, False if c == 'review_required' else '') for c in COLUMNS]
+        prefix = [row['id']] + ([row['date']] if dated else []) + [status] + [display_value(row.get(c, False if c == 'review_required' else ''), c) for c in COLUMNS]
         note = row['notes'] or ('방법별 지원 범위 차이' if count and count < len(methods) else '')
         for c, v in enumerate(prefix): cells.append((i, c, v, 'text'))
         for c, v in enumerate(values, len(prefix)):

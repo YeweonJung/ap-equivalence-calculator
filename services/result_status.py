@@ -102,6 +102,13 @@ def decorate(row, issues=()):
     return {**row, **classify(row, issues)}
 
 
+def display_value(value, column):
+    """Render review flags without changing the boolean used by calculation logic."""
+    if column in ('review_required', '검토필요') and isinstance(value, bool):
+        return 'yes' if value else 'no'
+    return value
+
+
 def add_legend(workbook):
     from services.excel_tables import write_table
     rows = [dict(code=c, label=l, description=d, review='검토필요' if c == 'x' else '해당 없음') for c, l, d in LEGEND]

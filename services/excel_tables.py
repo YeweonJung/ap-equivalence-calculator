@@ -1,5 +1,6 @@
 """Fast row-wise workbook tables; values remain literal and formats are reused."""
 import math
+from services.result_status import display_value
 
 WRAPPED = {'status_label', '상태설명', 'recognized_product', 'product_name_source', 'original', 'source_text', 'warning', 'error', '환산 근거', 'conversion_basis',
            'conversion_source', 'oral_bridge_source', 'mass_source', 'unavailable_methods',
@@ -7,6 +8,7 @@ WRAPPED = {'status_label', '상태설명', 'recognized_product', 'product_name_s
 
 
 def safe_value(value, column):
+    value = display_value(value, column)
     # Keep the existing export convention for prescription text; IDs remain exact.
     if isinstance(value, str) and column not in ('patient', 'patient_id', '환자 ID') and value.startswith(('=', '+', '-', '@')):
         return "'" + value

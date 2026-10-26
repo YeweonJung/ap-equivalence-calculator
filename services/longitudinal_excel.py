@@ -9,7 +9,7 @@ from itertools import groupby
 from xlsxwriter import Workbook
 
 from services.result_summary import PATIENT_METHOD_ORDER, TARGETS
-from services.result_status import classify, combine, COLUMNS, HEADERS, add_legend
+from services.result_status import classify, combine, COLUMNS, HEADERS, add_legend, display_value
 
 MIMETYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 FILENAME = 'AP_equivalence_results.xlsx'
@@ -102,7 +102,7 @@ def export_excel(records, results, details, metadata):
             note = (exclusion_basis(first['canonical']) + '. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
             note = '; '.join(filter(None, [note, original.get('injection_error'), original.get('injection_frame', {}).get('calculation_note')]))
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
-            append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical']] + [codes[c] for c in COLUMNS] + [original['daily_mg']] +
+            append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical']] + [display_value(codes[c], c) for c in COLUMNS] + [original['daily_mg']] +
                    [values.get(m) for m in methods] + [codes['status_label'] if codes['status_code'] else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
             detail_count += 1
     finally:
@@ -117,7 +117,7 @@ def export_excel(records, results, details, metadata):
             note = '; '.join(filter(None, [exclusion_basis(r['canonical']) if excluded else '', reason_text(issues.get(key, set()))]))
             note = '; '.join(filter(None, [note, r.get('injection_error')]))
             append(review_sheet, [r['patient'], r['date'], r['drug'], note, r['product'], *key, r['days'], r['daily'], r['duplicate_of'],
-                                  info.get('recognized_drug'), info.get('drug_group'), info.get('calculation'), info.get('equivalent_contribution')] + [codes[c] for c in COLUMNS])
+                                  info.get('recognized_drug'), info.get('drug_group'), info.get('calculation'), info.get('equivalent_contribution')] + [display_value(codes[c], c) for c in COLUMNS])
             review_count += 1
     for ws, headers, count in [(detail_sheet, detail_headers, detail_count), (review_sheet, review_headers, review_count)]:
         ws.autofilter(0, 0, count - 1, len(headers) - 1)

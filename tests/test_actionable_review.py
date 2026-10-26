@@ -28,7 +28,7 @@ def test_information_codes_stay_outside_review_in_every_sheet(text, code):
     for sheet in ('보완합계', '보완근거', 'Results', 'MedicationResults', 'AuditTrail'):
         row = records(wb, sheet)[0]
         assert code in row['상태코드'].split(';'), (sheet, row)
-        assert row['검토필요'] is False
+        assert row['검토필요'] == 'no'
     assert len(records(wb, '코드안내')) == 7
 
 
@@ -57,11 +57,13 @@ def test_companion_does_not_hide_unknown_or_allow_incomplete_total():
 def test_actual_errors_only_are_review_required(text):
     wb = upload(text, 'DDD')
     review = records(wb, 'Review')
-    assert len(review) == 1 and review[0]['검토필요'] is True
+    assert len(review) == 1 and review[0]['검토필요'] == 'yes'
     assert 'x' in review[0]['상태코드']
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
     item = app.test_client().post('/api/parse', json={'text': text}).json['items'][0]
-    assert item['review_required'] and not item['ok']
+    assert item['review_required'] is True and not item['ok']
+    for sheet in ('보완합계', '보완근거', 'Results', 'MedicationResults', 'AuditTrail'):
+        assert records(wb, sheet)[0]['검토필요'] == 'yes'
 
 
 @pytest.mark.parametrize('methods', [['DDD','CPZ_FGA'], ['CPZ_FGA']])
@@ -89,7 +91,11 @@ def test_dated_invalid_values_distinguished_from_missing_and_unknown():
     audit = {r['patient_id']: r for r in records(wb, 'AuditTrail')}
     assert audit['unknown']['상태코드'] == 'b'
     assert audit['missing']['상태코드'] == 'c'
-    assert all(r['검토필요'] for r in review)
+    assert all(r['검토필요'] == 'yes' for r in review)
+    for sheet in ('보완합계', '보완근거', 'Results', 'MedicationResults', 'AuditTrail'):
+        for row in records(wb, sheet):
+            expected = 'yes' if 'x' in (row['상태코드'] or '').split(';') else 'no'
+            assert row['검토필요'] == expected, (sheet, row)
 
 
 def test_duplicate_remains_a_blocker_without_becoming_a_confirmed_error():
