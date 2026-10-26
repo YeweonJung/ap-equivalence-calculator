@@ -16,7 +16,7 @@ def test_off_never_calls_learner_and_keeps_manual_correction(monkeypatch):
     assert 'feedback_token' not in data['items'][0]
 
 
-@pytest.mark.parametrize('mode', ['gpt', 'claude', 'gemini', 'deepseek', 'qwen'])
+@pytest.mark.parametrize('mode', ['gemma', 'nemotron', 'xing', 'lfm', 'qwen'])
 def test_models_use_same_prompt_and_require_human_confirmation(monkeypatch, mode):
     output=json.dumps({'status':'candidate_found','candidates':[{'standard_name':'risperidone','confidence':'high','reason':'철자 후보'}]})
     seen=[]
@@ -41,20 +41,20 @@ def test_models_use_same_prompt_and_require_human_confirmation(monkeypatch, mode
 
 def test_modes_preserve_conversion_and_reject_invalid_mode():
     client=app.test_client()
-    outputs=[client.post('/api/parse',json={'text':'risperidone 2mg QD','study_ai':m}).json for m in ['off','gpt','claude','gemini','deepseek']]
+    outputs=[client.post('/api/parse',json={'text':'risperidone 2mg QD','study_ai':m}).json for m in ['off','gemma','nemotron','xing','lfm']]
     assert all(o['totals']==outputs[0]['totals'] for o in outputs)
     assert client.post('/api/parse',json={'text':'risperidone 2mg QD','study_ai':True}).status_code==400
 
 
 def test_missing_key_and_failed_inference_never_look_successful(monkeypatch):
     client=app.test_client()
-    data=client.post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'gpt'}).json
+    data=client.post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'gemma'}).json
     assert data['study']['ai_available'] is False
     assert data['study']['calls'][0]['status']=='unavailable'
     def failure(*args):
         raise RuntimeError('SECRET must not be returned')
     monkeypatch.setattr(study_mode,'_cloud',failure)
-    response=client.post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'gpt','study_api_key':'TEST_SECRET_ONLY'})
+    response=client.post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'gemma','study_api_key':'TEST_SECRET_ONLY'})
     assert response.json['study']['calls'][0]['status']=='error'
     assert response.json['study']['ai_success_count']==0
     assert 'SECRET' not in response.get_data(as_text=True)
@@ -72,9 +72,48 @@ def test_cloud_transport_uses_only_fixed_destination(monkeypatch):
             observed.update(url=req.full_url,body=json.loads(req.data),auth=req.get_header('Authorization'),timeout=timeout)
             return Reply()
     monkeypatch.setattr(study_mode,'build_opener',lambda *args:Transport())
-    output,meta=study_mode._cloud([],study_mode.MODELS['deepseek'],'TEST_KEY')
+    output,meta=study_mode._cloud([],study_mode.MODELS['lfm'],'TEST_KEY')
     assert observed['url']=='https://openrouter.ai/api/v1/chat/completions'
-    assert observed['body']['model']=='deepseek/deepseek-v3.2'
+    assert observed['body']['model']=='liquid/lfm-2.5-2.6b:free'
     assert observed['body']['provider']['allow_fallbacks'] is False
+    assert observed['body']['provider']['max_price']=={'prompt':0,'completion':0,'request':0}
+    assert observed['body']['provider']['require_parameters'] is True
+    assert observed['body']['reasoning']=={'enabled':False}
+    assert 'models' not in observed['body']
     assert observed['auth']=='Bearer TEST_KEY'
     assert meta['returned_model']=='example'
+
+
+@pytest.mark.parametrize('model', ['openai/gpt-5.4', 'openrouter/free', 'google/gemma-4-31b-it', 'unlisted/model:free'])
+def test_non_selected_or_paid_model_is_rejected_before_transport(monkeypatch, model):
+    def forbidden(*args):
+        raise AssertionError('Disallowed model reached transport')
+    monkeypatch.setattr(study_mode, 'build_opener', forbidden)
+    with pytest.raises(ValueError, match='free_model_required'):
+        study_mode._cloud([],model,'TEST_KEY')
+
+
+@pytest.mark.parametrize('mode', ['gpt','claude','gemini','deepseek',{},[]])
+def test_old_paid_modes_are_rejected(mode):
+    response=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode})
+    assert response.status_code==400
+
+
+def test_free_catalog_and_protocol_are_explicit():
+    data=app.test_client().get('/api/study-status').json
+    assert data['protocol']=='ap-study-3-free'
+    assert data['cost_policy']=='free_cloud_only'
+    assert len(data['cloud_models'])==4
+    assert all(m.endswith(':free') for m in data['cloud_models'].values())
+
+
+def test_rate_limit_is_recorded_without_exposing_error_body(monkeypatch):
+    from urllib.error import HTTPError
+    def failure(*args):
+        raise HTTPError('https://openrouter.ai/api/v1/chat/completions',429,'SECRET_MESSAGE',{},None)
+    monkeypatch.setattr(study_mode,'_cloud',failure)
+    r=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'gemma','study_api_key':'TEST_SECRET_ONLY'})
+    call=r.json['study']['calls'][0]
+    assert call['status']=='error' and call['http_status']==429
+    assert r.json['study']['ai_success_count']==0
+    assert 'SECRET' not in r.get_data(as_text=True)

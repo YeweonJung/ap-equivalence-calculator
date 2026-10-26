@@ -4,12 +4,12 @@ import json
 import os
 import time
 from urllib.request import Request, build_opener
+from urllib.error import HTTPError
 from services import llm_candidates as llm
 from services.name_dictionary import name_and_suffix
 from services.parser import alias_map
 
-MODELS = {'gpt': 'openai/gpt-5.4', 'claude': 'anthropic/claude-sonnet-4.6',
-          'gemini': 'google/gemini-3.1-pro-preview', 'deepseek': 'deepseek/deepseek-v3.2'}
+MODELS = {'gemma': 'google/gemma-4-31b-it:free', 'nemotron': 'nvidia/nemotron-3-super-120b-a12b:free', 'xing': 'xingchen-agi/xing4.0-29b-a4b:free', 'lfm': 'liquid/lfm-2.5-2.6b:free'}
 MODES = {'off', 'qwen', *MODELS}
 PROMPT_VERSION = 'name-candidate-controlled-v1'
 
@@ -22,14 +22,20 @@ def capabilities():
         available = llm_jobs.online()
     return dict(qwen=dict(available=available, backend=backend,
         model=os.getenv('NAME_LLM_MODEL', 'qwen2.5:7b')),
-        cloud_models=MODELS, cloud_credential='researcher_request_only')
+        cloud_models=MODELS, cloud_credential='researcher_request_only',
+        protocol='ap-study-3-free', cost_policy='free_cloud_only',
+        catalog_verified_at='2026-10-26')
 
 
 def _cloud(messages, model, key):
+    if model not in MODELS.values() or not model.endswith(':free'):
+        raise ValueError('free_model_required')
     # A fixed HTTPS destination and request-scoped credential, never a public server key.
     payload = dict(model=model, messages=messages, temperature=0,
         max_tokens=1000, stream=False, response_format={'type': 'json_object'},
-        provider={'allow_fallbacks': False, 'require_parameters': True})
+        reasoning={'enabled': False},
+        provider={'allow_fallbacks': False, 'require_parameters': True,
+                  'max_price': {'prompt': 0, 'completion': 0, 'request': 0}})
     req = Request('https://openrouter.ai/api/v1/chat/completions',
         data=json.dumps(payload).encode(), headers={
             'Content-Type': 'application/json', 'Authorization': 'Bearer '+key})
@@ -104,12 +110,15 @@ def annotate(items, mode, key=None):
         except Exception as exc:
             # Exception text could contain request data; do not log or return it.
             call['error_type'] = type(exc).__name__
+            if isinstance(exc, HTTPError):
+                call['http_status'] = exc.code
         call['elapsed_seconds'] = round(time.perf_counter()-started, 3)
         calls.append(call)
-    return dict(protocol='ap-study-2', mode=mode, ai_feature='llm_name_candidates',
+    return dict(protocol='ap-study-3-free', cost_policy='free_cloud_only', mode=mode, ai_feature='llm_name_candidates',
         ai_available=available, ai_invocation_count=sum(c['invoked'] for c in calls),
         ai_candidate_count=sum(len(i.get('learned_suggestions', [])) for i in items),
         ai_success_count=sum(c['status'] == 'success' for c in calls),
         ai_elapsed_seconds=round(sum(c['elapsed_seconds'] for c in calls), 3),
         requested_model=requested, prompt_version=PROMPT_VERSION, calls=calls,
+        cloud_reasoning_enabled=False, cloud_max_tokens=1000,
         app_commit=os.getenv('RENDER_GIT_COMMIT', 'local'))

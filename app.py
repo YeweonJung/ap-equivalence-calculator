@@ -166,7 +166,8 @@ def parse_text():
         text = quick_check_text()
         base_method = selected_base(request.get_json().get('base_method'))
         study_mode = request.get_json().get('study_ai')
-        if study_mode is not None and study_mode not in ('off', 'qwen', 'gpt', 'claude', 'gemini', 'deepseek'):
+        from services.study_mode import MODES
+        if study_mode is not None and (not isinstance(study_mode, str) or study_mode not in MODES):
             raise ValueError('연구용 AI 조건을 확인해 주세요.')
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400

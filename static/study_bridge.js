@@ -7,7 +7,7 @@
   const nonce = params.get('study_nonce');
   const origins = new Set(['https://ap-dose-validation.yewonjeong000.chatgpt.site',
     'http://localhost:8088', 'http://127.0.0.1:8088']);
-  if (!['off','qwen','gpt','claude','gemini','deepseek'].includes(mode) || !origins.has(origin) || !trial || !nonce) return;
+  if (!['off','qwen','gemma','nemotron','xing','lfm'].includes(mode) || !origins.has(origin) || !trial || !nonce) return;
   let key = '';
   window.addEventListener('message', event => {
     const data = event.data;
@@ -21,7 +21,7 @@
     try { targeted = new URL(typeof input === 'string' ? input : input.url, location.href).pathname === '/api/parse'; } catch (_) {}
     if (targeted && options?.body) {
       options = {...options, body:JSON.stringify({...JSON.parse(options.body), study_ai:mode,
-        study_api_key:['gpt','claude','gemini','deepseek'].includes(mode)?key:undefined})};
+        study_api_key:['gemma','nemotron','xing','lfm'].includes(mode)?key:undefined})};
     }
     const response = await originalFetch(input, options);
     if (targeted) response.clone().json().then(data => {
@@ -32,7 +32,7 @@
   };
   const banner = document.createElement('div');
   banner.style.cssText='padding:16px 24px;background:#eaf2ff;border-bottom:2px solid #1769e0;color:#173c66;text-align:center;font:600 16px sans-serif';
-  const label = {off:'AI 없음', qwen:'로컬 Qwen', gpt:'GPT', claude:'Claude', gemini:'Gemini', deepseek:'DeepSeek'}[mode];
+  const label = {off:'AI 없음', qwen:'로컬 Qwen', gemma:'Gemma 4 31B · 무료', nemotron:'Nemotron 3 Super · 무료', xing:'Xing4.0 · 중국 · 무료', lfm:'LFM2.5 2.6B · 무료'}[mode];
   banner.textContent=`검증 연구 · ${label} · DDD / OLZ mg/day · 정답 제출은 연구 화면에서 해주세요.`;
   document.body.prepend(banner);
   const selector = document.querySelector('#base-method');
