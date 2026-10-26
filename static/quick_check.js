@@ -40,7 +40,7 @@ async function recordCorrection(item, index, alias, source) {
 
 function itemHtml(item, index) {
   if (!item.ok) {
-    return `<div class="parse-item${item.review_required ? ' error' : ''}" data-review="${!!item.review_required}"><b>${escapeHtml(item.original)}</b> — <strong>${escapeHtml(item.status_label)}</strong><div class="values">${escapeHtml(item.error)}</div>${(item.learned_suggestions || []).map(c => `<div>이전 수정 사례의 추천: <button type="button" class="learned-correction" data-item="${index}" data-alias="${escapeHtml(c.alias)}">${escapeHtml(c.alias)} 확인 후 적용</button></div>`).join('')}${feedbackHtml(item, index)}</div>`;
+    return `<div class="parse-item${item.review_required ? ' error' : ''}" data-review="${!!item.review_required}"><b>${escapeHtml(item.original)}</b> — <strong>${escapeHtml(item.status_label)}</strong><div class="values">${escapeHtml(item.error)}</div>${(item.learned_suggestions || []).map(c => `<div>${escapeHtml(item.suggestion_label || '이전 수정 사례의 추천')}: <button type="button" class="learned-correction" data-item="${index}" data-alias="${escapeHtml(c.alias)}">${escapeHtml(c.alias)} 확인 후 적용</button></div>`).join('')}${feedbackHtml(item, index)}</div>`;
   }
   const values = `<table class="conversion-table"><caption>방법별 환산 결과 (mg/day)</caption><thead><tr><th>방법</th><th>결과 · 기준 약물</th></tr></thead><tbody>${item.conversions.map(value => {
     const reason = item.route === 'injection' && value.method !== 'DDD' && item.oral_equivalent_mg == null ? '단일 경구 대응량 없음' : '해당 방법의 계수 없음';

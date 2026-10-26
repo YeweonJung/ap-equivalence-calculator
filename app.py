@@ -165,16 +165,39 @@ def parse_text():
     try:
         text = quick_check_text()
         base_method = selected_base(request.get_json().get('base_method'))
+        study_mode = request.get_json().get('study_ai')
+        if study_mode is not None and study_mode not in ('off', 'qwen', 'gpt', 'claude', 'gemini', 'deepseek'):
+            raise ValueError('연구용 AI 조건을 확인해 주세요.')
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
     items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
-    for item in items:
-        if item['status'] == 'unknown_drug':
-            attach_feedback(item)
+    study = None
+    if study_mode is not None:
+        from services.study_mode import annotate
+        study = annotate(items, study_mode, request.get_json().get('study_api_key'))
+    else:
+        for item in items:
+            if item['status'] == 'unknown_drug':
+                attach_feedback(item)
     from services.supplemented import quick_cases, POLICY_VERSION
-    return jsonify({"items": items, "totals": summarize_frames(items, METHODS),
+    response = jsonify({"items": items, "totals": summarize_frames(items, METHODS),
                     "cases": quick_cases(items, [base_method]), "case_policy": POLICY_VERSION,
-                    "base_method": base_method})
+                    "base_method": base_method, "study": study})
+    if study_mode is not None:
+        response.headers['Cache-Control'] = 'no-store'
+    return response
+
+
+@app.get('/api/study-status')
+def study_status():
+    from services.study_mode import capabilities
+    response = jsonify(capabilities())
+    response.headers['Cache-Control'] = 'no-store'
+    origin = request.headers.get('Origin')
+    if origin in ('https://ap-dose-validation.yewonjeong000.chatgpt.site', 'http://localhost:8088', 'http://127.0.0.1:8088'):
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Vary'] = 'Origin'
+    return response
 
 
 @app.post("/upload")

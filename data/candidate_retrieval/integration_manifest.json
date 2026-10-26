@@ -78,7 +78,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "ba3d6aa51522e79134d97c2e9025d8a78533254ecc134a2fda444cc684c940e1",
+    "app.py": "a772d4e9b6c19e392fee08058d6c709773d53751251f4f059f6367dd8366faea",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -112,9 +112,9 @@
     "services/result_summary.py": "918d2a2cbc51858d63cae4bf33d91c2daffb3b1658f94ee94e1da769d3658072",
     "services/structured.py": "a7757cdcc56792c98f25b01928cb7fca8555dd1b5b4140c2172738244ba2a50b",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
-    "static/quick_check.js": "a3179f5161198e69b1c7196cd3234ca9684a42a7d208fb350e5e3309e758764a",
+    "static/quick_check.js": "c2f15283c8bc87e2145d1abbadc7f676bfc99d190da082b5f8c219ab44cd18dd",
     "templates/error.html": "d74a078642cfb2b75d1c5c609f93aa22961f6c62da7f528864d5023e420ec163",
-    "templates/index.html": "dab84fe697bb2ad9486fb3817d03b70c1a847d5b088ee86f87b400bfb13bb518",
+    "templates/index.html": "b4118fff02fc031c7cb314ae5e2f8ba7f8c642a2b14a1e1011f109eb0988e4f7",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
