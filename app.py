@@ -175,7 +175,9 @@ def parse_text():
     study = None
     if study_mode is not None:
         from services.study_mode import annotate
-        study = annotate(items, study_mode, request.get_json().get('study_api_key'))
+        study = annotate(items, study_mode, request.get_json().get('study_api_key'),
+                         request.get_json().get('study_free_tier_confirmed'),
+                         request.get_json().get('study_preview'))
     else:
         for item in items:
             if item['status'] == 'unknown_drug':

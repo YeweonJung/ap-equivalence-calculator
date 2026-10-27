@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 import time
 from urllib.request import Request, build_opener
 from urllib.error import HTTPError
@@ -9,8 +10,20 @@ from services import llm_candidates as llm
 from services.name_dictionary import name_and_suffix
 from services.parser import alias_map
 
-MODELS = {'gemma': 'google/gemma-4-31b-it:free', 'nemotron': 'nvidia/nemotron-3-super-120b-a12b:free', 'xing': 'xingchen-agi/xing4.0-29b-a4b:free', 'lfm': 'liquid/lfm-2.5-2.6b:free'}
+MODELS = {
+    'google_flash': 'gemini-2.5-flash',
+    'groq_oss120': 'openai/gpt-oss-120b',
+    'groq_oss20': 'openai/gpt-oss-20b',
+    'groq_qwen': 'qwen/qwen3.8-27b',
+}
+PROVIDERS = {mode: ('google' if mode == 'google_flash' else 'groq') for mode in MODELS}
+ENDPOINTS = {
+    'google': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'groq': 'https://api.groq.com/openai/v1/chat/completions',
+}
 MODES = {'off', 'qwen', *MODELS}
+PROTOCOL = 'ap-study-4-direct-free'
+COST_POLICY = 'free_tier_account_required'
 PROMPT_VERSION = 'name-candidate-controlled-v1'
 
 
@@ -22,31 +35,56 @@ def capabilities():
         available = llm_jobs.online()
     return dict(qwen=dict(available=available, backend=backend,
         model=os.getenv('NAME_LLM_MODEL', 'qwen2.5:7b')),
-        cloud_models=MODELS, cloud_credential='researcher_request_only',
-        protocol='ap-study-3-free', cost_policy='free_cloud_only',
+        cloud_models=MODELS, cloud_providers=PROVIDERS,
+        cloud_credential='researcher_request_only',
+        protocol=PROTOCOL, cost_policy=COST_POLICY,
+        free_tier_confirmation_required=True, automatic_retry=False,
+        paid_fallback=False, preview_ai_calls=False,
+        # No provider API field can force a paid account to be billed as free.
+        billing_verification='researcher_attestation_not_provider_verified',
         catalog_verified_at='2026-10-26')
 
 
-def _cloud(messages, model, key):
-    if model not in MODELS.values() or not model.endswith(':free'):
-        raise ValueError('free_model_required')
-    # A fixed HTTPS destination and request-scoped credential, never a public server key.
+def valid_key(provider, key):
+    if not isinstance(key, str) or not 30 <= len(key) <= 200:
+        return False
+    if provider == 'groq':
+        return bool(re.fullmatch(r'gsk_[A-Za-z0-9_-]{26,196}', key))
+    return bool(re.fullmatch(r'AIza[A-Za-z0-9_-]{26,196}', key))
+
+
+def _cloud(messages, model, key, free_tier_confirmed=False):
+    if model not in MODELS.values():
+        raise ValueError('selected_model_required')
+    mode = next(mode for mode, selected in MODELS.items() if model == selected)
+    provider = PROVIDERS[mode]
+    if free_tier_confirmed is not True:
+        raise ValueError('free_tier_confirmation_required')
+    if not valid_key(provider, key):
+        raise ValueError('provider_key_required')
+    # Caller must use an account with no paid billing enabled. Never infer that
+    # from the key/model name, and never report a measured cost of zero.
+    effort = 'low' if mode in {'groq_oss120', 'groq_oss20'} else 'none'
     payload = dict(model=model, messages=messages, temperature=0,
         max_tokens=1000, stream=False, response_format={'type': 'json_object'},
-        reasoning={'enabled': False},
-        provider={'allow_fallbacks': False, 'require_parameters': True,
-                  'max_price': {'prompt': 0, 'completion': 0, 'request': 0}})
-    req = Request('https://openrouter.ai/api/v1/chat/completions',
-        data=json.dumps(payload).encode(), headers={
-            'Content-Type': 'application/json', 'Authorization': 'Bearer '+key})
+        reasoning_effort=effort)
+    req = Request(ENDPOINTS[provider], data=json.dumps(payload).encode(), headers={
+        'Content-Type': 'application/json', 'Authorization': 'Bearer '+key})
     with build_opener(llm._NoRedirect()).open(req, timeout=60) as response:
         raw = response.read(65537)
     if len(raw) > 65536:
         raise ValueError('response_size')
     result = json.loads(raw)
-    return result['choices'][0]['message']['content'], {
-        'returned_model': result.get('model'), 'provider': result.get('provider'),
-        'usage': result.get('usage'), 'response_id': result.get('id')}
+    if result.get('model') != model:
+        raise ValueError('returned_model_mismatch')
+    choice = result['choices'][0]
+    if choice.get('finish_reason') != 'stop':
+        raise ValueError('incomplete_response')
+    return choice['message']['content'], {
+        'returned_model': result['model'], 'provider': provider,
+        'usage': result.get('usage'), 'response_id': result.get('id'),
+        'reasoning_effort': effort, 'cost_usd': None,
+        'cost_source': 'not_reported_by_provider'}
 
 
 def _qwen(messages):
@@ -72,14 +110,19 @@ def _qwen(messages):
         'returned_model': None, 'model_identity_source': 'server_configuration'}
 
 
-def annotate(items, mode, key=None):
+def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False):
     if mode not in MODES:
         raise ValueError('invalid_mode')
-    key = key if isinstance(key, str) and 10 <= len(key) <= 500 and '\n' not in key and '\r' not in key else None
+    cloud = mode in MODELS
+    provider = PROVIDERS.get(mode)
     config = capabilities() if mode == 'qwen' else None
-    available = mode == 'off' or (config['qwen']['available'] if config else bool(key))
+    confirmed = free_tier_confirmed is True
+    preview = preview is True
+    available = mode == 'off' or (not preview and (
+        config['qwen']['available'] if config else valid_key(provider, key) and confirmed))
     requested = MODELS.get(mode) or (config['qwen']['model'] if config else None)
     calls = []
+    halted = False
     for item in items:
         if item.get('status') != 'unknown_drug':
             continue
@@ -89,15 +132,19 @@ def annotate(items, mode, key=None):
         context = llm._context(item['original'])
         if mode == 'off' or context is None:
             continue
-        if not available:
-            calls.append(dict(status='unavailable', invoked=False, elapsed_seconds=0))
+        if preview or not available or halted:
+            reason = ('preview_no_requests' if preview else 'stopped_after_error' if halted
+                else 'free_tier_not_confirmed' if cloud and not confirmed
+                else 'missing_or_invalid_key' if cloud else 'worker_unavailable')
+            calls.append(dict(status='blocked' if preview or halted or not confirmed and cloud else 'unavailable',
+                reason=reason, invoked=False, elapsed_seconds=0))
             continue
         messages = llm._messages(context[0], context[2], sorted(set(alias_map.values())))
         prompt_hash = hashlib.sha256(json.dumps(messages, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         started = time.perf_counter()
         call = dict(status='error', invoked=True, prompt_hash=prompt_hash, requested_model=requested)
         try:
-            output, meta = _qwen(messages) if mode == 'qwen' else _cloud(messages, requested, key)
+            output, meta = _qwen(messages) if mode == 'qwen' else _cloud(messages, requested, key, confirmed)
             call.update(meta)
             parsed = json.loads(output)
             if not isinstance(parsed, dict) or parsed.get('status') not in {'candidate_found', 'unknown'} or not isinstance(parsed.get('candidates'), list):
@@ -108,17 +155,21 @@ def annotate(items, mode, key=None):
             item['learned_suggestions'] = candidates
             call.update(status='success', candidate_count=len(candidates), candidate_names=[c['drug'] for c in candidates])
         except Exception as exc:
-            # Exception text could contain request data; do not log or return it.
+            # Never retry, fall back, or expose provider error bodies/credentials.
             call['error_type'] = type(exc).__name__
             if isinstance(exc, HTTPError):
                 call['http_status'] = exc.code
+            halted = True
         call['elapsed_seconds'] = round(time.perf_counter()-started, 3)
         calls.append(call)
-    return dict(protocol='ap-study-3-free', cost_policy='free_cloud_only', mode=mode, ai_feature='llm_name_candidates',
-        ai_available=available, ai_invocation_count=sum(c['invoked'] for c in calls),
+    return dict(protocol=PROTOCOL, cost_policy=COST_POLICY, mode=mode, ai_feature='llm_name_candidates',
+        ai_available=available, preview=preview,
+        free_tier_confirmed=confirmed if cloud else None,
+        billing_verification='researcher_attestation_not_provider_verified' if cloud else None,
+        provider=provider, ai_invocation_count=sum(c['invoked'] for c in calls),
         ai_candidate_count=sum(len(i.get('learned_suggestions', [])) for i in items),
         ai_success_count=sum(c['status'] == 'success' for c in calls),
         ai_elapsed_seconds=round(sum(c['elapsed_seconds'] for c in calls), 3),
         requested_model=requested, prompt_version=PROMPT_VERSION, calls=calls,
-        cloud_reasoning_enabled=False, cloud_max_tokens=1000,
+        automatic_retry=False, paid_fallback=False, cloud_max_tokens=1000,
         app_commit=os.getenv('RENDER_GIT_COMMIT', 'local'))
