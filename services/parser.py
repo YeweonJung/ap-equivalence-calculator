@@ -72,9 +72,11 @@ def _frequency_matches(text):
         label = {1.0: "QD", 2.0: "BID", 3.0: "TID", 4.0: "QID"}.get(per_day, f"{int(per_day)}X_DAY")
         matches.append((label, per_day))
 
-    regimen = re.search(r"(?<![\d.])([0-9](?:\s*-\s*[0-9]){2,3})(?![\d.])", text)
+    # Morning-noon-evening(-bedtime) tablet counts; half tablets such as 0.5-0-1 are allowed.
+    slot = r"[0-9](?:\.(?:25|5|75))?"
+    regimen = re.search(rf"(?<![\d.])({slot}(?:\s*-\s*{slot}){{2,3}})(?![\d.])", text)
     if regimen:
-        per_day = float(sum(int(value) for value in re.split(r"\s*-\s*", regimen.group(1))))
+        per_day = float(sum(float(value) for value in re.split(r"\s*-\s*", regimen.group(1))))
         if per_day <= 0:
             raise ValueError("복용 일정의 총 투여량은 0보다 커야 합니다.")
         label = {1.0: "QD", 2.0: "BID", 3.0: "TID", 4.0: "QID"}.get(per_day, regimen.group(1).replace(" ", ""))
@@ -175,7 +177,7 @@ def parse_medication(text):
     if not math.isfinite(dose_mg) or dose_mg <= 0:
         raise ValueError("용량은 0보다 커야 합니다.")
 
-    if re.search(r"\b(prn|as\s+needed|필요시)\b", original, re.I):
+    if re.search(r"\b(prn|as\s+needed|필요\s*시)\b", original, re.I):
         raise ValueError("PRN(필요시) 처방은 일일 용량을 확정할 수 없어 자동 환산하지 않습니다.")
     if re.search(
         r"\b(lai|depot|injection|injectable|intramuscular|subcutaneous|im|iv|sc|weekly|monthly|q\d+\s*(?:w|wk|week|mo|month)s?|every\s+\d+\s*(?:weeks?|months?))\b|주사|데포|매주|매월",

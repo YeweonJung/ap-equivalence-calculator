@@ -1,5 +1,12 @@
 {
   "commit": "8af007977e2b8c681b928ffe505ac673171e7c57",
   "rows": 2318,
-  "rows_sha256": "59198b392978b97641a421f79b9a5c0ed9ed51a39d8cff257dfe6bc2200d20d7"
+  "rows_sha256": "82ba3c5f6d9ea37673f297c621277d991858670c74e1289500d8c1ffeecb8962",
+  "history": [
+    {
+      "date": "2026-10-27",
+      "previous_rows_sha256": "59198b392978b97641a421f79b9a5c0ed9ed51a39d8cff257dfe6bc2200d20d7",
+      "reason": "CMD -> TUM calculator 2-decimal Leucht 2015 values (user approved)"
+    }
+  ]
 }

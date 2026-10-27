@@ -101,7 +101,8 @@ def test_transport_fixed_provider_and_model_no_fallback_or_retry(monkeypatch,mod
     assert url==study_mode.ENDPOINTS[provider]
     assert body['model']==model and body['max_tokens']==1000
     assert not {'models','provider','tools','plugins'}&body.keys()
-    assert body['reasoning_effort']==('low' if mode.startswith('groq_oss') else 'none')
+    if mode=='google_gemma': assert 'reasoning_effort' not in body
+    else: assert body['reasoning_effort']==('low' if mode.startswith('groq_oss') else 'none')
     assert auth=='Bearer '+KEYS[provider]
     assert meta['provider']==provider and meta['cost_usd'] is None
 
@@ -123,7 +124,7 @@ def test_status_discloses_account_verification_limit():
     data=app.test_client().get('/api/study-status').json
     assert data['protocol']=='ap-study-4-direct-free'
     assert data['cost_policy']=='free_tier_account_required'
-    assert len(data['cloud_models'])==4
+    assert len(data['cloud_models'])==5
     assert set(data['cloud_providers'].values())=={'google','groq'}
     assert data['billing_verification']=='researcher_attestation_not_provider_verified'
     assert data['preview_ai_calls'] is False and data['paid_fallback'] is False
@@ -194,3 +195,22 @@ def test_invalid_repeat_settings_rejected_before_any_inference(monkeypatch,index
         'study_ai':'groq_oss20',**credentials('groq_oss20'),
         'study_repeat_index':index,'study_repeat_count':count})
     assert r.status_code==400
+
+
+def test_user_agent_is_sent_for_every_provider(monkeypatch):
+    seen=[]
+    class Reply:
+        def __enter__(self): return self
+        def __exit__(self,*a): pass
+        def read(self,n): return json.dumps({'model':study_mode.MODELS['groq_oss20'],'choices':[{'finish_reason':'stop','message':{'content':'{}'}}]}).encode()
+    class T:
+        def open(self,req,timeout): seen.append(req.get_header('User-agent')); return Reply()
+    monkeypatch.setattr(study_mode,'build_opener',lambda *a:T())
+    study_mode._cloud([],study_mode.MODELS['groq_oss20'],KEYS['groq'],True)
+    assert seen and 'python-urllib' not in seen[0].lower()
+
+
+@pytest.mark.parametrize('raw,expected',[('<thought>plan</thought>{"status":"unknown","candidates":[]}','{"status":"unknown","candidates":[]}'),
+    ('```json\n{"a":1}\n```','{"a":1}'),('{"a":1}','{"a":1}')])
+def test_gemma_thought_and_fence_are_removed(raw,expected):
+    assert study_mode._strip_thought(raw)==expected

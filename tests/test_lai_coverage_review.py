@@ -43,7 +43,7 @@ def test_new_products_have_verified_values_and_separate_notes(text, oral, ddd):
     'Risvan 100mg q4w', 'Haldol decanoate 400mg q4w',
     'Haldol decanoate 100mg', 'Haldol decanoate 50mg/ml q4w',
     'Haldol decanoate 100mg IV q4w', 'Haldol decanoate 70.52mg ester q4w',
-    'Niapelf 100mg loading', 'Niapelf 156mg', 'Palmeux 100mg q4w',
+    'Niapelf 100mg loading', 'Niapelf 156mg',
     'Maintena 400mg 4주 6주', 'Maintena 400mg 1.5주',
 ])
 def test_real_ambiguity_still_blocks_values(text):

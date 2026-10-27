@@ -136,7 +136,12 @@ def interval_days(text, profile):
     if re.search(r'\bweekly\b|매주', text, re.I):
         intervals.append((1, 'week'))
     if profile.startswith('PP'):
-        intervals.append((int(profile[2]), 'month'))
+        # PP1M/3M/6M label intervals; an explicit 4-week multiple (q4w=28d) or month count is the same regimen.
+        months = int(profile[2])
+        if any(n * {'day': 1, 'week': 7, 'month': 30}[u] not in (months * 28, months * 30) for n, u in intervals):
+            raise ValueError('확인바람: 주사 투여간격이 PP 제형과 맞지 않습니다.')
+        if not intervals:
+            intervals.append((months, 'month'))
     elif profile == 'RIS_ISM':
         intervals.append((28, 'day'))
     days = [56 if profile == 'ARI_2M' and n == 2 and u == 'month' else n * {'day': 1, 'week': 7, 'month': 30}[u] for n, u in intervals]
@@ -146,6 +151,10 @@ def interval_days(text, profile):
     if any(u == 'month' for _, u in intervals):
         note = '; 2개월=56일 제품 기준' if profile == 'ARI_2M' else '; 1개월=30일 연구 기준'
     return days[0], note
+
+
+# Maintenance interval alone identifies the paliperidone palmitate formulation.
+PP_BY_DAYS = {28: 'PP1M', 30: 'PP1M', 84: 'PP3M', 90: 'PP3M', 168: 'PP6M', 180: 'PP6M'}
 
 
 def oral_bridge(drug, dose, days, profile):

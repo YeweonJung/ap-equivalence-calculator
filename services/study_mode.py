@@ -12,12 +12,14 @@ from services.name_dictionary import name_and_suffix
 from services.parser import alias_map
 
 MODELS = {
-    'google_flash': 'gemini-2.5-flash',
+    # gemini-2.5-flash is closed to new API users (HTTP 404, 2026-10-27).
+    'google_flash': 'gemini-3.8-flash',
+    'google_gemma': 'gemma-4-31b-it',
     'groq_oss120': 'openai/gpt-oss-120b',
     'groq_oss20': 'openai/gpt-oss-20b',
     'groq_qwen': 'qwen/qwen3.8-27b',
 }
-PROVIDERS = {mode: ('google' if mode == 'google_flash' else 'groq') for mode in MODELS}
+PROVIDERS = {mode: ('google' if mode.startswith('google_') else 'groq') for mode in MODELS}
 ENDPOINTS = {
     'google': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'groq': 'https://api.groq.com/openai/v1/chat/completions',
@@ -67,6 +69,13 @@ def valid_key(provider, key):
     return bool(re.fullmatch(r'AIza[A-Za-z0-9_-]{26,196}', key))
 
 
+def _strip_thought(content):
+    # Gemma may prepend <thought>...</thought> or wrap JSON in a code fence; keep only the JSON object.
+    text = re.sub(r'<thought>.*?</thought>', '', content or '', flags=re.S).strip()
+    text = re.sub(r'^```(?:json)?\s*|\s*```$', '', text).strip()
+    return text
+
+
 def _cloud(messages, model, key, free_tier_confirmed=False):
     if model not in MODELS.values():
         raise ValueError('selected_model_required')
@@ -78,12 +87,16 @@ def _cloud(messages, model, key, free_tier_confirmed=False):
         raise ValueError('provider_key_required')
     # Caller must use an account with no paid billing enabled. Never infer that
     # from the key/model name, and never report a measured cost of zero.
-    effort = 'low' if mode in {'groq_oss120', 'groq_oss20'} else 'none'
+    # Gemma rejects reasoning_effort ("Thinking budget is not supported").
+    effort = 'low' if mode in {'groq_oss120', 'groq_oss20'} else None if mode == 'google_gemma' else 'none'
     payload = dict(model=model, messages=messages, temperature=0,
-        max_tokens=1000, stream=False, response_format={'type': 'json_object'},
-        reasoning_effort=effort)
+        max_tokens=1000, stream=False, response_format={'type': 'json_object'})
+    if effort is not None:
+        payload['reasoning_effort'] = effort
+    # Groq's Cloudflare blocks the default Python-urllib User-Agent (HTTP 403, error 1010).
     req = Request(ENDPOINTS[provider], data=json.dumps(payload).encode(), headers={
-        'Content-Type': 'application/json', 'Authorization': 'Bearer '+key})
+        'Content-Type': 'application/json', 'Authorization': 'Bearer '+key,
+        'User-Agent': 'ap-equivalence-study/1.0'})
     with build_opener(llm._NoRedirect()).open(req, timeout=60) as response:
         raw = response.read(65537)
     if len(raw) > 65536:
@@ -94,7 +107,10 @@ def _cloud(messages, model, key, free_tier_confirmed=False):
     choice = result['choices'][0]
     if choice.get('finish_reason') != 'stop':
         raise ValueError('incomplete_response')
-    return choice['message']['content'], {
+    content = choice['message']['content']
+    if mode == 'google_gemma':
+        content = _strip_thought(content)
+    return content, {
         'returned_model': result['model'], 'provider': provider,
         'usage': result.get('usage'), 'response_id': result.get('id'),
         'reasoning_effort': effort, 'cost_usd': None,

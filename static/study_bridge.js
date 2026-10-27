@@ -41,7 +41,7 @@
   };
   const banner=document.createElement('div');
   banner.style.cssText='padding:16px 24px;background:#eaf2ff;border-bottom:2px solid #1769e0;color:#173c66;text-align:center;font:600 16px sans-serif';
-  const label={off:'AI 없음',qwen:'로컬 Qwen',google_flash:'Gemini 2.5 Flash',groq_oss120:'GPT-OSS 120B',groq_oss20:'GPT-OSS 20B',groq_qwen:'Qwen3.8 27B · 중국'}[mode];
+  const label={off:'AI 없음',qwen:'로컬 Qwen',google_flash:'Gemini 3.8 Flash',groq_oss120:'GPT-OSS 120B',groq_oss20:'GPT-OSS 20B',groq_qwen:'Qwen3.8 27B · 중국'}[mode];
   banner.textContent=valid?'검증 연구 · '+label+(preview?' · 화면 점검: AI 요청 없음':'')+' · DDD / OLZ mg/day · 정답은 연구 화면에서 제출하세요.':'연구 연결이 올바르지 않습니다. 연구 화면에서 배정된 앱을 다시 여세요.';
   document.body.prepend(banner);
   const selector=document.querySelector('#base-method');

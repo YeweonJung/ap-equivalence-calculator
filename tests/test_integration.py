@@ -106,6 +106,15 @@ def test_hourly_korean_and_regimen_frequencies_are_calculated_explicitly():
     assert all(item["needs_review"] is False for item in items)
 
 
+def test_half_tablet_regimen_and_spaced_korean_prn_are_handled():
+    items = app.test_client().post(
+        "/api/parse", json={"text": "Risperdal 2mg 0.5-0-1, Risperdal 1mg 필요 시, Risperdal 1mg 1-0-1"}
+    ).get_json()["items"]
+    assert items[0]["daily_dose_mg"] == 3 and items[0]["needs_review"] is False
+    assert items[1]["ok"] is False and "PRN" in items[1]["error"]
+    assert items[2]["daily_dose_mg"] == 2
+
+
 def test_daily_unit_and_quantity_before_strength_are_not_miscalculated():
     items = app.test_client().post(
         "/api/parse", json={"text": "Risperdal 4mg/day, Risperdal 2정 2mg BID"}

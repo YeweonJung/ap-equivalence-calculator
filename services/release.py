@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.23-status-codes'
+VERSION = '2026.10.27-err-fixes-tum'
 
 
 def metadata():

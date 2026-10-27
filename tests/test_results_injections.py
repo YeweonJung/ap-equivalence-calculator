@@ -31,7 +31,7 @@ def test_route_specific_ddd_and_total(text, expected):
 
 
 @pytest.mark.parametrize('text', [
-    'aripiprazole 400mg LAI', 'paliperidone 100mg PP1M q4w',
+    'aripiprazole 400mg LAI',
     'paliperidone palmitate 155mg PP1M', 'paliperidone 100mg PP1M loading',
     'paliperidone 0mg PP1M', 'paliperidone -100mg PP1M',
     'paliperidone 100mg 150mg PP1M', 'haloperidol 50mg depot monthly',

@@ -2,7 +2,7 @@
 import math
 import re
 import unicodedata
-from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, profile_for, interval_days, oral_bridge
+from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, PP_BY_DAYS, profile_for, interval_days, oral_bridge
 from services.lai_mass import normalize_mass
 
 OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
@@ -54,6 +54,10 @@ def injection_values(frame):
     mass = normalize_mass(text, drug, dose, profile)
     dose = mass['active_moiety_mg']
     days, interval_note = interval_days(text, profile)
+    if drug == 'paliperidone' and not profile and days in PP_BY_DAYS:
+        # Unbranded "paliperidone LAI q4w": written mg is active moiety (mass check above found no ester).
+        profile = PP_BY_DAYS[days]
+        interval_note += f'; 투여간격으로 {profile} 제형 판단'
     bridge = oral_bridge(drug, dose, days, profile)
     if bridge['oral_bridge_source'] and frame.get('product_name_source'):
         bridge['oral_bridge_source'] = '; '.join(dict.fromkeys(

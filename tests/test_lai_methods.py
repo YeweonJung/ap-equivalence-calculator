@@ -119,3 +119,24 @@ def test_separate_frequency_column_supports_lai_schedule():
     col = rows[0].index(value_column('MED'))
     assert rows[1][col] == 15
     assert rows[2][col] == 11.236  # Existing oral MED table uses 0.267mg risperidone/1mg OLZ.
+
+
+@pytest.mark.parametrize('text,days,ddd', [
+    ('Invega Sustenna 150mg q4w', 28, 150 / 28 / 2.5 * 10),
+    ('paliperidone 100mg LAI q4w', 28, 100 / 28 / 2.5 * 10),
+    ('paliperidone 350mg LAI q12w', 84, 350 / 84 / 2.5 * 10),
+    ('Invega Sustenna 100mg monthly', 30, 100 / 30 / 2.5 * 10),
+    # ERR-03: formerly held as an interval conflict with the monthly PP1M label.
+    ('paliperidone 100mg PP1M q4w', 28, 100 / 28 / 2.5 * 10),
+    ('Palmeux 100mg q4w', 28, 100 / 28 / 2.5 * 10),
+])
+def test_paliperidone_four_week_multiples_match_pp_formulation(text, days, ddd):
+    item = parse(text)['items'][0]
+    value = {c['method']: c['value'] for c in item['conversions']}['DDD']
+    assert item['interval_days'] == days and value == pytest.approx(ddd, abs=0.0001)
+
+
+@pytest.mark.parametrize('text', ['Xeplion 100mg q2w', 'paliperidone 100mg LAI q2w', 'paliperidone palmitate 156mg LAI q4w'])
+def test_paliperidone_interval_or_mass_mismatch_is_still_held(text):
+    item = parse(text)['items'][0]
+    assert item['status_code'] == 'c' and not any(c.get('value') for c in item.get('conversions', []))
