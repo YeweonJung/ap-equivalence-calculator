@@ -159,3 +159,38 @@ def test_incomplete_or_different_model_cannot_be_accepted(monkeypatch,change):
     monkeypatch.setattr(study_mode,'build_opener',lambda *args:Transport())
     with pytest.raises(ValueError):
         study_mode._cloud([],study_mode.MODELS['groq_oss20'],KEYS['groq'],True)
+
+
+def test_audit_records_full_prompt_time_settings_and_independent_repeat_labels(monkeypatch):
+    seen=[]
+    def infer(messages,*args):
+        seen.append(messages)
+        return CANDIDATE, {'returned_model':study_mode.MODELS['groq_oss20']}
+    monkeypatch.setattr(study_mode,'_cloud',infer)
+    calls=[]
+    for index in range(1,4):
+        data=app.test_client().post('/api/parse',json={
+            'text':'risperidnoe 2mg QD','study_ai':'groq_oss20',
+            **credentials('groq_oss20'),'study_repeat_index':index,'study_repeat_count':3}).json
+        calls.append(data['study']['calls'][0])
+    assert len(seen)==3 and seen[0]==seen[1]==seen[2]
+    assert [c['repeat_index'] for c in calls]==[1,2,3]
+    assert len({c['prompt_hash'] for c in calls})==1
+    for c in calls:
+        assert c['prompt_messages']==seen[0] and c['raw_response']==CANDIDATE
+        assert c['started_at_utc']<=c['completed_at_utc']
+        assert c['temperature_requested']==0 and c['max_output_tokens_requested']==1000
+        assert c['model_revision'] is None and c['model_revision_status']=='not_verified'
+        assert c['fresh_conversation'] and not c['application_response_cache']
+        assert c['repeat_count']==3
+    assert 'TEST_ONLY' not in json.dumps(calls)
+
+
+@pytest.mark.parametrize('index,count',[(0,3),(4,3),(1,4),(True,3),(1,'3'),(2,1)])
+def test_invalid_repeat_settings_rejected_before_any_inference(monkeypatch,index,count):
+    def forbidden(*args): raise AssertionError('Invalid repetition called AI')
+    monkeypatch.setattr(study_mode,'_cloud',forbidden)
+    r=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD',
+        'study_ai':'groq_oss20',**credentials('groq_oss20'),
+        'study_repeat_index':index,'study_repeat_count':count})
+    assert r.status_code==400

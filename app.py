@@ -166,7 +166,9 @@ def parse_text():
         text = quick_check_text()
         base_method = selected_base(request.get_json().get('base_method'))
         study_mode = request.get_json().get('study_ai')
-        from services.study_mode import MODES
+        from services.study_mode import MODES, repetition_context
+        repetition = repetition_context(request.get_json().get('study_repeat_index', 1),
+                                        request.get_json().get('study_repeat_count', 1))
         if study_mode is not None and (not isinstance(study_mode, str) or study_mode not in MODES):
             raise ValueError('연구용 AI 조건을 확인해 주세요.')
     except ValueError as exc:
@@ -177,7 +179,7 @@ def parse_text():
         from services.study_mode import annotate
         study = annotate(items, study_mode, request.get_json().get('study_api_key'),
                          request.get_json().get('study_free_tier_confirmed'),
-                         request.get_json().get('study_preview'))
+                         request.get_json().get('study_preview'), **repetition)
     else:
         for item in items:
             if item['status'] == 'unknown_drug':

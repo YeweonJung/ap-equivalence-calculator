@@ -4,6 +4,7 @@ import json
 import os
 import re
 import time
+from datetime import datetime, timezone
 from urllib.request import Request, build_opener
 from urllib.error import HTTPError
 from services import llm_candidates as llm
@@ -25,6 +26,17 @@ MODES = {'off', 'qwen', *MODELS}
 PROTOCOL = 'ap-study-4-direct-free'
 COST_POLICY = 'free_tier_account_required'
 PROMPT_VERSION = 'name-candidate-controlled-v1'
+AUDIT_VERSION = 'ai-run-audit-v1'
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec='milliseconds')
+
+
+def repetition_context(index=1, count=1):
+    if type(index) is not int or type(count) is not int or not 1 <= index <= count <= 3:
+        raise ValueError('반복 회차는 1~3 범위의 정수여야 합니다.')
+    return {'repeat_index': index, 'repeat_count': count}
 
 
 def capabilities():
@@ -42,7 +54,9 @@ def capabilities():
         paid_fallback=False, preview_ai_calls=False,
         # No provider API field can force a paid account to be billed as free.
         billing_verification='researcher_attestation_not_provider_verified',
-        catalog_verified_at='2026-10-26')
+        catalog_verified_at='2026-10-26', audit_version=AUDIT_VERSION,
+        repetition_policy='separate_stateless_requests_max_3',
+        repeat_count_planned=3, prompt_full_text_recorded=True)
 
 
 def valid_key(provider, key):
@@ -84,6 +98,12 @@ def _cloud(messages, model, key, free_tier_confirmed=False):
         'returned_model': result['model'], 'provider': provider,
         'usage': result.get('usage'), 'response_id': result.get('id'),
         'reasoning_effort': effort, 'cost_usd': None,
+        'system_fingerprint': result.get('system_fingerprint'),
+        'provider_created_at': result.get('created'),
+        'model_revision': None, 'model_revision_status': 'not_exposed_by_api',
+        'temperature_requested': 0,
+        'temperature_documented_effective': 1e-8 if provider == 'groq' else None,
+        'temperature_observed': None, 'max_output_tokens_requested': 1000,
         'cost_source': 'not_reported_by_provider'}
 
 
@@ -110,9 +130,11 @@ def _qwen(messages):
         'returned_model': None, 'model_identity_source': 'server_configuration'}
 
 
-def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False):
+def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False, repeat_index=1, repeat_count=1):
     if mode not in MODES:
         raise ValueError('invalid_mode')
+    repetition = repetition_context(repeat_index, repeat_count)
+    request_started_at = utc_now()
     cloud = mode in MODELS
     provider = PROVIDERS.get(mode)
     config = capabilities() if mode == 'qwen' else None
@@ -123,7 +145,7 @@ def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False):
     requested = MODELS.get(mode) or (config['qwen']['model'] if config else None)
     calls = []
     halted = False
-    for item in items:
+    for item_index, item in enumerate(items):
         if item.get('status') != 'unknown_drug':
             continue
         _, item['correction_suffix'] = name_and_suffix(item['original'])
@@ -137,15 +159,23 @@ def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False):
                 else 'free_tier_not_confirmed' if cloud and not confirmed
                 else 'missing_or_invalid_key' if cloud else 'worker_unavailable')
             calls.append(dict(status='blocked' if preview or halted or not confirmed and cloud else 'unavailable',
-                reason=reason, invoked=False, elapsed_seconds=0))
+                reason=reason, invoked=False, elapsed_seconds=0, item_index=item_index,
+                recorded_at_utc=utc_now(), requested_model=requested, **repetition))
             continue
         messages = llm._messages(context[0], context[2], sorted(set(alias_map.values())))
         prompt_hash = hashlib.sha256(json.dumps(messages, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         started = time.perf_counter()
-        call = dict(status='error', invoked=True, prompt_hash=prompt_hash, requested_model=requested)
+        call = dict(status='error', invoked=True, prompt_hash=prompt_hash, requested_model=requested,
+            item_index=item_index, prompt_version=PROMPT_VERSION, prompt_messages=messages,
+            started_at_utc=utc_now(), temperature_requested=0 if cloud or config['qwen'].get('backend') != 'mlx' else None,
+            max_output_tokens_requested=1000 if cloud else 300,
+            model_revision=None, model_revision_status='not_verified',
+            fresh_conversation=True, application_response_cache=False, seed_requested=None,
+            **repetition)
         try:
             output, meta = _qwen(messages) if mode == 'qwen' else _cloud(messages, requested, key, confirmed)
             call.update(meta)
+            call['raw_response'] = output
             parsed = json.loads(output)
             if not isinstance(parsed, dict) or parsed.get('status') not in {'candidate_found', 'unknown'} or not isinstance(parsed.get('candidates'), list):
                 raise ValueError('invalid_response')
@@ -160,9 +190,13 @@ def annotate(items, mode, key=None, free_tier_confirmed=False, preview=False):
             if isinstance(exc, HTTPError):
                 call['http_status'] = exc.code
             halted = True
+        call['completed_at_utc'] = utc_now()
         call['elapsed_seconds'] = round(time.perf_counter()-started, 3)
         calls.append(call)
-    return dict(protocol=PROTOCOL, cost_policy=COST_POLICY, mode=mode, ai_feature='llm_name_candidates',
+    return dict(protocol=PROTOCOL, audit_version=AUDIT_VERSION,
+        request_started_at_utc=request_started_at, request_completed_at_utc=utc_now(),
+        repetition=repetition, repetition_policy='separate_stateless_requests_max_3',
+        cost_policy=COST_POLICY, mode=mode, ai_feature='llm_name_candidates',
         ai_available=available, preview=preview,
         free_tier_confirmed=confirmed if cloud else None,
         billing_verification='researcher_attestation_not_provider_verified' if cloud else None,
