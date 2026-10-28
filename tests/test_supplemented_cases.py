@@ -18,7 +18,7 @@ def calculate(text, methods=METHOD_ORDER):
 
 def test_base_values_fixed_and_first_available_supplement_only():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD', ['CMD'])
-    assert [c['case_id'] for c in cases] == ['CMD+MED']
+    assert [c['case_id'] for c in cases] == ['CMD+DDD']
     for case in cases:
         base, alternative = case['details']
         assert base['actual'] == 'CMD' and base['value'] == 5
@@ -32,11 +32,11 @@ def test_base_values_fixed_and_first_available_supplement_only():
 def test_missing_drugs_are_filled_in_order_without_replacing_earlier_values():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD, clopenthixol 60mg QD', ['CMD'])
     result, = cases
-    assert result['case_id'] == 'CMD+MED+GARDNER'
-    assert [r['actual'] for r in result['details']] == ['CMD', 'MED', 'GARDNER']
+    assert result['case_id'] == 'CMD+DDD+GARDNER'
+    assert [r['actual'] for r in result['details']] == ['CMD', 'DDD', 'GARDNER']
     assert result['details'][0]['value'] == 5
-    assert result['details'][1]['value'] == 15
-    expected = 20 + convert_drug('clopenthixol', 60, 'GARDNER', 'olanzapine')
+    assert result['details'][1]['value'] == 10
+    expected = 15 + convert_drug('clopenthixol', 60, 'GARDNER', 'olanzapine')
     assert result['total'] == pytest.approx(round(expected, 4))
     assert result['partial'] is None and result['missing'] == 0
 
@@ -97,7 +97,7 @@ def test_quick_api_and_excel_cases_and_medication_methods_match_exactly():
     text = 'olanzapine 5mg QD, paliperidone 6mg QD, unknownxyz 2mg'
     client = app.test_client()
     data = client.post('/api/parse', json={'text': text}).json
-    assert data['case_policy'] == 'selected-base-sequential-3.0'
+    assert data['case_policy'] == 'selected-base-sequential-3.1'
     assert data['base_method'] == 'CMD' and len(data['cases']) == 1
     response = client.post('/api/export', json={'text': text})
     assert response.status_code == 200
@@ -131,7 +131,7 @@ def test_date_and_sheet_provenance_with_repeated_source_row_numbers():
     data = list(wb['보완합계'].values)
     summaries = [dict(zip(data[0], row)) for row in data[1:]]
     assert len([r for r in summaries if r['환자 ID'] == '001']) == 1
-    assert next(r for r in summaries if r['환자 ID'] == '001' and r['계산안'] == 'CMD+MED')['보완 총합 (mg/day)'] == 20
+    assert next(r for r in summaries if r['환자 ID'] == '001' and r['계산안'] == 'CMD+DDD')['보완 총합 (mg/day)'] == 15
     data = list(wb['보완근거'].values)
     detail = [dict(zip(data[0], row)) for row in data[1:]]
     cmd_med = [r for r in detail if r['환자 ID'] == '001']

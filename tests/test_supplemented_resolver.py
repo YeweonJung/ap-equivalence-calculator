@@ -120,9 +120,9 @@ def test_existing_base_conversion_is_returned_unchanged():
 def test_fallback_priority_is_fixed_with_base_tried_first():
     assert PRIORITY == (
         "CMD",
+        "DDD",
         "MED",
         "ED95",
-        "DDD",
         "GARDNER",
         "WOODS",
         "CPZ_FGA",

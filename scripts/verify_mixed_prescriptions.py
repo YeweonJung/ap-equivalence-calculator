@@ -17,7 +17,7 @@ from openpyxl import load_workbook
 from services.korean_products import CATALOG
 
 # Freeze the agreed order here: a production reorder must fail this verification.
-ORDER = ('CMD', 'MED', 'ED95', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
+ORDER = ('CMD', 'DDD', 'MED', 'ED95', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
 TARGET = {m: 'risperidone' if m == 'ED95' else 'chlorpromazine' if m in ('WOODS', 'CPZ_FGA') else 'olanzapine' for m in ORDER}
 SHORT = {'olanzapine': 'OLZ', 'risperidone': 'RIS', 'chlorpromazine': 'CPZ'}
 with (ROOT/'lookup/master_lookup.csv').open(encoding='utf-8-sig') as stream:

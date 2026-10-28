@@ -14,10 +14,10 @@ from services.exclusions import is_excluded, exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 from services.result_status import classify, combine, COLUMNS, HEADERS
 
-PRIORITY = ('CMD', 'MED', 'ED95', 'DDD', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
-POLICY_VERSION = 'selected-base-sequential-3.0'
+PRIORITY = ('CMD', 'DDD', 'MED', 'ED95', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
+POLICY_VERSION = 'selected-base-sequential-3.1'
 POLICY_NOTE = ('선택한 기본 방법의 값을 유지하고, 계수가 없는 약물만 나머지 방법 순서에서 처음 계산 가능한 값으로 보완합니다. '
-               '보완 순서: CMD → MED → ED95 → DDD → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT (기본 방법 제외). '
+               '보완 순서: CMD → DDD → MED → ED95 → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT (기본 방법 제외). '
                '같은 기준약물로 계산한 혼합 결과이며 미환산 항목이 있으면 총합은 빈칸입니다. ' + POLICY_VERSION)
 SOURCES = {
     'CMD': 'https://pubmed.ncbi.nlm.nih.gov/25841041/',

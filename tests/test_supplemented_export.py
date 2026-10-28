@@ -44,9 +44,9 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
         assert cells(updated) == cells(original)
     summary = rows(updated, '보완합계')
     cmd = next(r for r in summary if r['환자 ID'] == '001' and r['기본 방법'] == 'CMD')
-    assert cmd['보완 총합 (mg/day)'] == 20
+    assert cmd['보완 총합 (mg/day)'] == 15
     assert cmd['보완 약물 수'] == 1 and cmd['미환산 수'] == 0
-    assert cmd['사용 방법'] == 'CMD + MED'
+    assert cmd['사용 방법'] == 'CMD + DDD'
     unknown = [r for r in summary if r['환자 ID'] == '002']
     assert all(r['보완 총합 (mg/day)'] is None and r['미환산 수'] == 1 for r in unknown)
     excluded = [r for r in summary if r['환자 ID'] == '003']
@@ -56,21 +56,21 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
         assert ws.freeze_panes is None and not ws.merged_cells.ranges
         assert ws.auto_filter.ref.startswith('A1:')
     detail = next(r for r in rows(updated, '보완근거') if r['환자 ID'] == '001' and r['기본 방법'] == 'CMD' and r['성분'] == 'paliperidone')
-    assert detail['적용 방법'] == 'MED' and detail['기준약물'] == 'OLZ'
-    assert detail['계산 용량 (mg/day)'] == 6 and detail['적용계수'] == 2.5
-    assert detail['환산값 (mg/day)'] == 15
-    assert '24493852' in detail['출처'] and detail['원본 행'] == 3
+    assert detail['적용 방법'] == 'DDD' and detail['기준약물'] == 'OLZ'
+    assert detail['계산 용량 (mg/day)'] == 6 and detail['적용계수'] == pytest.approx(10 / 6)
+    assert detail['환산값 (mg/day)'] == 10
+    assert 'PMC4960429' in detail['출처'] and detail['원본 행'] == 3
 
 
 def test_selected_method_still_can_use_other_methods_and_partial_is_not_total():
     wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownxyz 2mg\n', 'CMD')
     results = rows(wb, '보완합계')
-    result = next(r for r in results if r['계산안'] == 'CMD+MED')
-    assert {r['보완 방법'] for r in results} == {'MED'}
+    result = next(r for r in results if r['계산안'] == 'CMD+DDD')
+    assert {r['보완 방법'] for r in results} == {'DDD'}
     assert len(results) == 1
     assert result['환자 ID'] == '0001'
     assert result['기본 방법'] == 'CMD'
-    assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == 15
+    assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == 10
     assert result['미환산 수'] == 1 and result['보완 약물 수'] == 1
 
 
@@ -97,7 +97,7 @@ def test_reference_dates_and_no_record_are_preserved():
     wb = load_workbook(analyze_export(records, pairs, {}, methods=['CMD']))
     output = rows(wb, '보완합계')
     first, empty = output[0], output[-1]
-    assert first['보완 총합 (mg/day)'] == 15
+    assert first['보완 총합 (mg/day)'] == 10
     assert empty['처리'] == '처방 없음' and empty['보완 총합 (mg/day)'] is None
 
 
@@ -106,7 +106,7 @@ def test_same_patient_dates_not_combined_and_literal_ids():
     output = rows(wb, '보완합계')
     first, second = output[0], output[-1]
     assert first['환자 ID'] == second['환자 ID'] == '=1+1'
-    assert first['보완 총합 (mg/day)'] == 15 and second['보완 총합 (mg/day)'] == 5
+    assert first['보완 총합 (mg/day)'] == 10 and second['보완 총합 (mg/day)'] == 5
     assert not any(c.data_type == 'f' or c.hyperlink for ws in wb for row in ws for c in row)
 
 
@@ -117,9 +117,9 @@ def test_api_export_and_injection_provenance_arithmetic():
     assert wb.sheetnames == ALL_SHEETS
     detail = rows(wb, '보완근거')
     cmd = next(r for r in detail if r['기본 방법'] == 'CMD')
-    assert cmd['적용 방법'] == 'MED' and cmd['계산 용량 (mg/day)'] == 9
-    assert cmd['환산값 (mg/day)'] == 22.5
-    assert '제품별' in cmd['용량 기준']
+    assert cmd['적용 방법'] == 'DDD' and cmd['계산 용량 (mg/day)'] == pytest.approx(100 / 30)
+    assert cmd['환산값 (mg/day)'] == pytest.approx(40 / 3)
+    assert '제형별 DDD' in cmd['용량 기준']
     assert len(cmd['출처'].split(';')) > 1
     for row in detail:
         if row['적용계수'] is not None:

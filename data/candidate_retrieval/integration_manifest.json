@@ -108,7 +108,7 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "d048e4aecbce2253b6f84bdea7e4fbba4189c62eeb07289dee3763e5021fb532",
-    "services/release.py": "0438b1ebc238fd76d710a9a33699886ef3413bec3ead4e8aa6baa7dedcda3777",
+    "services/release.py": "cbf798f343a71fbde4b14cd21d04ac5d3e72386e933db8eb36b37a1a545d4fb4",
     "services/result_summary.py": "918d2a2cbc51858d63cae4bf33d91c2daffb3b1658f94ee94e1da769d3658072",
     "services/structured.py": "a7757cdcc56792c98f25b01928cb7fca8555dd1b5b4140c2172738244ba2a50b",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
@@ -371,6 +371,13 @@
       "before": "befd6077e3dce1dabb0034f32bfb7262aa986832f7b5ae1b50d2413b03d7a568",
       "after": "0438b1ebc238fd76d710a9a33699886ef3413bec3ead4e8aa6baa7dedcda3777",
       "reason": "Release version 2026.10.27-err-fixes-tum for user-authorized online release of ERR-01/02/03 fixes, TUM CMD factors and study-mode model updates."
+    },
+    {
+      "date": "2026-10-28",
+      "file": "services/release.py",
+      "before": "0438b1ebc238fd76d710a9a33699886ef3413bec3ead4e8aa6baa7dedcda3777",
+      "after": "cbf798f343a71fbde4b14cd21d04ac5d3e72386e933db8eb36b37a1a545d4fb4",
+      "reason": "Release version 2026.10.28-supplement-ddd-first for user-authorized online change of the supplement order to CMD → DDD → MED → ED95 (matches the study primary metric)."
     }
   ]
 }

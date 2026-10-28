@@ -7,7 +7,7 @@
 ## 계산 규칙
 
 1. 약물마다 선택한 기준 방법의 값을 먼저 계산하고, 값이 있으면 그대로 유지합니다.
-2. 기준 방법의 계수가 없는 약물만 **CMD → MED → ED95 → DDD → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT** 순서에서 처음 계산 가능한 방법으로 보완합니다. 선택한 기준 방법은 이 순서에서 제외합니다.
+2. 기준 방법의 계수가 없는 약물만 **CMD → DDD → MED → ED95 → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT** 순서에서 처음 계산 가능한 방법으로 보완합니다. 선택한 기준 방법은 이 순서에서 제외합니다.
 3. 앞 방법으로 채운 값은 뒤 방법이 다시 바꾸지 않습니다. 모든 약물의 값을 선택한 기준 방법의 기준약물로 환산한 뒤 합산합니다.
 
 예를 들어 CMD를 기준으로 olanzapine·paliperidone·clopenthixol을 계산하면 olanzapine은 CMD 값을 유지하고, paliperidone은 MED, clopenthixol은 앞 방법에 계수가 없어 GARDNER로 보완합니다. 최종 합계는 하나이며 사용 방법은 CMD + MED + GARDNER로 남습니다. 기준 방법만으로 모두 계산되면 보완하지 않습니다.
@@ -22,7 +22,7 @@
 - **보완근거**: 약물 한 개당 한 행입니다. 실제 적용 방법·선택 기준으로 환산한 값과 함께, CMD·MED·ED95 등 모든 방법의 순수 값을 가로로 나란히 제공합니다. 각 방법 열에 기준약물과 단위를 적습니다. 오른쪽에는 계산 용량·계수·출처·원문·원본 위치를 보존합니다.
 - **Results, MedicationResults, Review, AuditTrail**: 기존 순수 방법 결과와 검토·원본 기록입니다.
 
-한 줄 계산에는 선택한 기준의 최종 합계가 먼저 나오고 약물별 적용 근거와 기존 방법별 결과는 펼쳐 볼 수 있습니다. 별도 보완별 계산안이나 민감도 분석 화면은 만들지 않습니다. 정책 버전은 `selected-base-sequential-3.0`이며 `/version`과 시트 머리글 메모에 기록합니다.
+한 줄 계산에는 선택한 기준의 최종 합계가 먼저 나오고 약물별 적용 근거와 기존 방법별 결과는 펼쳐 볼 수 있습니다. 별도 보완별 계산안이나 민감도 분석 화면은 만들지 않습니다. 정책 버전은 `selected-base-sequential-3.1`이며 `/version`과 시트 머리글 메모에 기록합니다.
 
 API는 `/api/parse`, `/api/export`의 JSON과 `/upload`의 폼에서 `base_method`를 받습니다. 생략 시 CMD이며, 지원하지 않는 값은 계산 전에 거부합니다. 상세 분석의 기존 CSV ZIP 출력 형식은 유지합니다.
 
