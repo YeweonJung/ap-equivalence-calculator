@@ -1,3 +1,4 @@
+import pytest
 from app import app
 
 
@@ -11,11 +12,19 @@ def test_unmarked_drug_is_oral_even_at_a_large_dose():
     assert item['daily_dose_mg'] == 400
 
 
-def test_lai_without_interval_is_injection_with_no_oral_daily_dose():
+def test_lai_without_product_or_interval_assumes_once_monthly_never_oral():
     item = parse('aripiprazole 400mg(LAI)')[0]
-    assert item['route'] == 'injection'
-    assert item['status'] == 'unsupported_formulation'
-    assert item['daily_dose_mg'] is None and item['conversions'] == []
+    assert item['route'] == 'injection' and item['status'] == 'converted'
+    assert item['lai_profile'] == 'ARI_1M' and item['interval_days'] == 28
+    assert item['daily_dose_mg'] == pytest.approx(400 / 28) and item['interval_assumed']
+    assert '가정' in item['calculation_note']
+    assert item['oral_equivalent_mg'] is None  # no oral bridge: oral factors are never reused
+
+
+def test_unlisted_strength_without_interval_stays_blank():
+    for text in ('aripiprazole 200mg(LAI)', 'paliperidone 200mg(LAI)', 'aripiprazole 400mg LAI q2w'):
+        item = parse(text)[0]
+        assert item['status'] == 'unsupported_formulation' and item['daily_dose_mg'] is None
 
 
 def test_shared_lai_validates_each_interval_instead_of_rejecting_both():
@@ -28,11 +37,11 @@ def test_shared_lai_validates_each_interval_instead_of_rejecting_both():
         assert text[item['source_start']:item['source_end']] == item['original']
 
 
-def test_shared_lai_does_not_invent_missing_interval_or_profile():
+def test_shared_lai_without_intervals_uses_each_drugs_once_monthly_assumption():
     items = parse('aripiprazole 400mg, paliperidone 150mg (LAI둘다)')
     assert len(items) == 2
-    assert all(i['route'] == 'injection' for i in items)
-    assert all(i['daily_dose_mg'] is None and i['conversions'] == [] for i in items)
+    assert all(i['route'] == 'injection' and i['interval_assumed'] for i in items)
+    assert [(i['lai_profile'], i['interval_days']) for i in items] == [('ARI_1M', 28), ('PP1M', 30)]
 
 
 def test_local_lai_does_not_spread_to_neighboring_oral_medication():
@@ -50,8 +59,8 @@ def test_explicit_korean_route_annotations():
 
 def test_shared_lai_does_not_borrow_another_drugs_interval():
     items = parse('aripiprazole 400mg, paliperidone 150mg PP1M (LAI둘다)')
-    assert items[0]['status'] == 'unsupported_formulation'
-    assert items[0]['daily_dose_mg'] is None
+    # aripiprazole uses its own 28-day assumption, never paliperidone's PP1M 30 days.
+    assert items[0]['interval_days'] == 28 and items[0]['lai_profile'] == 'ARI_1M'
     assert items[1]['status'] == 'converted' and items[1]['interval_days'] == 30
 
 

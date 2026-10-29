@@ -29,4 +29,4 @@ def test_nearby_unconfirmed_spelling_is_not_accepted():
 def test_shared_lai_route_survives_confirmed_spelling():
     items = parse_upload_frames('pariperidone 150mg PP1M, aripiprazole 400mg (LAI둘다)')
     assert items[0]['route'] == 'injection' and items[0]['interval_days'] == 30
-    assert items[1]['status'] == 'unsupported_formulation'
+    assert items[1]['route'] == 'injection' and items[1]['interval_days'] == 28

@@ -46,7 +46,8 @@ def test_drug_dose_binding_and_unknown_neighbors():
 def test_injections_never_become_oral_daily_doses(marker):
     result = items(f'Paliperidone 100mg ({marker})')[0]
     assert result['route'] == 'injection'
-    if marker == 'PP1M':
+    if marker in ('PP1M', 'LAI'):
+        # 'LAI' with no product or interval: 100mg is a PP1M strength, assumed once monthly (2026-10-29 rule).
         assert result['status'] == 'converted' and result['daily_dose_mg'] < 100
         assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['MED', 'ED95', 'DDD', 'GARDNER']
     else:

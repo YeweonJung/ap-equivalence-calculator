@@ -31,7 +31,6 @@ def test_route_specific_ddd_and_total(text, expected):
 
 
 @pytest.mark.parametrize('text', [
-    'aripiprazole 400mg LAI',
     'paliperidone palmitate 155mg PP1M', 'paliperidone 100mg PP1M loading',
     'paliperidone 0mg PP1M', 'paliperidone -100mg PP1M',
     'paliperidone 100mg 150mg PP1M', 'haloperidol 50mg depot monthly',
@@ -45,8 +44,11 @@ def test_unverified_injection_conditions_stay_blank(text):
 def test_lai_both_never_reuses_oral_factors():
     response = parse('aripiprazole 400mg, paliperidone 150mg (LAI둘다)')
     assert len(response['items']) == 2
-    assert all(i['route'] == 'injection' and i['daily_dose_mg'] is None for i in response['items'])
-    assert all(t['total_equivalent_dose_mg'] is None for t in response['totals'])
+    ari, pal = response['items']
+    assert ari['route'] == pal['route'] == 'injection'
+    # Injection daily amounts, never oral mg/day; aripiprazole has no oral bridge.
+    assert ari['daily_dose_mg'] == pytest.approx(400 / 28) and ari['oral_equivalent_mg'] is None
+    assert pal['daily_dose_mg'] == pytest.approx(150 / 30) and pal['oral_equivalent_mg'] == 12
 
 
 def test_results_sheet_blank_failures_and_errors_for_assumed_units():

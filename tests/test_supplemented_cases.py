@@ -48,7 +48,7 @@ def test_complete_base_is_not_repeated_for_every_fallback():
     assert all(c['complement'] == '' and c['supplemented'] == 0 for c in cases)
 
 
-@pytest.mark.parametrize('text', ['unknownxyz 3mg', 'aripiprazole LAI 400mg', 'paliperidone 6'])
+@pytest.mark.parametrize('text', ['unknownxyz 3mg', 'aripiprazole LAI 200mg', 'paliperidone 6'])
 def test_input_and_formulation_blockers_never_create_complete_alternatives(text):
     cases = calculate(text, ['CMD'])
     assert len(cases) == 1 and cases[0]['case_id'] == 'CMD'

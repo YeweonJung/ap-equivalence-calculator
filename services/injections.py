@@ -2,7 +2,7 @@
 import math
 import re
 import unicodedata
-from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, PP_BY_DAYS, profile_for, interval_days, oral_bridge
+from services.lai_support import PRODUCT_RE, BRIDGE_LABEL, REVIEW_PROFILES, PP_BY_DAYS, PAL_ORAL, profile_for, interval_days, oral_bridge
 from services.lai_mass import normalize_mass
 
 OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
@@ -10,6 +10,7 @@ OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
 DEPOT_DDD = {'paliperidone': 2.5, 'aripiprazole': 13.3, 'risperidone': 2.7, 'olanzapine': 10, 'haloperidol': 3.3}
 HAL_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AD01'
 SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AX&showdescription=yes'
+INTERVAL_TOKEN_RE = re.compile(r'\bq\s*\d|\d\s*(?:개월|주|일\s*(?:마다|간격))|\bevery\s+\d|\b(?:monthly|weekly)\b|매월|매주', re.I)
 CPZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01'
 
 # Product label: total mass followed by syringe volume, not a dose multiplier.
@@ -53,7 +54,15 @@ def injection_values(frame):
         raise ValueError('확인바람: lauroxil은 Aristada 제품명을 명시해 주세요.')
     mass = normalize_mass(text, drug, dose, profile)
     dose = mass['active_moiety_mg']
+    assumed_note = ''
+    if not profile and not INTERVAL_TOKEN_RE.search(text):
+        # Neither product nor interval recorded (2026-10-29 study rule): these strengths are once-monthly regimens.
+        if drug == 'aripiprazole' and dose in (300, 400):
+            profile, assumed_note = 'ARI_1M', '; 제품명·투여간격 기록 없음: aripiprazole 월 1회 제형으로 가정'
+        elif drug == 'paliperidone' and dose in PAL_ORAL['PP1M']:
+            profile, assumed_note = 'PP1M', '; 제품명·투여간격 기록 없음: paliperidone 월 1회(PP1M)로 가정'
     days, interval_note = interval_days(text, profile)
+    interval_note += assumed_note
     if drug == 'paliperidone' and not profile and days in PP_BY_DAYS:
         # Unbranded "paliperidone LAI q4w": written mg is active moiety (mass check above found no ester).
         profile = PP_BY_DAYS[days]
@@ -76,7 +85,7 @@ def injection_values(frame):
     else:
         warning += '; 단일 경구 대응용량 근거 없음: DDD 외 빈칸'
     daily = dose / days
-    return dict(interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, **mass,
+    return dict(interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, interval_assumed='가정' in interval_note, **mass,
                 injection_cpz_ddd=daily / DEPOT_DDD[drug] * 300,
                 conversion_basis='WHO depot DDD', conversion_source=OLZ_SOURCE if drug == 'olanzapine' else HAL_SOURCE if drug == 'haloperidol' else SOURCE, **bridge,
                 calculation_note=warning, warning='', needs_review=False)

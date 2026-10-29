@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.29-prn-excluded'
+VERSION = '2026.10.29-unbranded-lai'
 
 
 def metadata():
