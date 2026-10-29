@@ -16,6 +16,7 @@ METHODS = {
     'CPZ_FGA': ('https://pubmed.ncbi.nlm.nih.gov/4156792/', '1974', '역사적 경구 CPZ 비교', '등록된 1세대 약물 범위에 한정'),
     'WOODS': ('https://pubmed.ncbi.nlm.nih.gov/12823080/', '2003', '최소유효용량 기반 CPZ 비교', '원표의 제한된 약물 범위; 미등록 약물 외삽 금지'),
     'GARDNER': ('https://doi.org/10.1176/appi.ajp.2009.09060802', '2010', '국제 전문가 합의 중앙값', '시험 기반 동등성 검증과 구분; 원표 명칭별 중앙값 사용'),
+    'INADA': ('https://pubmed.ncbi.nlm.nih.gov/25601291/', '2015', '일본 향정신약 등가환산표(CP 100mg 기준)', 'Inada & Inagaki 2015; blonanserin 보완 전용(ED95·MED·GARDNER에 값이 없을 때)'),
     'CMD_DIRECT': ('https://pubmed.ncbi.nlm.nih.gov/25841041/', '2015', 'CMD 직접 비교 비율', 'CMD와 같은 연구의 비교 분석; 독립된 검증 자료가 아님'),
     'CMD_INDIRECT': ('https://pubmed.ncbi.nlm.nih.gov/25841041/', '2015', 'CMD 직접·간접 비교 비율', 'CMD와 같은 연구의 비교 분석; 독립된 검증 자료가 아님'),
 }

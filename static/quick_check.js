@@ -3,7 +3,7 @@ const parseButton = document.querySelector('#parse-button');
 const parseInput = document.querySelector('#parser-input');
 const parseOutput = document.querySelector('#parse-results');
 const baseSelect = document.querySelector('#base-method');
-const selectedBase = () => baseSelect?.value || 'CMD';
+const selectedBase = () => baseSelect?.value || 'ED95';
 const supplementOrder = document.querySelector('#supplement-order');
 function updateSupplementOrder() {
   if (supplementOrder) supplementOrder.textContent = supplementOrder.dataset.priority.split(',')
@@ -13,7 +13,7 @@ updateSupplementOrder();
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g,
   char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'}[char]));
 let currentText = '';
-let currentBase = 'CMD';
+let currentBase = 'ED95';
 let currentItems = [];
 let activeRequest = null;
 const exportButton = document.querySelector('#export-quick');

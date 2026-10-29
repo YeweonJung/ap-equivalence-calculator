@@ -51,15 +51,15 @@ def test_cpz_fga_fallback_keeps_chlorpromazine_target():
     assert_evidence_arithmetic(result, "paliperidone", "DDD", "chlorpromazine")
 
 
-def test_ed95_fallback_uses_same_risperidone_target_for_other_method():
+def test_ed95_fallback_uses_same_olanzapine_target_for_other_method():
     _, item, result = converted("clopenthixol 60mg", "ED95", "GARDNER")
 
-    assert item["conversions"][0]["target"] == "risperidone"
+    assert item["conversions"][0]["target"] == "olanzapine"
     assert item["conversions"][0]["value"] is None
     assert result["actual"] == "GARDNER"
-    assert result["target"] == "risperidone"
+    assert result["target"] == "olanzapine"
     assert result["supplemented"] is True
-    assert_evidence_arithmetic(result, "clopenthixol", "GARDNER", "risperidone")
+    assert_evidence_arithmetic(result, "clopenthixol", "GARDNER", "olanzapine")
 
 
 def test_unknown_drug_does_not_fall_back():
@@ -119,15 +119,16 @@ def test_existing_base_conversion_is_returned_unchanged():
 
 def test_fallback_priority_is_fixed_with_base_tried_first():
     assert PRIORITY == (
-        "CMD",
-        "DDD",
-        "MED",
         "ED95",
+        "MED",
         "GARDNER",
-        "WOODS",
-        "CPZ_FGA",
+        "INADA",
+        "CMD",
         "CMD_DIRECT",
         "CMD_INDIRECT",
+        "DDD",
+        "WOODS",
+        "CPZ_FGA",
     )
 
     _, _, result = converted("olanzapine 5mg", "MED")

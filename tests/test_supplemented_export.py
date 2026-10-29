@@ -7,11 +7,14 @@ from openpyxl import load_workbook
 
 from app import app
 from services import supplemented
+from services.converter import convert_drug
 from services.longitudinal import analyze_export, reference_pairs
 from tests.test_longitudinal import prepared, rx
 
 OLD_SHEETS = ['Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 ALL_SHEETS = ['보완합계', '보완근거'] + OLD_SHEETS
+# paliperidone has no CMD value; under a CMD base the first supplement is ED95 (OLZ mg/day).
+PAL6_ED95 = round(convert_drug('paliperidone', 6, 'ED95', 'olanzapine'), 4)
 
 
 def rows(wb, sheet):
@@ -19,9 +22,11 @@ def rows(wb, sheet):
     return [dict(zip(data[0], row)) for row in data[1:]]
 
 
-def upload(source, method='ALL'):
-    response = app.test_client().post('/upload', data={
-        'file': (io.BytesIO(source.encode()), 'synthetic.csv'), 'method': method})
+def upload(source, method='ALL', base_method=None):
+    data = {'file': (io.BytesIO(source.encode()), 'synthetic.csv'), 'method': method}
+    if base_method:
+        data['base_method'] = base_method
+    response = app.test_client().post('/upload', data=data)
     assert response.status_code == 200
     return load_workbook(io.BytesIO(response.data))
 
@@ -31,11 +36,11 @@ def upload(source, method='ALL'):
     'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-01,Olanzapine 5mg tab,1\n001,2026-10-01,Paliperidone 6mg tab,1\n002,2026-10-01,unknownxyz 3mg tab,1\n003,2026-10-01,Lithium 600mg tab,1\n',
 ])
 def test_supplemented_export_preserves_all_original_cells_and_formatting(source, monkeypatch):
-    updated = upload(source)
+    updated = upload(source, base_method='CMD')
     with monkeypatch.context() as patch:
         patch.setattr(supplemented, 'append_frame_sheets', lambda *args: None)
         patch.setattr(supplemented, 'append_dated_sheets', lambda *args: None)
-        original = upload(source)
+        original = upload(source, base_method='CMD')
     assert updated.sheetnames == ALL_SHEETS
     assert original.sheetnames == OLD_SHEETS
     for name in OLD_SHEETS:
@@ -44,9 +49,9 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
         assert cells(updated) == cells(original)
     summary = rows(updated, '보완합계')
     cmd = next(r for r in summary if r['환자 ID'] == '001' and r['기본 방법'] == 'CMD')
-    assert cmd['보완 총합 (mg/day)'] == 15
+    assert cmd['보완 총합 (mg/day)'] == pytest.approx(round(5 + PAL6_ED95, 4))
     assert cmd['보완 약물 수'] == 1 and cmd['미환산 수'] == 0
-    assert cmd['사용 방법'] == 'CMD + DDD'
+    assert cmd['사용 방법'] == 'CMD + ED95'
     unknown = [r for r in summary if r['환자 ID'] == '002']
     assert all(r['보완 총합 (mg/day)'] is None and r['미환산 수'] == 1 for r in unknown)
     excluded = [r for r in summary if r['환자 ID'] == '003']
@@ -56,21 +61,21 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
         assert ws.freeze_panes is None and not ws.merged_cells.ranges
         assert ws.auto_filter.ref.startswith('A1:')
     detail = next(r for r in rows(updated, '보완근거') if r['환자 ID'] == '001' and r['기본 방법'] == 'CMD' and r['성분'] == 'paliperidone')
-    assert detail['적용 방법'] == 'DDD' and detail['기준약물'] == 'OLZ'
-    assert detail['계산 용량 (mg/day)'] == 6 and detail['적용계수'] == pytest.approx(10 / 6)
-    assert detail['환산값 (mg/day)'] == 10
-    assert 'PMC4960429' in detail['출처'] and detail['원본 행'] == 3
+    assert detail['적용 방법'] == 'ED95' and detail['기준약물'] == 'OLZ'
+    assert detail['계산 용량 (mg/day)'] == 6 and detail['적용계수'] == pytest.approx(convert_drug('paliperidone', 1, 'ED95', 'olanzapine'))
+    assert detail['환산값 (mg/day)'] == pytest.approx(convert_drug('paliperidone', 6, 'ED95', 'olanzapine'))
+    assert '31838873' in detail['출처'] and detail['원본 행'] == 3
 
 
 def test_selected_method_still_can_use_other_methods_and_partial_is_not_total():
     wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownxyz 2mg\n', 'CMD')
     results = rows(wb, '보완합계')
-    result = next(r for r in results if r['계산안'] == 'CMD+DDD')
-    assert {r['보완 방법'] for r in results} == {'DDD'}
+    result = next(r for r in results if r['계산안'] == 'CMD+ED95')
+    assert {r['보완 방법'] for r in results} == {'ED95'}
     assert len(results) == 1
     assert result['환자 ID'] == '0001'
     assert result['기본 방법'] == 'CMD'
-    assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == 10
+    assert result['보완 총합 (mg/day)'] is None and result['부분합 (mg/day)'] == pytest.approx(PAL6_ED95)
     assert result['미환산 수'] == 1 and result['보완 약물 수'] == 1
 
 
@@ -97,7 +102,7 @@ def test_reference_dates_and_no_record_are_preserved():
     wb = load_workbook(analyze_export(records, pairs, {}, methods=['CMD']))
     output = rows(wb, '보완합계')
     first, empty = output[0], output[-1]
-    assert first['보완 총합 (mg/day)'] == 10
+    assert first['보완 총합 (mg/day)'] == pytest.approx(PAL6_ED95)
     assert empty['처리'] == '처방 없음' and empty['보완 총합 (mg/day)'] is None
 
 
@@ -106,17 +111,18 @@ def test_same_patient_dates_not_combined_and_literal_ids():
     output = rows(wb, '보완합계')
     first, second = output[0], output[-1]
     assert first['환자 ID'] == second['환자 ID'] == '=1+1'
-    assert first['보완 총합 (mg/day)'] == 10 and second['보완 총합 (mg/day)'] == 5
+    assert first['보완 총합 (mg/day)'] == pytest.approx(PAL6_ED95) and second['보완 총합 (mg/day)'] == 5
     assert not any(c.data_type == 'f' or c.hyperlink for ws in wb for row in ws for c in row)
 
 
 def test_api_export_and_injection_provenance_arithmetic():
-    response = app.test_client().post('/api/export', json={'text': 'Sustenna 156mg'})
+    # A DDD base keeps exercising the route-specific depot DDD arithmetic.
+    response = app.test_client().post('/api/export', json={'text': 'Sustenna 156mg', 'base_method': 'DDD'})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
     assert wb.sheetnames == ALL_SHEETS
     detail = rows(wb, '보완근거')
-    cmd = next(r for r in detail if r['기본 방법'] == 'CMD')
+    cmd = next(r for r in detail if r['기본 방법'] == 'DDD')
     assert cmd['적용 방법'] == 'DDD' and cmd['계산 용량 (mg/day)'] == pytest.approx(100 / 30)
     assert cmd['환산값 (mg/day)'] == pytest.approx(40 / 3)
     assert '제형별 DDD' in cmd['용량 기준']

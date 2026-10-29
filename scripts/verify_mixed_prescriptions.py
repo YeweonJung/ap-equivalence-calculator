@@ -17,8 +17,10 @@ from openpyxl import load_workbook
 from services.korean_products import CATALOG
 
 # Freeze the agreed order here: a production reorder must fail this verification.
-ORDER = ('CMD', 'DDD', 'MED', 'ED95', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
-TARGET = {m: 'risperidone' if m == 'ED95' else 'chlorpromazine' if m in ('WOODS', 'CPZ_FGA') else 'olanzapine' for m in ORDER}
+ORDER = ('ED95', 'MED', 'GARDNER', 'INADA', 'CMD', 'CMD_DIRECT', 'CMD_INDIRECT', 'DDD', 'WOODS', 'CPZ_FGA')
+# INADA is a supplement-only table (blonanserin); it is neither a selectable base nor a pure-method column.
+BASES = tuple(m for m in ORDER if m != 'INADA')
+TARGET = {m: 'chlorpromazine' if m in ('WOODS', 'CPZ_FGA') else 'olanzapine' for m in ORDER}
 SHORT = {'olanzapine': 'OLZ', 'risperidone': 'RIS', 'chlorpromazine': 'CPZ'}
 with (ROOT/'lookup/master_lookup.csv').open(encoding='utf-8-sig') as stream:
     FACTORS = {(r['method_id'], r['source_drug'], r['target_drug']): float(r['factor']) for r in csv.DictReader(stream)}
@@ -103,7 +105,7 @@ def check_case(case, prescription, base):
         actual = by_text[row['text']].pop(0)
         assert actual['actual']==method and same(actual['value'], value), (prescription['id'], base, row['text'], actual, (method,value))
         assert actual['supplemented']==bool(method and method!=base)
-        for pure in ORDER:
+        for pure in BASES:
             assert same(actual[pure], pure_value(row, pure, TARGET[pure])), (prescription['id'], base, pure)
     values = [v for _, v in expected_rows if v is not None]
     missing = len(expected_rows)-len(values)
@@ -137,7 +139,7 @@ def check_workbook(content, prescriptions, base, quick=False):
                     supplement_order=[m for m in ORDER if m!=base], details=[])
         for row in selected:
             case['details'].append(dict(original=row['원문 약물'], actual=row['적용 방법'] or '', value=row['환산값 (mg/day)'],
-                supplemented=row['처리']=='보완', **{m:row[f'{m} ({SHORT[TARGET[m]]} mg/day)'] for m in ORDER}))
+                supplemented=row['처리']=='보완', **{m:row[f'{m} ({SHORT[TARGET[m]]} mg/day)'] for m in BASES}))
         check_case(case,p,base)
     return wb
 
@@ -166,7 +168,7 @@ def main():
     release = json.loads(request('/version')) if args.base else client.get('/version').json
     if args.commit: assert release['commit']==args.commit
     checked, exports = [], 0
-    for base in ORDER:
+    for base in BASES:
         for p in prescriptions:
             payload = dict(text=', '.join(r['text'] for r in p['rows']),base_method=base)
             data = json.loads(api('/api/parse',payload))
@@ -193,7 +195,7 @@ def main():
             exports += 1
         print(f'{base}: {len(prescriptions)} mixed prescriptions and 3 workbooks passed',flush=True)
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    report = dict(release=release,prescriptions=len(prescriptions),bases=len(ORDER),checks=len(checked),
+    report = dict(release=release,prescriptions=len(prescriptions),bases=len(BASES),checks=len(checked),
                   workbooks=exports,passed=True,source=CATALOG['source'],synthetic_conditions_only=True,results=checked)
     args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 

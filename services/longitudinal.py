@@ -240,7 +240,9 @@ def reference_pairs(records, mode, common_date='', reference_frame=None):
 
 
 def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
-    methods = methods or available_methods()
+    from services.result_summary import METHOD_ORDER
+    # Supplement-only tables (INADA) feed 보완합계, not the per-method sheets.
+    methods = methods or [m for m in available_methods() if m in METHOD_ORDER]
     targets = {m: normalize_target(m) for m in methods}
     by_patient = defaultdict(list)
     for r in records:

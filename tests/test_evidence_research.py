@@ -97,7 +97,9 @@ def test_evaluation_counts_wrong_answers_missing_fields_false_alerts_and_both_di
 def test_evidence_download_and_pages_are_available():
     client=app.test_client()
     assert client.get('/methods').status_code==200
-    assert len(client.get('/api/methods').json['methods'])==9
+    methods=client.get('/api/methods').json['methods']
+    assert len(methods)==10
+    assert next(m for m in methods if m['method']=='INADA')['source'].endswith('/25601291/')
     assert b'evidence_grade' in client.get('/evidence.csv').data
     assert b'include_sensitivity' not in client.get('/').data
     assert '방법별 민감도 분석' not in client.get('/methods').get_data(as_text=True)

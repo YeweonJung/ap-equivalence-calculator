@@ -14,10 +14,12 @@ from services.exclusions import is_excluded, exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 from services.result_status import classify, combine, COLUMNS, HEADERS
 
-PRIORITY = ('CMD', 'DDD', 'MED', 'ED95', 'GARDNER', 'WOODS', 'CPZ_FGA', 'CMD_DIRECT', 'CMD_INDIRECT')
-POLICY_VERSION = 'selected-base-sequential-3.1'
+# Study policy first (ED95 → MED → GARDNER, blonanserin via INADA), then the remaining
+# trial-based CMD family, the WHO consumption unit, and the historical CPZ tables.
+PRIORITY = ('ED95', 'MED', 'GARDNER', 'INADA', 'CMD', 'CMD_DIRECT', 'CMD_INDIRECT', 'DDD', 'WOODS', 'CPZ_FGA')
+POLICY_VERSION = 'selected-base-sequential-4.0'
 POLICY_NOTE = ('선택한 기본 방법의 값을 유지하고, 계수가 없는 약물만 나머지 방법 순서에서 처음 계산 가능한 값으로 보완합니다. '
-               '보완 순서: CMD → DDD → MED → ED95 → GARDNER → WOODS → CPZ_FGA → CMD_DIRECT → CMD_INDIRECT (기본 방법 제외). '
+               '보완 순서: ' + ' → '.join(PRIORITY) + ' (기본 방법 제외). '
                '같은 기준약물로 계산한 혼합 결과이며 미환산 항목이 있으면 총합은 빈칸입니다. ' + POLICY_VERSION)
 SOURCES = {
     'CMD': 'https://pubmed.ncbi.nlm.nih.gov/25841041/',
@@ -249,7 +251,7 @@ def write_supplemented(workbook, case_factory, dated=False, date_label='처방�
 def append_frame_sheets(workbook, audits, patient_rows, patient_checks, base_method=None):
     methods = [m for m in METHOD_ORDER if any(c['method'] == m for c in patient_checks)]
     patients = [r['patient_id'] for r in patient_rows]
-    write_supplemented(workbook, lambda: frame_cases(audits, [base_method or (methods[0] if methods else 'CMD')], patients))
+    write_supplemented(workbook, lambda: frame_cases(audits, [base_method or (methods[0] if methods else 'ED95')], patients))
 
 
 def append_dated_sheets(workbook, details, results, date_label, base_method=None, records=()):

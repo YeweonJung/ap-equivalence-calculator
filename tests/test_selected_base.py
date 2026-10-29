@@ -52,4 +52,6 @@ def test_complete_base_has_no_supplement_and_partial_never_becomes_total():
     complete=client.post('/api/parse',json={'text':'olanzapine 5mg QD, risperidone 2mg QD','base_method':'CMD'}).json['cases'][0]
     assert complete['case_id']=='CMD' and complete['supplemented']==0 and complete['complement']==''
     partial=client.post('/api/parse',json={'text':'paliperidone 6mg QD, unknownxyz 2mg','base_method':'CMD'}).json['cases'][0]
-    assert partial['total'] is None and partial['partial']==10 and partial['missing']==1
+    # ED95 is the first supplement: paliperidone has no CMD value.
+    expected=round(convert_drug('paliperidone',6,'ED95','olanzapine'),4)
+    assert partial['total'] is None and partial['partial']==pytest.approx(expected) and partial['missing']==1

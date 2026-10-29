@@ -136,7 +136,7 @@ def quick_check_text():
 
 def selected_base(value=None):
     if value is None:
-        return 'CMD'
+        return 'ED95'
     if not isinstance(value, str) or value.strip().upper() not in METHODS:
         raise ValueError('지원하는 기준 방법을 하나 선택해 주세요.')
     return value.strip().upper()
@@ -218,7 +218,7 @@ def process_upload(uploaded_file, method, base_method=None):
         selected_methods = METHODS if method == "ALL" else [method]
         for selected_method in selected_methods:
             normalize_target(selected_method)
-        base_method = selected_base(base_method if base_method is not None else ('CMD' if method == 'ALL' else method))
+        base_method = selected_base(base_method if base_method is not None else ('ED95' if method == 'ALL' else method))
     except ValueError as exc:
         return render_template("error.html", message=str(exc)), 400
 

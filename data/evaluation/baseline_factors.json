@@ -1,7 +1,7 @@
 {
   "commit": "8af007977e2b8c681b928ffe505ac673171e7c57",
-  "rows": 2318,
-  "rows_sha256": "c063ade4cb774491e2ae3aeaa106172b5aece466434a2000b869fdd76e9a70a6",
+  "rows": 2322,
+  "rows_sha256": "3496483715bbf04ef769d5224e7f5880d95aea6f0ba207fc28cbaabbb5918d86",
   "history": [
     {
       "date": "2026-10-27",
@@ -12,6 +12,11 @@
       "date": "2026-10-29",
       "previous_rows_sha256": "82ba3c5f6d9ea37673f297c621277d991858670c74e1289500d8c1ffeecb8962",
       "reason": "ED95 -> TUM calculator Leucht 2020 dose-response values; amisulpride kept (no TUM ED95) (user approved)"
+    },
+    {
+      "date": "2026-10-29",
+      "previous_rows_sha256": "c063ade4cb774491e2ae3aeaa106172b5aece466434a2000b869fdd76e9a70a6",
+      "reason": "Added INADA blonanserin supplement rows (Inada & Inagaki 2015) (user approved)"
     }
   ]
 }

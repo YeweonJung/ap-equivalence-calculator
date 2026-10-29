@@ -1,4 +1,6 @@
-최신 업데이트: [혼합 처방 검증·보완 순서 표시](docs/SUPPLEMENTED_KO.md), [국내 공개 의약품 검증](docs/KOREAN_PUBLIC_DATA_KO.md) (2026-10-20). 첫 화면 상단의 보완 순서는 선택한 기준에 맞춰 갱신됩니다. 기준값을 유지하고 없는 약물만 순서대로 보완하며, 두 번째 시트에서 모든 방법의 약물별 값을 비교합니다.
+최신 업데이트 (2026-10-29): **기본 기준은 ED95**(Leucht 2020, 저자 TUM 계산기 값), 결과 단위는 **olanzapine mg/day**입니다. 값이 없는 약물만 **ED95 → MED → GARDNER → INADA → CMD → CMD_DIRECT → CMD_INDIRECT → DDD → WOODS → CPZ_FGA** 순서로 보완합니다(선택한 기준 제외). INADA는 blonanserin 전용 보완표(Inada & Inagaki 2015, https://pubmed.ncbi.nlm.nih.gov/25601291/; blonanserin 4 mg = olanzapine 2.5 mg)이며 기준 선택지나 방법별 시트에는 나오지 않습니다.
+
+이전 업데이트: [혼합 처방 검증·보완 순서 표시](docs/SUPPLEMENTED_KO.md), [국내 공개 의약품 검증](docs/KOREAN_PUBLIC_DATA_KO.md) (2026-10-20). 첫 화면 상단의 보완 순서는 선택한 기준에 맞춰 갱신됩니다.
 
 [공개 처방 데이터 검증](docs/PUBLIC_DATA_VERIFICATION_KO.md): 경로 뒤 숫자 빈도가 별도 약물로 분리되던 오류를 수정했습니다. 결과는 추가 분석 없이 기존 6개 시트로 제공합니다.
 
@@ -91,7 +93,8 @@ python app.py
 | WOODS | CPZ mg/day | Woods 2003, https://pubmed.ncbi.nlm.nih.gov/12823080/ |
 | CPZ_FGA | CPZ mg/day | Davis 1974, https://pubmed.ncbi.nlm.nih.gov/4156792/ |
 | MED | OLZ mg/day | Leucht 2014, https://pubmed.ncbi.nlm.nih.gov/24493852/ |
-| ED95 | RIS mg/day | Leucht 2020 대표 보고 기준, https://pubmed.ncbi.nlm.nih.gov/31838873/ |
+| ED95 | OLZ mg/day | Leucht 2020, 저자 TUM 계산기 값 (2026-10-29부터 기본 기준, 단위 OLZ), https://pubmed.ncbi.nlm.nih.gov/31838873/ |
+| INADA | OLZ mg/day | blonanserin 보완 전용, Inada & Inagaki 2015, https://pubmed.ncbi.nlm.nih.gov/25601291/ |
 
 OLZ=olanzapine, RIS=risperidone, CPZ=chlorpromazine. 복수 기준을 제공하는 논문은 대표 보고 기준을 기본 출력으로 선택한다. DDD 자체에는 단일 기준 약물이 없으며 여기서는 Leucht 2016 본문의 OLZ 환산을 사용한다.
 기존 약물 간 계수는 보존하고 기본 환산 대상과 결과 표기를 함께 변경했다. ED95 기존 계수의 반올림 정밀도는 그대로이며 원문 정밀 수치 재추출은 이 변경에 포함하지 않는다.

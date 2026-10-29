@@ -1,10 +1,10 @@
 import io
 import pytest
 from app import app
-from scripts.verify_mixed_prescriptions import ORDER, regimens, check_case, check_workbook, upload_data
+from scripts.verify_mixed_prescriptions import BASES, regimens, check_case, check_workbook, upload_data
 
 
-@pytest.mark.parametrize('base',ORDER)
+@pytest.mark.parametrize('base',BASES)
 @pytest.mark.parametrize('prescription',regimens(),ids=lambda p:p['id'])
 def test_mixed_prescription_retains_base_and_first_available_fallback(prescription,base):
     response=app.test_client().post('/api/parse',json={
@@ -14,7 +14,7 @@ def test_mixed_prescription_retains_base_and_first_available_fallback(prescripti
     check_case(case,prescription,base)
 
 
-@pytest.mark.parametrize('base',ORDER)
+@pytest.mark.parametrize('base',BASES)
 def test_mixed_prescriptions_keep_same_values_in_all_export_paths(base):
     client, prescriptions=app.test_client(),regimens()
     p=prescriptions[1]

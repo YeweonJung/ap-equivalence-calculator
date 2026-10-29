@@ -64,3 +64,5 @@ CMD_INDIRECT,risperidone,0.27,olanzapine,1,https://doi.org/10.1093/schbul/sbv037
 CMD_INDIRECT,sertindole,0.94,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
 CMD_INDIRECT,ziprasidone,6.67,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
 CMD_INDIRECT,zotepine,16.35,olanzapine,1,https://doi.org/10.1093/schbul/sbv037,Table 1 primary analysis Direct and Indirect Ratios,2015
+INADA,blonanserin,4,olanzapine,2.5,https://pubmed.ncbi.nlm.nih.gov/25601291/,Japanese CP 100 mg equivalents,2015
+INADA,olanzapine,2.5,olanzapine,2.5,https://pubmed.ncbi.nlm.nih.gov/25601291/,Japanese CP 100 mg equivalents,2015

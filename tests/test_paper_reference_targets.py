@@ -11,7 +11,7 @@ from tests.workbook_helpers import records
     ('CMD', 'olanzapine', 'OLZ'), ('DDD', 'olanzapine', 'OLZ'),
     ('GARDNER', 'olanzapine', 'OLZ'), ('MED', 'olanzapine', 'OLZ'),
     ('CMD_DIRECT', 'olanzapine', 'OLZ'), ('CMD_INDIRECT', 'olanzapine', 'OLZ'),
-    ('ED95', 'risperidone', 'RIS'), ('WOODS', 'chlorpromazine', 'CPZ'),
+    ('ED95', 'olanzapine', 'OLZ'), ('WOODS', 'chlorpromazine', 'CPZ'),
     ('CPZ_FGA', 'chlorpromazine', 'CPZ'),
 ])
 def test_reference_identity_in_api_and_export(method, drug, unit):

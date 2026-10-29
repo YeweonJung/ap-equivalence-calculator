@@ -18,7 +18,7 @@ def calculate(text, methods=METHOD_ORDER):
 
 def test_base_values_fixed_and_first_available_supplement_only():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD', ['CMD'])
-    assert [c['case_id'] for c in cases] == ['CMD+DDD']
+    assert [c['case_id'] for c in cases] == ['CMD+ED95']
     for case in cases:
         base, alternative = case['details']
         assert base['actual'] == 'CMD' and base['value'] == 5
@@ -32,11 +32,12 @@ def test_base_values_fixed_and_first_available_supplement_only():
 def test_missing_drugs_are_filled_in_order_without_replacing_earlier_values():
     cases = calculate('olanzapine 5mg QD, paliperidone 6mg QD, clopenthixol 60mg QD', ['CMD'])
     result, = cases
-    assert result['case_id'] == 'CMD+DDD+GARDNER'
-    assert [r['actual'] for r in result['details']] == ['CMD', 'DDD', 'GARDNER']
+    assert result['case_id'] == 'CMD+ED95+GARDNER'
+    assert [r['actual'] for r in result['details']] == ['CMD', 'ED95', 'GARDNER']
     assert result['details'][0]['value'] == 5
-    assert result['details'][1]['value'] == 10
-    expected = 15 + convert_drug('clopenthixol', 60, 'GARDNER', 'olanzapine')
+    paliperidone = convert_drug('paliperidone', 6, 'ED95', 'olanzapine')
+    assert result['details'][1]['value'] == pytest.approx(paliperidone)
+    expected = 5 + paliperidone + convert_drug('clopenthixol', 60, 'GARDNER', 'olanzapine')
     assert result['total'] == pytest.approx(round(expected, 4))
     assert result['partial'] is None and result['missing'] == 0
 
@@ -70,7 +71,8 @@ def test_no_oral_bridge_permits_only_an_explicit_validated_depot_ddd_case(text):
 
 
 def test_no_supported_fallback_and_excluded_only_have_one_case_per_base():
-    unknown = calculate('blonanserin 8mg QD', ['CMD'])
+    # blonanserin has only an olanzapine-target table (INADA); a CPZ base has nothing to fall back to.
+    unknown = calculate('blonanserin 8mg QD', ['WOODS'])
     assert len(unknown) == 1 and unknown[0]['total'] is None
     excluded = calculate('lithium 600mg', ['CMD'])
     assert len(excluded) == 1 and excluded[0]['total'] == 0
@@ -97,8 +99,8 @@ def test_quick_api_and_excel_cases_and_medication_methods_match_exactly():
     text = 'olanzapine 5mg QD, paliperidone 6mg QD, unknownxyz 2mg'
     client = app.test_client()
     data = client.post('/api/parse', json={'text': text}).json
-    assert data['case_policy'] == 'selected-base-sequential-3.1'
-    assert data['base_method'] == 'CMD' and len(data['cases']) == 1
+    assert data['case_policy'] == 'selected-base-sequential-4.0'
+    assert data['base_method'] == 'ED95' and len(data['cases']) == 1
     response = client.post('/api/export', json={'text': text})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
@@ -131,7 +133,8 @@ def test_date_and_sheet_provenance_with_repeated_source_row_numbers():
     data = list(wb['보완합계'].values)
     summaries = [dict(zip(data[0], row)) for row in data[1:]]
     assert len([r for r in summaries if r['환자 ID'] == '001']) == 1
-    assert next(r for r in summaries if r['환자 ID'] == '001' and r['계산안'] == 'CMD+DDD')['보완 총합 (mg/day)'] == 15
+    expected = round(5 + convert_drug('paliperidone', 6, 'ED95', 'olanzapine'), 4)
+    assert next(r for r in summaries if r['환자 ID'] == '001' and r['계산안'] == 'CMD+ED95')['보완 총합 (mg/day)'] == pytest.approx(expected)
     data = list(wb['보완근거'].values)
     detail = [dict(zip(data[0], row)) for row in data[1:]]
     cmd_med = [r for r in detail if r['환자 ID'] == '001']

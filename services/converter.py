@@ -33,8 +33,9 @@ DEFAULT_TARGETS = {
     "CMD": "olanzapine",
     "CPZ_FGA": "chlorpromazine",
     "DDD": "olanzapine",
-    "ED95": "risperidone",
+    "ED95": "olanzapine",
     "MED": "olanzapine",
+    "INADA": "olanzapine",
 }
 
 def available_methods():
