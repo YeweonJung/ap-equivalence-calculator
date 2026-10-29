@@ -6,8 +6,15 @@ const baseSelect = document.querySelector('#base-method');
 const selectedBase = () => baseSelect?.value || 'ED95';
 const supplementOrder = document.querySelector('#supplement-order');
 function updateSupplementOrder() {
-  if (supplementOrder) supplementOrder.textContent = supplementOrder.dataset.priority.split(',')
-    .filter(method => method !== selectedBase()).join(' → ');
+  if (!supplementOrder) return;
+  const order = supplementOrder.dataset.priority.split(',').filter(method => method !== selectedBase());
+  supplementOrder.textContent = order.join(' → ');
+  // One-line summary under the upload box: base → first three supplements → unit.
+  const strip = document.querySelector('#rule-strip');
+  if (!strip) return;
+  document.querySelector('#rule-base').textContent = selectedBase();
+  document.querySelector('#rule-chain').textContent = order.slice(0, 3).join(' → ') + (order.length > 3 ? ' …' : '');
+  document.querySelector('#rule-unit').textContent = JSON.parse(strip.dataset.units)[selectedBase()] || '';
 }
 updateSupplementOrder();
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g,

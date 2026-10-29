@@ -36,7 +36,7 @@
 
 .parser button{font-family:inherit}.parser input[type=checkbox]{width:16px;min-height:16px;vertical-align:middle}.parser details{margin-top:12px}.parser .manual-correction{padding:8px 12px;margin-top:8px}.parser small{line-height:1.7}.file-label.dragging{border-color:var(--blue);background:#f1f7ff}#upload-status:empty{display:none}#upload-status{font-size:12px;color:var(--muted);overflow-wrap:anywhere}#upload-status[data-error=true]{color:#a43720}
 .patient-result-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;font-size:11px}.patient-result-grid .cell{padding:10px 8px;white-space:normal;overflow-wrap:anywhere}.patient-result-grid .cell:nth-child(-n+3){background:#eaf2ff;color:#164f99;font-weight:900}.patient-result-grid small{display:block;font-size:9px;font-weight:500;margin-top:4px}
-.rules{margin:0 0 18px;padding:20px 22px;border:1px solid var(--line);border-radius:16px;background:#fff}.rules h2{margin:0 0 12px;font-size:20px;letter-spacing:-.03em}.rule-steps{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.rule-steps li{padding:14px;border-radius:12px;background:var(--soft);font-size:13px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}.rule-steps b{display:block;margin-bottom:4px;font-size:16px;color:var(--ink)}.rule-steps .chain{color:#164f99;font-weight:800}.sheet-guide{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px;line-height:1.6}.sheet-guide b{color:var(--ink)}.sheet-guide span{color:var(--muted)}@media(max-width:760px){.rule-steps{grid-template-columns:1fr}}
+.rule-strip{display:grid;grid-template-columns:1fr auto 1.3fr auto 1fr;align-items:center;gap:10px;margin:22px 0 10px}.rule{padding:14px 16px;border-radius:14px;background:var(--soft);text-align:center;min-width:0}.rule small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.rule b{font-size:clamp(16px,2vw,20px);color:#164f99;overflow-wrap:anywhere}.rule-arrow{color:var(--blue);font-size:22px;font-weight:900}.fold{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.fold summary{cursor:pointer;padding:12px 16px;font-size:14px;font-weight:700;color:var(--ink)}.fold-body{padding:4px 16px 16px;font-size:13px;line-height:1.7;color:var(--muted)}.fold-body .status-guide{margin:10px 0 0}.sheet-guide{margin:0;padding:0;list-style:none;display:grid;gap:6px}.sheet-guide b{color:var(--ink)}.upload-note{margin:10px 0 0;font-size:12px;line-height:1.7;color:var(--muted);word-break:keep-all}.upload-note b{color:var(--ink)}.title h1{word-break:keep-all}@media(max-width:760px){.rule-strip{grid-template-columns:1fr}.rule-arrow{transform:rotate(90deg);text-align:center}}
 .base-choice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}.base-choice select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.base-choice small{color:var(--muted)}
 .supplement-guide{margin:16px 0 18px;padding:16px 18px;border-radius:12px;background:var(--soft)}.supplement-guide strong{font-size:17px}.supplement-guide p{margin:8px 0 4px;font-size:clamp(18px,2vw,23px);font-weight:800;line-height:1.7;color:#164f99;overflow-wrap:anywhere}.supplement-guide small{color:var(--muted);line-height:1.6}
     .status-guide{margin:16px 0;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13px;line-height:1.7}.status-codes{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0}.status-codes span{padding:3px 8px;background:var(--soft);border-radius:6px}.status-codes .error-code{color:#a43720;background:#fff1ed}.status-guide p{margin:6px 0;color:var(--muted)}.parse-item[data-review=true]{border-color:#c35b44}.parse-top .error-code{color:#a43720}
@@ -47,68 +47,48 @@
   <main>
     <section class="main">
       <div class="wrap">
-        <div class="title"><h1>엑셀을 올리고, 결과파일을 받으세요.</h1><p>약물명과 용량을 읽어 환산 결과를 자동으로 정리합니다.</p></div>
-        <section class="rules" aria-label="계산 규칙">
-          <h2>이렇게 계산합니다</h2>
-          <ol class="rule-steps">
-            <li><b>① 기준은 ED95</b>Leucht 2020 용량-반응 메타분석의 95% 유효용량입니다. 계수는 저자가 공개한 TUM 계산기 값을 씁니다.</li>
-            <li><b>② 값이 없는 약만 보완</b><span class="chain">MED → GARDNER → INADA</span><br>MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. 그래도 없으면 나머지 방법 순서로 채웁니다.</li>
-            <li><b>③ olanzapine mg/day로 합산</b>약물마다 olanzapine 등가용량으로 바꾼 뒤 환자별로 더합니다. 계산할 수 없는 약이 하나라도 있으면 총합 대신 부분합을 보여줍니다.</li>
-          </ol>
-          <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select><small>다른 기준을 고르면 아래 보완 순서도 함께 바뀝니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
-          <div class="supplement-guide"><strong>지금 설정의 보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small>기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다.</small></div>
-          <ul class="sheet-guide" aria-label="결과 파일 시트 안내">
-            <li><b>보완합계</b> <span>환자별 최종 총합과, 어떤 방법으로 채웠는지(예: ED95+MED)</span></li>
-            <li><b>보완근거</b> <span>약물마다 적용한 방법·계수·출처</span></li>
-            <li><b>Results · MedicationResults</b> <span>보완 없이 방법별로 따로 낸 환자별 합계와 약물별 값. <b>—</b> 는 그 방법으로 계산할 수 없다는 뜻입니다.</span></li>
-            <li><b>Review · AuditTrail · 코드안내</b> <span>확인이 필요한 항목, 원문을 어떻게 읽었는지, 상태코드 뜻</span></li>
-          </ul>
-        </section>
-        <section class="status-guide" aria-label="결과 상태 코드 안내">
-          <strong>검토필요는 오류가 확인된 x 항목만 표시합니다.</strong>
-          <div class="status-codes">{% for code, label, description in status_legend %}<span{% if code == 'x' %} class="error-code"{% endif %} title="{{ description }}"><b>{{ code }}:</b> {{ label }}</span>{% endfor %}</div>
-          <p>결과 시트의 ‘상태코드·상태설명’에서 사유를 확인하세요. Review 시트에는 x 오류만 모이며, 자세한 뜻은 ‘코드안내’ 시트에 있습니다.</p>
-          <p>a는 일부 또는 전체 방법의 환산 근거가 없는 경우입니다. 빈칸은 0이 아니며, 미환산 항목이 있으면 전체 합계 대신 부분합을 구분해 표시합니다.</p>
-        </section>
-        <div class="flow">
-          <section class="panel" aria-label="입력 엑셀 예시">
-            <div class="panel-label"><span class="number">1</span>엑셀 입력</div>
-            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="grid">
-              <div class="cell">patient_id</div><div class="cell">drug</div><div class="cell">dose</div><div class="cell">unit</div><div class="cell">frequency</div>
-              <div class="cell">P001</div><div class="cell">Risperdal</div><div class="cell">2</div><div class="cell">mg</div><div class="cell">BID</div>
-              <div class="cell">P002</div><div class="cell">Abilify</div><div class="cell">15</div><div class="cell">mg</div><div class="cell">QD</div>
-            </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>한 칸 입력도 가능:</b> Risperdal 2mg BID</span></div>
-          </section>
-          <div class="arrow" aria-hidden="true">→</div>
-          <section class="panel" aria-label="환자별 총합계 결과 예시">
-            <div class="panel-label"><span class="number">2</span>결과파일 받기</div>
-            <div class="sheet"><div class="sheet-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="patient-result-grid">
-              <div class="cell">환자 ID</div><div class="cell">최종 합계<small>기준 ED95 · OLZ mg/day</small></div><div class="cell">사용 방법</div>
-              <div class="cell">P001</div><div class="cell">9.69</div><div class="cell">ED95</div>
-              <div class="cell">P002</div><div class="cell">19.79</div><div class="cell">ED95</div>
-            </div></div>
-            <div class="hint"><span class="check">✓</span><span><b>첫 시트:</b> 기준 방법의 값이 없을 때만 순차 보완</span></div>
-            <div class="hint"><span><b>다음 시트들:</b> 보완 근거, 방법별 합계와 약물별 값(계산 불가는 —)</span></div>
-          </section>
-        </div>
+        <div class="title"><h1>처방 엑셀을 올리면<br>환자별 등가용량 합계가 나옵니다</h1><p>약물명·용량·복용 횟수를 읽어 olanzapine 기준 mg/day로 계산합니다.</p></div>
         <section class="upload" aria-label="데이터 파일 업로드">
-          <p class="hint">첫 시트는 최종 합계(보완 포함), 두 번째는 보완 근거, 이어서 방법별 합계와 약물별 값이 나옵니다.</p>
-          <p class="hint">처방일 열이 있으면 환자 ID와 처방일별로 합산합니다. 다른 날짜의 처방은 기간이 겹쳐도 포함하지 않습니다.</p>
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
             <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
             <button type="submit" id="submit-button">결과파일 받기</button>
           </form><p id="upload-status" role="status" aria-live="polite"></p>
-          <div class="under-actions"><span>CSV · XLS · XLSX / 최대 100MB · Excel 최대 5개 시트 · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}">입력 샘플 받기 →</a></div>
+          <div class="under-actions"><span>CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}">입력 샘플 받기 →</a></div>
+          <p class="upload-note">열 예시: 환자 ID · 약물 · 용량 · 단위 · 복용 횟수. 한 칸에 <b>Risperdal 2mg BID</b>처럼 적어도 됩니다. 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
         </section>
+        <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
+          <div class="rule"><small>기준</small><b id="rule-base">ED95</b></div>
+          <span class="rule-arrow" aria-hidden="true">→</span>
+          <div class="rule"><small>값이 없는 약만 보완</small><b id="rule-chain">{{ (supplement_priority|reject('equalto', 'ED95')|list)[:3]|join(' → ') }}</b></div>
+          <span class="rule-arrow" aria-hidden="true">→</span>
+          <div class="rule"><small>결과</small><b>환자별 합계 · <span id="rule-unit">{{ units['ED95'] }}</span> mg/day</b></div>
+        </section>
+        <details class="fold"><summary>기준 바꾸기 · 전체 보완 순서</summary><div class="fold-body">
+          <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
+          <div class="supplement-guide"><strong>보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small>기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
+          <p>ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>
+        </div></details>
+        <details class="fold"><summary>결과 파일 읽는 법</summary><div class="fold-body">
+          <ul class="sheet-guide" aria-label="결과 파일 시트 안내">
+            <li><b>보완합계</b> 환자별 최종 총합과 어떤 방법으로 채웠는지(예: ED95+MED)</li>
+            <li><b>보완근거</b> 약물마다 적용한 방법·계수·출처</li>
+            <li><b>Results · MedicationResults</b> 보완 없이 방법별로 따로 낸 합계와 약물별 값. <b>—</b> 는 그 방법으로 계산할 수 없다는 뜻</li>
+            <li><b>Review · AuditTrail · 코드안내</b> 확인할 항목, 원문을 읽은 기록, 상태코드 뜻</li>
+          </ul>
+          <section class="status-guide" aria-label="결과 상태 코드 안내">
+            <strong>검토필요는 오류가 확인된 x 항목만 표시합니다.</strong>
+            <div class="status-codes">{% for code, label, description in status_legend %}<span{% if code == 'x' %} class="error-code"{% endif %} title="{{ description }}"><b>{{ code }}:</b> {{ label }}</span>{% endfor %}</div>
+            <p>결과 시트의 ‘상태코드·상태설명’에서 사유를 확인하세요. Review 시트에는 x 오류만 모이며, 자세한 뜻은 ‘코드안내’ 시트에 있습니다.</p>
+            <p>빈칸은 0이 아닙니다. 계산할 수 없는 약이 있으면 총합 대신 부분합을 따로 표시합니다.</p>
+          </section>
+        </div></details>
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 위에서 고른 기준 방법으로 계산하고, 값이 없는 약물만 순차 보완합니다.</p></div>
-      <div class="parser"><p>2개 예시: risperidone 2mg, olanzapine 5mg<br>3개 예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 위와 같은 규칙으로 계산합니다.</p></div>
+      <div class="parser"><p>예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
-    <section class="methods"><div class="wrap method-list"><span><b>ED95</b> 95% 유효용량 (기본)</span><span><b>MED</b> 최소유효용량</span><span><b>GARDNER</b> Gardner 2010 전문가 합의</span><span><b>INADA</b> blonanserin 보완 (Inada &amp; Inagaki 2015)</span><span><b>CMD</b> 임상시험 평균용량</span><span><b>DDD</b> WHO 일일정의용량</span><span><b>CPZ_FGA</b> 고전적 CPZ 환산</span><span><b>WOODS</b> Woods 2003</span><span><b>CMD_DIRECT</b> CMD 직접 비교 (OLZ 기준)</span><span><b>CMD_INDIRECT</b> CMD 직접·간접 비교 (OLZ 기준)</span><span>추가 두 분석은 Leucht 2015 CMD 연구의 비교 분석이며, 독립적인 합의 기준이 아닙니다.</span></div></section>
   </main>
   <footer><a href="/methods">환산 근거·적용 한계 안내</a><br>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
   <script src="{{ url_for('static', filename='home_upload.js') }}"></script>
