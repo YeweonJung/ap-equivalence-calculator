@@ -11,7 +11,7 @@ COMMON_LIMIT = '연구용 노출 비교값; 임상적 효과·안전성·교체 
 METHODS = {
     'CMD': ('https://pubmed.ncbi.nlm.nih.gov/25841041/', '2015', '가변용량 임상시험 평균용량', '가변용량 시험의 약물·환자 범위에 한정'),
     'MED': ('https://pubmed.ncbi.nlm.nih.gov/24493852/', '2014', '고정용량 위약대조시험 최소유효용량', '최소 유효용량이며 평균·최적·최대 유효용량과 다름'),
-    'ED95': ('https://pubmed.ncbi.nlm.nih.gov/31838873/', '2020', '용량반응 메타분석', '급성기 시험 기반; 개인의 최적 용량이 아님; 기존 입력표의 반올림 정밀도 유지'),
+    'ED95': ('https://pubmed.ncbi.nlm.nih.gov/31838873/', '2020', '용량반응 메타분석', '급성기 시험 기반; 개인의 최적 용량이 아님; 저자 TUM 계산기 값(amisulpride는 TUM 값이 없어 논문 537mg 유지)'),
     'DDD': ('https://pmc.ncbi.nlm.nih.gov/articles/PMC4960429/', '2016', 'WHO 약물사용 통계 단위', '권장·처방·임상적 등가 용량이 아님; 경구와 depot DDD 구분'),
     'CPZ_FGA': ('https://pubmed.ncbi.nlm.nih.gov/4156792/', '1974', '역사적 경구 CPZ 비교', '등록된 1세대 약물 범위에 한정'),
     'WOODS': ('https://pubmed.ncbi.nlm.nih.gov/12823080/', '2003', '최소유효용량 기반 CPZ 비교', '원표의 제한된 약물 범위; 미등록 약물 외삽 금지'),
