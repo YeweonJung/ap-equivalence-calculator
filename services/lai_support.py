@@ -144,10 +144,14 @@ def interval_days(text, profile):
             intervals.append((months, 'month'))
     elif profile == 'RIS_ISM':
         intervals.append((28, 'day'))
+    assumed = profile == 'ARI_1M' and not intervals
+    if assumed:
+        # Aripiprazole once-monthly with no recorded interval: 28 days, as in the TUM calculator authors' example.
+        intervals.append((28, 'day'))
     days = [56 if profile == 'ARI_2M' and n == 2 and u == 'month' else n * {'day': 1, 'week': 7, 'month': 30}[u] for n, u in intervals]
     if not days or len(set(days)) != 1:
         raise ValueError('확인바람: 주사 투여간격이 없거나 서로 다릅니다. PP1M, q4w 등으로 명시해 주세요.')
-    note = ''
+    note = '; 투여간격 기록 없음: 28일 가정 (TUM 계산기 저자 예시)' if assumed else ''
     if any(u == 'month' for _, u in intervals):
         note = '; 2개월=56일 제품 기준' if profile == 'ARI_2M' else '; 1개월=30일 연구 기준'
     return days[0], note

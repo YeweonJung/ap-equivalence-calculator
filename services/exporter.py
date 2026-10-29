@@ -5,7 +5,7 @@ from services.result_summary import METHOD_ORDER, value_column
 from services.result_notes import with_result_notes
 from services.excel_tables import write_table
 from services.output_overview import patient_overview, add_xlsxwriter
-from services.exclusions import INGREDIENTS, exclusion_basis, review_fields
+from services.exclusions import INGREDIENTS, item_exclusion_basis, review_fields
 from services.result_status import decorate, COLUMNS, HEADERS, add_legend
 
 AUDIT_COLUMNS = [
@@ -38,12 +38,13 @@ def export_results(audit_rows, error_rows, directory, summary_rows=None, patient
         # Review is an action queue. Normal exclusions and partial method
         # coverage remain visible in MedicationResults and AuditTrail.
         reason = (row.get('error') or row.get('warning') or row.get('status_message') or '입력 오류') if row['review_required'] else ''
-        excluded = row.get('status') == 'non_target' and row.get('parsed') in INGREDIENTS
+        prn = bool(row.get('prn_excluded'))
+        excluded = row.get('status') == 'non_target' and (row.get('parsed') in INGREDIENTS or prn)
         if excluded and reason:
-            reason = '; '.join(filter(None, [exclusion_basis(row['parsed']), reason]))
+            reason = '; '.join(filter(None, [item_exclusion_basis({'drug': row['parsed'], 'prn_excluded': prn}), reason]))
         key = (row.get('sheet'), row.get('source_row'), row.get('medication_column'), row.get('original'))
         if reason and key not in existing:
-            reviews.append({**row, 'error': reason, **(review_fields(row['parsed']) if excluded else {})})
+            reviews.append({**row, 'error': reason, **(review_fields(row['parsed'], prn) if excluded else {})})
             existing.add(key)
     review_columns = ['patient', 'original'] + COLUMNS + ['recognized_drug', 'drug_group', 'calculation', 'equivalent_contribution', 'error', 'sheet', 'source_row', 'medication_column']
     with Workbook(output_file, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False}) as wb:

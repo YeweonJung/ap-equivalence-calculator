@@ -1,5 +1,5 @@
 {
-  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution; 2026-09-29 user authorized injection label volume metadata: 300mg/1.5mL and 400mg/2mL use total mg, with volume excluded and recorded; conversion factors unchanged; 2026-10-01 user requested prominent all-method quick-check totals for two and three medications; summary display and regression coverage updated; conversion factors unchanged; 2026-10-15 user authorized source-backed LAI coverage expansion, explicit Korean intervals, separation of calculation notes from actionable review, and validated LAI processing in exact prescription-date exports; oral factor tables unchanged; 2026-10-19 user authorized evidence metadata, fail-safe unit ambiguity guards, separate evaluation and optional pure-method sensitivity report, GitHub and Render release; all 2318 factor strings preserved; no external LLM enabled; 2026-10-19 user requested removal of method sensitivity feature and simpler UI; remove comparison options, sheets and module while preserving evidence and safety improvements; 2026-10-19 user requested removal of method sensitivity feature, simpler UI and external public-data service verification; remove analysis options and sheets, and preserve route/frequency binding discovered with MIMIC-IV demo medication-only patterns; 2026-10-19 user requested additional public-data testing and GitHub/Render release without UI complexity; preserve transdermal/intravenous routes and hold oral concentration-only inputs found with openFDA NDC and Synthea product descriptors; 2026-10-19 user explicitly chose one selected base with sequential missing-coefficient supplementation; add a shared base selector, wide medication-method comparison, and exact HIRA Korean product-label normalization verified against public source; preserve factor values, input blockers and six sheets; GitHub and Render release authorized; 2026-10-20 user authorized prominent dynamic supplement order, mixed Korean prescription verification across all bases and export paths, preservation of original injection labels, and GitHub/Render release; 2026-10-26 user authorized no-cost direct Google/Groq study integration; require free-tier account attestation, block preview inference, no automatic retries or paid fallback; conversion sources unchanged; 2026-10-27 user requested reproducible per-call audit with full prompt, UTC timestamps, settings and validated independent repeat indices; conversion unchanged; 2026-10-27 user authorized online release of validation fixes ERR-01 (half-tablet regimen), ERR-02 (spaced Korean PRN), ERR-03 (paliperidone LAI q4w), TUM 2-decimal CMD factors, and study-mode Gemini 3.8 Flash/Gemma 4 31B updates; 2026-10-29 user authorized replacing ED95 factors with the authors' TUM calculator values (amisulpride kept), LAI method unchanged; 2026-10-29 user requested ED95 base default with OLZ output, fixed supplement order ED95 → MED → GARDNER first, INADA blonanserin supplement table, and homepage rule explanation; 2026-10-29 user requested a simpler homepage layout; conversion unchanged",
+  "reason": "User authorized optional LLM candidates and authenticated local-worker deployment; conversion and frozen evaluation preserved; user authorized exact patient/prescription-date grouping, homepage guidance and release version update; conversion tables unchanged; 2026-09-28 fix duplicate upload headers and leading blank CSV rows; conversion sources unchanged; 2026-09-28 user authorized source-backed antidepressant exclusion with zero AP-equivalent contribution; unknown drugs and AP factors remain unchanged; 2026-09-29 user requested paper-specific reference drugs: CMD/DDD/GARDNER OLZ and ED95 RIS; defaults, depot DDD output reference, labels and corresponding tests updated; factor tables unchanged; 2026-09-29 user authorized plain Excel tables, no frozen panes, readable Review and deployment; 2026-09-29 user authorized consent-based automatic correction-example learning for confirmation suggestions; no auto conversion or frozen model/data changes; 2026-09-30 user supplied companion workbook: extend exact ingredient exclusions while retaining unknown/conflicting names for review; conversion factors unchanged; user requested recognized companion ingredients and classes in informational Review rows with zero AP contribution; 2026-09-29 user authorized injection label volume metadata: 300mg/1.5mL and 400mg/2mL use total mg, with volume excluded and recorded; conversion factors unchanged; 2026-10-01 user requested prominent all-method quick-check totals for two and three medications; summary display and regression coverage updated; conversion factors unchanged; 2026-10-15 user authorized source-backed LAI coverage expansion, explicit Korean intervals, separation of calculation notes from actionable review, and validated LAI processing in exact prescription-date exports; oral factor tables unchanged; 2026-10-19 user authorized evidence metadata, fail-safe unit ambiguity guards, separate evaluation and optional pure-method sensitivity report, GitHub and Render release; all 2318 factor strings preserved; no external LLM enabled; 2026-10-19 user requested removal of method sensitivity feature and simpler UI; remove comparison options, sheets and module while preserving evidence and safety improvements; 2026-10-19 user requested removal of method sensitivity feature, simpler UI and external public-data service verification; remove analysis options and sheets, and preserve route/frequency binding discovered with MIMIC-IV demo medication-only patterns; 2026-10-19 user requested additional public-data testing and GitHub/Render release without UI complexity; preserve transdermal/intravenous routes and hold oral concentration-only inputs found with openFDA NDC and Synthea product descriptors; 2026-10-19 user explicitly chose one selected base with sequential missing-coefficient supplementation; add a shared base selector, wide medication-method comparison, and exact HIRA Korean product-label normalization verified against public source; preserve factor values, input blockers and six sheets; GitHub and Render release authorized; 2026-10-20 user authorized prominent dynamic supplement order, mixed Korean prescription verification across all bases and export paths, preservation of original injection labels, and GitHub/Render release; 2026-10-26 user authorized no-cost direct Google/Groq study integration; require free-tier account attestation, block preview inference, no automatic retries or paid fallback; conversion sources unchanged; 2026-10-27 user requested reproducible per-call audit with full prompt, UTC timestamps, settings and validated independent repeat indices; conversion unchanged; 2026-10-27 user authorized online release of validation fixes ERR-01 (half-tablet regimen), ERR-02 (spaced Korean PRN), ERR-03 (paliperidone LAI q4w), TUM 2-decimal CMD factors, and study-mode Gemini 3.8 Flash/Gemma 4 31B updates; 2026-10-29 user authorized replacing ED95 factors with the authors' TUM calculator values (amisulpride kept), LAI method unchanged; 2026-10-29 user requested ED95 base default with OLZ output, fixed supplement order ED95 → MED → GARDNER first, INADA blonanserin supplement table, and homepage rule explanation; 2026-10-29 user requested a simpler homepage layout; conversion unchanged; 2026-10-29 user decided PRN exclusion with contribution 0, Maintena 28-day default when interval missing, and keeping the once-daily assumption for missing frequency",
   "normalization": "Only CRLF to LF for cross-platform source checks; model/dataset/retrieval byte checks remain frozen",
   "intentional_source_changes": [
     "app.py",
@@ -93,12 +93,12 @@
     "services/converter.py": "3bc51a40ee46e901b2c90e2c4b8b950b97bb7ec543aceabe401ae4c42d8385e8",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",
-    "services/exporter.py": "04d545521944ebc8f13d410e282d7e2522ebf8f7cfa3de5296fe07ca43ddd629",
+    "services/exporter.py": "e0074cb092167486a53a0dc015ef136586dd7ab2811517f3137fd7990277605a",
     "services/file_reader.py": "ce58251292b168941e40d0e5aeefbfc5a272bc636e3fdd729a7eba4aec039301",
-    "services/frames.py": "b633611feee9bc151a8fbd000d15340654831796242ce71b116057ca1de2d2b8",
+    "services/frames.py": "c0ac19cabea33ffff35aebd32aa4d2d6c71dcb9a157de2f2c5dbc41661d8cb2f",
     "services/injections.py": "571b7f20c41df96dd9829881717625a0b23fb09deb37d82f368453cd2e87428a",
     "services/lai_mass.py": "6583eaf2f77bfe0e2a8a8e3d242284824028894c1f15c34e5d08d393dbb348d6",
-    "services/lai_support.py": "bc6c280c67c5d4fae52007749bee1d49614aac15ebea637f3b51818a117b7608",
+    "services/lai_support.py": "f6e9ff5a600166eb85434c74ffea0214769efc9ded4c5a74cb12f1827bec06cd",
     "services/llm_batch_parser.py": "c905180911489945f9c116e825308610cf686217c087dd6d944fa803de3c223b",
     "services/llm_client.py": "bf2f9784f8ccbe46a78bfff33600d5f55f50f9fee596368e41841d3eb13311a0",
     "services/medication_splitter.py": "ecce0052a77e453733cb3714480dc83fe261819beee574108e044f5fd76380a3",
@@ -108,7 +108,7 @@
     "services/name_feedback.py": "805473c5092c7008958602c46942e84bc17980e64994c79d2d9b9c3d3be4ae84",
     "services/name_ranker.py": "b27e76368c5d8e1f43576ece9ca867beb24ec1cae755a5e6908d995a4729ccdc",
     "services/parser.py": "d048e4aecbce2253b6f84bdea7e4fbba4189c62eeb07289dee3763e5021fb532",
-    "services/release.py": "322170c45619fc04fbec5ac1082733346845a2a52940d2e789535d9740f4c348",
+    "services/release.py": "fa83bf3e804d6a7efa47c9925b805034b4d1ca0059a2f1f5563707ca94615b96",
     "services/result_summary.py": "918d2a2cbc51858d63cae4bf33d91c2daffb3b1658f94ee94e1da769d3658072",
     "services/structured.py": "a7757cdcc56792c98f25b01928cb7fca8555dd1b5b4140c2172738244ba2a50b",
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
@@ -122,10 +122,10 @@
     "tests/test_character_review.py": "fbf5df82c9f80dd643ed2ba3f024d6ca16661a4e64908025fddf3ec763dbae6d",
     "tests/test_equivalence_update.py": "43e51e5a98b961444448e8f58e96d21fbe86d6753338a985827fd37f585e5497",
     "tests/test_frames.py": "580e5df40ed85f01335ee08f9b2bbc96b03a7194d5186cdb3d621386ffe5df3d",
-    "tests/test_integration.py": "c841614e553023d0cebad76bc6826d427c47787b8f1955f3f720b6d38e065151",
+    "tests/test_integration.py": "cfa789a5842f73f34bb77c0ebbb56217aa7afe63d727ee5724a7420ac49e2b7c",
     "tests/test_lai_methods.py": "ccf1521880c74f90dc3a000cd30e4aca777bcbcea45f63911191ff5b7a57d4f3",
     "tests/test_name_ranker.py": "e724f54696aac3a4d92f68a5efbf0f066303c0597c1ff76cd6aa6e2fabcba5d8",
-    "tests/test_quick_check.py": "d8e099dc52f5d166d1e32fb42f90e1825608fdee18bd42a5e357be83cda7cc24",
+    "tests/test_quick_check.py": "902a8e029865dfed02bff5c493b961230865198a8191a3f4b2e222f9d009b33c",
     "tests/test_quick_export.py": "107b8662ef951373bbe50aa58efdbce687dd4dc819be1ed5464c96a4fb38b06e",
     "tests/test_results_injections.py": "7dd974f18d10cf79d157d17d0a37b2d263eae2f86107f645fd06257a5853719f",
     "requirements.txt": "590327bf55ae23149f93344ae2b3032cf007b0953b02d37dc32b28670bd8435f"
@@ -461,6 +461,42 @@
         }
       ],
       "reason": "User asked for a simpler homepage: upload first, one-line rule summary (base → first supplements → unit) kept in sync with the selected base, base selector and sheet/status guides folded into details; example panels and method list removed (details on /methods). Release 2026.10.29-simple-home. Conversion unchanged."
+    },
+    {
+      "date": "2026-10-29",
+      "files": [
+        {
+          "file": "services/exporter.py",
+          "before": "04d545521944ebc8f13d410e282d7e2522ebf8f7cfa3de5296fe07ca43ddd629",
+          "after": "e0074cb092167486a53a0dc015ef136586dd7ab2811517f3137fd7990277605a"
+        },
+        {
+          "file": "services/frames.py",
+          "before": "b633611feee9bc151a8fbd000d15340654831796242ce71b116057ca1de2d2b8",
+          "after": "c0ac19cabea33ffff35aebd32aa4d2d6c71dcb9a157de2f2c5dbc41661d8cb2f"
+        },
+        {
+          "file": "services/lai_support.py",
+          "before": "bc6c280c67c5d4fae52007749bee1d49614aac15ebea637f3b51818a117b7608",
+          "after": "f6e9ff5a600166eb85434c74ffea0214769efc9ded4c5a74cb12f1827bec06cd"
+        },
+        {
+          "file": "services/release.py",
+          "before": "322170c45619fc04fbec5ac1082733346845a2a52940d2e789535d9740f4c348",
+          "after": "fa83bf3e804d6a7efa47c9925b805034b4d1ca0059a2f1f5563707ca94615b96"
+        },
+        {
+          "file": "tests/test_integration.py",
+          "before": "c841614e553023d0cebad76bc6826d427c47787b8f1955f3f720b6d38e065151",
+          "after": "cfa789a5842f73f34bb77c0ebbb56217aa7afe63d727ee5724a7420ac49e2b7c"
+        },
+        {
+          "file": "tests/test_quick_check.py",
+          "before": "d8e099dc52f5d166d1e32fb42f90e1825608fdee18bd42a5e357be83cda7cc24",
+          "after": "902a8e029865dfed02bff5c493b961230865198a8191a3f4b2e222f9d009b33c"
+        }
+      ],
+      "reason": "User decided: PRN (as-needed) antipsychotic orders are excluded from the regular daily dose with contribution 0 and a PRN basis note (status e), in the quick, frame-upload and prescription-date paths; aripiprazole once-monthly (Maintena) with no recorded interval is calculated with 28 days (TUM calculator authors' example) and noted; missing oral frequency keeps the existing once-daily assumption with a warning. Tests that encoded the old PRN/Maintena holds now check the new policy. Release 2026.10.29-prn-excluded. Conversion factors unchanged."
     }
   ]
 }

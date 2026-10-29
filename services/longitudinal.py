@@ -14,7 +14,7 @@ from functools import lru_cache
 from services.converter import available_methods, convert_drug, normalize_target, lookup
 from services.parser import dictionary_match, DOSE_RE, ORAL_CONCENTRATION_RE, _dose_to_mg
 from services.frames import formulation_info, antidepressant_conflict, drug_mentions
-from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, PRN_RE
 
 RULE_VERSION = 'prescription-date-2.1-lai'
 FIELDS = {
@@ -123,7 +123,9 @@ def medication(drug, product):
         issues.append('oral_solid_unconfirmed')
     if product and (bool(re.search(r'\b(?:ER|XR|SR|CR)\b|서방', product, re.I)) != (release == 'ER')):
         issues.append('release_form_conflict')
-    if re.search(r'\bPRN\b|필요시|필요\s*시|격일|\bQOD\b|taper', combined, re.I):
+    if PRN_RE.search(combined):
+        return canonical, form, strength, issues, 'non_target'
+    if re.search(r'격일|\bQOD\b|taper', combined, re.I):
         issues.append('variable_schedule')
     return canonical, form, strength, issues, 'review' if issues else 'ready'
 
@@ -165,7 +167,8 @@ def prepare(frame, mapping, policy='review', provenance=None):
             except OverflowError:
                 r['issues'].append('invalid_days')
         name, form, strength, issues, kind = medication(r['drug'], r['product'])
-        r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind)
+        r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind,
+                 prn=kind == 'non_target' and name in TARGETS)
         r['issues'].extend(issues)
         if form.startswith('injection') and policy == 'prescription_date' and name in TARGETS:
             from services.dated_injections import prepare_injection
@@ -182,7 +185,7 @@ def prepare(frame, mapping, policy='review', provenance=None):
             except ValueError as exc:
                 r['injection_error'] = str(exc)
                 r['kind'] = 'review'
-        elif kind == 'non_target' and name in EXCLUDED_INGREDIENTS:
+        elif kind == 'non_target' and (name in EXCLUDED_INGREDIENTS or r['prn']):
             pass  # Dose is irrelevant to AP exclusion; preserve raw source fields.
         elif daily is None or daily > 100:
             r['issues'].append('invalid_daily_tablets')
@@ -254,7 +257,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
         relevant, blockers, excluded = [], [], []
         for r in by_patient[patient]:
             if r['kind'] == 'non_target':
-                if r['canonical'] in EXCLUDED_INGREDIENTS and r['start'] and (
+                if (r['canonical'] in EXCLUDED_INGREDIENTS or r.get('prn')) and r['start'] and (
                         r['start'] == day if policy == 'prescription_date' else
                         r['start'] <= day and r['effective_end'] and day < r['effective_end']):
                     excluded.append(r)
@@ -285,7 +288,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
             reasons = list(r['issues'])
             if (r['source_sheet'], r['source_row']) in ambiguous:
                 reasons.append('overlapping_orders')
-            is_antidepressant = r['kind'] == 'non_target' and r['canonical'] in EXCLUDED_INGREDIENTS
+            is_antidepressant = r['kind'] == 'non_target' and (r['canonical'] in EXCLUDED_INGREDIENTS or r.get('prn'))
             if r['kind'] != 'ready' and not reasons and not is_antidepressant:
                 reasons.append('unresolved_drug')
             for method in methods:
@@ -308,7 +311,7 @@ def analyze(records, pairs, methods=None, policy='review', detail_sink=None):
                     if value is None:
                         flags.append('missing_factor')
                 rows_for_method[method].append(value)
-                detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='non_target' if is_antidepressant else 'review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']))
+                detail = dict(patient_id=patient, reference_date=day.isoformat(), source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], canonical=r['canonical'], daily_mg=r['daily_mg'], method=method, target=targets[method], equivalent_mg=value, status='non_target' if is_antidepressant else 'review' if flags else 'calculated', reasons=';'.join(flags), adjustments=';'.join(r['adjustments']), prn=bool(r.get('prn')))
                 detail['injection_evidence'] = json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else ''
                 (detail_sink or details.append)(detail)
         for method in methods:

@@ -10,7 +10,7 @@ from itertools import groupby
 
 from services.converter import available_targets, convert_drug, normalize_target
 from services.excel_tables import write_table
-from services.exclusions import is_excluded, exclusion_basis
+from services.exclusions import is_excluded, item_exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 from services.result_status import classify, combine, COLUMNS, HEADERS
 
@@ -74,7 +74,7 @@ def resolve(frame, base, blocker='', fallback=''):
     if blocker:
         return {**result, 'reason': blocker}
     if is_excluded(frame):
-        return {**result, 'value': 0.0, 'status': '대상 외', 'reason': exclusion_basis(frame['drug'])}
+        return {**result, 'value': 0.0, 'status': '대상 외', 'reason': item_exclusion_basis(frame)}
     if frame.get('status') not in ('ready', 'converted', 'missing_factor'):
         return {**result, 'reason': frame.get('warning') or frame.get('status_message') or '약물·용량 확인'}
     # A missing oral bridge cannot use oral factors. A separate depot-DDD case
@@ -191,6 +191,7 @@ def dated_cases(details, results, base_method=None, records=()):
                     reasons = all_reasons - {'missing_factor'}
                     frame = dict(source.get((row['source_sheet'], int(row['source_row'])), {}),
                                  drug=row['canonical'], original=row['drug'], daily_dose_mg=row['daily_mg'], issues=all_reasons,
+                                 prn_excluded=row.get('prn') == 'True',
                                  route='oral', status='non_target' if row['status'] == 'non_target' else 'ready',
                                  sheet=row['source_sheet'], source_row=int(row['source_row']),
                                  warning=reason_text(row['adjustments'].split(';')))

@@ -22,11 +22,17 @@ def test_korean_active_strength_not_pack_or_salt_mass(text,active):
     assert '심평원' in item['calculation_note'] and item['product_name_source']
 
 
-@pytest.mark.parametrize('suffix',['q1w','q4w IV','q4w loading','q4w PRN','q4w 200mg'])
+@pytest.mark.parametrize('suffix',['q1w','q4w IV','q4w loading','q4w 200mg'])
 def test_product_match_does_not_discard_unsafe_prescription_suffix(suffix):
     text='아빌리파이메인테나주사400밀리그램 '+suffix
     item=app.test_client().post('/api/parse',json={'text':text}).json['items'][0]
     assert not item['ok'] and not item['conversions'] and item['needs_review']
+
+
+def test_prn_injection_is_excluded_not_converted():
+    item=app.test_client().post('/api/parse',json={'text':'아빌리파이메인테나주사400밀리그램 q4w PRN'}).json['items'][0]
+    assert item['status']=='non_target' and item['prn_excluded']
+    assert all(c['value']==0 for c in item['conversions'])
 
 
 def test_export_alias_in_one_product_is_not_a_second_drug():

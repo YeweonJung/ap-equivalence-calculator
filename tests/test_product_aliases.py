@@ -30,8 +30,14 @@ def test_alias_api_matches_canonical_product(alias, canonical):
         assert a[0][key] == b[0][key]
 
 
+def test_maintena_without_interval_assumes_28_days():
+    item, = app.test_client().post('/api/parse', json={'text': '메인테나주400mg'}).get_json()['items']
+    assert item['drug'] == 'aripiprazole' and item['interval_days'] == 28
+    assert '28일 가정' in item['calculation_note']
+
+
 @pytest.mark.parametrize('text', [
-    '메인테나주400mg', '리스페달콘스타주25mg',
+    '리스페달콘스타주25mg',
     '인베가서스티나 인베가트린자 100mg',
     '올란자핀 콘스타주25mg q2w', '메인테나주400mg SC q4w',
 ])

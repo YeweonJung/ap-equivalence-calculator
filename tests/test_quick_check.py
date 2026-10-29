@@ -31,8 +31,9 @@ def test_candidates_preserve_dose_frequency_and_other_medications():
     corrected = text[:unknown['source_start']] + replacement + text[unknown['source_end']:]
     result = app.test_client().post('/api/parse', json={'text': corrected}).json['items']
     assert result[0]['drug'] == 'olanzapine'
-    assert result[1]['status'] == 'review'
-    assert result[1]['conversions'] == []
+    # The corrected PRN order is recognised and excluded (contribution 0), not converted.
+    assert result[1]['drug'] == 'risperidone' and result[1]['status'] == 'non_target' and result[1]['prn_excluded']
+    assert all(c['value'] == 0 for c in result[1]['conversions'])
 
 
 def test_short_unknown_name_does_not_get_a_guess():

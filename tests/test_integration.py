@@ -67,7 +67,9 @@ def test_ambiguous_schedules_are_not_presented_as_certain():
     items = response.get_json()["items"]
     assert items[0]["frequency"] == "QHS" and items[0]["needs_review"] is False
     assert items[1]["frequency"] == "ASSUMED_QD" and items[1]["needs_review"] is True
-    assert items[2]["ok"] is False and "PRN" in items[2]["error"]
+    # PRN orders are excluded from the regular daily dose (contribution 0).
+    assert items[2]["status"] == "non_target" and items[2]["prn_excluded"]
+    assert all(c["value"] == 0 for c in items[2]["conversions"])
 
 
 def test_multiple_doses_conflicting_frequencies_and_injections_are_rejected():
@@ -111,7 +113,8 @@ def test_half_tablet_regimen_and_spaced_korean_prn_are_handled():
         "/api/parse", json={"text": "Risperdal 2mg 0.5-0-1, Risperdal 1mg 필요 시, Risperdal 1mg 1-0-1"}
     ).get_json()["items"]
     assert items[0]["daily_dose_mg"] == 3 and items[0]["needs_review"] is False
-    assert items[1]["ok"] is False and "PRN" in items[1]["error"]
+    assert items[1]["status"] == "non_target" and items[1]["prn_excluded"]
+    assert all(c["value"] == 0 for c in items[1]["conversions"])
     assert items[2]["daily_dose_mg"] == 2
 
 

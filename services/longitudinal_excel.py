@@ -1,4 +1,4 @@
-from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, CLASSES, exclusion_label, exclusion_basis, review_fields
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, CLASSES, exclusion_label, exclusion_basis, review_fields, item_exclusion_basis
 """Compact, streaming Excel output for date-aware prescriptions."""
 import csv
 import io
@@ -99,7 +99,7 @@ def export_excel(records, results, details, metadata):
             if flags:
                 audit_issues.setdefault(key, set()).update(flags)
             missing = [r['method'] for r in batch if 'missing_factor' in r['reasons'].split(';')]
-            note = (exclusion_basis(first['canonical']) + '. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
+            note = (item_exclusion_basis({'drug': first['canonical'], 'prn_excluded': first.get('prn') == 'True'}) + '. ' if first['status'] == 'non_target' else '') + reason_text(flags) + (': ' + ', '.join(missing) if missing else '')
             note = '; '.join(filter(None, [note, original.get('injection_error'), original.get('injection_frame', {}).get('calculation_note')]))
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
             append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical']] + [display_value(codes[c], c) for c in COLUMNS] + [original['daily_mg']] +
@@ -110,11 +110,11 @@ def export_excel(records, results, details, metadata):
     review_count = 1
     for r in records:
         key = (r['source_sheet'], r['source_row'])
-        excluded = r['kind'] == 'non_target' and r['canonical'] in EXCLUDED_INGREDIENTS
+        excluded = r['kind'] == 'non_target' and (r['canonical'] in EXCLUDED_INGREDIENTS or r.get('prn'))
         codes = classify(r, issues.get(key, ()))
         if codes['review_required']:
-            info = review_fields(r['canonical']) if excluded else {}
-            note = '; '.join(filter(None, [exclusion_basis(r['canonical']) if excluded else '', reason_text(issues.get(key, set()))]))
+            info = review_fields(r['canonical'], r.get('prn')) if excluded else {}
+            note = '; '.join(filter(None, [item_exclusion_basis({'drug': r['canonical'], 'prn_excluded': r.get('prn')}) if excluded else '', reason_text(issues.get(key, set()))]))
             note = '; '.join(filter(None, [note, r.get('injection_error')]))
             append(review_sheet, [r['patient'], r['date'], r['drug'], note, r['product'], *key, r['days'], r['daily'], r['duplicate_of'],
                                   info.get('recognized_drug'), info.get('drug_group'), info.get('calculation'), info.get('equivalent_contribution')] + [display_value(codes[c], c) for c in COLUMNS])
@@ -140,7 +140,7 @@ def export_excel(records, results, details, metadata):
                        daily_tablets=r['daily'], canonical=r['canonical'], formulation=r['formulation'],
                        strength_mg=r['strength_mg'], daily_mg=r['daily_mg'], kind=r['kind'],
                        drug_class=CLASSES.get(r['canonical'], ''),
-                       exclusion_basis=exclusion_basis(r['canonical']) if r['canonical'] in EXCLUDED_INGREDIENTS and r['kind'] == 'non_target' else '',
+                       exclusion_basis=item_exclusion_basis({'drug': r['canonical'], 'prn_excluded': r.get('prn')}) if (r['canonical'] in EXCLUDED_INGREDIENTS or r.get('prn')) and r['kind'] == 'non_target' else '',
                        issues=';'.join(sorted(audit_issues.get((r['source_sheet'], r['source_row']), set()))),
                        adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        original_end=last_day(r['end']), effective_end=last_day(r['effective_end']),
