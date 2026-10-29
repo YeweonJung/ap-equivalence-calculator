@@ -31,12 +31,27 @@ def _outside(text):
     return ''.join(chars)
 
 
+def _trie_pattern(words):
+    """Regex equivalent to a longest-first alternation of `words`, built as a trie for speed."""
+    trie = {}
+    for word in words:
+        node = trie
+        for char in word:
+            node = node.setdefault(char, {})
+        node[''] = True
+
+    def build(node):
+        end = node.get('') is True
+        branches = [re.escape(char) + build(child) for char, child in sorted(node.items()) if char]
+        if not branches:
+            return ''
+        body = branches[0] if len(branches) == 1 and not end else '(?:' + '|'.join(branches) + ')'
+        return body + ('?' if end else '')
+    return build(trie)
+
+
 # One longest-first expression preserves alias boundaries and overlap order.
-_MENTION_PATTERN = re.compile(
-    r'(?<![\w])(?:' + '|'.join(re.escape(alias) for alias in
-                               sorted(alias_map, key=len, reverse=True)) + r')(?![a-z가-힣])',
-    re.I,
-)
+_MENTION_PATTERN = re.compile(r'(?<![\w])(?:' + _trie_pattern(alias_map) + r')(?![a-z가-힣])', re.I)
 
 
 def drug_mentions(text):
@@ -58,15 +73,22 @@ def antidepressant_conflict(text, drug):
     names = {name for _, _, name in mentions}
     if names - {drug}:
         return True
-    if mentions and re.search(r'[a-z가-힣]', flat[:mentions[0][0]], re.I):
+    from services.name_supplement import near_antipsychotic
+    if mentions and re.search(r'[a-z가-힣]', flat[:mentions[0][0]], re.I) and near_antipsychotic(flat[:mentions[0][0]]):
         return True  # An unknown leading drug must not be hidden by an annotation.
     allowed = {'hcl', 'hydrochloride', 'hydrobromide', 'maleate', 'succinate',
                'fumarate', 'oxalate', 'tab', 'tabs', 'tablet', 'capsule', 'cap',
+               'mesylate', 'mesilate', 'besylate', 'tartrate', 'carbonate', 'citrate', 'hydrate', 'sodium',
+               'potassium', 'sulfate', 'acetate', 'phosphate', 'dihydrochloride', 'monohydrate',
                'xr', 'er', 'sr', 'cr', 'ir', 'mg', 'mcg', 'ug', 'g',
                'qd', 'bid', 'tid', 'qid', 'qhs', 'q', '하루', '일', '정', '캡슐'}
     for token in re.finditer(r'(?<!\w)[A-Za-z가-힣]+\s*(?=[+-]?(?:\d|\.\d))', flat):
-        if not any(a <= token.start() < b for a, b, _ in mentions) and token.group().strip().casefold() not in allowed:
-            return True
+        word = token.group().strip().casefold()
+        if not any(a <= token.start() < b for a, b, _ in mentions) and word not in allowed:
+            from services.name_supplement import FORM_SUFFIX, PRODUCTS
+            stem = FORM_SUFFIX.sub('', word)
+            if alias_map.get(stem) != drug and PRODUCTS.get(stem) != drug and near_antipsychotic(word):
+                return True  # e.g. 아티반정 = 아티반 + 정; other words that resemble no antipsychotic are notes
 
     # Explicit combinations with an unrecognized partner cannot become zero.
     parts = re.split(r'\s*(?:[+&/]|\bwith\b)\s*', flat, flags=re.I)
@@ -77,7 +99,7 @@ def antidepressant_conflict(text, drug):
 
 def formulation_info(text):
     from services.lai_support import PRODUCT_RE
-    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|intramuscular|intravenous|subcutaneous|im|iv|sc)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
+    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|inj|intramuscular|intravenous|subcutaneous|im|iv|sc|palmitate|decanoate|enanthate|pamoate|lauroxil)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
     transdermal = re.search(r'\b(?:transdermal|patch(?:es)?)\b|경피|패치|첩부', text, re.I)
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
@@ -126,6 +148,9 @@ def _segments(text):
             yield offset + actual, offset + actual + len(value), value
 
 
+_REGIMEN_RE = re.compile(r'(?<![\d.])([0-9](?:\.(?:25|5|75))?(?:\s*-\s*[0-9](?:\.(?:25|5|75))?){2,3})(?![\d.])')
+
+
 def _frame(start, end, original):
     from services.korean_products import normalize_product
     normalized_product, product_note = normalize_product(original)
@@ -145,10 +170,53 @@ def _frame(start, end, original):
                 assumed.update(original=original, source_start=start, source_end=end, unit_assumed=True, needs_review=True)
                 assumed['warning'] = '; '.join(filter(None, ['확인바람: 단위 미기재로 mg 가정', assumed['warning']]))
                 return assumed
+    regimen = _REGIMEN_RE.search(_outside(text))
+    if regimen and not DOSE_RE.search(text) and drug_mentions(text):
+        # a-b-c without a written strength: each number is the mg taken at that time.
+        head = _outside(text)[:regimen.start()]
+        glued = re.search(r'(?<=[a-z가-힣])\s*(\d+(?:\.\d+)?)\s*$', head, re.I)
+        if glued or not re.search(r'\d', head):
+            name = text[:glued.start()] if glued else text[:regimen.start()]
+            total = sum(float(v) for v in re.split(r'\s*-\s*', regimen.group(1)))
+            rewritten = _frame(start, end, f"{name.rstrip()} {total:g}mg QD {text[regimen.end():].lstrip()}".strip())
+            if rewritten['status'] in ('ready', 'converted'):
+                basis = (f"a-b-c 해석: 약물명 뒤 숫자({glued.group(1)})는 mg 단위가 없어 함량으로 쓰지 않고, " if glued else
+                         'a-b-c 해석: 함량(mg) 기재 없음 → ')
+                basis += f"각 숫자를 1회 mg으로 합산 ({regimen.group(1).replace(' ', '')} → {total:g} mg/일)"
+                rewritten.update(original=original, source_start=start, source_end=end, needs_review=True,
+                                 frequency=regimen.group(1).replace(' ', '') + ' (mg)', regimen_basis=basis, regimen_mg_assumed=True)
+                rewritten['warning'] = '; '.join(filter(None, ['확인바람: ' + basis, rewritten['warning']]))
+                rewritten['calculation_note'] = '; '.join(filter(None, [basis, rewritten.get('calculation_note')]))
+                return rewritten
     mentions = drug_mentions(text)
     drug = mentions[0][2] if mentions else dictionary_match(text)
     score, match_type = 100.0, 'exact'
     if not drug:
+        from services.name_supplement import product_name, spelling_correction
+        product = product_name(_outside(text))
+        if product:
+            left, right, word, stem, target = product
+            named = _frame(start, end, text[:left] + target + text[right:])
+            if named['drug'] == target:
+                note = f'국내 제품명 (KHIDI 공개 급여목록): {word} → {target}'
+                named.update(original=original, source_start=start, source_end=end, match_type='public_product_name',
+                             recognized_product=stem)
+                named['calculation_note'] = '; '.join(filter(None, [note, named.get('calculation_note')]))
+                return named
+        fix = spelling_correction(_outside(text))
+        if fix:
+            left, right, word, alias, target, distance, kind = fix
+            corrected = _frame(start, end, text[:left] + (alias if alias in alias_map else target) + text[right:])
+            if corrected['drug'] == target:
+                note = {'prefix': f'약어 자동 확장 (AI 미사용): {word} → {alias}',
+                        'romanized_product': f'영문 표기 ↔ 국내 제품명 음운 대응 (AI 미사용): {word} → {alias} → {target}',
+                        }.get(kind, f'철자 자동 보정 (AI 미사용): {word} → {alias} ({distance}글자 차이)')
+                corrected.update(original=original, source_start=start, source_end=end, needs_review=True,
+                                 match_type='spelling_corrected', match_score=round(100 * (1 - distance / max(len(alias), 1)), 1),
+                                 spelling_correction=f'{word} → {alias}', correction_kind=kind)
+                corrected['warning'] = '; '.join(filter(None, ['확인바람: ' + note, corrected['warning']]))
+                corrected['calculation_note'] = '; '.join(filter(None, [note, corrected.get('calculation_note')]))
+                return corrected
         name = re.split(r'[+-]?(?:\d|\.\d)', _outside(text), maxsplit=1)[0].strip()
         score, match_type = 0.0, 'unresolved'
     info = formulation_info(text)
@@ -214,11 +282,27 @@ def _frame(start, end, original):
             parsed = parse_medication(text if match_type == 'exact' else drug + ' ' + text[len(name):].lstrip())
             frame.update({key: value for key, value in parsed.items() if key not in {'original','match_type','match_score'}})
             frame['needs_review'] |= match_type != 'exact'
+            if regimen and frame.get('dose_mg') and frame.get('daily_dose_mg'):
+                tablets = frame['daily_dose_mg'] / frame['dose_mg']
+                frame['regimen_basis'] = (f"a-b-c 해석: 함량 {frame['dose_mg']:g} mg 기재 → 각 숫자를 정 수로 보고 "
+                                          f"{frame['dose_mg']:g} mg × {tablets:g}정 = {frame['daily_dose_mg']:g} mg/일")
+                frame['calculation_note'] = '; '.join(filter(None, [frame['regimen_basis'], frame.get('calculation_note')]))
             if text != original:
                 frame['calculation_note'] = '; '.join(filter(None, [frame.get('calculation_note'), '표기 정규화 적용']))
         except ValueError as exc:
             status = 'review'
             frame['warning'] = str(exc)
+    if status == 'unknown_drug' and info['route'] != 'injection':
+        from services.name_supplement import UNLISTED, drug_words, near_antipsychotic
+        if not near_antipsychotic(_outside(text)):
+            words = drug_words(_outside(text))
+            basis = (f"사전 외 약물: {' '.join(words)} — 항정신병약 사전(전 언어 성분명·RxNorm·국내 급여목록)에 없고 "
+                     "항정신병약 이름과도 비슷하지 않아 비항정신병약으로 보고 0으로 계산" if words else
+                     '약물명이 없는 메모 조각으로 보고 0으로 계산')
+            status, drug = 'non_target', UNLISTED
+            frame.update(drug=drug, drug_class='unlisted', unlisted=True, unlisted_name=' '.join(words),
+                         needs_review=True, exclusion_basis=basis)
+            frame['warning'] = '; '.join(filter(None, ['확인바람: ' + basis, frame['warning']]))
     if status == 'unknown_drug':
         # Parsing never performs candidate retrieval or calls an AI service.
         frame['suggestions'] = []

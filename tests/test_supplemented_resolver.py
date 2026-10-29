@@ -63,7 +63,7 @@ def test_ed95_fallback_uses_same_olanzapine_target_for_other_method():
 
 
 def test_unknown_drug_does_not_fall_back():
-    _, item, result = converted("unknownmedicine 5mg", "CMD")
+    _, item, result = converted("unknownzapine 5mg", "CMD")
 
     assert item["status"] == "unknown_drug"
     assert result["value"] is None

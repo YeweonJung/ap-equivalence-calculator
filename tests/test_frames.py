@@ -36,7 +36,7 @@ def test_drug_dose_binding_and_unknown_neighbors():
     result = items('ris 2mg olz 5')
     assert [(r['drug'], r['dose'], r['status']) for r in result] == [
         ('risperidone', 2, 'converted'), ('olanzapine', 5, 'converted')]
-    result = items('ris 2mg UnknownDrug 7mg olz 5mg')
+    result = items('ris 2mg Unknownzapine 7mg olz 5mg')
     assert [r['status'] for r in result] == ['converted', 'unknown_drug', 'converted']
     with pytest.raises(ValueError):
         parse_medication('ris 2mg olz 5')
@@ -46,8 +46,9 @@ def test_drug_dose_binding_and_unknown_neighbors():
 def test_injections_never_become_oral_daily_doses(marker):
     result = items(f'Paliperidone 100mg ({marker})')[0]
     assert result['route'] == 'injection'
-    if marker in ('PP1M', 'LAI'):
-        # 'LAI' with no product or interval: 100mg is a PP1M strength, assumed once monthly (2026-10-29 rule).
+    if marker in ('PP1M', 'LAI', 'IM', '주사'):
+        # No product or interval: paliperidone injections exist only as long-acting products and
+        # 100mg is a PP1M strength, assumed once monthly (2026-10-29 rules).
         assert result['status'] == 'converted' and result['daily_dose_mg'] < 100
         assert [c['method'] for c in result['conversions'] if c['value'] is not None] == ['MED', 'ED95', 'DDD', 'GARDNER']
     else:
@@ -77,8 +78,9 @@ def test_unit_normalization_and_ambiguous_typo():
     assert items('olz 15mgs')[0]['dose_mg'] == 15
     assert items('olz 15gm')[0]['status'] == 'missing_unit'
     typo = items('pariperidon 6mg')[0]
-    assert typo['drug'] is None and typo['conversions'] == []
-    assert typo['suggestions'] == []
+    assert typo['drug'] == 'paliperidone' and typo['match_type'] == 'spelling_corrected'
+    assert typo['needs_review'] and '철자 자동 보정' in typo['warning']
+    assert items('zzqxvzapine 6mg')[0]['drug'] is None
 
 
 def test_excel_retains_all_statuses_and_numbered_groups():

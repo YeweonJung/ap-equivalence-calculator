@@ -16,7 +16,7 @@ def test_off_never_calls_learner_and_keeps_manual_correction(monkeypatch):
     def forbidden(*args): raise AssertionError('AI off must not invoke the learner')
     monkeypatch.setattr(feedback_learning,'suggestions',forbidden)
     monkeypatch.setattr(study_mode,'_cloud',forbidden)
-    data=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':'off'}).json
+    data=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':'off'}).json
     assert data['study']['ai_invocation_count']==0
     assert data['items'][0]['learned_suggestions']==[]
     assert data['items'][0]['correction_suffix']
@@ -32,7 +32,7 @@ def test_models_use_same_prompt_and_require_human_confirmation(monkeypatch,mode)
     monkeypatch.setattr(study_mode,'_cloud',infer)
     monkeypatch.setattr(study_mode,'_qwen',infer)
     monkeypatch.setattr(study_mode,'capabilities',lambda:{'qwen':{'available':True,'model':'qwen2.5:7b'}})
-    data=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode,**credentials(mode)}).json
+    data=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':mode,**credentials(mode)}).json
     assert data['study']['ai_invocation_count']==1
     assert data['study']['ai_candidate_count']==1
     assert data['study']['ai_success_count']==1
@@ -55,7 +55,7 @@ def test_modes_preserve_conversion():
 def test_unconfirmed_account_never_reaches_transport(monkeypatch,mode,confirmed):
     def forbidden(*args): raise AssertionError('Unconfirmed account made an AI request')
     monkeypatch.setattr(study_mode,'_cloud',forbidden)
-    data=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode,**credentials(mode),'study_free_tier_confirmed':confirmed}).json
+    data=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':mode,**credentials(mode),'study_free_tier_confirmed':confirmed}).json
     assert data['study']['ai_available'] is False
     assert data['study']['ai_invocation_count']==0
     assert data['study']['calls'][0]['reason']=='free_tier_not_confirmed'
@@ -66,7 +66,7 @@ def test_preview_never_calls_any_ai_even_with_valid_credentials(monkeypatch,mode
     def forbidden(*args): raise AssertionError('Preview made an AI request')
     monkeypatch.setattr(study_mode,'_cloud',forbidden)
     monkeypatch.setattr(study_mode,'_qwen',forbidden)
-    data=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode,'study_preview':True,**credentials(mode)}).json
+    data=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':mode,'study_preview':True,**credentials(mode)}).json
     assert data['study']['preview'] is True
     assert data['study']['ai_invocation_count']==0
     assert data['study']['calls'][0]['reason']=='preview_no_requests'
@@ -77,7 +77,7 @@ def test_preview_never_calls_any_ai_even_with_valid_credentials(monkeypatch,mode
 def test_missing_wrong_provider_or_openrouter_key_is_blocked(monkeypatch,mode,key):
     def forbidden(*args): raise AssertionError('Invalid key reached transport')
     monkeypatch.setattr(study_mode,'_cloud',forbidden)
-    data=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode,'study_api_key':key,'study_free_tier_confirmed':True}).json
+    data=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':mode,'study_api_key':key,'study_free_tier_confirmed':True}).json
     assert data['study']['ai_available'] is False
     assert data['study']['calls'][0]['status']=='unavailable'
 
@@ -117,7 +117,7 @@ def test_unlisted_model_rejected_before_transport(monkeypatch,model):
 
 @pytest.mark.parametrize('mode',['gemma','nemotron','xing','lfm','gpt','claude','gemini','deepseek',True,{},[]])
 def test_legacy_modes_rejected(mode):
-    assert app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD','study_ai':mode}).status_code==400
+    assert app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD','study_ai':mode}).status_code==400
 
 
 def test_status_discloses_account_verification_limit():
@@ -138,7 +138,7 @@ def test_error_stops_remaining_items_and_never_exposes_secret(monkeypatch,code):
         calls.append(1)
         raise HTTPError('https://api.groq.com/openai/v1/chat/completions',code,'SECRET_MESSAGE',{},None)
     monkeypatch.setattr(study_mode,'_cloud',failure)
-    r=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD; queiapine 100mg QD','study_ai':'groq_oss20',**credentials('groq_oss20')})
+    r=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD; unknownperidone 100mg QD','study_ai':'groq_oss20',**credentials('groq_oss20')})
     assert len(calls)==1
     meta=r.json['study']
     assert meta['calls'][0]['status']=='error' and meta['calls'][0]['http_status']==code
@@ -171,7 +171,7 @@ def test_audit_records_full_prompt_time_settings_and_independent_repeat_labels(m
     calls=[]
     for index in range(1,4):
         data=app.test_client().post('/api/parse',json={
-            'text':'risperidnoe 2mg QD','study_ai':'groq_oss20',
+            'text':'unknownzapine 2mg QD','study_ai':'groq_oss20',
             **credentials('groq_oss20'),'study_repeat_index':index,'study_repeat_count':3}).json
         calls.append(data['study']['calls'][0])
     assert len(seen)==3 and seen[0]==seen[1]==seen[2]
@@ -191,7 +191,7 @@ def test_audit_records_full_prompt_time_settings_and_independent_repeat_labels(m
 def test_invalid_repeat_settings_rejected_before_any_inference(monkeypatch,index,count):
     def forbidden(*args): raise AssertionError('Invalid repetition called AI')
     monkeypatch.setattr(study_mode,'_cloud',forbidden)
-    r=app.test_client().post('/api/parse',json={'text':'risperidnoe 2mg QD',
+    r=app.test_client().post('/api/parse',json={'text':'unknownzapine 2mg QD',
         'study_ai':'groq_oss20',**credentials('groq_oss20'),
         'study_repeat_index':index,'study_repeat_count':count})
     assert r.status_code==400

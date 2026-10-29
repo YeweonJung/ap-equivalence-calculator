@@ -44,7 +44,7 @@ def test_evidence_follows_actual_injection_path_and_missing_factors():
     assert evidence['MED']['oral_bridge_source']
     assert evidence['CMD']['available'] is False and evidence['CMD']['unavailable_reason']
     assert item['needs_review'] is False
-    missing = convert_frame(parse_frames('unknownxyz 5mg')[0], ['CMD','MED'])
+    missing = convert_frame(parse_frames('unknownzapine 5mg')[0], ['CMD','MED'])
     assert all(not e['available'] for e in json.loads(missing['factor_evidence']))
     assert len(json.loads(missing['factor_evidence'])) == 2
     assert 'clozapine' in evidence_index()['CMD','clozapine','olanzapine']['exclusion_conditions']
@@ -59,8 +59,8 @@ def test_ambiguous_fraction_concentration_and_ranges_abstain(text):
 
 
 @pytest.mark.parametrize('source', [
-    'patient_id,medication\n001,risperidone 2mg QD\n002,paliperidone 6mg QD\n003,unknownxyz 5mg\n004,lithium 600mg\n',
-    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-19,Risperidone 2mg tab,1\n002,2026-10-19,Paliperidone 6mg tab,1\n003,2026-10-19,unknownxyz 5mg tab,1\n004,2026-10-19,Lithium 600mg tab,1\n'
+    'patient_id,medication\n001,risperidone 2mg QD\n002,paliperidone 6mg QD\n003,unknownzapine 5mg\n004,lithium 600mg\n',
+    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-19,Risperidone 2mg tab,1\n002,2026-10-19,Paliperidone 6mg tab,1\n003,2026-10-19,unknownzapine 5mg tab,1\n004,2026-10-19,Lithium 600mg tab,1\n'
 ])
 def test_export_keeps_six_sheets_even_with_obsolete_options(source):
     def export(opt):

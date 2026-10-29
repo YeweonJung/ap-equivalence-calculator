@@ -87,7 +87,7 @@ def classify(row, issues=()):
         codes.add('a')
     if flags & {'duplicate_candidate', 'same_day_multiple_orders', 'overlapping_orders'}:
         codes.add('d')
-    if flags & (UNCERTAIN - {'injection_requires_review'}) or status == 'missing_unit' or row.get('unit_assumed') or row.get('frequency') == 'ASSUMED_QD' or row.get('interval_assumed'):
+    if flags & (UNCERTAIN - {'injection_requires_review'}) or status == 'missing_unit' or row.get('unit_assumed') or row.get('frequency') == 'ASSUMED_QD' or row.get('interval_assumed') or row.get('spelling_correction') or row.get('regimen_mg_assumed') or row.get('unlisted'):
         codes.add('c')
     if ('injection_requires_review' in flags or status in ('review', 'unsupported_formulation')) and not codes & {'a', 'b', 'x'}:
         codes.add('c')

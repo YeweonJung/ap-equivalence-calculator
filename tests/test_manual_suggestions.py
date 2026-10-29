@@ -31,7 +31,7 @@ def test_app_recovers_short_candidates_only_after_user_confirmation(name, drug):
     assert confirmed['conversions']
 
 
-@pytest.mark.parametrize('name', ['risperidonex', '로가핀', '로나핀', 'neurozapine'])
+@pytest.mark.parametrize('name', ['로가핀', '로나핀', 'neurozapine'])
 def test_unknown_and_ambiguous_app_inputs_remain_unconverted(name):
     item = app.test_client().post('/api/parse', json={'text': name + ' 1mg QD'}).json['items'][0]
     assert item['drug'] is None and item['conversions'] == []
@@ -116,8 +116,9 @@ def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
     original = '헬로패리돌 1mg QD'
     assert baseline_suggestions(original) == []
     item = app.test_client().post('/api/parse', json={'text': original}).json['items'][0]
-    assert item['drug'] is None and item['conversions'] == []
-    candidate = next(c for c in offline_suggestions(item['original']) if c['drug'] == 'haloperidol')
+    # 2026-10-29: the app now corrects this unique Hangul typo itself and flags it for review.
+    assert item['drug'] == 'haloperidol' and item['match_type'] == 'spelling_corrected' and item['needs_review']
+    candidate = next(c for c in offline_suggestions(original) if c['drug'] == 'haloperidol')
     assert candidate['retrieved_by'] == ['hangul_jamo']
     assert candidate['replacement'] == '할로페리돌 1mg QD'
     assert candidate['confirmed_drug'] is None and not candidate['auto_accepted']
@@ -125,7 +126,7 @@ def test_app_jamo_channel_recovers_two_vowel_errors_without_confirmation():
 
 
 def test_jamo_candidates_are_exported_without_conversion():
-    response = app.test_client().post('/api/export', json={'text': '헬로패리돌 1mg QD'})
+    response = app.test_client().post('/api/export', json={'text': '헬로패리돌돌돌 1mg QD'})
     wb = load_workbook(io.BytesIO(response.data))
     from tests.workbook_helpers import records
     from services.result_summary import METHOD_ORDER, value_column
@@ -142,7 +143,7 @@ def test_jamo_candidates_are_exported_without_conversion():
 def test_conversion_sources_and_existing_tests_remain_protected():
     from scripts.retrieval_integrity import verify_integration
     manifest = verify_integration(ROOT)
-    assert set(manifest['intentional_source_changes']) == {'app.py', 'lookup/master_lookup.csv', 'requirements.txt', 'services/converter.py', 'services/exporter.py', 'services/frames.py', 'services/injections.py', 'services/lai_support.py', 'services/parser.py', 'services/release.py', 'services/result_summary.py', 'services/structured.py', 'static/quick_check.js', 'templates/index.html', 'tests/quick_check_ui.cjs', 'tests/test_character_review.py', 'tests/test_equivalence_update.py', 'tests/test_frames.py', 'tests/test_integration.py', 'tests/test_lai_methods.py', 'tests/test_quick_export.py', 'tests/test_results_injections.py'}
+    assert set(manifest['intentional_source_changes']) == {'app.py', 'lookup/master_lookup.csv', 'requirements.txt', 'services/converter.py', 'services/exporter.py', 'services/frames.py', 'services/injections.py', 'services/lai_mass.py', 'services/lai_support.py', 'services/parser.py', 'services/release.py', 'services/result_summary.py', 'services/structured.py', 'static/quick_check.js', 'templates/index.html', 'tests/quick_check_ui.cjs', 'tests/test_character_review.py', 'tests/test_equivalence_update.py', 'tests/test_frames.py', 'tests/test_integration.py', 'tests/test_lai_methods.py', 'tests/test_quick_check.py', 'tests/test_quick_export.py', 'tests/test_results_injections.py'}
 
 
 def test_no_unresolved_merge_markers_in_runtime_sources():

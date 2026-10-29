@@ -17,7 +17,7 @@ def upload(text, method='ALL'):
 
 
 @pytest.mark.parametrize('text,code', [
-    ('unknownxyz 5mg QD', 'b'), ('risperidone 2 QD', 'c'),
+    ('unknownzapine 5mg QD', 'b'), ('risperidone 2 QD', 'c'),
     ('risperidone 2mg', 'c'), ('aripiprazole 400mg LAI', 'c'),
     ('blonanserin 8mg QD', 'a'), ('asenapine 3.8mg patch', 'a'),
     ('lorazepam 1mg QHS', 'e'),
@@ -42,7 +42,7 @@ def test_partial_method_coverage_preserves_nulls_and_numbers():
 
 
 def test_companion_does_not_hide_unknown_or_allow_incomplete_total():
-    wb = upload('lorazepam 1mg QHS, unknownxyz 5mg QD, risperidone 2mg QD', 'DDD')
+    wb = upload('lorazepam 1mg QHS, unknownzapine 5mg QD, risperidone 2mg QD', 'DDD')
     assert records(wb, 'Review') == []
     assert len(records(wb, 'AuditTrail')) == 3
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
@@ -82,7 +82,7 @@ def test_dated_missing_coefficients_are_not_errors(methods):
 def test_dated_invalid_values_distinguished_from_missing_and_unknown():
     df = pd.DataFrame({'patient_id':['unknown','missing','negative','date','conflict'],
                       'prescription_date':['2026-10-23'] * 3 + ['2026-13-99', '2026-10-23'],
-                      'drug_name':['unknownxyz 5mg tab'] + ['risperidone 2mg tab'] * 4,
+                      'drug_name':['unknownzapine 5mg tab'] + ['risperidone 2mg tab'] * 4,
                       'product_name':['', '', '', '', 'olanzapine 2mg tab'],
                       'tablets_per_day':['1', '', '-1', '1', '1']})
     wb = load_workbook(automatic_analysis({'input':df}, ['DDD']))
@@ -111,7 +111,7 @@ def test_homepage_explains_codes_and_unknown_is_not_an_error():
     client = app.test_client()
     html = client.get('/').get_data(as_text=True)
     assert '결과 상태 코드 안내' in html and 'Review 시트에는 x 오류만' in html
-    data = client.post('/api/parse', json={'text':'unknownxyz 5mg QD'}).json
+    data = client.post('/api/parse', json={'text':'unknownzapine 5mg QD'}).json
     assert data['items'][0]['status_code'] == 'b'
     assert data['items'][0]['review_required'] is False
     assert data['items'][0]['needs_review'] is True

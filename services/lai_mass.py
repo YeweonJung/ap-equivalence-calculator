@@ -18,8 +18,13 @@ def normalize_mass(text, drug, dose, profile):
     if ester and active_mark:
         raise ValueError('확인바람: 활성성분과 염 질량 표시가 충돌합니다.')
     if drug == 'paliperidone':
-        mapping = PALMITATE.get(profile, {})
+        # No product written: the once-monthly table (the only one whose strengths are then assumed).
+        mapping = PALMITATE.get(profile, {}) if profile else PALMITATE['PP1M']
         brand = bool(re.search(r'sustenna|trinza|hafyera|서스티나|트린자|하피에라', text, re.I))
+        if ester and not profile and dose not in mapping and dose in mapping.values():
+            # "paliperidone palmitate 150 mg" is how label strengths (mg eq.) are usually written.
+            return dict(input_dose_mg=dose, active_moiety_mg=dose, mass_source=PAL_SOURCE,
+                        dose_basis='palmitate 표기이나 질량표에 없고 표시 용량(mg eq.)과 같아 활성성분 mg으로 해석')
         if ester or (brand and dose in mapping and not active_mark):
             if dose not in mapping:
                 raise ValueError('확인바람: 해당 PP 제형의 palmitate 질량표에 없는 용량입니다.')

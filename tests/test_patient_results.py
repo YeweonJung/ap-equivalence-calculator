@@ -27,13 +27,13 @@ def test_patient_sums_across_rows_keep_ids_and_method_order():
 
 
 def test_incomplete_patient_never_exports_partial_as_total():
-    wb = upload('patient_id,medication\nP001,risperidone 2mg QD\nP001,unknownxyz 5mg\nP002,risperidone 2mg QD\n')
+    wb = upload('patient_id,medication\nP001,risperidone 2mg QD\nP001,unknownzapine 5mg\nP002,risperidone 2mg QD\n')
     result = rows(wb, 'Results')
     assert all(result[0][column] is None for column in PATIENT_COLUMNS[1:])
     assert result[0]['결과 상태'] == '계산 보류'
     assert '약물명 확인' in result[0]['확인할 내용']
     assert result[1]['DDD (OLZ mg/day)'] is not None
-    assert any('unknownxyz' in str(r['original']) and r['상태코드'] == 'b' for r in rows(wb, 'AuditTrail'))
+    assert any('unknownzapine' in str(r['original']) and r['상태코드'] == 'b' for r in rows(wb, 'AuditTrail'))
     assert rows(wb, 'Review') == []
 
 

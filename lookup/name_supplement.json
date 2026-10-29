@@ -1,0 +1,8 @@
+{
+ "version": "2026-10-29",
+ "note": "연구자 검토 보완 사전. 외부 공개 자료(external_names.json)에 없는 이름만, 출처를 적어 추가한다. 검증 자료(부산대·전북대·서울대)에서 이름을 가져오지 않는다. 후보는 scripts/name_gaps.py 로 만든다.",
+ "classes": {
+  "other_non_antipsychotic": "기타 비항정신병약"
+ },
+ "entries": []
+}

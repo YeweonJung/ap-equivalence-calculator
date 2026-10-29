@@ -22,8 +22,9 @@ def test_multiple_medications_keep_original_spans():
     assert all(text[i['source_start']:i['source_end']] == i['original'] for i in items)
 
 
-def test_nearby_unconfirmed_spelling_is_not_accepted():
-    assert parse_upload_frames('pariperidon 6mg')[0]['drug'] is None
+def test_nearby_unconfirmed_spelling_is_corrected_with_review():
+    item = parse_upload_frames('pariperidon 6mg')[0]
+    assert item['drug'] == 'paliperidone' and item['match_type'] == 'spelling_corrected' and item['needs_review']
 
 
 def test_shared_lai_route_survives_confirmed_spelling():

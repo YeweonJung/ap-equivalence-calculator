@@ -24,5 +24,5 @@ def test_all_method_combination_totals(drugs):
 
 
 def test_unknown_does_not_become_complete_total():
-    data = app.test_client().post('/api/parse', json={'text': 'risperidone 2mg, olanzapine 5mg, unknowndrug 10mg'}).get_json()
+    data = app.test_client().post('/api/parse', json={'text': 'risperidone 2mg, olanzapine 5mg, unknownzapine 10mg'}).get_json()
     assert all(t['total_equivalent_dose_mg'] is None and t['unresolved_count'] >= 1 for t in data['totals'])

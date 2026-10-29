@@ -47,7 +47,7 @@ def regimens():
     hal = product('076100071', 'q4w', active=50, days=28, depot=3.3)
     amis = product('651903820')
     clop = dict(text='clopenthixol 60mg tablet QD', drug='clopenthixol', route='oral', daily=60, tabs=1)
-    unknown = dict(text='unknownxyz 5mg', drug='unknownxyz', held=True, tabs=1)
+    unknown = dict(text='unknownzapine 5mg', drug='unknownzapine', held=True, tabs=1)
     lithium = dict(text='lithium 600mg QD', drug='lithium', excluded=True, tabs=1)
     pal_code = next(p['code'] for p in CATALOG['products'] if p['drug']=='paliperidone' and p['route']=='내복' and p['dose_mg']==6)
     return [

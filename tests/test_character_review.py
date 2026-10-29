@@ -19,25 +19,28 @@ def test_character_alignment_and_confirmation(source, target, operation):
     difference = compare_letters(source, target)
     assert difference['distance'] == 1
     assert difference['edits'][0]['operation'] == operation
+    # 2026-10-29 policy: a unique one-letter typo is corrected without AI, kept reviewable (code c).
     response = app.test_client().post('/api/parse', json={'text': source+' 2mg BID'}).json
     item = response['items'][0]
-    assert item['drug'] is None and not item['conversions']
-    candidate = next(c for c in offline_suggestions(item['original']) if c['alias'] == target)
+    assert item['drug'] == target and item['daily_dose_mg'] == 4
+    assert item['match_type'] == 'spelling_corrected' and item['spelling_correction'] == f'{source} → {target}'
+    assert item['original'] == source+' 2mg BID' and 'c' in item['status_code'].split(';')
+    candidate = next(c for c in offline_suggestions(source+' 2mg BID') if c['alias'] == target)
     assert candidate['replacement'] == target+' 2mg BID'
-    confirmed = app.test_client().post('/api/parse', json={'text': candidate['replacement']}).json['items'][0]
-    assert confirmed['daily_dose_mg'] == 4
 
 
 def test_different_ingredients_are_retained_without_automatic_selection():
     candidates = suggest_drugs('clopenthixl 5mg QD')
     assert any(c['drug'] == 'clopenthixol' for c in candidates)
-    assert app.test_client().post('/api/parse', json={'text': 'clopenthixl 5mg QD'}).json['items'][0]['drug'] is None
+    # The nearest ingredient is one letter away and zuclopenthixol three, so the typo is corrected and flagged.
+    item = app.test_client().post('/api/parse', json={'text': 'clopenthixl 5mg QD'}).json['items'][0]
+    assert item['drug'] == 'clopenthixol' and item['match_type'] == 'spelling_corrected'
 
 
 def test_previously_registered_english_typo_also_requires_confirmation():
     item = app.test_client().post('/api/parse', json={'text':'risperidonne 2mg BID'}).json['items'][0]
-    assert item['drug'] is None and not item['conversions']
-    assert offline_suggestions(item['original'])[0]['alias'] == 'risperidone'
+    assert item['drug'] == 'risperidone' and item['match_type'] == 'spelling_corrected' and item['needs_review']
+    assert offline_suggestions('risperidonne 2mg BID')[0]['alias'] == 'risperidone'
 
 
 def test_formulation_schedule_and_unit_are_never_spell_corrected():
@@ -48,7 +51,7 @@ def test_formulation_schedule_and_unit_are_never_spell_corrected():
 
 
 def test_export_keeps_unknown_original_character_evidence_and_no_total():
-    response = app.test_client().post('/api/export', json={'text':'risperidnoe 2mg BID'})
+    response = app.test_client().post('/api/export', json={'text':'unknownzapine 2mg BID'})
     wb = load_workbook(io.BytesIO(response.data))
     from tests.workbook_helpers import records
     from services.result_summary import METHOD_ORDER, value_column

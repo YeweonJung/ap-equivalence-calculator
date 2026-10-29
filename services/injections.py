@@ -47,7 +47,10 @@ def injection_values(frame):
     if (is_sc and re.search(r'\bIM\b|intramuscular|근육', text, re.I)) or (
             not is_sc and re.search(r'subcutaneous|\bSC\b|피하', text, re.I)):
         raise ValueError('확인바람: 제품명과 주사 투여경로를 확인해 주세요.')
-    if not re.search(r'(?<![a-z])(?:LAI|PP[136]M|depot)(?![a-z0-9])|지속형|데포|' + PRODUCT_RE, text, re.I):
+    # Ester salts are depot by definition; paliperidone and aripiprazole 300/400 mg exist only as long-acting injections.
+    only_long_acting = drug == 'paliperidone' or (drug == 'aripiprazole' and dose in (300, 400))
+    if not only_long_acting and not re.search(
+            r'(?<![a-z])(?:LAI|PP[136]M|depot|palmitate|decanoate|enanthate|pamoate|lauroxil)(?![a-z0-9])|지속형|데포|' + PRODUCT_RE, text, re.I):
         raise ValueError('확인바람: 지속형 주사제 여부를 명시해 주세요.')
     profile = profile_for(text, drug, dose)
     if re.search(r'lauroxil', text, re.I) and profile != 'ARI_LAUROXIL':
@@ -61,6 +64,11 @@ def injection_values(frame):
             profile, assumed_note = 'ARI_1M', '; 제품명·투여간격 기록 없음: aripiprazole 월 1회 제형으로 가정'
         elif drug == 'paliperidone' and dose in PAL_ORAL['PP1M']:
             profile, assumed_note = 'PP1M', '; 제품명·투여간격 기록 없음: paliperidone 월 1회(PP1M)로 가정'
+        elif drug == 'paliperidone' and dose in PAL_ORAL['PP3M']:
+            # 175/263/350/525 mg eq. exist only as the 3-monthly product, 700/1000 mg only as the 6-monthly one.
+            profile, assumed_note = 'PP3M', '; 제품명·투여간격 기록 없음: 3개월 제형에만 있는 용량이라 PP3M으로 가정'
+        elif drug == 'paliperidone' and dose in PAL_ORAL['PP6M']:
+            profile, assumed_note = 'PP6M', '; 제품명·투여간격 기록 없음: 6개월 제형에만 있는 용량이라 PP6M으로 가정'
     days, interval_note = interval_days(text, profile)
     interval_note += assumed_note
     if drug == 'paliperidone' and not profile and days in PP_BY_DAYS:

@@ -52,7 +52,7 @@ def test_lai_both_never_reuses_oral_factors():
 
 
 def test_results_sheet_blank_failures_and_errors_for_assumed_units():
-    csv = 'patient_id,medication\nP1,"ris 2, olz 5"\nP2,"ris 2mg, Unknown 3mg"\nP3,paliperidone 100mg PP1M\n'
+    csv = 'patient_id,medication\nP1,"ris 2, olz 5"\nP2,"ris 2mg, Unknownzapine 3mg"\nP3,paliperidone 100mg PP1M\n'
     response = app.test_client().post('/upload', data={'method':'ALL', 'file':(io.BytesIO(csv.encode()), 'example.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))

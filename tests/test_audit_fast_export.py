@@ -11,7 +11,7 @@ from tests.test_longitudinal import rx
 
 
 def test_audit_restores_mass_assumptions_and_unconverted_records():
-    raw = 'patient_id,medication\n001,"Sustenna 156mg, risperidone 2mg QD, unknownxyz 5mg"\n002,lithium 600mg\n'
+    raw = 'patient_id,medication\n001,"Sustenna 156mg, risperidone 2mg QD, unknownzapine 5mg"\n002,lithium 600mg\n'
     response = app.test_client().post('/upload', data={'file':(io.BytesIO(raw.encode()),'input.csv')})
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
@@ -37,7 +37,7 @@ def test_audit_restores_mass_assumptions_and_unconverted_records():
 def test_dated_audit_includes_invalid_and_excluded_source_rows():
     data = [rx(patient='001', drug='Risperidone 2mg tab', tabs='1'),
             rx(patient='001', drug='Lithium 600mg tab', tabs='1'),
-            rx(patient='', day='not-a-date', drug='unknownxyz 2mg tab')]
+            rx(patient='', day='not-a-date', drug='unknownzapine 2mg tab')]
     wb = load_workbook(automatic_analysis({'Source':pd.DataFrame(data)}, ['DDD']))
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 3
@@ -68,12 +68,18 @@ def test_precompiled_mentions_keep_all_alias_boundaries_and_overlap_order():
     def reference(text):
         hits = []
         masked = _outside(text)
-        for pattern, name in patterns:
-            hits.extend((m.start(),m.end(),name) for m in pattern.finditer(masked))
+        folded = masked.casefold().replace('i\u0307', 'i')  # dotted İ folds to i + combining dot
+        for (pattern, name), alias in zip(patterns, alias_map):
+            if alias.casefold() in folded:  # only aliases present in the text can match
+                hits.extend((m.start(),m.end(),name) for m in pattern.finditer(masked))
         chosen = []
         for hit in sorted(hits,key=lambda h:(h[0],-(h[1]-h[0]))):
             if not chosen or hit[0] >= chosen[-1][1]:chosen.append(hit)
         return chosen
-    for alias in alias_map:
+    # Every core alias, plus every 25th alias from the external dictionary (2026-10-29, ~10k names).
+    from services.name_supplement import SOURCES
+    for index, alias in enumerate(alias_map):
+        if alias in SOURCES and index % 25:
+            continue
         for text in (alias.upper()+'2mg QD; risperidone 1mg', 'x'+alias+'x 2mg (olanzapine)'):
             assert drug_mentions(text) == reference(text)

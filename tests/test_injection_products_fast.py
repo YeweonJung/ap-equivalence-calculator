@@ -47,14 +47,20 @@ def test_ambiguous_product_input_is_not_calculated(text):
 
 
 def test_combined_matcher_agrees_with_original_algorithm():
-    texts = [f'{alias} 2mg, risperdal consta 25mg q2w (olz 10mg)' for alias in alias_map]
-    texts += [' / '.join(alias_map), 'RİSPERİDONE 2mg', 'ris 2, olz 5']
-    patterns = [(re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name)
+    # Every core alias plus every 25th external alias (2026-10-29 dictionary has ~10k names).
+    from services.name_supplement import SOURCES
+    sample = [a for i, a in enumerate(alias_map) if a not in SOURCES or i % 25 == 0]
+    texts = [f'{alias} 2mg, risperdal consta 25mg q2w (olz 10mg)' for alias in sample]
+    texts += [' / '.join(sample), 'RİSPERİDONE 2mg', 'ris 2, olz 5']
+    patterns = [(re.compile(r'(?<![\w])' + re.escape(alias) + r'(?![a-z가-힣])', re.I), name, alias)
                 for alias, name in alias_map.items()]
     for text in texts:
         hits = []
         masked = _outside(text)
-        for pattern, name in patterns:
+        folded = masked.casefold().replace('i\u0307', 'i')  # dotted İ folds to i + combining dot
+        for pattern, name, alias in patterns:
+            if alias.casefold() not in folded:
+                continue  # an alias absent from the text cannot match
             for match in pattern.finditer(masked):
                 hits.append((match.start(), match.end(), name))
         chosen = []

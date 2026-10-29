@@ -160,8 +160,10 @@ def test_every_registered_alias_parses_to_its_declared_standard_name():
         if row.alias not in alias_map:
             from services.frames import parse_frames
             item = parse_frames(f"{row.alias} 1mg QD")[0]
-            assert item['drug'] is None and item['needs_review']
-            assert item['suggestions'] == []
+            # Removed typo entries are no longer exact; they are either corrected (flagged) or held.
+            assert item['drug'] is None and item['suggestions'] == [] and item['needs_review'] or \
+                item['drug'] == row.standard_name and item['match_type'] == 'spelling_corrected' and item['needs_review'] or \
+                item['drug'] == row.standard_name and item['match_type'] == 'user_confirmed_alias'
             continue
         from services.lai_support import PRODUCTS
         if any(product in row.alias for product in PRODUCTS):
@@ -260,9 +262,13 @@ def test_sample_download_is_a_real_xlsx_file():
     response = app.test_client().get("/sample")
     assert response.status_code == 200
     workbook = load_workbook(io.BytesIO(response.data))
-    assert workbook.active["B2"].value == "risperidone"
-    assert [c.value for c in workbook.active[1]] == ["patient_id", "drug", "dose", "unit", "frequency"]
-    assert workbook.active["C2"].value == 2
+    # 2026-10-29: recommended layout is column A = patient ID, column B = all medications.
+    assert [c.value for c in workbook.active[1]] == ["환자 ID", "약물 처방"]
+    assert workbook.active["B2"].value == "risperidone 2mg BID, olanzapine 5mg QD"
+    detail = workbook["열을 나눈 형식(선택)"]
+    assert [c.value for c in detail[1]] == ["patient_id", "drug", "dose", "unit", "frequency"]
+    result = app.test_client().post("/upload", data={"method": "ALL", "file": (io.BytesIO(response.data), "sample.xlsx")})
+    assert result.status_code == 200
 
 
 def test_excel_with_exactly_five_sheets_is_accepted():

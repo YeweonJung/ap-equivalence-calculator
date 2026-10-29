@@ -5,8 +5,8 @@ from app import app
 
 
 @pytest.mark.parametrize('source', [
-    'patient_id,medication\n001,risperidone 2mg QD\n002,unknownxyz 3mg\n',
-    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,Risperidone 2mg tab,1\n002,2026-09-01,unknownxyz 3mg tab,1\n',
+    'patient_id,medication\n001,risperidone 2mg QD\n002,unknownzapine 3mg\n',
+    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,Risperidone 2mg tab,1\n002,2026-09-01,unknownzapine 3mg tab,1\n',
 ])
 def test_all_sheets_are_plain_unfrozen_filterable_tables(source):
     response = app.test_client().post('/upload', data={'file': (io.BytesIO(source.encode()), 'synthetic.csv')})
@@ -23,4 +23,4 @@ def test_all_sheets_are_plain_unfrozen_filterable_tables(source):
     assert '원본 행' in headers
     assert wb['Review'].max_row == 1
     values = list(wb['MedicationResults'].values)
-    assert any('unknownxyz' in str(row) for row in values[1:])
+    assert any('unknownzapine' in str(row) for row in values[1:])

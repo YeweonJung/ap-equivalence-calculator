@@ -51,7 +51,7 @@ def test_zero_frequency_is_not_lost_and_missing_frequency_stays_reviewable():
 
 
 def test_route_fix_keeps_unknown_drug_boundaries():
-    text = 'quetiapine 100mg PO/NG 2 times a day UnknownDrug 7mg olanzapine 5mg PO 1 times a day'
+    text = 'quetiapine 100mg PO/NG 2 times a day Unknownzapine 7mg olanzapine 5mg PO 1 times a day'
     items = parse(text)
     assert [item['drug'] for item in items] == ['quetiapine', None, 'olanzapine']
     assert [item['daily_dose_mg'] for item in items] == [200, None, 5]

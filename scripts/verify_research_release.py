@@ -17,14 +17,14 @@ CASES = [
     'risperidone 2mg QD, olanzapine 5mg QD',
     'risperidone 2000㎍ QD', 'risperidone 2mg/mL QD',
     'quetiapine take 1/2 tablet (50 mg) every day',
-    'risperidone 2mg q2-3hr', 'risperidone 2mg QD, unknownxyz 5mg',
+    'risperidone 2mg q2-3hr', 'risperidone 2mg QD, unknownzapine 5mg',
     'Sustenna 156mg monthly', 'Aristada 441mg monthly',
     'Rykindo 37.5mg q2w', 'Longavo 50mg',
     'lithium 600mg', 'paliperidone 6mg QD',
 ]
 SOURCES = {
-    'quick': 'patient_id,medication\n001,risperidone 2mg QD\n001,paliperidone 6mg QD\n002,unknownxyz 5mg\n003,lithium 600mg\n004,Sustenna 156mg monthly\n',
-    'dated': 'HID,PRESCR_DATE,DRUG,TABS_PER_DAY,COMMERCIAL_DRUG\n001,2026-10-19,Risperidone 2mg tab,1,\n002,2026-10-19,Paliperidone 6mg tab,1,\n003,2026-10-19,unknownxyz 5mg tab,1,\n004,2026-10-19,risperidone 75mg,,Longavo 75mg monthly\n',
+    'quick': 'patient_id,medication\n001,risperidone 2mg QD\n001,paliperidone 6mg QD\n002,unknownzapine 5mg\n003,lithium 600mg\n004,Sustenna 156mg monthly\n',
+    'dated': 'HID,PRESCR_DATE,DRUG,TABS_PER_DAY,COMMERCIAL_DRUG\n001,2026-10-19,Risperidone 2mg tab,1,\n002,2026-10-19,Paliperidone 6mg tab,1,\n003,2026-10-19,unknownzapine 5mg tab,1,\n004,2026-10-19,risperidone 75mg,,Longavo 75mg monthly\n',
     'korean-structured': 'patient_id,drug,dose,unit,frequency\n001,클자핀정25밀리그램(클로자핀)_(25mg/1정),25,mg,BID\n002,아빌리파이메인테나주사400밀리그램,,,q4w\n003,클자핀정25밀리그램,50,mg,QD\n',
 }
 

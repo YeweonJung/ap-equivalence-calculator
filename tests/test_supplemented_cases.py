@@ -48,7 +48,7 @@ def test_complete_base_is_not_repeated_for_every_fallback():
     assert all(c['complement'] == '' and c['supplemented'] == 0 for c in cases)
 
 
-@pytest.mark.parametrize('text', ['unknownxyz 3mg', 'aripiprazole LAI 200mg', 'paliperidone 6'])
+@pytest.mark.parametrize('text', ['unknownzapine 3mg', 'aripiprazole LAI 200mg', 'paliperidone 6'])
 def test_input_and_formulation_blockers_never_create_complete_alternatives(text):
     cases = calculate(text, ['CMD'])
     assert len(cases) == 1 and cases[0]['case_id'] == 'CMD'
@@ -96,7 +96,7 @@ def test_same_target_is_used_for_all_drugs_in_every_case():
 
 
 def test_quick_api_and_excel_cases_and_medication_methods_match_exactly():
-    text = 'olanzapine 5mg QD, paliperidone 6mg QD, unknownxyz 2mg'
+    text = 'olanzapine 5mg QD, paliperidone 6mg QD, unknownzapine 2mg'
     client = app.test_client()
     data = client.post('/api/parse', json={'text': text}).json
     assert data['case_policy'] == 'selected-base-sequential-4.0'

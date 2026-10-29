@@ -21,8 +21,8 @@ def parse_upload_frames(text):
     from services.frames import parse_frames
     frames = parse_frames(text)
     for index, frame in enumerate(frames):
-        if frame['status'] != 'unknown_drug':
-            continue
+        if frame['status'] != 'unknown_drug' and frame.get('match_type') != 'spelling_corrected':
+            continue  # a user-confirmed spelling outranks the automatic correction
         original = frame['original']
         match = re.match(r'([A-Za-z]+)(?=\s|\d|\(|\[|$)', original)
         approved = CONFIRMED_UPLOAD_ALIASES.get(match[1].casefold()) if match else None

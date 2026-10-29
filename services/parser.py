@@ -30,6 +30,8 @@ for _alias, _drug in list(alias_map.items()):
 LEGACY_ALIAS_MAP = alias_map.copy()
 from services.exclusions import ALIASES as EXCLUDED_ALIASES
 alias_map.update(EXCLUDED_ALIASES)
+from services.name_supplement import AP_ALIASES as SUPPLEMENT_AP_ALIASES
+alias_map.update({k: v for k, v in SUPPLEMENT_AP_ALIASES.items() if k not in alias_map})
 alias_map.update({name: identity[0] for name, identity in PRODUCTS.items()})
 
 DOSE_RE = re.compile(

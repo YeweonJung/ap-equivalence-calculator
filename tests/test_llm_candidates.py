@@ -16,7 +16,7 @@ def response(candidates=None, status='candidate_found'):
     '{"status":"candidate_found","candidates":[null,"x",{}, {"standard_name":[]}]}',
     '```json\n{}\n```', '{} {}'])
 def test_invalid_output_is_rejected(text):
-    assert llm.validate_response(text, 'zzzzzz 2mg') == []
+    assert llm.validate_response(text, 'zzzzapine 2mg') == []
 
 
 @pytest.mark.parametrize('reason', [
@@ -39,15 +39,15 @@ def test_closed_set_deduplication_limits_and_suffix():
     good = json.loads(response())['candidates'][0]
     candidates = [good, good, dict(good, standard_name='invented'),
                   dict(good, standard_name='risperidone'), dict(good, standard_name='olanzapine')]
-    result = llm.validate_response(response(candidates), 'zzzzzz XR 2mg BID')
+    result = llm.validate_response(response(candidates), 'zzzzapine XR 2mg BID')
     assert len(result) == 2
     assert result[0]['replacement'] == 'aripiprazole XR 2mg BID'
     assert all(c['confirmed_drug'] is None and not c['auto_accepted'] for c in result)
-    assert llm.validate_response(response(candidates, 'unknown'), 'zzzzzz 2mg') == []
+    assert llm.validate_response(response(candidates, 'unknown'), 'zzzzapine 2mg') == []
 
 
-@pytest.mark.parametrize('original', ['얀센 주사제 150mg', 'zzzzzz LAI 150mg',
-    'zzzzzz 주사제 150mg', '환자 홍길동 zzzzzz 2mg', 'x' * 301])
+@pytest.mark.parametrize('original', ['얀센 주사제 150mg', 'zzzzapine LAI 150mg',
+    'zzzzapine 주사제 150mg', '환자 홍길동 zzzzapine 2mg', 'x' * 301])
 def test_insufficient_or_unbounded_context_never_calls_model(monkeypatch, original):
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     monkeypatch.setattr(llm, '_ollama', lambda _: pytest.fail('Must not call backend'))
@@ -57,7 +57,7 @@ def test_insufficient_or_unbounded_context_never_calls_model(monkeypatch, origin
 def test_disabled_and_existing_candidates_never_call_model(monkeypatch):
     monkeypatch.delenv('NAME_LLM_ENABLED', raising=False)
     monkeypatch.setattr(llm, '_ollama', lambda _: pytest.fail('Must not call backend'))
-    assert llm.suggest_llm('zzzzzz 2mg') == []
+    assert llm.suggest_llm('zzzzapine 2mg') == []
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     assert serving.suggest_for_review('로핀 1mg')
 
@@ -70,7 +70,7 @@ def test_api_calls_model_once_without_converting_and_preserves_suffix(monkeypatc
         calls.append(messages)
         return response()
     monkeypatch.setattr(llm, '_ollama', fake)
-    result = app.test_client().post('/api/parse', json={'text': 'zzzzzz 2mg BID'}).json
+    result = app.test_client().post('/api/parse', json={'text': 'zzzzapine 2mg BID'}).json
     assert calls == []
     assert '2mg' not in json.dumps(calls) and 'BID' not in json.dumps(calls)
     item = result['items'][0]
@@ -84,15 +84,15 @@ def test_backend_failure_is_private_and_nonfatal(monkeypatch, caplog):
     def broken(_):
         raise TimeoutError('secret prescription and credential')
     monkeypatch.setattr(llm, '_ollama', broken)
-    result = app.test_client().post('/api/parse', json={'text': 'zzzzzz 2mg'}).json
+    result = app.test_client().post('/api/parse', json={'text': 'zzzzapine 2mg'}).json
     assert result['items'][0]['suggestions'] == []
-    assert 'secret' not in caplog.text and 'zzzzzz' not in caplog.text
+    assert 'secret' not in caplog.text and 'zzzzapine' not in caplog.text
 
 
 def test_export_keeps_unconfirmed_candidates(monkeypatch):
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     monkeypatch.setattr(llm, '_ollama', lambda _: response())
-    result = app.test_client().post('/api/export', json={'text': 'zzzzzz 2mg'})
+    result = app.test_client().post('/api/export', json={'text': 'zzzzapine 2mg'})
     wb = load_workbook(io.BytesIO(result.data))
     from tests.workbook_helpers import records
     from services.result_summary import METHOD_ORDER, value_column
@@ -110,7 +110,7 @@ def test_windows_mlx_fails_without_import(monkeypatch):
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     monkeypatch.setenv('NAME_LLM_BACKEND', 'mlx')
     monkeypatch.setattr(llm.platform, 'system', lambda: 'Windows')
-    assert llm.suggest_llm('zzzzzz 2mg') == []
+    assert llm.suggest_llm('zzzzapine 2mg') == []
 
 
 @pytest.mark.parametrize('url', ['http://remote.example', 'https://remote.example',
@@ -146,4 +146,4 @@ def test_busy_backend_skips_without_queueing(monkeypatch):
     monkeypatch.setenv('NAME_LLM_ENABLED', '1')
     monkeypatch.setattr(llm, '_ollama', lambda _: pytest.fail('Must not call backend'))
     with llm._lock:
-        assert llm.suggest_llm('zzzzzz 2mg') == []
+        assert llm.suggest_llm('zzzzapine 2mg') == []

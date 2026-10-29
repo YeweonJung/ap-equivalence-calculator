@@ -14,7 +14,7 @@ def test_bad_quick_input_returns_json_error(endpoint, payload):
 
 def test_export_matches_parse_and_preserves_unresolved_rows():
     client=app.test_client()
-    text='Sustenna 156mg monthly; risperidone 2mg QD; unknownxyz 5mg'
+    text='Sustenna 156mg monthly; risperidone 2mg QD; unknownzapine 5mg'
     parsed=client.post('/api/parse',json={'text':text}).json
     response=client.post('/api/export',json={'text':text})
     assert response.status_code == 200

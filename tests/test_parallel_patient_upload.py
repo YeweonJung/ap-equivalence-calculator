@@ -38,7 +38,7 @@ def test_multiple_medications_sum_to_one_patient(drugs, doses):
 
 
 def test_unknown_names_keep_their_own_doses_without_a_false_total():
-    wb = upload('Abilify unknownxyz', '10, 15')
+    wb = upload('Abilify unknownzapine', '10, 15')
     audit = records(wb, 'MedicationResults')
     assert len(audit) == 2
     assert audit[0]['약물'] == 'aripiprazole' and audit[0]['dose_mg'] == 10
@@ -48,7 +48,7 @@ def test_unknown_names_keep_their_own_doses_without_a_false_total():
 
 
 def test_space_separated_unknown_names_and_doses_are_not_lost():
-    audit = records(upload('unknownxyz, unknownabc', '15 10', frequency=''), 'MedicationResults')
+    audit = records(upload('unknownzapine, unknownperidone', '15 10', frequency=''), 'MedicationResults')
     assert len(audit) == 2
     assert [a['dose_mg'] for a in audit] == [15, 10]
     assert all(a['status'] == 'unknown_drug' for a in audit)

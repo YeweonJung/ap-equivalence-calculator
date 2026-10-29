@@ -102,17 +102,25 @@ def version():
 def sample_file():
     workbook = Workbook()
     sheet = workbook.active
+    # Recommended layout: column A = patient ID only, column B = all medications of that patient.
     sheet.title = "입력예시"
-    sheet.append(["patient_id", "drug", "dose", "unit", "frequency"])
-    sheet.append(["P001", "risperidone", 2, "mg", "QD"])
-    sheet.append(["P001", "olanzapine", 5, "mg", "QD"])
-    sheet.append(["P002", "risperidone", 1, "mg", "QD"])
-    for cell in sheet[1]:
-        cell.font = Font(bold=True, color="FFFFFF")
-        cell.fill = PatternFill("solid", fgColor="1769E0")
-        cell.alignment = Alignment(horizontal="center")
-    for column, width in {"A": 16, "B": 20, "C": 12, "D": 10, "E": 16}.items():
-        sheet.column_dimensions[column].width = width
+    sheet.append(["환자 ID", "약물 처방"])
+    sheet.append(["P001", "risperidone 2mg BID, olanzapine 5mg QD"])
+    sheet.append(["P002", "Ativan 1mg, 쿠에티아핀 100mg 0-0-1"])
+    sheet.append(["P003", "risperidone2 0.5-0-1"])
+    sheet.append(["P004", "Invega Sustenna 150mg q4w, quetiapine 25mg PRN"])
+    detail = workbook.create_sheet("열을 나눈 형식(선택)")
+    detail.append(["patient_id", "drug", "dose", "unit", "frequency"])
+    detail.append(["P001", "risperidone", 2, "mg", "BID"])
+    detail.append(["P001", "olanzapine", 5, "mg", "QD"])
+    detail.append(["P002", "risperidone", 1, "mg", "QD"])
+    for ws, widths in ((sheet, {"A": 14, "B": 56}), (detail, {"A": 16, "B": 20, "C": 12, "D": 10, "E": 16})):
+        for cell in ws[1]:
+            cell.font = Font(bold=True, color="FFFFFF")
+            cell.fill = PatternFill("solid", fgColor="1769E0")
+            cell.alignment = Alignment(horizontal="center")
+        for column, width in widths.items():
+            ws.column_dimensions[column].width = width
     sample = io.BytesIO()
     workbook.save(sample)
     sample.seek(0)

@@ -22,8 +22,9 @@ def short_alias_candidates(original):
     if not re.fullmatch(r'[가-힣]{2}[a-z]?', query):
         return []
     matches = []
+    from services.name_supplement import SOURCES  # external dictionary names are exact-match only
     for alias, drug in sorted(alias_map.items()):
-        if not re.fullmatch(r'[가-힣]{2}', alias) or alias[0] != query[0]:
+        if alias in SOURCES or not re.fullmatch(r'[가-힣]{2}', alias) or alias[0] != query[0]:
             continue
         if len(query) == 2 and levenshtein(unicodedata.normalize('NFD', query),
                 unicodedata.normalize('NFD', alias)) > 1:

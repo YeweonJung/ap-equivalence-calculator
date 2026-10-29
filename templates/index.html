@@ -40,36 +40,77 @@
 .base-choice{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:14px}.base-choice select{padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit}.base-choice small{color:var(--muted)}
 .supplement-guide{margin:16px 0 18px;padding:16px 18px;border-radius:12px;background:var(--soft)}.supplement-guide strong{font-size:17px}.supplement-guide p{margin:8px 0 4px;font-size:clamp(18px,2vw,23px);font-weight:800;line-height:1.7;color:#164f99;overflow-wrap:anywhere}.supplement-guide small{color:var(--muted);line-height:1.6}
     .status-guide{margin:16px 0;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13px;line-height:1.7}.status-codes{display:flex;flex-wrap:wrap;gap:6px 16px;margin:8px 0}.status-codes span{padding:3px 8px;background:var(--soft);border-radius:6px}.status-codes .error-code{color:#a43720;background:#fff1ed}.status-guide p{margin:6px 0;color:var(--muted)}.parse-item[data-review=true]{border-color:#c35b44}.parse-top .error-code{color:#a43720}
+
+    .lang{display:flex;gap:4px;align-items:center}.lang button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:99px;padding:5px 11px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}.lang button[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}.nav-right{display:flex;gap:14px;align-items:center}
+    .howto{margin-top:26px}.howto h2{margin:0 0 4px;font-size:20px;letter-spacing:-.03em}.howto>p{margin:0 0 14px;color:var(--muted);font-size:13px}.howto .flow{gap:0}.howto .panel{min-height:0;padding:18px}
+    .xl{overflow:hidden;background:#fff;border:1px solid #cfd9e7;border-radius:10px;font-size:12px}.xl-bar{height:26px;background:#1e6d46;display:flex;align-items:center;gap:5px;padding:0 10px;color:#fff;font-size:11px;font-weight:800}.xl-bar.blue{background:#1268e8}
+    .xl table{width:100%;border-collapse:collapse;table-layout:fixed}.xl th,.xl td{border-right:1px solid #e1e7ef;border-bottom:1px solid #e1e7ef;padding:8px 7px;text-align:left;overflow-wrap:anywhere;vertical-align:top}.xl th{background:#e8f2ec;color:#245640;font-weight:900}.xl.out th{background:#eaf2ff;color:#164f99}.xl .rn{width:26px;background:#f4f6f9;color:#8a94a5;text-align:center;font-weight:700}.xl .col{background:#f4f6f9;color:#8a94a5;text-align:center;font-weight:700;padding:3px}.xl td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:800}
+    .tips{margin:14px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:12px;color:var(--muted);line-height:1.6}.tips b{color:var(--ink)}.tips code{background:var(--soft);padding:1px 5px;border-radius:4px;color:#164f99}
+    @media(max-width:760px){.tips{grid-template-columns:1fr}.nav-right a{display:none}}
 </style>
 </head>
 <body>
-  <header><div class="wrap nav"><div class="logo">AP <b>DOSE</b> CONVERTER</div><a href="{{ url_for('sample_file') }}">샘플 Excel 내려받기</a></div></header>
+  <header><div class="wrap nav"><div class="logo">AP <b>DOSE</b> CONVERTER</div><div class="nav-right"><a href="{{ url_for('sample_file') }}" data-i18n="nav_sample">샘플 Excel 내려받기</a><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ko" aria-pressed="true">한국어</button><button type="button" data-lang="en" aria-pressed="false">English</button></div></div></div></header>
   <main>
     <section class="main">
       <div class="wrap">
-        <div class="title"><h1>처방 엑셀을 올리면<br>환자별 등가용량 합계가 나옵니다</h1><p>약물명·용량·복용 횟수를 읽어 olanzapine 기준 mg/day로 계산합니다.</p></div>
+        <div class="title"><h1 data-i18n="title">처방 엑셀을 올리면<br>환자별 등가용량 합계가 나옵니다</h1><p data-i18n="subtitle">약물명·용량·복용 횟수를 읽어 olanzapine 기준 mg/day로 계산합니다.</p></div>
         <section class="upload" aria-label="데이터 파일 업로드">
           <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
             <input type="hidden" name="method" value="ALL">
-            <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
-            <button type="submit" id="submit-button">결과파일 받기</button>
+            <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name" data-i18n="choose">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
+            <button type="submit" id="submit-button" data-i18n="submit">결과파일 받기</button>
           </form><p id="upload-status" role="status" aria-live="polite"></p>
-          <div class="under-actions"><span>CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}">입력 샘플 받기 →</a></div>
-          <p class="upload-note">열 예시: 환자 ID · 약물 · 용량 · 단위 · 복용 횟수. 한 칸에 <b>Risperdal 2mg BID</b>처럼 적어도 됩니다. 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
+          <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
+          <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다. 아래 그림을 참고하세요.</p>
+        </section>
+        <section class="howto" aria-labelledby="howto-title">
+          <h2 id="howto-title" data-i18n="howto_title">엑셀은 이렇게 넣으면 가장 잘 읽힙니다</h2>
+          <p data-i18n="howto_desc">1열에는 환자 ID만, 2열에는 그 환자의 약을 모두 적습니다. 오른쪽처럼 환자별 합계가 나옵니다.</p>
+          <div class="flow">
+            <div class="panel"><div class="panel-label"><span class="number">1</span><span data-i18n="howto_in">입력 (내 엑셀)</span></div>
+              <figure class="xl" aria-label="입력 예시 표" style="margin:0"><div class="xl-bar">input.xlsx</div>
+                <table><colgroup><col style="width:26px"><col style="width:26%"><col></colgroup>
+                  <tr><td class="col"></td><td class="col">A</td><td class="col">B</td></tr>
+                  <tr><td class="rn">1</td><th data-i18n="col_id">환자 ID</th><th data-i18n="col_med">약물 처방</th></tr>
+                  <tr><td class="rn">2</td><td>P001</td><td>risperidone 2mg BID, olanzapine 5mg QD</td></tr>
+                  <tr><td class="rn">3</td><td>P002</td><td>Ativan 1mg, 쿠에티아핀 100mg 0-0-1</td></tr>
+                  <tr><td class="rn">4</td><td>P003</td><td>risperidone2 0.5-0-1</td></tr>
+                  <tr><td class="rn">5</td><td>P004</td><td>Invega Sustenna 150mg q4w, quetiapine 25mg PRN</td></tr>
+                </table></figure></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="panel"><div class="panel-label"><span class="number">2</span><span data-i18n="howto_out">결과 (보완합계 시트)</span></div>
+              <figure class="xl out" aria-label="결과 예시 표" style="margin:0"><div class="xl-bar blue">AP_equivalence_result.xlsx</div>
+                <table><colgroup><col style="width:20%"><col style="width:27%"><col></colgroup>
+                  <tr><th data-i18n="col_id">환자 ID</th><th data-i18n="col_total">총합 (OLZ mg/일)</th><th data-i18n="col_basis">읽은 방법</th></tr>
+                  <tr><td>P001</td><td class="num">14.69</td><td data-i18n="ex1">risperidone 4 mg/일 + olanzapine 5 mg/일</td></tr>
+                  <tr><td>P002</td><td class="num">3.15</td><td data-i18n="ex2">Ativan(lorazepam) = 0, 쿠에티아핀 100 mg 취침 1회</td></tr>
+                  <tr><td>P003</td><td class="num">3.64</td><td data-i18n="ex3">함량 없는 0.5-0-1 → 1.5 mg/일 (확인 표시 c)</td></tr>
+                  <tr><td>P004</td><td class="num">13.64</td><td data-i18n="ex4">LAI 150 mg 4주 간격, PRN = 0</td></tr>
+                </table></figure></div>
+          </div>
+          <ul class="tips">
+            <li data-i18n="tip1" data-html><b>여러 약</b>은 한 칸에 쉼표(,)로: <code>risperidone 2mg BID, olanzapine 5mg</code></li>
+            <li data-i18n="tip2" data-html><b>횟수</b>는 <code>QD·BID·TID</code>, <code>하루 2회</code>, <code>1-0-1</code> 모두 가능</li>
+            <li data-i18n="tip3" data-html><b>a-b-c</b>: 함량(mg)이 있으면 정 수(<code>2mg 0.5-0-1</code> = 3 mg), 없으면 mg(<code>risperidone2 0.5-0-1</code> = 1.5 mg)</li>
+            <li data-i18n="tip4" data-html><b>약물명</b>은 성분명·국내외 상품명·한글·중국어·일본어 등 모두 가능, 오타는 자동 보정 후 <code>c</code> 표시</li>
+            <li data-i18n="tip5" data-html><b>PRN</b>(필요시)과 항정신병약이 아닌 약은 0으로 계산</li>
+            <li data-i18n="tip6" data-html><b>전산 원자료</b>(처방일·주문번호가 섞인 표)는 먼저 이 두 열로 정리해 주세요</li>
+          </ul>
         </section>
         <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
-          <div class="rule"><small>기준</small><b id="rule-base">ED95</b></div>
+          <div class="rule"><small data-i18n="rule_base">기준</small><b id="rule-base">ED95</b></div>
           <span class="rule-arrow" aria-hidden="true">→</span>
-          <div class="rule"><small>값이 없는 약만 보완</small><b id="rule-chain">{{ (supplement_priority|reject('equalto', 'ED95')|list)[:3]|join(' → ') }}</b></div>
+          <div class="rule"><small data-i18n="rule_fill">값이 없는 약만 보완</small><b id="rule-chain">{{ (supplement_priority|reject('equalto', 'ED95')|list)[:3]|join(' → ') }}</b></div>
           <span class="rule-arrow" aria-hidden="true">→</span>
-          <div class="rule"><small>결과</small><b>환자별 합계 · <span id="rule-unit">{{ units['ED95'] }}</span> mg/day</b></div>
+          <div class="rule"><small data-i18n="rule_result">결과</small><b><span data-i18n="rule_total">환자별 합계</span> · <span id="rule-unit">{{ units['ED95'] }}</span> mg/day</b></div>
         </section>
-        <details class="fold"><summary>기준 바꾸기 · 전체 보완 순서</summary><div class="fold-body">
+        <details class="fold"><summary data-i18n="fold_base">기준 바꾸기 · 전체 보완 순서</summary><div class="fold-body">
           <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
           <div class="supplement-guide"><strong>보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small>기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
           <p>ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>
         </div></details>
-        <details class="fold"><summary>결과 파일 읽는 법</summary><div class="fold-body">
+        <details class="fold"><summary data-i18n="fold_read">결과 파일 읽는 법</summary><div class="fold-body">
           <ul class="sheet-guide" aria-label="결과 파일 시트 안내">
             <li><b>보완합계</b> 환자별 최종 총합과 어떤 방법으로 채웠는지(예: ED95+MED)</li>
             <li><b>보완근거</b> 약물마다 적용한 방법·계수·출처</li>
@@ -86,11 +127,30 @@
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
-      <div><h2>한 줄로 바로 계산</h2><p>여러 약물은 쉼표(,)로 구분하세요. 위와 같은 규칙으로 계산합니다.</p></div>
-      <div class="parser"><p>예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div><h2 data-i18n="quick_title">한 줄로 바로 계산</h2><p data-i18n="quick_desc">여러 약물은 쉼표(,)로 구분하세요. 위와 같은 규칙으로 계산합니다.</p></div>
+      <div class="parser"><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
   </main>
-  <footer><a href="/methods">환산 근거·적용 한계 안내</a><br>연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</footer>
+  <footer><a href="/methods" data-i18n="footer_link">환산 근거·적용 한계 안내</a><br><span data-i18n="footer_note">연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</span></footer>
+  <script>
+  (function(){
+    var EN={nav_sample:'Download sample Excel',title:'Upload a prescription spreadsheet.<br>Get each patient\'s total equivalent dose.',subtitle:'Drug names, doses and frequencies are read and converted to olanzapine-equivalent mg/day.',choose:'Choose an Excel or CSV file',submit:'Get result file',limits:'CSV · XLS · XLSX · up to 100 MB · deleted from the server after processing',sample_link:'Download input sample →',upload_note:'Best layout: <b>column 1 = patient ID, column 2 = all medications</b> (separate several drugs with commas). If there is a prescription-date column, each date is totalled separately. See the example below.',howto_title:'Lay out your spreadsheet like this',howto_desc:'Put only the patient ID in column 1 and all of that patient\'s medications in column 2. You get one total per patient, as on the right.',howto_in:'Input (your spreadsheet)',howto_out:'Output (“보완합계” sheet)',col_id:'Patient ID',col_med:'Medications',col_total:'Total (OLZ mg/day)',col_basis:'How it was read',ex1:'risperidone 4 mg/day + olanzapine 5 mg/day',ex2:'Ativan (lorazepam) = 0; quetiapine 100 mg once at bedtime',ex3:'0.5-0-1 without strength → 1.5 mg/day (flag c)',ex4:'LAI 150 mg every 4 weeks; PRN = 0',tip1:'<b>Several drugs</b> in one cell, separated by commas: <code>risperidone 2mg BID, olanzapine 5mg</code>',tip2:'<b>Frequency</b>: <code>QD·BID·TID</code>, <code>twice a day</code> or <code>1-0-1</code>',tip3:'<b>a-b-c</b>: with a strength in mg the numbers are tablets (<code>2mg 0.5-0-1</code> = 3 mg); without, they are mg (<code>risperidone2 0.5-0-1</code> = 1.5 mg)',tip4:'<b>Drug names</b>: ingredient or brand, Korean, Chinese, Japanese and more; typos are corrected and flagged <code>c</code>',tip5:'<b>PRN</b> orders and non-antipsychotics count as 0',tip6:'<b>Raw EHR exports</b> (mixed dates, order numbers) should first be reduced to these two columns',rule_base:'Base',rule_fill:'Missing values filled from',rule_result:'Result',rule_total:'Per-patient total',fold_base:'Change base · full supplement order',fold_read:'How to read the result file',quick_title:'Quick one-line calculation',quick_desc:'Separate several drugs with commas. The same rules apply.',quick_example:'Example: risperidone 2mg, olanzapine 5mg, quetiapine 100mg',quick_button:'Calculate',footer_link:'Conversion sources and limitations',footer_note:'For research and education; it does not replace clinical judgement or prescribing.'};
+    var KO={};
+    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(!(k in KO))KO[k]=el.innerHTML;});
+    function apply(lang){
+      var table=lang==='en'?EN:KO;
+      document.querySelectorAll('[data-i18n]').forEach(function(el){var v=table[el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});
+      document.documentElement.lang=lang;
+      document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-lang')===lang));});
+      try{localStorage.setItem('ap-lang',lang);}catch(e){}
+    }
+    document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-lang'));});});
+    var saved=null;try{saved=localStorage.getItem('ap-lang');}catch(e){}
+    var q=new URLSearchParams(location.search).get('lang');
+    var lang=q==='en'||q==='ko'?q:(saved||((navigator.language||'').slice(0,2)==='ko'?'ko':'en'));
+    if(lang==='en')apply('en');
+  })();
+  </script>
   <script src="{{ url_for('static', filename='home_upload.js') }}"></script>
   <script src="{{ url_for('static', filename='study_bridge.js') }}"></script>
   <script src="{{ url_for('static', filename='quick_check.js') }}"></script>

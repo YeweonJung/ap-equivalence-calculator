@@ -9,13 +9,17 @@ CATALOG = json.loads((Path(__file__).resolve().parents[1] /
 SOURCE_ROWS = {r['ingredient']: r for r in CATALOG['drugs']}
 CLASSES = dict.fromkeys(AD_INGREDIENTS, 'antidepressant')
 CLASSES.update({r['ingredient']: r['drug_class'] for r in CATALOG['drugs'] if r['exclude']})
+from services.name_supplement import OTHER_ALIASES, OTHER_CLASSES, CLASS_LABELS as SUPPLEMENT_LABELS
+# Reviewed supplement names never reclassify a catalog ingredient.
+CLASSES.update({k: v for k, v in OTHER_CLASSES.items() if k not in CLASSES})
 INGREDIENTS = frozenset(CLASSES)
 CLASS_LABELS = {
     'mood_stabilizer': '기분조절제', 'antidepressant': '항우울제',
     'anxiolytic': '항불안제', 'stimulant': '각성제',
     'side_effect_management': '부작용처리약', 'opioid_antagonist': '오피오이드 길항제',
+    **SUPPLEMENT_LABELS,
 }
-ALIASES = {**AD_ALIASES, **{name: name for name in INGREDIENTS}}
+ALIASES = {**OTHER_ALIASES, **AD_ALIASES, **{name: name for name in INGREDIENTS}}
 EXCLUSION_NOTE = '병용약물 제외: 항정신병약 환산값 0 (실제 복용량이 아님)'
 
 
@@ -35,10 +39,14 @@ def item_exclusion_label(item):
 
 
 def item_exclusion_basis(item):
+    if item.get('unlisted'):
+        return item.get('exclusion_basis') or exclusion_basis(item.get('drug'))
     return PRN_BASIS if item.get('prn_excluded') else exclusion_basis(item.get('drug'))
 
 
 def exclusion_label(drug):
+    if CLASSES.get(drug) == 'unlisted':
+        return '사전 외 약물 0 처리'
     return '항우울제 제외' if CLASSES.get(drug) == 'antidepressant' else '병용약물 제외'
 
 

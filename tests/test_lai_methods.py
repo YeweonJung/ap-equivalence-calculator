@@ -136,7 +136,13 @@ def test_paliperidone_four_week_multiples_match_pp_formulation(text, days, ddd):
     assert item['interval_days'] == days and value == pytest.approx(ddd, abs=0.0001)
 
 
-@pytest.mark.parametrize('text', ['Xeplion 100mg q2w', 'paliperidone 100mg LAI q2w', 'paliperidone palmitate 156mg LAI q4w'])
+@pytest.mark.parametrize('text', ['Xeplion 100mg q2w', 'paliperidone 100mg LAI q2w', 'paliperidone palmitate 156mg LAI q2w'])
 def test_paliperidone_interval_or_mass_mismatch_is_still_held(text):
     item = parse(text)['items'][0]
     assert item['status_code'] == 'c' and not any(c.get('value') for c in item.get('conversions', []))
+
+
+def test_unbranded_palmitate_mass_uses_the_once_monthly_table():
+    # 2026-10-29: 156 mg palmitate exists only as the PP1M 100 mg eq. strength; q4w agrees with it.
+    item = parse('paliperidone palmitate 156mg LAI q4w')['items'][0]
+    assert item['status'] == 'converted' and item['interval_days'] == 28

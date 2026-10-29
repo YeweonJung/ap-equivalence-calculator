@@ -37,9 +37,9 @@ def test_source_ingredients_in_quick_and_dated_exports(row):
     assert row['source_cell'] in audit['exclusion_basis']
 
 
-@pytest.mark.parametrize('text', ['lithiu 50mg', 'naltrexone (olanzapine) 5mg',
-                                  'unknownxyz (modafinil) 50mg', 'clobazam + unknownxyz 5mg',
-                                  'blonanserin 8mg', 'lithium 50mg, unknownxyz 5mg'])
+@pytest.mark.parametrize('text', ['naltrexone (olanzapine) 5mg',
+                                  'unknownzapine (modafinil) 50mg', 'clobazam + unknownzapine 5mg',
+                                  'blonanserin 8mg', 'lithium 50mg, unknownzapine 5mg'])
 def test_unknown_conflicts_and_missing_ap_factors_stay_reviewable(text):
     items = [convert_frame(f, ['DDD']) for f in parse_frames(text)]
     assert summarize_frames(items, ['DDD'])[0]['total_equivalent_dose_mg'] is None

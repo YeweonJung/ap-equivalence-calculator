@@ -54,14 +54,20 @@ def test_exclusion_does_not_require_a_dose_unit_or_schedule(text):
 
 
 @pytest.mark.parametrize('text', [
-    'sertralin 50mg', 'Symbyax 6/25mg', 'unknownxyz 5mg',
+    'Symbyax 6/25mg', 'unknownzapine 5mg',
     'fluoxetine olanzapine 5mg', 'fluoxetine (olanzapine) 5mg',
-    'unknownxyz (sertraline) 50mg', 'sertraline unknownxyz 50mg',
-    'fluoxetine / unknownxyz', 'sertraline + unknownxyz 5mg',
-    'sertraline 50mg, unknownxyz 5mg', 'sertraline 50mg, blonanserin 8mg',
+    'unknownzapine (sertraline) 50mg', 'sertraline unknownzapine 50mg',
+    'fluoxetine / unknownzapine', 'sertraline + unknownzapine 5mg',
+    'sertraline 50mg, unknownzapine 5mg', 'sertraline 50mg, blonanserin 8mg',
 ])
 def test_unknown_conflicts_and_missing_ap_factors_never_become_zero(text):
     assert summarize_frames(converted(text), ['DDD'])[0]['total_equivalent_dose_mg'] is None
+
+
+def test_unique_companion_typo_is_corrected_and_flagged():
+    item = converted('sertralin 50mg')[0]
+    # 'sertralin' is also the German/Scandinavian INN spelling (Wikidata), so it may be an exact name.
+    assert item['drug'] == 'sertraline' and item['status'] == 'non_target'
 
 
 def test_mixed_regimen_and_other_non_targets_unchanged():
@@ -75,7 +81,7 @@ def test_mixed_regimen_and_other_non_targets_unchanged():
     ('fluoxetine olanzapine 5mg tab', ''),
     ('sertraline 50mg tab', 'Risperdal 2mg'),
     ('sertraline (olanzapine) 5mg tab', ''),
-    ('unknownxyz 5mg tab', 'Zoloft 50mg'),
+    ('unknownzapine 5mg tab', 'Zoloft 50mg'),
 ])
 def test_dated_conflicts_do_not_silently_exclude(drug, product):
     rows = prepared([rx(drug=drug, product=product)], 'prescription_date')
@@ -88,7 +94,7 @@ def test_exact_date_totals_audit_and_no_carryover():
         rx(day='2020-04-15', patient='001', drug='졸로푸트정 50mg', tabs=''),
         rx(day='2020-04-16', patient='001', drug='Risperidone 2mg tab', tabs='1'),
         rx(day='2020-04-16', patient='001', drug='심발타 30mg', tabs='bad'),
-        rx(day='2020-04-17', patient='001', drug='unknownxyz 5mg tab', tabs='1'),
+        rx(day='2020-04-17', patient='001', drug='unknownzapine 5mg tab', tabs='1'),
         rx(day='2020-04-17', patient='001', drug='렉사프로 10mg', tabs='1'),
     ])
     wb = load_workbook(automatic_analysis({'input': source}, ['DDD']))
@@ -103,7 +109,7 @@ def test_exact_date_totals_audit_and_no_carryover():
     assert all(r['DDD (OLZ mg/day)'] == 0 for r in excluded)
     review = records(wb, 'Review')
     assert review == []
-    assert any(r['상태코드'] == 'b' and 'unknownxyz' in r['원문 약물'] for r in details)
+    assert any(r['상태코드'] == 'b' and 'unknownzapine' in r['원문 약물'] for r in details)
     audit = records(wb, 'AuditTrail')
     assert len(audit) == 5
     assert audit[0]['drug_class'] == 'antidepressant'

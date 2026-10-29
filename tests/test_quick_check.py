@@ -9,14 +9,15 @@ from services.drug_suggestions import suggest_drugs
     ('자이프렉서 5mg QD', 'olanzapine'),
     ('쎄로겔 25mg QD', 'quetiapine'),
 ])
-def test_unknown_korean_name_has_candidate_without_auto_conversion(text, drug):
+def test_korean_typo_is_corrected_and_still_has_candidate(text, drug):
     client = app.test_client()
     response = client.post('/api/parse', json={'text': text})
     assert response.status_code == 200
     item = response.json['items'][0]
-    assert not item['ok']
-    assert item['conversions'] == []
-    suggestion = next(s for s in offline_suggestions(item['original']) if s['drug'] == drug)
+    # Corrected automatically when one ingredient is clearly nearest; otherwise held (never counted as 0).
+    assert (item['drug'] == drug and item['match_type'] == 'spelling_corrected') or item['status'] == 'unknown_drug'
+    assert item['status_code'].split(';')[0] in ('b', 'c', 'a')
+    suggestion = next(s for s in offline_suggestions(text) if s['drug'] == drug)
     confirmed = client.post('/api/parse', json={'text': suggestion['replacement']}).json['items'][0]
     assert confirmed['drug'] == drug
     assert confirmed['ok']

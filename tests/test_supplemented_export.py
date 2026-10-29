@@ -32,8 +32,8 @@ def upload(source, method='ALL', base_method=None):
 
 
 @pytest.mark.parametrize('source', [
-    'patient_id,medication\n001,olanzapine 5mg QD\n001,paliperidone 6mg QD\n002,unknownxyz 3mg\n003,lithium 600mg\n004,Sustenna 156mg\n',
-    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-01,Olanzapine 5mg tab,1\n001,2026-10-01,Paliperidone 6mg tab,1\n002,2026-10-01,unknownxyz 3mg tab,1\n003,2026-10-01,Lithium 600mg tab,1\n',
+    'patient_id,medication\n001,olanzapine 5mg QD\n001,paliperidone 6mg QD\n002,unknownzapine 3mg\n003,lithium 600mg\n004,Sustenna 156mg\n',
+    'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-10-01,Olanzapine 5mg tab,1\n001,2026-10-01,Paliperidone 6mg tab,1\n002,2026-10-01,unknownzapine 3mg tab,1\n003,2026-10-01,Lithium 600mg tab,1\n',
 ])
 def test_supplemented_export_preserves_all_original_cells_and_formatting(source, monkeypatch):
     updated = upload(source, base_method='CMD')
@@ -68,7 +68,7 @@ def test_supplemented_export_preserves_all_original_cells_and_formatting(source,
 
 
 def test_selected_method_still_can_use_other_methods_and_partial_is_not_total():
-    wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownxyz 2mg\n', 'CMD')
+    wb = upload('patient_id,medication\n0001,paliperidone 6mg QD\n0001,unknownzapine 2mg\n', 'CMD')
     results = rows(wb, '보완합계')
     result = next(r for r in results if r['계산안'] == 'CMD+ED95')
     assert {r['보완 방법'] for r in results} == {'ED95'}

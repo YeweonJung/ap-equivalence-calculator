@@ -20,15 +20,15 @@ def test_public_paths_never_search_or_wait_for_ai(monkeypatch, backend):
     monkeypatch.setattr(llm_jobs, 'online', forbidden)
     monkeypatch.setattr(llm_jobs, 'submit', forbidden)
     client = app.test_client()
-    parsed = client.post('/api/parse', json={'text':'unknownxyz 2mg BID'}).json
+    parsed = client.post('/api/parse', json={'text':'unknownzapine 2mg BID'}).json
     assert parsed['items'][0]['suggestions'] == []
     assert parsed['items'][0]['drug'] is None
     assert all(t['total_equivalent_dose_mg'] is None for t in parsed['totals'])
     assert client.get('/version').json['name_llm_enabled'] is False
     for response in [
-        client.post('/api/export', json={'text':'unknownxyz 2mg BID'}),
-        client.post('/upload', data={'file':(io.BytesIO(b'patient_id,medication\n001,unknownxyz 2mg BID\n'),'plain.csv')}),
-        client.post('/upload', data={'file':(io.BytesIO(b'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,unknownxyz 2mg tab,1\n'),'dated.csv')}),
+        client.post('/api/export', json={'text':'unknownzapine 2mg BID'}),
+        client.post('/upload', data={'file':(io.BytesIO(b'patient_id,medication\n001,unknownzapine 2mg BID\n'),'plain.csv')}),
+        client.post('/upload', data={'file':(io.BytesIO(b'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,unknownzapine 2mg tab,1\n'),'dated.csv')}),
     ]:
         assert response.status_code == 200
         wb = load_workbook(io.BytesIO(response.data))
@@ -45,7 +45,7 @@ def test_every_indexed_factor_matches_the_shipped_table():
 
 
 def test_no_duplicate_totals_or_candidate_columns_and_review_is_traceable():
-    raw = b'patient_id,medication\n001,risperidone 2mg QD\n001,unknownxyz 5mg\n'
+    raw = b'patient_id,medication\n001,risperidone 2mg QD\n001,unknownzapine 5mg\n'
     response = app.test_client().post('/upload', data={'file':(io.BytesIO(raw),'test.csv')})
     wb = load_workbook(io.BytesIO(response.data))
     meds = records(wb, 'MedicationResults')
@@ -53,6 +53,6 @@ def test_no_duplicate_totals_or_candidate_columns_and_review_is_traceable():
     assert not any('총 환산값' in h or h == 'name_candidates' for h in meds[0])
     assert meds[0][value_column('DDD')] == 4
     assert all(meds[1][value_column(m)] is None for m in METHOD_ORDER)
-    issue = next(r for r in records(wb, 'AuditTrail') if 'unknownxyz' in r['original'])
+    issue = next(r for r in records(wb, 'AuditTrail') if 'unknownzapine' in r['original'])
     assert issue['source_row'] == 3 and issue['medication_column'] == 'medication'
     assert records(wb, 'Results')[0]['DDD (OLZ mg/day)'] is None
