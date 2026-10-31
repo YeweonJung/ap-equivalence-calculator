@@ -22,6 +22,8 @@ from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 
+from rapidfuzz.distance import OSA as _OSA
+
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = json.loads((ROOT / 'lookup/name_supplement.json').read_text(encoding='utf-8'))
 _external_path = ROOT / 'lookup/external_names.json'
@@ -93,8 +95,7 @@ FORM_SUFFIX = re.compile(r'(?:서방정|서방캡슐|오디정|구강붕해정|�
 
 def distance(a, b, limit):
     """Optimal string alignment distance (adjacent transposition = 1); limit + 1 when larger."""
-    from rapidfuzz.distance import OSA
-    return OSA.distance(a, b, score_cutoff=limit)
+    return _OSA.distance(a, b, score_cutoff=limit)
 
 
 # ---- sound keys for Latin spellings of Korean product names (국립국어원 외래어 표기 규칙의 역방향)

@@ -1,6 +1,7 @@
 import math
 import re
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
@@ -102,6 +103,7 @@ def _compact(value):
     return re.sub(r"[^a-z0-9가-힣]+", "", _normalized_text(value))
 
 
+@lru_cache(maxsize=None)
 def _alias_pattern(alias):
     escaped = re.escape(alias)
     if re.search(r"[a-z0-9]", alias, re.I):
@@ -109,7 +111,9 @@ def _alias_pattern(alias):
     return re.compile(escaped, re.I)
 
 
-ALIAS_PATTERNS = [(alias, _alias_pattern(alias)) for alias in sorted(alias_map, key=len, reverse=True)]
+# Longest alias first. Patterns are compiled on first use: compiling all ~11,500 at import took ~6 s
+# of every server start, and a plain substring test rejects almost every alias before any regex runs.
+ALIAS_ORDER = sorted(alias_map, key=len, reverse=True)
 COMPACT_ALIAS_MAP = {_compact(alias): standard for alias, standard in alias_map.items() if _compact(alias)}
 
 
@@ -123,8 +127,8 @@ def _drug_only_text(text):
 
 def dictionary_match(text):
     value = _normalized_text(text)
-    for alias, pattern in ALIAS_PATTERNS:
-        if pattern.search(value):
+    for alias in ALIAS_ORDER:
+        if alias in value and _alias_pattern(alias).search(value):
             return alias_map[alias]
     compact_drug = _compact(_drug_only_text(value))
     if compact_drug in COMPACT_ALIAS_MAP:

@@ -162,3 +162,17 @@ def test_parallel_counts_do_not_broadcast_one_dose_to_two_drugs():
     sheets = pd.read_excel(io.BytesIO(response.data), sheet_name=None)
     assert not sheets['MedicationResults']['status'].eq('converted').any()
     assert sheets['Review']['확인할 내용'].notna().any()
+
+
+def test_trie_walk_finds_the_same_mentions_as_the_trie_expression():
+    import random
+    from services import frames
+    from services.parser import alias_map
+    aliases, rng = sorted(alias_map), random.Random(7)
+    texts = ['risperidone 2mg, 리스페달 1mg', 'ris 2mg olz 5', 'Seroquel XR 300mg hs', '쎄로켈정25mg 아침']
+    for _ in range(2000):
+        texts.append(''.join(rng.choice(aliases)[:rng.randint(2, 12)].upper() * rng.randint(0, 1) + rng.choice(aliases)
+                             + rng.choice(['', ' ', '2mg ', '_', 'x', '가', ', ', '-']) for _ in range(rng.randint(1, 3))))
+    for text in texts:
+        expected = [(m.start(), m.end()) for m in frames._mention_pattern().finditer(text)]
+        assert [(m.start(), m.end()) for m in frames._mention_matches(text)] == expected, text

@@ -50,13 +50,79 @@ def _trie_pattern(words):
     return build(trie)
 
 
-# One longest-first expression preserves alias boundaries and overlap order.
-_MENTION_PATTERN = re.compile(r'(?<![\w])(?:' + _trie_pattern(alias_map) + r')(?![a-z가-힣])', re.I)
+_MENTION_PATTERN = None
+_TRIE = None
+# Characters whose IGNORECASE behaviour differs from casefold() position by position.
+_SPECIAL_CASE = re.compile('[ſıİK\u212b\u1e9e]')
+
+
+def _mention_pattern():
+    """One longest-first expression preserving alias boundaries and overlap order (rare Unicode only)."""
+    global _MENTION_PATTERN
+    if _MENTION_PATTERN is None:
+        _MENTION_PATTERN = re.compile(r'(?<![\w])(?:' + _trie_pattern(alias_map) + r')(?![a-z가-힣])', re.I)
+    return _MENTION_PATTERN
+
+
+def _trie():
+    global _TRIE
+    if _TRIE is None:
+        _TRIE = {}
+        for alias in alias_map:
+            node = _TRIE
+            for char in alias:
+                node = node.setdefault(char, {})
+            node[''] = True
+    return _TRIE
+
+
+class _Hit:
+    __slots__ = ('_text', '_start', '_end')
+
+    def __init__(self, text, start, end):
+        self._text, self._start, self._end = text, start, end
+
+    def group(self):
+        return self._text[self._start:self._end]
+
+    def start(self):
+        return self._start
+
+    def end(self):
+        return self._end
+
+
+def _mention_matches(text):
+    """Same matches as _mention_pattern().finditer(text), found by walking an alias trie.
+
+    Compiling the ~11,500-alias expression took ~2 s of every server start; the walk needs no compile.
+    """
+    folded = text.casefold()
+    if len(folded) != len(text) or _SPECIAL_CASE.search(text):
+        yield from _mention_pattern().finditer(text)
+        return
+    trie, index, size = _trie(), 0, len(text)
+    while index < size:
+        if index and (text[index - 1].isalnum() or text[index - 1] == '_'):
+            index += 1
+            continue
+        node, ends, cursor = trie, [], index
+        while cursor < size and folded[cursor] in node:
+            node = node[folded[cursor]]
+            cursor += 1
+            if node.get('') is True:
+                ends.append(cursor)
+        end = next((e for e in reversed(ends) if e >= size or not re.match('[a-z가-힣]', folded[e])), None)
+        if end is None:
+            index += 1
+            continue
+        yield _Hit(text, index, end)
+        index = end if end > index else index + 1
 
 
 def drug_mentions(text):
     hits = []
-    for match in _MENTION_PATTERN.finditer(_outside(text)):
+    for match in _mention_matches(_outside(text)):
         name = alias_map.get(match.group().casefold())
         if name is None:
             # Rare Unicode IGNORECASE matches (e.g. dotted I) keep old semantics.
