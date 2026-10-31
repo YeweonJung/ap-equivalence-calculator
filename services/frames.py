@@ -9,7 +9,7 @@ from difflib import SequenceMatcher
 from services.medication_splitter import split_medication_spans
 from services.parser import alias_map, dictionary_match, DOSE_RE, ORAL_CONCENTRATION_RE, parse_medication, _dose_to_mg
 
-from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, EXCLUSION_NOTE, is_excluded, CLASSES, exclusion_label, exclusion_basis, PRN_RE, PRN_BASIS, PRN_LABEL, item_exclusion_basis
+from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, EXCLUSION_NOTE, is_excluded, CLASSES, exclusion_label, exclusion_basis, PRN_RE, PRN_BASIS, PRN_LABEL, STOP_RE, STOP_BASIS, STOP_LABEL, item_exclusion_basis
 
 NON_TARGET = CLASSES
 LABELS = {
@@ -335,6 +335,11 @@ def _frame(start, end, original):
     elif PRN_RE.search(text):
         status = 'non_target'
         frame.update(prn_excluded=True, exclusion_basis=PRN_BASIS, needs_review=match_type != 'exact')
+    elif STOP_RE.search(text):
+        # Counted like PRN (status e); flagged for review because a note can be ambiguous.
+        status = 'non_target'
+        frame.update(prn_excluded=True, stopped_excluded=True, exclusion_basis=STOP_BASIS, needs_review=True)
+        frame['warning'] = '확인바람: ' + STOP_BASIS
     elif info['route'] == 'transdermal':
         status = 'unsupported_formulation'
         frame['warning'] = '경피제·패치는 제형별 환산 근거가 없어 자동 환산하지 않습니다. 경구 용량으로 바꾸어 계산하지 마세요.'
@@ -388,7 +393,7 @@ def _frame(start, end, original):
     if product_note:
         frame.update({k: v for k, v in product_note.items() if k != 'calculation_note'})
         frame['calculation_note'] = '; '.join(filter(None, [product_note['calculation_note'], frame.get('calculation_note')]))
-    frame.update(status=status, status_message=(PRN_LABEL + ' (환산값 0)' if frame.get('prn_excluded') else exclusion_label(drug) + ' (환산값 0)')
+    frame.update(status=status, status_message=((STOP_LABEL if frame.get('stopped_excluded') else PRN_LABEL) + ' (환산값 0)' if frame.get('prn_excluded') else exclusion_label(drug) + ' (환산값 0)')
                  if status == 'non_target' and (drug in EXCLUDED_INGREDIENTS or frame.get('prn_excluded')) else LABELS[status])
     return frame
 

@@ -64,10 +64,11 @@ def export_results(audit_rows, error_rows, directory, summary_rows=None, patient
         prn = bool(row.get('prn_excluded'))
         excluded = row.get('status') == 'non_target' and (row.get('parsed') in INGREDIENTS or prn)
         if excluded and reason:
-            reason = '; '.join(filter(None, [item_exclusion_basis({'drug': row['parsed'], 'prn_excluded': prn}), reason]))
+            reason = '; '.join(filter(None, [item_exclusion_basis({'drug': row['parsed'], 'prn_excluded': prn,
+                                                                    'stopped_excluded': row.get('stopped_excluded')}), reason]))
         key = (row.get('sheet'), row.get('source_row'), row.get('medication_column'), row.get('original'))
         if reason and key not in existing:
-            reviews.append({**row, 'error': reason, **(review_fields(row['parsed'], prn) if excluded else {})})
+            reviews.append({**row, 'error': reason, **(review_fields(row['parsed'], prn, row.get('stopped_excluded')) if excluded else {})})
             existing.add(key)
     review_columns = ['patient', 'original'] + COLUMNS + ['recognized_drug', 'drug_group', 'calculation', 'equivalent_contribution', 'error', 'sheet', 'source_row', 'medication_column']
     with Workbook(output_file, {'constant_memory': True, 'strings_to_formulas': False, 'strings_to_urls': False}) as wb:

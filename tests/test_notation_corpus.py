@@ -31,3 +31,13 @@ def test_notation(text, expected):
     got = outcome(text)
     options = [o if o == H else sorted((d, float(v)) for d, v in o) for o in accepted(expected)]
     assert got in options
+
+
+@pytest.mark.parametrize('text', ['risperidone 2mg bid (중단)', 'risperidone 2mg d/c', 'Invega Sustenna 150mg 중단',
+                                  'olanzapine 10mg 복용 안 함', 'risperidone 2mg discontinued'])
+def test_stopped_orders_count_zero_like_prn(text):
+    # 2026-10-31 user decision: a stopped order contributes 0 like PRN (status e) and is labelled 중단 제외.
+    data = app.test_client().post('/api/parse', json={'text': text}).json
+    item = data['items'][0]
+    assert item['status'] == 'non_target' and item['stopped_excluded'] and '중단' in item['status_message']
+    assert data['cases'][0]['total'] == 0

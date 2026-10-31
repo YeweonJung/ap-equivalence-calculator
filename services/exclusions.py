@@ -28,6 +28,11 @@ EXCLUSION_NOTE = '병용약물 제외: 항정신병약 환산값 0 (실제 복�
 PRN_RE = re.compile(r'\b(?:prn|as\s+needed)\b|필요\s*시', re.I)
 PRN_LABEL = 'PRN 제외'
 PRN_BASIS = 'PRN(필요시) 처방 제외: 정규 일일 용량에 포함하지 않음 (항정신병약 환산값 0)'
+# Stopped orders are handled like PRN (user decision 2026-10-31): contribution 0, reported.
+# "d/c" can also mean discharge, so the basis asks for a check.
+STOP_RE = re.compile(r'(?<![a-z])(?:d/c|discontinued?|stopped)(?![a-z])|중단|중지|끊음|끊었|복용\s*안\s*함', re.I)
+STOP_LABEL = '중단 제외'
+STOP_BASIS = '중단 기록 제외: 현재 복용하지 않는 약으로 보고 정규 일일 용량에 포함하지 않음 (항정신병약 환산값 0; d/c가 퇴원이면 확인)'
 
 
 def is_excluded(item):
@@ -35,12 +40,16 @@ def is_excluded(item):
 
 
 def item_exclusion_label(item):
+    if item.get('stopped_excluded'):
+        return STOP_LABEL
     return PRN_LABEL if item.get('prn_excluded') else exclusion_label(item.get('drug'))
 
 
 def item_exclusion_basis(item):
     if item.get('unlisted'):
         return item.get('exclusion_basis') or exclusion_basis(item.get('drug'))
+    if item.get('stopped_excluded'):
+        return STOP_BASIS
     return PRN_BASIS if item.get('prn_excluded') else exclusion_basis(item.get('drug'))
 
 
@@ -56,9 +65,9 @@ def exclusion_basis(drug):
     return exclusion_label(drug) + ': 항정신병약 환산값 0 (실제 복용량이 아님)' + suffix
 
 
-def review_fields(drug, prn=False):
+def review_fields(drug, prn=False, stopped=False):
     """Informational Review entries must not set needs_review or block totals."""
     if prn:
-        return {'recognized_drug': drug, 'drug_group': PRN_LABEL, 'calculation': '배제 완료', 'equivalent_contribution': 0}
+        return {'recognized_drug': drug, 'drug_group': STOP_LABEL if stopped else PRN_LABEL, 'calculation': '배제 완료', 'equivalent_contribution': 0}
     return {'recognized_drug': drug, 'drug_group': CLASS_LABELS[CLASSES[drug]],
             'calculation': '배제 완료', 'equivalent_contribution': 0}
