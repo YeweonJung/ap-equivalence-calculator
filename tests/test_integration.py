@@ -75,8 +75,9 @@ def test_ambiguous_schedules_are_not_presented_as_certain():
 def test_multiple_doses_conflicting_frequencies_and_injections_are_rejected():
     text = "risperidone 1mg AM 2mg PM, risperidone 2mg BID TID, risperidone 25mg IM monthly"
     items = app.test_client().post("/api/parse", json={"text": text}).get_json()["items"]
-    assert all(item["ok"] is False for item in items)
-    assert "용량이 여러 개" in items[0]["error"]
+    # 2026-10-31: per-time doses (1mg AM 2mg PM) are summed with a review flag; the others stay rejected.
+    assert items[0]["daily_dose_mg"] == 3 and "시간대별 mg 합산" in items[0]["warning"]
+    assert all(item["ok"] is False for item in items[1:])
     assert "서로 다른 복용 빈도" in items[1]["error"]
     assert "주사제" in items[2]["error"]
 

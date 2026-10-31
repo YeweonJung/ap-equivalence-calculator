@@ -145,7 +145,7 @@ def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
         raise ValueError("약물 값이 비어 있습니다.")
-    if re.search(r'\d\s*[/⁄]\s*\d+\s*(?:tabs?|tablets?|caps?|capsules?|정|캡슐)|[½¼¾]', original, re.I):
+    if re.search(r'\d\s*[/⁄]\s*\d+\s*(?:t|tabs?|tablets?|caps?|capsules?|정|캡슐|알)(?![a-z])|[½¼¾]', original, re.I):
         raise ValueError('분수 정 수와 표시 mg의 의미가 불명확합니다. 1회 실제 mg과 빈도를 명시해 주세요.')
     if ORAL_CONCENTRATION_RE.search(original) or re.search(r'\bq\s*\d+\s*[-~–]\s*\d+\s*h|\d+\s*[-~–]\s*\d+\s*(?:mg|mcg|ug|g)\b', original, re.I):
         raise ValueError('농도 또는 범위 용량·간격은 단일 일일 용량으로 확정할 수 없습니다.')
@@ -176,9 +176,19 @@ def parse_medication(text):
         if not math.isfinite(quantity) or quantity <= 0:
             raise ValueError("정제/캡슐 수량은 0보다 커야 합니다.")
         dose_mg *= quantity
+    if re.search(r"(?:#|분)\s*[2-4](?![\d.])", original) and not quantity_match:
+        raise ValueError("분할 표기(#n·분n)만 있고 정 수가 없어 일일 용량을 확정할 수 없습니다.")
     if not math.isfinite(dose_mg) or dose_mg <= 0:
         raise ValueError("용량은 0보다 커야 합니다.")
 
+    if re.search(r"(?<![\d.])\d+(?:\.\d+)?\s*[-~]\s*\d+(?:\.\d+)?\s*(?:t|tabs?|tablets?|정|캡슐)(?![a-z])(?!\s*-)", original, re.I):
+        raise ValueError("정 수가 범위로 적혀 있어(예: 1-2T) 일일 용량을 확정할 수 없습니다.")
+    if re.search(r"→|->|=>|(?<=mg)에서|으로\s*(?:증량|감량|변경)", original):
+        raise ValueError("용량 변경 표기(→)가 있어 현재 용량을 확인해야 합니다.")
+    if re.search(r"주\s*[1-7]\s*(?:회|번)|(?<![a-z])(?:[1-6]\s*x|[1-6]\s*times?)\s*(?:a|per|/)\s*(?:week|wk)", original, re.I):
+        raise ValueError("주 단위 복용 횟수는 매일 복용 용량으로 자동 환산하지 않습니다.")
+    if re.search(r"(?<![a-z])(?:d/c|discontinued?|stopped)(?![a-z])|중단|중지|끊음|끊었|복용\s*안\s*함", original, re.I):
+        raise ValueError("중단 표기가 있어 현재 복용 여부를 확인해야 합니다(d/c는 퇴원일 수도 있음).")
     if re.search(r"\b(prn|as\s+needed|필요\s*시)\b", original, re.I):
         raise ValueError("PRN(필요시) 처방은 일일 용량을 확정할 수 없어 자동 환산하지 않습니다.")
     if re.search(
@@ -191,7 +201,8 @@ def parse_medication(text):
     frequency, frequency_per_day = "ASSUMED_QD", 1.0
     warning = "복용 빈도 없음: 1일 1회로 계산"
     frequency_matches = _frequency_matches(original)
-    distinct_frequencies = {label for label, _ in frequency_matches}
+    # QD with HS (or QAM) is one daily dose; only different daily counts conflict.
+    distinct_frequencies = {per_day for _, per_day in frequency_matches}
     if len(distinct_frequencies) > 1:
         raise ValueError("서로 다른 복용 빈도가 함께 있어 일일 용량을 확정할 수 없습니다.")
     if frequency_matches:

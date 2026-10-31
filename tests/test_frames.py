@@ -95,9 +95,10 @@ def test_excel_retains_all_statuses_and_numbered_groups():
     assert list(sheets) == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 
 
-def test_invalid_schedule_does_not_create_a_second_drug():
+def test_time_of_day_doses_stay_one_drug_and_are_summed():
+    # 2026-10-31 user request: read standard notations without AI; per-time doses are summed and flagged.
     result = items('risperidone 1mg AM 2mg PM')
-    assert len(result) == 1 and result[0]['status'] == 'review'
+    assert len(result) == 1 and result[0]['daily_dose_mg'] == 3 and result[0]['needs_review']
 
 
 def test_unbracketed_pp1m_and_annotation_do_not_change_drug_binding():

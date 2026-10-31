@@ -132,7 +132,9 @@ def _segments(text):
                     'po', 'ng', 'oral', 'im', 'iv', 'sc', 'intramuscular',
                     'subcutaneous', 'intravenous', 'injectable', 'transdermal', 'patch', 'patches'}:
                 continue
-            if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐'} and not any(a <= match.start() < b for a, b, _ in mentions):
+            if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐',
+                    '아침', '점심', '저녁', '취침', '취침전', '자기전', '자기', '전', 'noon', 'morning', 'evening', 'night', 'bedtime',
+                    'mane', 'nocte', 'x', '분', '알', 'total', '하루', '1일', '일', 'per', 'ml', 'cc', '주', '씩', '회'} and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
         starts = sorted(starts)
         if product_label:
@@ -158,6 +160,15 @@ def _frame(start, end, original):
     text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
+    from services.notation import normalize_notation
+    text, notation_notes = normalize_notation(text)
+    if notation_notes:
+        noted = _frame(start, end, text)
+        noted.update(original=original, source_start=start, source_end=end, needs_review=True)
+        basis = '; '.join(notation_notes)
+        noted['warning'] = '; '.join(filter(None, ['확인바람: ' + basis, noted['warning']]))
+        noted['calculation_note'] = '; '.join(filter(None, [basis, noted.get('calculation_note')]))
+        return noted
     if not DOSE_RE.search(text) and dictionary_match(text) not in EXCLUDED_INGREDIENTS:
         bare = re.search(r'[+-]?(?:\d+(?:\.\d+)?|\.\d+)', _outside(text))
         if bare:
@@ -294,8 +305,9 @@ def _frame(start, end, original):
             frame['warning'] = str(exc)
     if status == 'unknown_drug' and info['route'] != 'injection':
         from services.name_supplement import UNLISTED, drug_words, near_antipsychotic
-        if not near_antipsychotic(_outside(text)):
-            words = drug_words(_outside(text))
+        words = drug_words(_outside(text))
+        if not near_antipsychotic(_outside(text)) and (words or not DOSE_RE.search(text)):
+            # A nameless fragment that carries a dose ("+200mg") may be the previous drug's dose: held.
             basis = (f"사전 외 약물: {' '.join(words)} — 항정신병약 사전(전 언어 성분명·RxNorm·국내 급여목록)에 없고 "
                      "항정신병약 이름과도 비슷하지 않아 비항정신병약으로 보고 0으로 계산" if words else
                      '약물명이 없는 메모 조각으로 보고 0으로 계산')
@@ -364,7 +376,31 @@ def blank_id_cells(text):
     return '\n'.join(lines)
 
 
+_SAME_LENGTH = (
+    (re.compile(r'(?<=\d),(?=\d\s*(?:mg|㎎))', re.I), '.'),                     # 2,5mg decimal comma
+    (re.compile(r'(?<=아침|점심|저녁)\s*,\s*(?=아침|점심|저녁|취침|자기)'), None),  # 아침,저녁 is one schedule
+)
+
+
+def _same_length(text):
+    for pattern, replacement in _SAME_LENGTH:
+        text = pattern.sub(lambda m: replacement if replacement else ' ' * len(m.group()), text)
+    # Numbered list markers "1) risperidone … 2) olanzapine …" are not brackets.
+    text = re.sub(r'(?:^|(?<=\s))\d{1,2}\)(?=\s*[A-Za-z가-힣])', lambda m: ' ' * len(m.group()), text)
+    # 'per' is also a perphenazine alias: "4 mg per day" -> "4 mg/    day"
+    text = re.sub(r'(?<=mg)(\s+per)(?=\s+(?:day|d)\b)', lambda m: '/' + ' ' * (len(m.group(1)) - 1), text, flags=re.I)
+    # 1+0+1 is one a-b-c regimen, not three medications
+    text = re.sub(r'(?<![\d.])\d(?:\.\d+)?(?:\s*\+\s*\d(?:\.\d+)?){2,3}(?![\d.])(?!\s*(?:mg|㎎))',
+                  lambda m: m.group().replace('+', '-'), text)
+    return text
+
+
 def parse_frames(text):
+    if _same_length(str(text)) != str(text):
+        frames = parse_frames(_same_length(str(text)))
+        for frame in frames:
+            frame['original'] = str(text)[frame['source_start']:frame['source_end']]
+        return frames
     try:
         split_medication_spans(str(text))
     except ValueError:
