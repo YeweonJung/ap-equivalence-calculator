@@ -187,6 +187,9 @@ def parse_medication(text):
 
     if re.search(r"(?<![\d.])\d+(?:\.\d+)?\s*[-~]\s*\d+(?:\.\d+)?\s*(?:t|tabs?|tablets?|정|캡슐)(?![a-z])(?!\s*-)", original, re.I):
         raise ValueError("정 수가 범위로 적혀 있어(예: 1-2T) 일일 용량을 확정할 수 없습니다.")
+    if any(not re.search(r"[\-/]\s*$", original[:m.start()])
+           for m in re.finditer(r"(?<![\d.])\d(?:\.\d+)?\s*-\s*\d(?:\.\d+)?(?![\d.\-/])(?!\s*-)", original)):
+        raise ValueError("두 칸 표기(예: 1-1)는 아침-저녁 복용인지 범위인지 불명확해 일일 용량을 확정할 수 없습니다.")
     if re.search(r"→|->|=>|(?<=mg)에서|으로\s*(?:증량|감량|변경)", original):
         raise ValueError("용량 변경 표기(→)가 있어 현재 용량을 확인해야 합니다.")
     if re.search(r"주\s*[1-7]\s*(?:회|번)|(?<![a-z])(?:[1-6]\s*x|[1-6]\s*times?)\s*(?:a|per|/)\s*(?:week|wk)", original, re.I):

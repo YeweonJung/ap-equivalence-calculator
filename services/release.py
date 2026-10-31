@@ -3,7 +3,7 @@ import hashlib
 import os
 from pathlib import Path
 
-VERSION = '2026.10.31-stop-zero'
+VERSION = '2026.10.31-two-slot-hold'
 
 
 def metadata():

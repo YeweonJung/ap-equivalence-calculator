@@ -5,8 +5,8 @@ from services.name_supplement import ANTIPSYCHOTICS
 from tests.notation_corpus import CASES, H
 
 HOLDS = {'unknown_drug', 'review', 'missing_unit', 'unsupported_formulation', 'missing_factor'}
-# Two-slot "1-1" may be morning-evening or a range; it is calculated once daily with a frequency warning.
-KNOWN_OPEN = {'risperidone 2mg 1-1'}
+# 2026-10-31 user decision: two-slot "1-1" (morning-evening or a range?) is held.
+KNOWN_OPEN = set()
 
 
 def outcome(text):

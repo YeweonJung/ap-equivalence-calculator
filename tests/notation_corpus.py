@@ -47,7 +47,7 @@ CASES = [
  ('risperidone 2mg 0.5-0-1', [(R, 3)]), ('risperidone 2mg 1/0/1', [(R, 4)]), ('risperidone 2mg 1+0+1', [(R, 4)]),
  ('risperidone 2mg (1-0-1)', [(R, 4)]), ('risperidone 2mg 1–0–1', [(R, 4)]), ('risperidone 2mg 1 - 0 - 1', [(R, 4)]),
  ('risperidone 2mg ½-0-1', [(R, 3)]), ('risperidone 2mg 1-0-1 pc', [(R, 4)]), ('risperidone 2mg 1-0-1-0', [(R, 4)]),
- ('risperidone 2mg 1-1', [(R, 4), H]), ('risperidone 1-0-1', [(R, 2)]), ('risperidone2 1-0-1', [(R, 2)]),
+ ('risperidone 2mg 1-1', [H]), ('risperidone 2mg 0.5-1', [H]), ('olanzapine 5-10', [H]), ('risperidone 2mg (1-1)', [H]), ('risperidone 1-0-1', [(R, 2)]), ('risperidone2 1-0-1', [(R, 2)]),
  ('risperidone 2mg 1T-0-1T', [(R, 4)]), ('risperidone 2mg 1정-0-1정', [(R, 4)]), ('risperidone 2mg 아침1 저녁1', [(R, 4)]),
  ('risperidone 2mg 아침 1T 저녁 1T', [(R, 4)]), ('risperidone 2mg 아침 0.5T 저녁 1T', [(R, 3)]), ('risperidone 2mg 1-0-1 (아침-점심-저녁)', [(R, 4)]),
  ('risperidone 2mg 1x2', [(R, 4)]), ('risperidone 2mg 1T x 2', [(R, 4)]), ('risperidone 2mg 1Tx2', [(R, 4)]),
