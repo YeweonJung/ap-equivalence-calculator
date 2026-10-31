@@ -315,7 +315,67 @@ def _frame(start, end, original):
     return frame
 
 
+def _close_brackets(text):
+    """Unbalanced brackets: drop a stray closer, and close an open bracket at the end of the text.
+
+    A note in parentheses that was never closed ("Seroquel200mg(2009 본원 처방 …") then stays a
+    note instead of holding every medication in the cell. Offsets are kept (same length + suffix).
+    """
+    pairs = {')': '(', ']': '[', '}': '{', '）': '（'}
+    closers = {v: k for k, v in pairs.items()}
+    chars, stack = list(text), []
+    for index, char in enumerate(chars):
+        if char in closers:
+            stack.append(char)
+        elif char in pairs:
+            if stack and stack[-1] == pairs[char]:
+                stack.pop()
+            else:
+                chars[index] = ' '
+    fixed = ''.join(chars) + ''.join(closers[c] for c in reversed(stack))
+    return fixed if fixed != text else None
+
+
+_ID_CELL = re.compile(r'[A-Za-z가-힣#_.\-]{0,12}\d[\w.\-]{0,20}')
+_HEADER_WORDS = {'id', 'patient', 'patientid', 'patient_id', 'no', 'case', 'caseid', 'case_id', 'subject', '환자',
+                 '환자id', '환자번호', '등록번호', '연구번호', '번호', 'medication', 'medications', 'drug', 'drugs',
+                 'prescription', '약물', '약물처방', '처방', '약'}
+
+
+def blank_id_cells(text):
+    """Rows pasted from a spreadsheet ("P001<TAB>risperidone 2mg"): blank the ID cell and a header row.
+
+    Blanked with spaces, so source offsets still point into the original text. A first cell is an ID
+    only when it is one short token with a digit, no dose unit and no recognizable drug name.
+    """
+    from services.name_supplement import spelling_correction
+    lines = str(text).split('\n')
+    for index, line in enumerate(lines):
+        if '\t' not in line:
+            continue
+        cells = line.split('\t')
+        if all(re.sub(r'\s+', '', c).casefold() in _HEADER_WORDS | {''} for c in cells):
+            lines[index] = re.sub(r'[^\t]', ' ', line)
+            continue
+        first = cells[0].strip()
+        if (_ID_CELL.fullmatch(first) and not DOSE_RE.search(first) and not drug_mentions(first)
+                and not dictionary_match(first) and not spelling_correction(first)):
+            lines[index] = ' ' * len(cells[0]) + line[len(cells[0]):]
+    return '\n'.join(lines)
+
+
 def parse_frames(text):
+    try:
+        split_medication_spans(str(text))
+    except ValueError:
+        fixed = _close_brackets(str(text))
+        if fixed is not None:
+            frames = parse_frames(fixed)
+            for frame in frames:
+                frame['original'] = str(text)[frame['source_start']:frame['source_end']] or frame['original']
+                frame['needs_review'] = True
+                frame['warning'] = '; '.join(filter(None, ['확인바람: 괄호 짝이 맞지 않아 짝 없는 괄호를 원문 끝에서 닫은 것으로 보고 계산', frame.get('warning')]))
+            return frames
     try:
         shared_lai = bool(re.search(r'(?<![a-z])LAI\s*(?:둘\s*다|모두|both)(?![a-z])|(?:둘\s*다|모두|both)\s*LAI(?![a-z])', str(text), re.I))
         frames = []

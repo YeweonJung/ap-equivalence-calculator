@@ -74,7 +74,10 @@ def test_names_close_to_antipsychotics_stay_held(text):
 
 
 @pytest.mark.parametrize('text,drug,product', [('Qrokel 25mg', 'quetiapine', '큐로켈'), ('Slivan 1mg', 'lorazepam', '스리반'),
-                                               ('Indenol 40mg', 'propranolol', '인데놀')])
+                                               ('Indenol 40mg', 'propranolol', '인데놀'),
+                                               # Two Latin words for one product; 'proma' alone must not become promazine.
+                                               ('Young proma 5mg', 'procyclidine', '영프로마'),
+                                               ('youngproma 10mg', 'procyclidine', '영프로마')])
 def test_romanized_korean_product_names(text, drug, product):
     result = item(text)
     assert result['drug'] == drug and result['correction_kind'] == 'romanized_product' and product in result['warning']
@@ -93,3 +96,30 @@ def test_dictionary_build_never_uses_validation_data():
     supplement = json.loads((Path(__file__).resolve().parents[1] / 'lookup/name_supplement.json').read_text(encoding='utf-8'))
     assert not any('전북대' in e.get('seen_in', '') or '서울대' in e.get('seen_in', '') or '부산대' in e.get('seen_in', '')
                    for e in supplement['entries'])
+
+
+def test_unclosed_note_bracket_does_not_hold_the_cell():
+    data = app.test_client().post('/api/parse', json={'text': 'CPZ200mg,Seroquel200mg(2009 본원 처방(확인 안됨) 저녁 1회'}).json
+    assert [(i['drug'], i['daily_dose_mg']) for i in data['items']] == [('chlorpromazine', 200), ('quetiapine', 200)]
+    assert all('괄호 짝' in i['warning'] for i in data['items'])
+
+
+@pytest.mark.parametrize('text', ['P001\trisperidone 2mg bid', '환자ID\t약물\nP001\trisperidone 2mg bid', '12345\trisperidone 2mg bid'])
+def test_pasted_patient_id_cell_is_not_a_drug(text):
+    items = app.test_client().post('/api/parse', json={'text': text}).json['items']
+    assert [(i['drug'], i['daily_dose_mg']) for i in items] == [('risperidone', 4)]
+
+
+def test_drug_abbreviation_in_first_cell_is_kept():
+    assert item('olz10\tqd')['drug'] == 'olanzapine'
+
+
+def test_result_file_lists_unlisted_names():
+    import io
+    import pandas as pd
+    source = io.BytesIO()
+    pd.DataFrame({'환자ID': ['P1', 'P2', 'P2'], '약물': ['Zorbex 10mg', 'Zorbex 5mg', 'olanzapine 5mg']}).to_excel(source, index=False)
+    source.seek(0)
+    response = app.test_client().post('/upload', data={'file': (source, 'input.xlsx')}, content_type='multipart/form-data')
+    sheet = pd.read_excel(io.BytesIO(response.data), sheet_name='UnlistedNames')
+    assert sheet.iloc[0].tolist()[:3] == ['Zorbex', 2, 2]

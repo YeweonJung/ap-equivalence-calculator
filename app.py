@@ -17,7 +17,7 @@ from services.file_reader import read_file
 from services.medication_splitter import split_medications
 from services.parser import DOSE_RE, parse_medication
 from services.validator import validate_file
-from services.frames import parse_frames, convert_frame, summarize_frames
+from services.frames import parse_frames, convert_frame, summarize_frames, blank_id_cells
 from services.structured import structured_frames
 from services.result_summary import result_rows, METHOD_ORDER, patient_results
 
@@ -183,7 +183,7 @@ def parse_text():
             raise ValueError('연구용 AI 조건을 확인해 주세요.')
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
-    items = [convert_frame(frame, METHODS) for frame in parse_frames(text)]
+    items = [convert_frame(frame, METHODS) for frame in parse_frames(blank_id_cells(text))]
     study = None
     if study_mode is not None:
         from services.study_mode import annotate

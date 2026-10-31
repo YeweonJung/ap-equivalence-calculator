@@ -22,6 +22,29 @@ AUDIT_COLUMNS = [
 ]
 
 
+def unlisted_names(rows):
+    """Names counted as 0 only because no public source lists them, most frequent first."""
+    names = {}
+    for row in rows:
+        if not row.get('unlisted'):
+            continue
+        name = row.get('unlisted_name') or row.get('original') or ''
+        entry = names.setdefault(name.casefold(), {'name': name, 'count': 0, 'patients': set(), 'example': row.get('original')})
+        entry['count'] += 1
+        entry['patients'].add(row.get('patient'))
+    return [{'unlisted_name': e['name'], 'count': e['count'], 'patients': len(e['patients'] - {None, ''}),
+             'example': e['example'], 'check': ''}
+            for e in sorted(names.values(), key=lambda e: (-e['count'], e['name'].casefold()))]
+
+
+def write_unlisted(wb, rows):
+    names = unlisted_names(rows)
+    if names:
+        write_table(wb, 'UnlistedNames', ['unlisted_name', 'count', 'patients', 'example', 'check'], names,
+                    labels={'unlisted_name': '사전 외 이름 (0으로 계산, 표시 c)', 'count': '건수', 'patients': '환자 수',
+                            'example': '원문 예', 'check': '항정신병약이면 성분명 기입'})
+
+
 def export_results(audit_rows, error_rows, directory, summary_rows=None, patient_rows=None, patient_checks=None, base_method=None):
     output_file = Path(directory) / 'result.xlsx'
     audit_rows = [decorate({**r, 'calculation_limited': r.get('needs_review', False)}) for r in audit_rows]
@@ -53,6 +76,7 @@ def export_results(audit_rows, error_rows, directory, summary_rows=None, patient
         add_xlsxwriter(wb, *patient_overview(display_rows, audit_rows, patient_checks or []), dated=False)
         write_table(wb, 'MedicationResults', columns, medications, labels=HEADERS)
         write_table(wb, 'Review', review_columns, reviews, labels={**HEADERS, 'patient': '환자 ID', 'original': '원문 약물', 'recognized_drug': '인식 성분', 'drug_group': '약물 분류', 'calculation': '계산 처리', 'equivalent_contribution': '항정신병약 환산 기여값', 'error': '확인할 내용', 'sheet': '원본 시트', 'source_row': '원본 행', 'medication_column': '원본 열'})
+        write_unlisted(wb, audit_rows)
         # Preserve information-only records without a medication frame (e.g. a
         # missing ID or unrecognized sheet columns) outside the Review queue.
         audit_keys = {(r.get('sheet'), r.get('source_row'), r.get('medication_column'), r.get('original')) for r in audit_rows}

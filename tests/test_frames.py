@@ -26,10 +26,11 @@ def test_annotations_remain_attached_and_offsets_are_original():
 
 
 @pytest.mark.parametrize('text', ['ris 2mg (경구', 'ris 2mg 경구)', 'ris 2mg ([)]'])
-def test_unbalanced_annotations_remain_reviewable(text):
+def test_unbalanced_annotations_are_closed_and_flagged(text):
+    # 2026-10-31 user decision: an unclosed note no longer holds the cell; it is calculated and flagged.
     result = items(text)
-    assert len(result) == 1 and result[0]['status'] == 'review'
-    assert result[0]['original'] == text
+    assert len(result) == 1 and result[0]['drug'] == 'risperidone' and result[0]['needs_review']
+    assert '괄호 짝' in result[0]['warning'] and result[0]['original'] in text
 
 
 def test_drug_dose_binding_and_unknown_neighbors():

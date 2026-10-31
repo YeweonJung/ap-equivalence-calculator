@@ -121,6 +121,8 @@ def latin_key(word):
     w = re.sub(r'c(?=[eiy])', 's', w)  # soft c before the silent final e is removed
     w = re.sub(r'e$', '', w) if len(w) > 4 else w
     w = re.sub(r'^x', 'j', w)
+    w = re.sub(r'y(?:e?o|ou)(?=ng)', 'o', w)  # young/yeong/yong = 영/용 (ㅕ·ㅛ keyed as o)
+    w = re.sub(r'(?<![aeiou])y(?=[aeiou])', '', w)  # y-glide: the Hangul key drops it too (ㅑ = a, ㅠ = u)
     w = re.sub(r'qu(?=[aeiouy])', 'k', w)  # qu + vowel = /k(w)/ (seroquel); qu + consonant and bare q = 큐 (qurokel, qrokel)
     w = w.replace('qu', 'ku').replace('q', 'ku')
     for a, b in (('ph', 'p'), ('th', 't'), ('ck', 'k'), ('x', 'ks'), ('ee', 'i'),
@@ -219,6 +221,13 @@ def spelling_correction(text):
     """
     latin, hangul, sound = _pool()
     name = re.split(r'[+-]?(?:\d|\.\d)', text, maxsplit=1)[0]
+    # A product name written as two Latin words (Young proma = 영프로마) is matched as one word
+    # first, so the second word alone is not expanded to a different ingredient (proma → promazine).
+    for pair in re.finditer(r'(?<![^\W\d_])(?=([A-Za-z]{2,})\s+([A-Za-z]{2,})(?![^\W\d_]))', name):
+        hit = _sound(pair.group(1) + pair.group(2), sound)
+        if hit:
+            raw = name[pair.start(1):pair.end(2)]
+            return (pair.start(1), pair.end(2), raw) + hit + ('romanized_product',)
     found = []
     for word in re.finditer(r'[^\W\d_]{2,}', name):
         raw = word.group()
