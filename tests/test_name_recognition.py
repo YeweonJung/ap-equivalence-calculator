@@ -123,3 +123,15 @@ def test_result_file_lists_unlisted_names():
     response = app.test_client().post('/upload', data={'file': (source, 'input.xlsx')}, content_type='multipart/form-data')
     sheet = pd.read_excel(io.BytesIO(response.data), sheet_name='UnlistedNames')
     assert sheet.iloc[0].tolist()[:3] == ['Zorbex', 2, 2]
+
+
+def test_header_word_inside_first_data_row_does_not_replace_the_header():
+    # "본원 처방" in the first prescription once made that row the header: the patient and all IDs were lost.
+    import io
+    import pandas as pd
+    source = io.BytesIO()
+    pd.DataFrame({'환자ID': ['A1', 'A2'], '약물': ['Seroquel 200mg (본원 처방)', 'olanzapine 5mg']}).to_excel(source, index=False)
+    source.seek(0)
+    response = app.test_client().post('/upload', data={'file': (source, 'input.xlsx')}, content_type='multipart/form-data')
+    totals = pd.read_excel(io.BytesIO(response.data), sheet_name='보완합계')
+    assert totals.iloc[:, 0].tolist() == ['A1', 'A2']

@@ -3,7 +3,7 @@ import io
 import pandas as pd
 from zipfile import BadZipFile
 
-from services.column_detector import MEDICATION_KEYWORDS
+from services.column_detector import MEDICATION_KEYWORDS, DOSE_VALUE_RE
 
 MAX_SHEETS = 5
 
@@ -37,8 +37,10 @@ def _header_score(frame):
         return -1
     columns = [str(column).casefold().strip() for column in frame.columns]
     named = sum(not column.startswith("unnamed:") for column in columns) / len(columns)
-    keyword = sum(any(word in column for word in MEDICATION_KEYWORDS) for column in columns)
-    return named + keyword * 3
+    # A cell with a dose ("Seroquel200mg (본원 처방)") is a data row, even when it contains a header word.
+    data = [bool(DOSE_VALUE_RE.search(column)) for column in columns]
+    keyword = sum(any(word in column for word in MEDICATION_KEYWORDS) and not dose for column, dose in zip(columns, data))
+    return named + keyword * 3 - sum(data) * 3
 
 
 def _read_excel_sheet(filepath, sheet):
