@@ -45,6 +45,26 @@ def _abbreviations(text):
     return text
 
 
+ZH_NUM = {'一': 1, '二': 2, '两': 2, '兩': 2, '三': 3, '四': 4, '1': 1, '2': 2, '3': 3, '4': 4}
+AR_TIMES = (('أربع مرات', 4), ('اربع مرات', 4), ('ثلاث مرات', 3), ('مرتين', 2), ('مرتان', 2),
+            ('مرة واحدة', 1), ('مرة', 1))
+
+
+def _world_frequency(text):
+    # Chinese 每日2次 / 一日两次 / 每天三次; French 2 fois par jour / x2/j; Arabic مرتين يوميا / 3 مرات في اليوم.
+    text = re.sub(r'(?:每日|每天|一日|一天|日)\s*([一二两兩三四1-4])\s*次',
+                  lambda m: ' ' + FREQ_WORD[ZH_NUM[m.group(1)]] + ' ', text)
+    text = re.sub(r'(?<![\d.])([1-4]|une|deux|trois|quatre)\s*fois\s*(?:par|/)\s*(?:jour|j)(?![a-z])',
+                  lambda m: ' ' + FREQ_WORD[{'une': 1, 'deux': 2, 'trois': 3, 'quatre': 4}.get(m.group(1).lower(), 0) or int(m.group(1))] + ' ',
+                  text, flags=re.I)
+    text = re.sub(r'(?<![\w.])x\s*([1-4])\s*/\s*(?:jour|j)(?![a-z])', lambda m: ' ' + FREQ_WORD[int(m.group(1))] + ' ', text, flags=re.I)
+    daily = r'\s*(?:يوميا|يومياً|يوميًا|في اليوم|باليوم)'
+    text = re.sub(r'(?<![\d.])([1-4])\s*مرات' + daily, lambda m: ' ' + FREQ_WORD[int(m.group(1))] + ' ', text)
+    for word, n in AR_TIMES:
+        text = re.sub(re.escape(word) + daily, ' ' + FREQ_WORD[n] + ' ', text)
+    return text
+
+
 def _korean_frequency(text):
     # 하루 2번, 하루두번, 일 2회, 1일2회, 2회/일, 하루 한 번
     text = re.sub(r'(?:하루|1일|일)\s*(한|두|세|네|[1-4])\s*(?:번|회)', lambda m: ' ' + FREQ_WORD[KO_NUM[m.group(1)]] + ' ', text)
@@ -155,6 +175,7 @@ def normalize_notation(text):
     text = re.sub(r'(?<=\d),(?=\d\s*mg)', '.', text, flags=re.I)  # 2,5mg (thousands are removed earlier)
     text = _abbreviations(text)
     text = _korean_frequency(text)
+    text = _world_frequency(text)
     text = _fractions(text)
     text, solution_notes = _solution(text)
     text = _times_multiplier(text)

@@ -165,7 +165,8 @@ def antidepressant_conflict(text, drug):
 
 def formulation_info(text):
     from services.lai_support import PRODUCT_RE
-    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|inj|intramuscular|intravenous|subcutaneous|im|iv|sc|palmitate|decanoate|enanthate|pamoate|lauroxil)(?![a-z0-9])|주사|데포|' + PRODUCT_RE, text, re.I)
+    injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|inj|intramuscular|intravenous|subcutaneous|im|iv|sc|palmitate|decanoate|enanthate|pamoate|lauroxil|injectable|retard)(?![a-z0-9])|주사|데포|'
+                          r'注射|筋注|静注|皮下注|水懸|持続性|シリンジ|注(?=\s*\d|用)|针剂|肌注|حقن|إبرة|' + PRODUCT_RE, text, re.I)
     transdermal = re.search(r'\b(?:transdermal|patch(?:es)?)\b|경피|패치|첩부', text, re.I)
     interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
@@ -219,6 +220,9 @@ def _segments(text):
 _REGIMEN_RE = re.compile(r'(?<![\d.])([0-9](?:\.(?:25|5|75))?(?:\s*-\s*[0-9](?:\.(?:25|5|75))?){2,3})(?![\d.])')
 
 
+_DIGITS = str.maketrans({**{chr(0x660 + i): str(i) for i in range(10)}, **{chr(0x6F0 + i): str(i) for i in range(10)}, '٫': '.'})
+
+
 def _frame(start, end, original):
     from services.korean_products import normalize_product
     normalized_product, product_note = normalize_product(original)
@@ -226,6 +230,11 @@ def _frame(start, end, original):
     text = re.sub(r'(?<=\d),(?=\d{3}(?:,\d{3})*(?:\s*(?:mg|㎎)\b))', '', text)
     # Explicit spellings only; ambiguous units never undergo automatic fuzzy conversion.
     text = re.sub(r'(?<=\d)\s*(?:밀리그램|milligrams?|mgs)\b', 'mg', text, flags=re.I)
+    # Arabic-Indic / Persian digits and Chinese, Japanese, French, Arabic spellings of mg (explicit words only).
+    text = text.translate(_DIGITS)
+    text = re.sub(r'(?<=\d)\s*(?:毫克|ミリグラム|milligrammes?|مل+ي?غرام|مل+ي?جرام|ملغم|ملغ|ملجم|مجم|مغ)(?![^\W\d_a-z])', 'mg', text, flags=re.I)
+    from services.lai_mass import fill_volume_strength
+    text = fill_volume_strength(text)
     from services.notation import normalize_notation
     text, notation_notes = normalize_notation(text)
     if notation_notes:

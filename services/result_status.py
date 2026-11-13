@@ -8,6 +8,7 @@ LEGEND = (
     ('c', '정보부족', '용량·단위·빈도·주사 간격·ID 등 정보가 부족하거나 가정이 포함됨'),
     ('d', '중복·일정 불확실', '중복 의심 또는 처방 일정이 불확실함'),
     ('e', '환산대상 아님', '확인된 비대상 약물로 항정신병약 환산 기여값은 0'),
+    ('h', '고용량 주사 확인', '제품 최고 함량(또는 최대 유지용량) 주사제: 계산은 했으나 처방 기록 확인 필요'),
     ('x', '오류 · 검토필요', '성분·함량·단위 충돌, 잘못된 숫자·날짜 등 입력 오류'),
 )
 LABELS = {code: label for code, label, _ in LEGEND}
@@ -85,6 +86,8 @@ def classify(row, issues=()):
         codes.add('a')
     if 'unsupported_route' in flags or (status == 'unsupported_formulation' and any(s in text for s in UNSUPPORTED_TEXT)):
         codes.add('a')
+    if row.get('high_dose_injection'):
+        codes.add('h')
     if flags & {'duplicate_candidate', 'same_day_multiple_orders', 'overlapping_orders'}:
         codes.add('d')
     if flags & (UNCERTAIN - {'injection_requires_review'}) or status == 'missing_unit' or row.get('unit_assumed') or row.get('frequency') == 'ASSUMED_QD' or row.get('interval_assumed') or row.get('spelling_correction') or row.get('regimen_mg_assumed') or row.get('unlisted'):

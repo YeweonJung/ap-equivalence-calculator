@@ -10,6 +10,25 @@ OLZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AH03'
 DEPOT_DDD = {'paliperidone': 2.5, 'aripiprazole': 13.3, 'risperidone': 2.7, 'olanzapine': 10, 'haloperidol': 3.3}
 HAL_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AD01'
 SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AX&showdescription=yes'
+# Highest labelled maintenance strength per product (active moiety mg per injection, 2026-11-13 user rule):
+# such injections are still calculated but flagged for a record check.
+HIGH_DOSE = {'PP1M': 150, 'PP3M': 525, 'PP6M': 1000, 'ARI_1M': 400, 'ARI_2M': 960, 'ARI_LAUROXIL': 724,
+             'RIS_MICROSPHERES': 50, 'RIS_RYKINDO': 50, 'RIS_PERSERIS': 120, 'RIS_LONGAVO': 125, 'RIS_UZEDY': 250, 'RIS_UZEDY_1M': 125, 'RIS_UZEDY_2M': 250,
+             'RIS_ISM': 100, 'RIS_RISVAN': 100, 'OLZ_PAMOATE': 405, 'HAL_DECANOATE': 300}
+
+
+def high_dose(profile, dose, days, oral):
+    from services.lai_support import RIS_SC_ORAL, OLZ_ORAL
+    if profile in HIGH_DOSE and dose >= HIGH_DOSE[profile]:
+        return True
+    # Same maximum oral correspondence reached with a shorter interval (Uzedy 125 mg q1m, olanzapine 300 mg q2w,
+    # Aristada 882 mg q4w).
+    top = {**{k: max(v.values()) for k, v in RIS_SC_ORAL.items()}, 'OLZ_PAMOATE': max(OLZ_ORAL.values())}
+    if oral is not None and profile in top and oral >= top[profile]:
+        return True
+    return profile == 'ARI_LAUROXIL' and dose >= 600 and days <= 30
+
+
 INTERVAL_TOKEN_RE = re.compile(r'\bq\s*\d|\d\s*(?:개월|주|일\s*(?:마다|간격))|\bevery\s+\d|\b(?:monthly|weekly)\b|매월|매주', re.I)
 CPZ_SOURCE = 'https://atcddd.fhi.no/atc_ddd_index/?code=N05AA01'
 
@@ -39,7 +58,7 @@ def injection_values(frame):
     profile = profile_for(text, drug, dose)
     if drug == 'haloperidol' and re.search(r'ester|염\s*질량|에스터', text, re.I):
         raise ValueError('확인바람: haloperidol base 표시량으로 입력해 주세요. 에스터 질량을 역산하지 않습니다.')
-    is_sc = profile in ('RIS_UZEDY', 'RIS_PERSERIS', 'RIS_LONGAVO')
+    is_sc = profile in ('RIS_UZEDY', 'RIS_UZEDY_1M', 'RIS_UZEDY_2M', 'RIS_PERSERIS', 'RIS_LONGAVO')
     if re.search(r'\b(?:oral|tablet|capsule|PO)\b|경구|정제|캡슐', text, re.I):
         raise ValueError('확인바람: 주사 제품명과 경구 투여 표기가 충돌합니다.')
     if re.search(r'\bIV\b|intravenous|정맥', text, re.I):
@@ -92,8 +111,11 @@ def injection_values(frame):
             warning += '; 2개월 이후 유지요법 기준'
     else:
         warning += '; 단일 경구 대응용량 근거 없음: DDD 외 빈칸'
+    high = high_dose(bridge['lai_profile'] or profile, dose, days, bridge['oral_equivalent_mg'])
+    if high:
+        warning += '; 확인 필요: 제품 최고 함량(최대 유지용량) 주사제라 처방 기록을 확인해 주세요 (계산은 함)'
     daily = dose / days
-    return dict(interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, interval_assumed='가정' in interval_note, **mass,
+    return dict(high_dose_injection=high, interval_days=days, daily_dose_mg=daily, injection_volume_ml=volume_ml, interval_assumed='가정' in interval_note, **mass,
                 injection_cpz_ddd=daily / DEPOT_DDD[drug] * 300,
                 conversion_basis='WHO depot DDD', conversion_source=OLZ_SOURCE if drug == 'olanzapine' else HAL_SOURCE if drug == 'haloperidol' else SOURCE, **bridge,
                 calculation_note=warning, warning='', needs_review=False)

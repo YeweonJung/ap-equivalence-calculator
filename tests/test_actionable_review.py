@@ -29,7 +29,7 @@ def test_information_codes_stay_outside_review_in_every_sheet(text, code):
         row = records(wb, sheet)[0]
         assert code in row['상태코드'].split(';'), (sheet, row)
         assert row['검토필요'] == 'no'
-    assert len(records(wb, '코드안내')) == 7
+    assert len(records(wb, '코드안내')) == 8
 
 
 def test_partial_method_coverage_preserves_nulls_and_numbers():

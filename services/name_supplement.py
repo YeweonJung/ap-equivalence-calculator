@@ -36,7 +36,10 @@ with open(ROOT / 'lookup/drug_alias.csv', encoding='utf-8-sig') as _f:
              for r in csv.DictReader(_f)}
 with open(ROOT / 'lookup/master_lookup.csv', encoding='utf-8-sig') as _f:
     FACTOR_DRUGS = {r['source_drug'] for r in csv.DictReader(_f)}
-ANTIPSYCHOTICS = FACTOR_DRUGS | set(EXTERNAL['antipsychotics_without_factor'])
+_world_path = ROOT / 'lookup/world_names.json'
+WORLD = json.loads(_world_path.read_text(encoding='utf-8')) if _world_path.exists() else {}
+# KEGG antipsychotic class members the app has no factor for (perospirone, nemonapride, ...) are held, never 0.
+ANTIPSYCHOTICS = FACTOR_DRUGS | set(EXTERNAL['antipsychotics_without_factor']) | set(WORLD.get('antipsychotics_not_in_app', {}))
 OTHER_CLASSES = {k: v for k, v in EXTERNAL['ingredient_class'].items() if k not in ANTIPSYCHOTICS}
 
 AP_ALIASES, OTHER_ALIASES, SOURCES = {}, {}, {}
@@ -67,11 +70,61 @@ for _name in OTHER_CLASSES:
     if re.fullmatch(r'[a-z][a-z \-]+', _name):
         _add(_name, _name, 'Wikidata ATC / KHIDI 주성분명')
 for _alias, _target in EXTERNAL['multilingual'].items():
+    # Wikidata aliases occasionally attach one antipsychotic's brand to another ('haldol decanoate' -> pimozide).
+    if _target in ANTIPSYCHOTICS and any(_CORE.get(w, _target) != _target and _CORE.get(w) in ANTIPSYCHOTICS
+                                         for w in re.findall(r'[a-z]{4,}', _alias)):
+        continue
     _add(_alias, _target, 'Wikidata 다국어 표기')
 for _alias, _target in EXTERNAL['brands'].items():
     _add(_alias, _target, 'RxNorm 상품명')
+# Worldwide generic and product names (ko/en/ja/zh/fr/ar) from public drug databases; added after the
+# sources above so an existing alias always keeps its earlier meaning.
+_GENERIC_SOURCES = ('Wikidata', 'KEGG', 'RxNorm')
+# Names known before the worldwide lists; a worldwide alias may not contradict them word by word
+# (Wikidata gives 'haldol decanoate' -> pimozide; 'haldol' is haloperidol).
+_KNOWN = {**_CORE, **OTHER_ALIASES, **AP_ALIASES}
+
+
+def _world_alias_ok(alias, target, source):
+    latin = not re.search(r'[^\x00-ɏ]', alias)
+    if latin:
+        letters = len(re.sub(r'[^a-z]', '', alias))
+        # Register product names (TFDA, SFDA, HK, DPD, BDPM, EMA, MHLW) include abbreviations and short
+        # words (t.d.s, ester, levo, ulcus) that would split or misread prescriptions.
+        if '.' in alias or (letters < 6 and not source.startswith(_GENERIC_SOURCES)):
+            return False
+        # Latin antipsychotic aliases: 6+ letters and no code digits, whatever the source.
+        if target in ANTIPSYCHOTICS and (re.search(r'\d', alias) or letters < 6):
+            return False
+        # A product name that is just the ingredient cut short (quetia, sulpi) stays with the flagged
+        # spelling correction instead of becoming a silent exact match.
+        if target in ANTIPSYCHOTICS and (target.startswith(alias) or _OSA.distance(alias, target) <= 2):
+            return False
+    for word in re.findall(r'[^\W\d_]{4,}', alias):
+        known = _KNOWN.get(word)
+        if known and known != target and (known in ANTIPSYCHOTICS or target in ANTIPSYCHOTICS):
+            return False
+    return True
+
+
+WORLD_ADDED = set()
+for _target, _class in WORLD.get('ingredient_class', {}).items():
+    if _target not in ANTIPSYCHOTICS:
+        OTHER_CLASSES.setdefault(_target, _class)
+for _alias, _target in WORLD.get('aliases', {}).items():
+    _source = WORLD.get('alias_source', {}).get(_alias, '공개 의약품 데이터베이스')
+    # General-medicine products from national registers are left out: they only ever count 0, and
+    # 100k+ extra names would slow every prescription. Their generic names (Wikidata/KEGG/RxNorm) stay.
+    if (_target not in ANTIPSYCHOTICS and WORLD.get('ingredient_class', {}).get(_target, 'other_non_antipsychotic') == 'other_non_antipsychotic'
+            and not _source.startswith(_GENERIC_SOURCES)):
+        continue
+    if _world_alias_ok(unicodedata.normalize('NFKC', _alias).casefold().strip(), _target, _source):
+        _before = len(AP_ALIASES) + len(OTHER_ALIASES)
+        _add(_alias, _target, _source)
+        if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
+            WORLD_ADDED.add(unicodedata.normalize('NFKC', _alias).casefold().strip())
 PRODUCTS = {k: v for k, v in EXTERNAL['korean_products'].items() if v and re.search('[a-z]', v)}
-AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', []))
+AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', [])) | frozenset(WORLD.get('antipsychotic_combinations', {}))
 for _target in set(PRODUCTS.values()) - ANTIPSYCHOTICS:
     OTHER_CLASSES.setdefault(_target, 'other_non_antipsychotic')
     if _target not in OTHER_ALIASES and _target not in _CORE:
@@ -151,7 +204,7 @@ def _pool():
         from services.lai_support import PRODUCTS as LAI_PRODUCTS
         latin, hangul, sound = {}, {}, defaultdict(set)
         for alias, drug in alias_map.items():
-            if re.fullmatch('[a-z]{5,}', alias) and (alias == drug or alias in BRANDS or alias in SOURCES or alias in LAI_PRODUCTS):
+            if re.fullmatch('[a-z]{5,}', alias) and (alias == drug or alias in BRANDS or (alias in SOURCES and alias not in WORLD_ADDED) or alias in LAI_PRODUCTS):
                 latin[alias] = (alias, drug)
             elif re.fullmatch('[가-힣]{3,}', alias):
                 hangul[jamo(FORM_SUFFIX.sub('', alias))] = (alias, drug)
@@ -271,9 +324,11 @@ def _ap_words():
     global _AP_WORDS
     if _AP_WORDS is None:
         from services.parser import alias_map
-        latin = sorted({fold(a) for a, d in alias_map.items() if d in ANTIPSYCHOTICS and re.fullmatch('[a-z]{3,}', fold(a))})
+        # Worldwide product names are matched exactly only; using them for "close to an antipsychotic"
+        # would hold many unrelated unknown names (Bigson ~ a foreign brand).
+        latin = sorted({fold(a) for a, d in alias_map.items() if d in ANTIPSYCHOTICS and a not in WORLD_ADDED and re.fullmatch('[a-z]{3,}', fold(a))})
         hangul = sorted({jamo(FORM_SUFFIX.sub('', a)) for a, d in alias_map.items()
-                         if d in ANTIPSYCHOTICS and re.fullmatch('[가-힣]{2,}', a)} |
+                         if d in ANTIPSYCHOTICS and a not in WORLD_ADDED and re.fullmatch('[가-힣]{2,}', a)} |
                         {jamo(s) for s, d in PRODUCTS.items() if d in ANTIPSYCHOTICS and re.fullmatch('[가-힣]{2,}', s)})
         _AP_WORDS = latin, hangul
     return _AP_WORDS

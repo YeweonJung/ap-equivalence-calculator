@@ -25,7 +25,13 @@ RIS_SC_ORAL = {
     'RIS_UZEDY': {(50, 30): 2, (75, 30): 3, (100, 30): 4, (125, 30): 5,
                   (100, 60): 2, (150, 60): 3, (200, 60): 4, (250, 60): 5},
     'RIS_PERSERIS': {(90, 30): 3, (120, 30): 4},
+    # Korean UZEDY products are split by interval: 원엠 (monthly) and 투엠 (every 2 months).
+    'RIS_UZEDY_1M': {(50, 30): 2, (75, 30): 3, (100, 30): 4, (125, 30): 5},
+    'RIS_UZEDY_2M': {(150, 60): 3, (200, 60): 4, (250, 60): 5},
 }
+LABELS['RIS_UZEDY_1M'] = LABELS['RIS_UZEDY_2M'] = LABELS['RIS_UZEDY']
+# Products whose name fixes the maintenance interval (days accepted, days used when none is written).
+PRODUCT_INTERVAL = {'RIS_UZEDY_1M': ((28, 30, 31), 30), 'RIS_UZEDY_2M': ((56, 60, 61, 62), 60), 'ARI_2M': ((56, 60), 56)}
 PRODUCTS = {'xeplion': ('paliperidone', 'PP1M'), 'trevicta': ('paliperidone', 'PP3M'),
             'byannli': ('paliperidone', 'PP6M'), 'zypadhera': ('olanzapine', 'OLZ_PAMOATE'),
             'okedi': ('risperidone', 'RIS_ISM'), 'maintena': ('aripiprazole', 'ARI_1M')}
@@ -142,6 +148,13 @@ def interval_days(text, profile):
             raise ValueError('확인바람: 주사 투여간격이 PP 제형과 맞지 않습니다.')
         if not intervals:
             intervals.append((months, 'month'))
+    elif profile in PRODUCT_INTERVAL:
+        accepted, default = PRODUCT_INTERVAL[profile]
+        if any((56 if profile == 'ARI_2M' and n == 2 and u == 'month' else n * {'day': 1, 'week': 7, 'month': 30}[u]) not in accepted
+               for n, u in intervals):
+            raise ValueError('확인바람: 주사 투여간격이 제품 간격과 맞지 않습니다.')
+        if not intervals:
+            intervals.append((default, 'day'))
     elif profile == 'RIS_ISM':
         intervals.append((28, 'day'))
     assumed = profile == 'ARI_1M' and not intervals

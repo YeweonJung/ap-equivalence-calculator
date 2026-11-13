@@ -22,7 +22,11 @@ def normalize_product(text):
     if not match:
         return text, {}
     record = ALIASES[match.group().casefold()]
-    return record['normalized'] + normalized[match.end():], {
+    rest = normalized[match.end():]
+    if record.get('dose_mg'):
+        # The product name already fixes the strength; the same strength written again is not a second dose.
+        rest = re.sub(r'(?<![\d.])' + re.escape(f"{record['dose_mg']:g}") + r'(?:\.0+)?\s*(?:mg|㎎)(?![a-z])', ' ', rest, count=1, flags=re.I)
+    return record['normalized'] + rest, {
         'recognized_product': record['name'],
         'product_name_source': CATALOG['source'],
         'product_name_checked_on': CATALOG['checked_on'],
