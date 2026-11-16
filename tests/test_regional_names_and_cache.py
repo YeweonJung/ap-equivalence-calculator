@@ -28,7 +28,7 @@ def test_compact_keys_never_reduce_to_digits():
     ('康尔汀 8mg tid', 'perospirone', 7.5),
     ('perospirone 16mg tid', 'perospirone', 15.0),
     ('timiperone 3mg bid', 'timiperone', 11.5385),
-    ('cariprazine 3mg qd', 'cariprazine', 10.0),
+    ('cariprazine 3mg qd', 'cariprazine', 6.0),  # Leucht 2020 ED95 (2.0 mg olanzapine per mg)
 ])
 def test_regional_names_and_inada_factors(text, drug, total):
     result = case(text)
