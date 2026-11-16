@@ -25,131 +25,142 @@ from pathlib import Path
 from rapidfuzz.distance import OSA as _OSA
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG = json.loads((ROOT / 'lookup/name_supplement.json').read_text(encoding='utf-8'))
-_external_path = ROOT / 'lookup/external_names.json'
-EXTERNAL = json.loads(_external_path.read_text(encoding='utf-8')) if _external_path.exists() else {
-    'multilingual': {}, 'brands': {}, 'korean_products': {}, 'ingredient_class': {}, 'antipsychotics_without_factor': []}
-CLASS_LABELS = CATALOG['classes']
+from services import table_cache as _table_cache
 
-with open(ROOT / 'lookup/drug_alias.csv', encoding='utf-8-sig') as _f:
-    _CORE = {unicodedata.normalize('NFKC', r['alias']).casefold().strip(): r['standard_name'].casefold().strip()
-             for r in csv.DictReader(_f)}
-with open(ROOT / 'lookup/master_lookup.csv', encoding='utf-8-sig') as _f:
-    FACTOR_DRUGS = {r['source_drug'] for r in csv.DictReader(_f)}
-_world_path = ROOT / 'lookup/world_names.json'
-WORLD = json.loads(_world_path.read_text(encoding='utf-8')) if _world_path.exists() else {}
-# KEGG antipsychotic class members the app has no factor for (perospirone, nemonapride, ...) are held, never 0.
-ANTIPSYCHOTICS = FACTOR_DRUGS | set(EXTERNAL['antipsychotics_without_factor']) | set(WORLD.get('antipsychotics_not_in_app', {}))
-OTHER_CLASSES = {k: v for k, v in EXTERNAL['ingredient_class'].items() if k not in ANTIPSYCHOTICS}
+# Inputs of the tables below; the tables are rebuilt whenever one of them (or this file) changes.
+_TABLE_INPUTS = [ROOT / f for f in ('lookup/name_supplement.json', 'lookup/external_names.json', 'lookup/drug_alias.csv',
+                                     'lookup/master_lookup.csv', 'lookup/world_names.json', 'lookup/regional_brand_names.json',
+                                     'services/name_supplement.py')]
+_TABLES, _TABLE_KEY = _table_cache.load('name_supplement', _TABLE_INPUTS)
+if _TABLES is not None:
+    globals().update(_TABLES)
+else:
+    CATALOG = json.loads((ROOT / 'lookup/name_supplement.json').read_text(encoding='utf-8'))
+    _external_path = ROOT / 'lookup/external_names.json'
+    EXTERNAL = json.loads(_external_path.read_text(encoding='utf-8')) if _external_path.exists() else {
+        'multilingual': {}, 'brands': {}, 'korean_products': {}, 'ingredient_class': {}, 'antipsychotics_without_factor': []}
+    CLASS_LABELS = CATALOG['classes']
 
-AP_ALIASES, OTHER_ALIASES, SOURCES = {}, {}, {}
+    with open(ROOT / 'lookup/drug_alias.csv', encoding='utf-8-sig') as _f:
+        _CORE = {unicodedata.normalize('NFKC', r['alias']).casefold().strip(): r['standard_name'].casefold().strip()
+                 for r in csv.DictReader(_f)}
+    with open(ROOT / 'lookup/master_lookup.csv', encoding='utf-8-sig') as _f:
+        FACTOR_DRUGS = {r['source_drug'] for r in csv.DictReader(_f)}
+    _world_path = ROOT / 'lookup/world_names.json'
+    WORLD = json.loads(_world_path.read_text(encoding='utf-8')) if _world_path.exists() else {}
+    # KEGG antipsychotic class members the app has no factor for (perospirone, nemonapride, ...) are held, never 0.
+    ANTIPSYCHOTICS = FACTOR_DRUGS | set(EXTERNAL['antipsychotics_without_factor']) | set(WORLD.get('antipsychotics_not_in_app', {}))
+    OTHER_CLASSES = {k: v for k, v in EXTERNAL['ingredient_class'].items() if k not in ANTIPSYCHOTICS}
 
-
-def _add(alias, target, source):
-    alias = unicodedata.normalize('NFKC', alias).casefold().strip()
-    if not target or len(re.findall(r'[^\W\d_]', alias)) < 2 or (alias in _CORE and _CORE[alias] != target) or alias in AP_ALIASES or alias in OTHER_ALIASES:
-        return
-    if not re.search(r'[^\x00-ɏ]', alias) and len(alias) < 4:
-        return  # short Latin labels (codes, abbreviations) are too ambiguous
-    if target in ANTIPSYCHOTICS:
-        AP_ALIASES[alias] = target
-    else:
-        OTHER_ALIASES[alias] = target
-        OTHER_CLASSES.setdefault(target, 'other_non_antipsychotic')
-    SOURCES[alias] = source
+    AP_ALIASES, OTHER_ALIASES, SOURCES = {}, {}, {}
 
 
-for _entry in CATALOG['entries']:
-    for _alias in _entry['alias']:
-        _add(_alias, _entry['ingredient'], _entry['source'])
-        if _entry['class'] != 'antipsychotic':
-            OTHER_CLASSES[_entry['ingredient']] = _entry['class']
-# Ingredients outside the core alias table, including ones whose only factor is a supplement table
-# (INADA: perospirone, timiperone), are exact names, never spelling-corrected into a neighbour.
-for _name in ANTIPSYCHOTICS - set(_CORE.values()):
-    _add(_name, _name, 'Wikidata ATC N05A')
-for _name in OTHER_CLASSES:
-    if re.fullmatch(r'[a-z][a-z \-]+', _name):
-        _add(_name, _name, 'Wikidata ATC / KHIDI 주성분명')
-for _alias, _target in EXTERNAL['multilingual'].items():
-    # Wikidata aliases occasionally attach one antipsychotic's brand to another ('haldol decanoate' -> pimozide).
-    if _target in ANTIPSYCHOTICS and any(_CORE.get(w, _target) != _target and _CORE.get(w) in ANTIPSYCHOTICS
-                                         for w in re.findall(r'[a-z]{4,}', _alias)):
-        continue
-    _add(_alias, _target, 'Wikidata 다국어 표기')
-for _alias, _target in EXTERNAL['brands'].items():
-    _add(_alias, _target, 'RxNorm 상품명')
-# Worldwide generic and product names (ko/en/ja/zh/fr/ar) from public drug databases; added after the
-# sources above so an existing alias always keeps its earlier meaning.
-_GENERIC_SOURCES = ('Wikidata', 'KEGG', 'RxNorm')
-# Names known before the worldwide lists; a worldwide alias may not contradict them word by word
-# (Wikidata gives 'haldol decanoate' -> pimozide; 'haldol' is haloperidol).
-_KNOWN = {**_CORE, **OTHER_ALIASES, **AP_ALIASES}
-
-
-def _world_alias_ok(alias, target, source):
-    latin = not re.search(r'[^\x00-ɏ]', alias)
-    if latin:
-        letters = len(re.sub(r'[^a-z]', '', alias))
-        # Register product names (TFDA, SFDA, HK, DPD, BDPM, EMA, MHLW) include abbreviations and short
-        # words (t.d.s, ester, levo, ulcus) that would split or misread prescriptions.
-        if '.' in alias or (letters < 6 and not source.startswith(_GENERIC_SOURCES)):
-            return False
-        # Latin antipsychotic aliases: 6+ letters and no code digits, whatever the source.
-        if target in ANTIPSYCHOTICS and (re.search(r'\d', alias) or letters < 6):
-            return False
-        # A product name that is just the ingredient cut short (quetia, sulpi) stays with the flagged
-        # spelling correction instead of becoming a silent exact match.
-        if target in ANTIPSYCHOTICS and (target.startswith(alias) or _OSA.distance(alias, target) <= 2):
-            return False
-    for word in re.findall(r'[^\W\d_]{4,}', alias):
-        known = _KNOWN.get(word)
-        if known and known != target and (known in ANTIPSYCHOTICS or target in ANTIPSYCHOTICS):
-            return False
-    return True
-
-
-WORLD_ADDED = set()
-# Mainland-China and Arab-market brand names checked one by one on public web pages (each entry keeps
-# its page). Exact matches only, like the other worldwide names; combinations are held for review.
-_regional_path = ROOT / 'lookup/regional_brand_names.json'
-REGIONAL = json.loads(_regional_path.read_text(encoding='utf-8'))['entries'] if _regional_path.exists() else []
-REGIONAL_COMBINATIONS = set()
-for _entry in REGIONAL:
-    _alias = unicodedata.normalize('NFKC', _entry['name']).casefold().strip()
-    if _entry.get('combination'):
-        # Flupentixol+melitracen (Deanxit) follows the existing 'deanxit' entry; other combinations are held.
-        if sorted(_entry['combination']) == ['flupentixol', 'melitracen']:
-            _add(_alias, OTHER_ALIASES.get('deanxit', 'melitracen'), _entry['source_url'])
+    def _add(alias, target, source):
+        alias = unicodedata.normalize('NFKC', alias).casefold().strip()
+        if not target or len(re.findall(r'[^\W\d_]', alias)) < 2 or (alias in _CORE and _CORE[alias] != target) or alias in AP_ALIASES or alias in OTHER_ALIASES:
+            return
+        if not re.search(r'[^\x00-ɏ]', alias) and len(alias) < 4:
+            return  # short Latin labels (codes, abbreviations) are too ambiguous
+        if target in ANTIPSYCHOTICS:
+            AP_ALIASES[alias] = target
         else:
-            REGIONAL_COMBINATIONS.add(_alias)
-        continue
-    if _world_alias_ok(_alias, _entry['ingredient'], 'regional'):
-        _before = len(AP_ALIASES) + len(OTHER_ALIASES)
-        _add(_alias, _entry['ingredient'], _entry['source_url'])
-        if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
-            WORLD_ADDED.add(_alias)
-for _target, _class in WORLD.get('ingredient_class', {}).items():
-    if _target not in ANTIPSYCHOTICS:
-        OTHER_CLASSES.setdefault(_target, _class)
-for _alias, _target in WORLD.get('aliases', {}).items():
-    _source = WORLD.get('alias_source', {}).get(_alias, '공개 의약품 데이터베이스')
-    # General-medicine products from national registers are left out: they only ever count 0, and
-    # 100k+ extra names would slow every prescription. Their generic names (Wikidata/KEGG/RxNorm) stay.
-    if (_target not in ANTIPSYCHOTICS and WORLD.get('ingredient_class', {}).get(_target, 'other_non_antipsychotic') == 'other_non_antipsychotic'
-            and not _source.startswith(_GENERIC_SOURCES)):
-        continue
-    if _world_alias_ok(unicodedata.normalize('NFKC', _alias).casefold().strip(), _target, _source):
-        _before = len(AP_ALIASES) + len(OTHER_ALIASES)
-        _add(_alias, _target, _source)
-        if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
-            WORLD_ADDED.add(unicodedata.normalize('NFKC', _alias).casefold().strip())
-PRODUCTS = {k: v for k, v in EXTERNAL['korean_products'].items() if v and re.search('[a-z]', v)}
-AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', [])) | frozenset(WORLD.get('antipsychotic_combinations', {})) | frozenset(REGIONAL_COMBINATIONS)
-for _target in set(PRODUCTS.values()) - ANTIPSYCHOTICS:
-    OTHER_CLASSES.setdefault(_target, 'other_non_antipsychotic')
-    if _target not in OTHER_ALIASES and _target not in _CORE:
-        OTHER_ALIASES[_target] = _target
+            OTHER_ALIASES[alias] = target
+            OTHER_CLASSES.setdefault(target, 'other_non_antipsychotic')
+        SOURCES[alias] = source
+
+
+    for _entry in CATALOG['entries']:
+        for _alias in _entry['alias']:
+            _add(_alias, _entry['ingredient'], _entry['source'])
+            if _entry['class'] != 'antipsychotic':
+                OTHER_CLASSES[_entry['ingredient']] = _entry['class']
+    # Ingredients outside the core alias table, including ones whose only factor is a supplement table
+    # (INADA: perospirone, timiperone), are exact names, never spelling-corrected into a neighbour.
+    for _name in ANTIPSYCHOTICS - set(_CORE.values()):
+        _add(_name, _name, 'Wikidata ATC N05A')
+    for _name in OTHER_CLASSES:
+        if re.fullmatch(r'[a-z][a-z \-]+', _name):
+            _add(_name, _name, 'Wikidata ATC / KHIDI 주성분명')
+    for _alias, _target in EXTERNAL['multilingual'].items():
+        # Wikidata aliases occasionally attach one antipsychotic's brand to another ('haldol decanoate' -> pimozide).
+        if _target in ANTIPSYCHOTICS and any(_CORE.get(w, _target) != _target and _CORE.get(w) in ANTIPSYCHOTICS
+                                             for w in re.findall(r'[a-z]{4,}', _alias)):
+            continue
+        _add(_alias, _target, 'Wikidata 다국어 표기')
+    for _alias, _target in EXTERNAL['brands'].items():
+        _add(_alias, _target, 'RxNorm 상품명')
+    # Worldwide generic and product names (ko/en/ja/zh/fr/ar) from public drug databases; added after the
+    # sources above so an existing alias always keeps its earlier meaning.
+    _GENERIC_SOURCES = ('Wikidata', 'KEGG', 'RxNorm')
+    # Names known before the worldwide lists; a worldwide alias may not contradict them word by word
+    # (Wikidata gives 'haldol decanoate' -> pimozide; 'haldol' is haloperidol).
+    _KNOWN = {**_CORE, **OTHER_ALIASES, **AP_ALIASES}
+
+
+    def _world_alias_ok(alias, target, source):
+        latin = not re.search(r'[^\x00-ɏ]', alias)
+        if latin:
+            letters = len(re.sub(r'[^a-z]', '', alias))
+            # Register product names (TFDA, SFDA, HK, DPD, BDPM, EMA, MHLW) include abbreviations and short
+            # words (t.d.s, ester, levo, ulcus) that would split or misread prescriptions.
+            if '.' in alias or (letters < 6 and not source.startswith(_GENERIC_SOURCES)):
+                return False
+            # Latin antipsychotic aliases: 6+ letters and no code digits, whatever the source.
+            if target in ANTIPSYCHOTICS and (re.search(r'\d', alias) or letters < 6):
+                return False
+            # A product name that is just the ingredient cut short (quetia, sulpi) stays with the flagged
+            # spelling correction instead of becoming a silent exact match.
+            if target in ANTIPSYCHOTICS and (target.startswith(alias) or _OSA.distance(alias, target) <= 2):
+                return False
+        for word in re.findall(r'[^\W\d_]{4,}', alias):
+            known = _KNOWN.get(word)
+            if known and known != target and (known in ANTIPSYCHOTICS or target in ANTIPSYCHOTICS):
+                return False
+        return True
+
+
+    WORLD_ADDED = set()
+    # Mainland-China and Arab-market brand names checked one by one on public web pages (each entry keeps
+    # its page). Exact matches only, like the other worldwide names; combinations are held for review.
+    _regional_path = ROOT / 'lookup/regional_brand_names.json'
+    REGIONAL = json.loads(_regional_path.read_text(encoding='utf-8'))['entries'] if _regional_path.exists() else []
+    REGIONAL_COMBINATIONS = set()
+    for _entry in REGIONAL:
+        _alias = unicodedata.normalize('NFKC', _entry['name']).casefold().strip()
+        if _entry.get('combination'):
+            # Flupentixol+melitracen (Deanxit) follows the existing 'deanxit' entry; other combinations are held.
+            if sorted(_entry['combination']) == ['flupentixol', 'melitracen']:
+                _add(_alias, OTHER_ALIASES.get('deanxit', 'melitracen'), _entry['source_url'])
+            else:
+                REGIONAL_COMBINATIONS.add(_alias)
+            continue
+        if _world_alias_ok(_alias, _entry['ingredient'], 'regional'):
+            _before = len(AP_ALIASES) + len(OTHER_ALIASES)
+            _add(_alias, _entry['ingredient'], _entry['source_url'])
+            if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
+                WORLD_ADDED.add(_alias)
+    for _target, _class in WORLD.get('ingredient_class', {}).items():
+        if _target not in ANTIPSYCHOTICS:
+            OTHER_CLASSES.setdefault(_target, _class)
+    for _alias, _target in WORLD.get('aliases', {}).items():
+        _source = WORLD.get('alias_source', {}).get(_alias, '공개 의약품 데이터베이스')
+        # General-medicine products from national registers are left out: they only ever count 0, and
+        # 100k+ extra names would slow every prescription. Their generic names (Wikidata/KEGG/RxNorm) stay.
+        if (_target not in ANTIPSYCHOTICS and WORLD.get('ingredient_class', {}).get(_target, 'other_non_antipsychotic') == 'other_non_antipsychotic'
+                and not _source.startswith(_GENERIC_SOURCES)):
+            continue
+        if _world_alias_ok(unicodedata.normalize('NFKC', _alias).casefold().strip(), _target, _source):
+            _before = len(AP_ALIASES) + len(OTHER_ALIASES)
+            _add(_alias, _target, _source)
+            if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
+                WORLD_ADDED.add(unicodedata.normalize('NFKC', _alias).casefold().strip())
+    PRODUCTS = {k: v for k, v in EXTERNAL['korean_products'].items() if v and re.search('[a-z]', v)}
+    AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', [])) | frozenset(WORLD.get('antipsychotic_combinations', {})) | frozenset(REGIONAL_COMBINATIONS)
+    for _target in set(PRODUCTS.values()) - ANTIPSYCHOTICS:
+        OTHER_CLASSES.setdefault(_target, 'other_non_antipsychotic')
+        if _target not in OTHER_ALIASES and _target not in _CORE:
+            OTHER_ALIASES[_target] = _target
+    _table_cache.save('name_supplement', _TABLE_KEY, {_k: globals()[_k] for _k in ('CATALOG', 'CLASS_LABELS', 'FACTOR_DRUGS', 'ANTIPSYCHOTICS', 'OTHER_CLASSES', 'AP_ALIASES', 'OTHER_ALIASES', 'SOURCES', 'WORLD_ADDED', 'REGIONAL', 'PRODUCTS', 'AP_COMBINATIONS', '_CORE')})
 
 
 def fold(value):

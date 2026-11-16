@@ -168,7 +168,10 @@ def formulation_info(text):
     injection = re.search(r'(?<![a-z])(?:pp[136]m|lai|depot|injection|injectable|inj|intramuscular|intravenous|subcutaneous|im|iv|sc|palmitate|decanoate|enanthate|pamoate|lauroxil|injectable|retard)(?![a-z0-9])|주사|데포|'
                           r'注射|筋注|静注|皮下注|水懸|持続性|シリンジ|注(?=\s*\d|用)|针剂|肌注|حقن|إبرة|' + PRODUCT_RE, text, re.I)
     transdermal = re.search(r'\b(?:transdermal|patch(?:es)?)\b|경피|패치|첩부', text, re.I)
-    interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월', text, re.I)
+    interval = re.search(r'\b(?:pp[136]m|monthly|weekly|q\d+\s*(?:w|wk|weeks?|mo|months?)|every\s+\d+\s*(?:weeks?|months?))\b|매주|매월|'
+                         r'(?:每|毎)\s*\d+\s*(?:周|週|个月|ヶ月|か月|カ月)|\d+\s*(?:周|週間?|个月|ヶ月|か月|カ月)\s*(?:1\s*次|一次|に\s*1\s*回|1\s*回|ごと)|'
+                         r'كل\s*(?:أسبوعين|اسبوعين|شهرين)|كل\s*\d+\s*(?:أسابيع|اسابيع|أسبوع|اسبوع|أشهر|اشهر|شهور)|\btoutes\s+les\s+\d+\s+semaines\b|\btous\s+les\s+\d+\s+mois\b|'
+                         r'每月|毎月|(?<![ヶかカ个0-9\s])月\s*(?:1|一)\s*(?:回|次)|(?<![ヶかカ个0-9\s])月に\s*1\s*回|كل\s*شهر(?!ين)|شهري(?:ا|ًا)?|\bmensuel(?:le)?\b|\bpar\s+mois\b|每周|每週|毎週|週\s*(?:1|一)\s*回|كل\s*(?:أسبوع|اسبوع)(?!ين)|أسبوعي(?:ا|ًا)?|\bhebdomadaire\b|\bpar\s+semaine\b', text, re.I)
     form = re.search(r'\b(?:pp[136]m|lai|depot|xr|er|sr|ir|tablet|capsule)\b|서방정|서방|정제|캡슐', text, re.I)
     return {'route': 'transdermal' if transdermal else 'injection' if injection else 'oral',
             'formulation': 'TRANSDERMAL' if transdermal else form.group().upper() if form else ('INJECTION' if injection else 'ORAL'),
@@ -467,6 +470,9 @@ def _same_length(text):
         text = pattern.sub(lambda m: replacement if replacement else ' ' * len(m.group()), text)
     # Numbered list markers "1) risperidone … 2) olanzapine …" are not brackets.
     text = re.sub(r'(?:^|(?<=\s))\d{1,2}\)(?=\s*[A-Za-z가-힣])', lambda m: ' ' * len(m.group()), text)
+    # French intervals ('toutes les 4 semaines') would otherwise split off 'les' as a second drug.
+    text = re.sub(r'\b(?:toutes|tous)\s+les\s+(\d+)\s+(semaines|mois)\b',
+                  lambda m: f"q{m[1]}{'w' if m[2] == 'semaines' else 'mo'}".rjust(len(m.group())), text, flags=re.I)
     # 'per' is also a perphenazine alias: "4 mg per day" -> "4 mg/    day"
     text = re.sub(r'(?<=mg)(\s+per)(?=\s+(?:day|d)\b)', lambda m: '/' + ' ' * (len(m.group(1)) - 1), text, flags=re.I)
     # 1+0+1 is one a-b-c regimen, not three medications

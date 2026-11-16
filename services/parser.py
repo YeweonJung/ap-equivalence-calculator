@@ -95,12 +95,20 @@ def _frequency_matches(text):
 def _normalized_text(value):
     """Unicode, case and decorative punctuation normalization for stable matching."""
     value = unicodedata.normalize("NFKC", str(value)).casefold()
-    value = re.sub(r"[_·•‧/\\|:;,+()[\]{}'\"`~!@#$%^&*=<>?-]+", " ", value)
-    return re.sub(r"\s+", " ", value).strip()
+    value = _PUNCT_RE.sub(" ", value)
+    return _SPACE_RE.sub(" ", value).strip()
+
+
+_PUNCT_RE = re.compile(r"[_·•‧/\\|:;,+()[\]{}'\"`~!@#$%^&*=<>?-]+")
+_SPACE_RE = re.compile(r"\s+")
+_NOT_COMPACT_RE = re.compile(r"[^a-z0-9가-힣]+")
+_COMPACT_RE = re.compile(r"[a-z0-9가-힣]+")
+_LETTER_RE = re.compile(r"[^\W\d_]")
+_KEY_LETTER_RE = re.compile(r"[a-z가-힣]")
 
 
 def _compact(value):
-    return re.sub(r"[^a-z0-9가-힣]+", "", _normalized_text(value))
+    return _NOT_COMPACT_RE.sub("", _normalized_text(value))
 
 
 @lru_cache(maxsize=None)
@@ -117,13 +125,18 @@ ALIAS_ORDER = sorted(alias_map, key=len, reverse=True)
 def _compact_key(alias):
     """Compact form for spacing-insensitive matching, or '' when stripping other scripts would leave a
     meaningless key ('降脂1号树脂' -> '1', which then matched any Arabic or Chinese text with a 1)."""
-    key = _compact(alias)
-    letters = len(re.findall(r"[a-z가-힣]", key))
-    dropped = re.search(r"[^\W\d_]", re.sub(r"[a-z0-9가-힣]+", "", _normalized_text(alias)))
+    normalized = _normalized_text(alias)
+    key = _NOT_COMPACT_RE.sub("", normalized)
+    letters = len(_KEY_LETTER_RE.findall(key))
+    dropped = _LETTER_RE.search(_COMPACT_RE.sub("", normalized))
     return key if letters and (not dropped or letters >= 4) else ''
 
 
-COMPACT_ALIAS_MAP = {_compact_key(alias): standard for alias, standard in alias_map.items() if _compact_key(alias)}
+COMPACT_ALIAS_MAP = {}
+for _alias, _standard in alias_map.items():
+    _key = _compact_key(_alias)
+    if _key:
+        COMPACT_ALIAS_MAP[_key] = _standard
 
 
 def _drug_only_text(text):

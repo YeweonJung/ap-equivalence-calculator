@@ -131,15 +131,24 @@ def interval_days(text, profile):
                           (number + r'\s*일\s*(?:마다|간격)', 'day'),
                           (r'\bevery\s+' + number + r'\s+days?\b', 'day'),
                           (r'\bevery\s+' + number + r'\s+weeks?\b', 'week'),
-                          (r'\bevery\s+' + number + r'\s+months?\b', 'month')]:
+                          (r'\bevery\s+' + number + r'\s+months?\b', 'month'),
+                          # Chinese / Japanese / Arabic / French interval words (每4周, 4週に1回, كل 4 أسابيع, toutes les 4 semaines).
+                          (r'(?:每|毎)\s*' + number + r'\s*(?:周|週)', 'week'), (number + r'\s*(?:周|週間?)\s*(?:1\s*次|一次|に\s*1\s*回|1\s*回|ごと|毎)', 'week'),
+                          (r'(?:每|毎)\s*' + number + r'\s*(?:个月|ヶ月|か月|カ月)', 'month'), (number + r'\s*(?:个月|ヶ月|か月|カ月)\s*(?:1\s*次|一次|に\s*1\s*回|1\s*回|ごと|毎)', 'month'),
+                          (r'كل\s*' + number + r'\s*(?:أسابيع|اسابيع|أسبوع|اسبوع)', 'week'), (r'كل\s*' + number + r'\s*(?:أشهر|اشهر|شهور)', 'month'),
+                          (r'كل\s*(?:أسبوعين|اسبوعين)()', 'week2'), (r'كل\s*شهرين()', 'month2'),
+                          (r'\btoutes\s+les\s+' + number + r'\s+semaines\b', 'week'), (r'\btous\s+les\s+' + number + r'\s+mois\b', 'month')]:
         for match in re.finditer(pattern, text, re.I):
+            if unit in ('week2', 'month2'):  # Arabic dual: every two weeks / months
+                intervals.append((2, unit[:-1]))
+                continue
             value = float(match[1])
             if not value.is_integer() or value <= 0:
                 raise ValueError('확인바람: 소수·음수·0 투여간격은 자동 환산하지 않습니다.')
             intervals.append((int(value), unit))
-    if re.search(r'\bmonthly\b|매월', text, re.I):
+    if re.search(r'\bmonthly\b|매월|每月|毎月|(?<![ヶかカ个0-9\s])月\s*(?:1|一)\s*(?:回|次)|(?<![ヶかカ个0-9\s])月に\s*1\s*回|كل\s*شهر(?!ين)|شهري(?:ا|ًا)?|\bmensuel(?:le)?\b|\bpar\s+mois\b', text, re.I):
         intervals.append((1, 'month'))
-    if re.search(r'\bweekly\b|매주', text, re.I):
+    if re.search(r'\bweekly\b|매주|每周|每週|毎週|週\s*(?:1|一)\s*回|كل\s*(?:أسبوع|اسبوع)(?!ين)|أسبوعي(?:ا|ًا)?|\bhebdomadaire\b|\bpar\s+semaine\b', text, re.I):
         intervals.append((1, 'week'))
     if profile.startswith('PP'):
         # PP1M/3M/6M label intervals; an explicit 4-week multiple (q4w=28d) or month count is the same regimen.

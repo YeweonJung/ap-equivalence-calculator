@@ -683,7 +683,8 @@
    "كلوبيكسول ديبوت",
    "كلوبيكسول متخزن",
    "الباكلوبكس ديبو",
-   "elbaclopex depo"
+   "elbaclopex depo",
+   "كلوبيكسول مخزن"
   ],
   "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A",
   "checked_on": "2026-11-16",
@@ -746,7 +747,10 @@
   "drug": "flupentixol",
   "profile": "FLUPENTIXOL_DEPOT_REVIEW",
   "aliases": [
-   "فلونكسول ديبو"
+   "فلونكسول ديبو",
+   "فلونكسول مخزن",
+   "fluvixal",
+   "فلوفيكسال"
   ],
   "source": "https://dwaprices.com/med.php?id=4974",
   "checked_on": "2026-11-16",
@@ -758,7 +762,8 @@
   "drug": "risperidone",
   "profile": "RIS_RYKINDO",
   "aliases": [
-   "瑞欣妥"
+   "瑞欣妥",
+   "瑞可妥"
   ],
   "source": "https://skl.luye.cn/news.php?nid=174",
   "checked_on": "2026-11-16",
@@ -770,7 +775,8 @@
   "drug": "paliperidone",
   "profile": "PP1M",
   "aliases": [
-   "善思达"
+   "善思达",
+   "瑞百莱"
   ],
   "source": "https://ypk.39.net/2007128/",
   "checked_on": "2026-11-16",
@@ -833,6 +839,80 @@
    "尼蒙舒"
   ],
   "source": "https://ypk.39.net/732562/",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: risperidone RIS_RYXIDAL_REVIEW (Arabic market)",
+  "drug": "risperidone",
+  "profile": "RIS_RYXIDAL_REVIEW",
+  "aliases": [
+   "ryxidal",
+   "ريكسيدال"
+  ],
+  "source": "https://www.sfda.gov.sa/en/drugs-list?ScientificName=RISPERIDONE&page=1",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: aripiprazole ARI_1M (Arabic market)",
+  "drug": "aripiprazole",
+  "profile": "ARI_1M",
+  "aliases": [
+   "أبیلیفاي مینتینا"
+  ],
+  "source": "https://www.sfda.gov.sa/ar/drugs-list?scientificName=ARIPIPRAZOLE",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: aripiprazole ARI_2M (Arabic market)",
+  "drug": "aripiprazole",
+  "profile": "ARI_2M",
+  "aliases": [
+   "ابيليفاي اسمتفاي"
+  ],
+  "source": "https://www.sfda.gov.sa/ar/drugs-list?scientificName=ARIPIPRAZOLE&page=1",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PP6M (Arabic market)",
+  "drug": "paliperidone",
+  "profile": "PP6M",
+  "aliases": [
+   "بيانلي"
+  ],
+  "source": "https://www.sfda.gov.sa/ar/drugs-list?scientificName=PALIPERIDONE",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PAL_INVERIS_REVIEW (Arabic market)",
+  "drug": "paliperidone",
+  "profile": "PAL_INVERIS_REVIEW",
+  "aliases": [
+   "inveris",
+   "انفيريس"
+  ],
+  "source": "https://www.sfda.gov.sa/en/drugs-list?ScientificName=PALIPERIDONE",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PAL_QILU_REVIEW (mainland China)",
+  "drug": "paliperidone",
+  "profile": "PAL_QILU_REVIEW",
+  "aliases": [
+   "醒必达"
+  ],
+  "source": "https://www.qilu-pharma.com/products_details/76.html",
   "checked_on": "2026-11-16",
   "policy": "review",
   "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
