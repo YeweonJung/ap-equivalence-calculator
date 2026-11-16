@@ -623,5 +623,218 @@
   "checked_on": "2026-11-13",
   "policy": "supported",
   "note": "캐나다 할로페리돌 데카노에이트(할로페리돌 기준 50/100mg/mL)"
+ },
+ {
+  "product": "Regional: fluphenazine FLUPHENAZINE_DEC_REVIEW (Arabic market)",
+  "drug": "fluphenazine",
+  "profile": "FLUPHENAZINE_DEC_REVIEW",
+  "aliases": [
+   "موديكات",
+   "أنتانزول ديكونات",
+   "anatensol decanoate",
+   "فلوفينازين ديكانويت",
+   "فلوفينازين ديكانوات",
+   "موديكيت"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: haloperidol HAL_DECANOATE (Arabic market)",
+  "drug": "haloperidol",
+  "profile": "HAL_DECANOATE",
+  "aliases": [
+   "هالدول ديكانويس",
+   "haldol decanoas",
+   "هالدول ديكانوس",
+   "هاليدول ديكانوز",
+   "هالوبرول ديكانواس",
+   "haloprol decanoas",
+   "هالوبيريدول ريتارد",
+   "haloperidol retard"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: zuclopenthixol ZUC_ACETATE_REVIEW (Arabic market)",
+  "drug": "zuclopenthixol",
+  "profile": "ZUC_ACETATE_REVIEW",
+  "aliases": [
+   "كلوبيكسول اكوفيس",
+   "كلوبيكسول - اكيوفاز",
+   "كلوبيكسول أكوافيز",
+   "كلوبيكسول اكيوفيز"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: zuclopenthixol ZUC_DECANOATE_REVIEW (Arabic market)",
+  "drug": "zuclopenthixol",
+  "profile": "ZUC_DECANOATE_REVIEW",
+  "aliases": [
+   "كلوبيكسول ديبوت",
+   "كلوبيكسول متخزن",
+   "الباكلوبكس ديبو",
+   "elbaclopex depo"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: risperidone RIS_MICROSPHERES (Arabic market)",
+  "drug": "risperidone",
+  "profile": "RIS_MICROSPHERES",
+  "aliases": [
+   "ريسبردال كونستا"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PP1M (Arabic market)",
+  "drug": "paliperidone",
+  "profile": "PP1M",
+  "aliases": [
+   "انفيجا سستينا",
+   "انفيجا سوستينا"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PP3M (Arabic market)",
+  "drug": "paliperidone",
+  "profile": "PP3M",
+  "aliases": [
+   "تريفيكتا",
+   "تريفكتا"
+  ],
+  "source": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: olanzapine OLZ_PAMOATE (Arabic market)",
+  "drug": "olanzapine",
+  "profile": "OLZ_PAMOATE",
+  "aliases": [
+   "زيبادهيرا",
+   "زبادهيرا"
+  ],
+  "source": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: flupentixol FLUPENTIXOL_DEPOT_REVIEW (Arabic market)",
+  "drug": "flupentixol",
+  "profile": "FLUPENTIXOL_DEPOT_REVIEW",
+  "aliases": [
+   "فلونكسول ديبو"
+  ],
+  "source": "https://dwaprices.com/med.php?id=4974",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: risperidone RIS_RYKINDO (mainland China)",
+  "drug": "risperidone",
+  "profile": "RIS_RYKINDO",
+  "aliases": [
+   "瑞欣妥"
+  ],
+  "source": "https://skl.luye.cn/news.php?nid=174",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PP1M (mainland China)",
+  "drug": "paliperidone",
+  "profile": "PP1M",
+  "aliases": [
+   "善思达"
+  ],
+  "source": "https://ypk.39.net/2007128/",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PP3M (mainland China)",
+  "drug": "paliperidone",
+  "profile": "PP3M",
+  "aliases": [
+   "善妥达"
+  ],
+  "source": "https://www.pharnexcloud.com/data/lcsy_34e8d762489f9bec4e245002d5e2ec4e.html",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: paliperidone PAL_LUYE_REVIEW (mainland China)",
+  "drug": "paliperidone",
+  "profile": "PAL_LUYE_REVIEW",
+  "aliases": [
+   "美比瑞"
+  ],
+  "source": "https://skl.luye.cn/news.php?nid=174",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: aripiprazole ARI_LIVZON_REVIEW (mainland China)",
+  "drug": "aripiprazole",
+  "profile": "ARI_LIVZON_REVIEW",
+  "aliases": [
+   "阿丽唯"
+  ],
+  "source": "https://www.sohu.com/a/894356433_135869",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: haloperidol HAL_DECANOATE (mainland China)",
+  "drug": "haloperidol",
+  "profile": "HAL_DECANOATE",
+  "aliases": [
+   "哈力多"
+  ],
+  "source": "https://ypk.39.net/2011738/",
+  "checked_on": "2026-11-16",
+  "policy": "supported",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
+ },
+ {
+  "product": "Regional: pipotiazine PIPOTIAZINE_DEPOT_REVIEW (mainland China)",
+  "drug": "pipotiazine",
+  "profile": "PIPOTIAZINE_DEPOT_REVIEW",
+  "aliases": [
+   "尼蒙舒"
+  ],
+  "source": "https://ypk.39.net/732562/",
+  "checked_on": "2026-11-16",
+  "policy": "review",
+  "note": "웹 공개 자료(약국·약가 목록·제품 설명서)에서 확인한 현지 표기; 원 출처는 lookup/regional_brand_names.json"
  }
 ]

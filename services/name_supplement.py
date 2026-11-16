@@ -64,7 +64,9 @@ for _entry in CATALOG['entries']:
         _add(_alias, _entry['ingredient'], _entry['source'])
         if _entry['class'] != 'antipsychotic':
             OTHER_CLASSES[_entry['ingredient']] = _entry['class']
-for _name in ANTIPSYCHOTICS - FACTOR_DRUGS:
+# Ingredients outside the core alias table, including ones whose only factor is a supplement table
+# (INADA: perospirone, timiperone), are exact names, never spelling-corrected into a neighbour.
+for _name in ANTIPSYCHOTICS - set(_CORE.values()):
     _add(_name, _name, 'Wikidata ATC N05A')
 for _name in OTHER_CLASSES:
     if re.fullmatch(r'[a-z][a-z \-]+', _name):
@@ -108,6 +110,25 @@ def _world_alias_ok(alias, target, source):
 
 
 WORLD_ADDED = set()
+# Mainland-China and Arab-market brand names checked one by one on public web pages (each entry keeps
+# its page). Exact matches only, like the other worldwide names; combinations are held for review.
+_regional_path = ROOT / 'lookup/regional_brand_names.json'
+REGIONAL = json.loads(_regional_path.read_text(encoding='utf-8'))['entries'] if _regional_path.exists() else []
+REGIONAL_COMBINATIONS = set()
+for _entry in REGIONAL:
+    _alias = unicodedata.normalize('NFKC', _entry['name']).casefold().strip()
+    if _entry.get('combination'):
+        # Flupentixol+melitracen (Deanxit) follows the existing 'deanxit' entry; other combinations are held.
+        if sorted(_entry['combination']) == ['flupentixol', 'melitracen']:
+            _add(_alias, OTHER_ALIASES.get('deanxit', 'melitracen'), _entry['source_url'])
+        else:
+            REGIONAL_COMBINATIONS.add(_alias)
+        continue
+    if _world_alias_ok(_alias, _entry['ingredient'], 'regional'):
+        _before = len(AP_ALIASES) + len(OTHER_ALIASES)
+        _add(_alias, _entry['ingredient'], _entry['source_url'])
+        if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
+            WORLD_ADDED.add(_alias)
 for _target, _class in WORLD.get('ingredient_class', {}).items():
     if _target not in ANTIPSYCHOTICS:
         OTHER_CLASSES.setdefault(_target, _class)
@@ -124,7 +145,7 @@ for _alias, _target in WORLD.get('aliases', {}).items():
         if len(AP_ALIASES) + len(OTHER_ALIASES) > _before:
             WORLD_ADDED.add(unicodedata.normalize('NFKC', _alias).casefold().strip())
 PRODUCTS = {k: v for k, v in EXTERNAL['korean_products'].items() if v and re.search('[a-z]', v)}
-AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', [])) | frozenset(WORLD.get('antipsychotic_combinations', {}))
+AP_COMBINATIONS = frozenset(EXTERNAL.get('antipsychotic_combinations', [])) | frozenset(WORLD.get('antipsychotic_combinations', {})) | frozenset(REGIONAL_COMBINATIONS)
 for _target in set(PRODUCTS.values()) - ANTIPSYCHOTICS:
     OTHER_CLASSES.setdefault(_target, 'other_non_antipsychotic')
     if _target not in OTHER_ALIASES and _target not in _CORE:

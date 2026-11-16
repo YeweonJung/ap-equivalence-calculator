@@ -49,7 +49,7 @@ def test_oral_names_are_not_reclassified_as_injections(text):
 
 
 def test_catalog_has_sources_and_export_preserves_name_evidence():
-    assert all(r['source'].startswith('https://') and r['checked_on'] in ('2026-09-28', '2026-10-15', '2026-11-13') for r in NAME_CATALOG)
+    assert all(r['source'].startswith('https://') and r['checked_on'] in ('2026-09-28', '2026-10-15', '2026-11-13', '2026-11-16') for r in NAME_CATALOG)
     raw='patient_id,medication\nDEMO001,Rykindo 25mg q2w\nDEMO002,유제디주100mg q2mo\n'
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(raw.encode()),'example.csv')})
     assert response.status_code==200

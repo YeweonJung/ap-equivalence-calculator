@@ -1,0 +1,4392 @@
+{
+ "checked_on": "2026-11-16",
+ "policy": "Public web sources only (each entry has the page it was read from); never validation prescriptions. Ambiguous names, unmapped LAI labels and generic short-injection spellings are left out.",
+ "entries": [
+  {
+   "name": "نيورازين",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Neurazine",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ZULEDINE",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لارغاكتيل",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "LARGACTIL",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "دورمازين",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "DORMAZINE",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لارغاميد",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "LARGAMED",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "بروماسيد",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "promacid",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أورمازين",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ormazine",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زوليداين",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ميغاتيل",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Megatil",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B1%D8%A8%D8%B1%D9%88%D9%85%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "موديكات",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Modecate",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أنتانزول ديكونات",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ANATENSOL DECANOATE",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "برولينات",
+   "ingredient": "fluphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "PROLINATE",
+   "ingredient": "fluphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "موديتين",
+   "ingredient": "fluphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "MODITEN",
+   "ingredient": "fluphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "فلوفينازين ديكانويت",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "FLUPHENAZINE DECANOATE",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هالدول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Haldol",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هالدول ديكانويس",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Haldol Decanoas",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هالوكسين",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Haloxen",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيريناك",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SERENACE",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هالدول ديكانوس",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أبو - هالوبردول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "APO-HALOPERIDOL",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هاليدول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هاليدول ديكانوز",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "هالودول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "HALLUDOL",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ويرابيدول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "WERAPIDOL",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أيزوبيريدول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ISOPERIDOL",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ديستينسول",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "DISTENSOL",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%87%D8%A7%D9%84%D9%88%D8%A8%D8%B1%D8%AF%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ستيلازين سبان",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "STELAZINE SPAN",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ستيلازين",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "STELAZINE",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "تيرفلوزين",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "TERFLUZINE",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ستيلاسل",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "stellasil",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "stellazine",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D8%B1%D8%A7%D9%8A%D9%81%D9%84%D9%88%D8%A8%D9%8A%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوبيكسول اكوفيس",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "CLOPIXOL ACUPHASE",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوبيكسول ديبوت",
+   "ingredient": "zuclopenthixol",
+   "form": "lai",
+   "profile": "ZUC_DECANOATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "CLOPIXOL DEPOT",
+   "ingredient": "zuclopenthixol",
+   "form": "lai",
+   "profile": "ZUC_DECANOATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوبيكسول",
+   "ingredient": "zuclopenthixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "CLOPIXOL",
+   "ingredient": "zuclopenthixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوبيكسول - اكيوفاز",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "CLOPIXOL-ACUPHASE",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوبيكسول أكوافيز",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%83%D9%84%D9%88%D8%A8%D9%86%D8%AB%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ليبونكس",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Leponex",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوزابكس",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "clozapex",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوزابين هكسال",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ميدازيبين",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "medazepine",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سكيزونكس",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "schizonex",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كلوزاريل",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Clozaril",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زابونكس",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Zaponex",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زابنيكس",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Zapnex",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%84%D9%88%D8%B2%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "بريكسال",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Prexal",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زيبريكسا",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ZYPREXA",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زيبريكسا فيلوتاب",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Zyprexa Velotab",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أولانزاميد",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "OLANZAMED",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أنزابين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ANZAPINE",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيكولانز",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "PSYCHOLANZ",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريكسابين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "REXAPIN",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أنزابين - أورو",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ANZAPINE-ORO",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زولامبين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ZOLAMPINE",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أولانزيكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "OLANZEX",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "فانيكور",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "VAINCOR",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زابينال",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ZAPINAL",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لانزابريكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "LANZAPREX",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سشيزوبين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SCHIZOPIN",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أولزانيد",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "OLZANID",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لانزابين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "lanzapine",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "اولابكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Olapex",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيروكويل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Seroquel",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيروكويل إكس ر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SEROQUEL XR",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيكويل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "psyquel",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كويتابكس",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "quitapex",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أتابينا",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "atapina",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أدازيو",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "adazio",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريزال إكس آر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "rezal xr",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيتينين",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "setinin",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيروكويل إكس.ل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "seroquel xl",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيروكويل ستارتر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "seroquel starter",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيكوبين",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "sicopin",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كاتبين إكس آر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "qatpen xr",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كويتا إكس آر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "quetta xr",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كويتال",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "quetal",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كويتال إكس آر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "quetal xr",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كوينتا إكس.آر",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "quenta xr",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كويل اكس ار",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Quel xR",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كوترا",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Quitra",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D9%8A%D9%88%D8%AA%D9%8A%D8%A7%D8%A8%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زيلدوكس",
+   "ingredient": "ziprasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%8A%D8%A8%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Zeldox",
+   "ingredient": "ziprasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B2%D9%8A%D8%A8%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ابيليفاي",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Abilify",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ابيليا",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "abilia",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "اربيكسان",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "arepexane",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "اربيبركس",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "aripiprex",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "شيزوفاي",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "schizofy",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أبيرو",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "aripo",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أربينيا",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "arpenia",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أريبيكس",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "aripex",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زولندا",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "zolinda",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "جوسوي أريبال",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Joswe Aripal",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أدويبرازول",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Adwiprazole",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أبيليبيكس",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Apilipex",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أريبيبراكير",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Aripipracare",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سينتاليفي",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Centalify",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "برازولوساب",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Prazolosab",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سكيزوستوب",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Schizostop",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أوريفا",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ORYVA",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "اوريفا",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B1%D9%8A%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "راكسيدون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Raxidone",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبروكس",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Respirox",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسدون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Risdone",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبردال كونستا",
+   "ingredient": "risperidone",
+   "form": "lai",
+   "profile": "RIS_MICROSPHERES",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Risperdal Consta",
+   "ingredient": "risperidone",
+   "form": "lai",
+   "profile": "RIS_MICROSPHERES",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبردال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Risperdal",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زودكس",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Zodix",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبيردال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ب م س- رسبردون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "PMS-RISPERIDONE",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RESPAL",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبيرون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RISPERONE",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريسبيردالور",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RISPERDALORO",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريبيرال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RIPERAL",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RISPAL",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريبسيزين",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "RIPSYZEN",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ابيكسيدون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "apixedone",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "دوغماتيل",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Dogmatil",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولبيرين",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPIREN",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "دارليتون",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "DARLETON",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "NEURID",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولباريد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPIRED",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولباريد ميرنال",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPIRIDE MERINAL",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سوليرد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULRID",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولبارين",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPUREN",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "كانسار",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "KANISAR",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "دوغماتيل سانس سوكر",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Dogmatil SANSSUCRE",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سوبريل",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SUPRIL",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سينديل",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SYNEDIL G",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سلماتيل",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULMATIL",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سينيد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SYNED",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولبريد- هسبال",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPYRID-HISPAL",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ج - سولبريد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "G-SULPIRIDE",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولبريد ل س",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SULPIRIDE LS",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "دوبرن",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "dobrin",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%B3%D9%88%D9%84%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أسيناديا",
+   "ingredient": "asenapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B3%D9%8A%D9%86%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Asenadia",
+   "ingredient": "asenapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D8%B3%D9%8A%D9%86%D8%A7%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سوليان",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Solian",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أميلاين",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Amilian",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "جوسوي أميكس",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Joswe Amex",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "بيرسيبتا",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Percepta",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أميبرايد",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Amipride",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سيلوميس",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "SILOMES",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "سولمتيك",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Sulmetic",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A7%D9%85%D9%8A%D8%B3%D9%84%D8%A8%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "إنفيجا",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "invega",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "انفيجا سستينا",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP1M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Invega Sustenna",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP1M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "تريفيكتا",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP3M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Trevicta",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP3M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "باليبرا",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Palipra",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أوراب فورت",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "orap forte",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "أوراب",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Orap",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريدازين",
+   "ingredient": "thioridazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AB%D9%8A%D9%88%D8%B1%D9%8A%D8%AF%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Ridazine",
+   "ingredient": "thioridazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AB%D9%8A%D9%88%D8%B1%D9%8A%D8%AF%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ثيوزن",
+   "ingredient": "thioridazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AB%D9%8A%D9%88%D8%B1%D9%8A%D8%AF%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Thiozin",
+   "ingredient": "thioridazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AB%D9%8A%D9%88%D8%B1%D9%8A%D8%AF%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ديانكسيت",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D8%A8%D9%8A%D9%86%D8%AA%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D9%85%D9%8A%D9%84%D9%8A%D8%AA%D8%B1%D8%A7%D8%B3%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Deanxit",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D8%A8%D9%8A%D9%86%D8%AA%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D9%85%D9%8A%D9%84%D9%8A%D8%AA%D8%B1%D8%A7%D8%B3%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "فلوانكسول",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D8%A8%D9%8A%D9%86%D8%AA%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "fluanxol",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D8%A8%D9%8A%D9%86%D8%AA%D9%8A%D9%83%D8%B3%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريكسولتي",
+   "ingredient": "brexpiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%B1%D9%8A%D9%83%D8%B3%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "REXULTI",
+   "ingredient": "brexpiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D8%B1%D9%8A%D9%83%D8%B3%D8%A8%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%88%D9%84-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ترايلازين",
+   "ingredient": "perphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D8%B1%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "TRILAZINE",
+   "ingredient": "perphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%A8%D9%8A%D8%B1%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لاتودا",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "LATUDA",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ديبيلور",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Debilur",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "لاروزا",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Laroza",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%84%D9%88%D8%B1%D8%A7%D8%B3%D9%8A%D8%AF%D9%88%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "ريجيلا",
+   "ingredient": "cariprazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D8%B1%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D9%87%D9%8A%D8%AF%D8%B1%D9%88%D9%83%D9%84%D9%88%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Reagila",
+   "ingredient": "cariprazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%83%D8%B1%D9%8A%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%86-%D9%87%D9%8A%D8%AF%D8%B1%D9%88%D9%83%D9%84%D9%88%D8%B1%D8%A7%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "تيابريدال",
+   "ingredient": "tiapride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D9%8A%D8%A7%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "tiapridal",
+   "ingredient": "tiapride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AA%D9%8A%D8%A7%D8%A8%D8%B1%D9%8A%D8%AF-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "رايبياكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "olanzapine",
+    "fluoxetine"
+   ],
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%83%D8%B3%D8%AA%D9%8A%D9%86-%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D9%8A%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "Raibyax",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "olanzapine",
+    "fluoxetine"
+   ],
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D9%81%D9%84%D9%88%D9%83%D8%B3%D8%AA%D9%8A%D9%86-%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D9%8A%D8%A8%D9%8A%D9%86-%D8%B9%D9%84%D9%85%D9%8A"
+  },
+  {
+   "name": "زيبركسا",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "زايبركسا",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "زيبادهيرا",
+   "ingredient": "olanzapine",
+   "form": "lai",
+   "profile": "OLZ_PAMOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "زبادهيرا",
+   "ingredient": "olanzapine",
+   "form": "lai",
+   "profile": "OLZ_PAMOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "سوركويل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D9%83%D9%88%D9%8A%D8%AA%D9%8A%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "انفيجا",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "انفيغا",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "اينفيجا",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A8%D8%A7%D9%84%D9%8A%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "رزبريدال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "ريسيدون",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "RISIDONE",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B1%D9%8A%D8%B3%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF%D9%88%D9%86"
+  },
+  {
+   "name": "دوجماتيل",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B3%D9%88%D9%84%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF"
+  },
+  {
+   "name": "دوجماتيل فورت",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B3%D9%88%D9%84%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF"
+  },
+  {
+   "name": "جنبريد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B3%D9%88%D9%84%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF"
+  },
+  {
+   "name": "GENPRID",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B3%D9%88%D9%84%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF"
+  },
+  {
+   "name": "ZYPADHERA",
+   "ingredient": "olanzapine",
+   "form": "lai",
+   "profile": "OLZ_PAMOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A7%D9%88%D9%84%D8%A7%D9%86%D8%B2%D8%A7%D8%A8%D9%8A%D9%86"
+  },
+  {
+   "name": "DOGMATIL FORT",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%B3%D9%88%D9%84%D8%A8%D9%8A%D8%B1%D9%8A%D8%AF"
+  },
+  {
+   "name": "فلوفينازين ديكانوات",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D9%81%D9%84%D9%88%D9%81%D9%8A%D9%86%D8%A7%D8%B2%D9%8A%D9%86"
+  },
+  {
+   "name": "اوراب",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D9%8A%D8%AF"
+  },
+  {
+   "name": "اوراب فورت",
+   "ingredient": "pimozide",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.webteb.com/drug/%D8%A8%D9%8A%D9%85%D9%88%D8%B2%D9%8A%D8%AF"
+  },
+  {
+   "name": "دينيكست",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "arab",
+   "source_url": "https://altibbi.com/%D8%A7%D9%84%D8%A7%D8%AF%D9%88%D9%8A%D8%A9/%D8%AF%D9%8A%D9%86%D9%8A%D9%83%D8%B3%D8%AA"
+  },
+  {
+   "name": "هالونيز",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "Halonace",
+   "ingredient": "haloperidol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "هالوبرول ديكانواس",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "Haloprol decanoas",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "هالوبيريدول ريتارد",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "Haloperidol retard",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=5918"
+  },
+  {
+   "name": "apexidone",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "كلافيبيردون",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "claviperdone",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "زيسبيرون",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "zesperone",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "ريسكيور",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "ريسدال",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "risdal",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "رسبادكس",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "rispadex",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=9909"
+  },
+  {
+   "name": "رانكسابين",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "ranxapin",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "اولازوريكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "olazorix",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "اولانفيكسا",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "olanvexa",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "بيوبريكس",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "bioprex",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "انتيجرول",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "اولانزابين كوباد",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "olanzapine-copad",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=24000"
+  },
+  {
+   "name": "كويتياديل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "quitiadel",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "كويتياسو",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "quetiasu",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "كويدريس",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "quedress",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "سبيراكويت",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "spiraquet",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "سيروكويل اكس ار",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "انديكويبين",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "andequepine",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "كويتابيكس",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "كيبكيوت",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "keepquet",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "سايكويل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "كواديل",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "quadel",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=25539"
+  },
+  {
+   "name": "اميبريد",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "اميبرايد",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "شيزو كنترول",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "schizocontrol",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "فريناميسول",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "phrenamisol",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=27245"
+  },
+  {
+   "name": "كلوزافيتون",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2824"
+  },
+  {
+   "name": "clozavitone",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2824"
+  },
+  {
+   "name": "ادويبرازول",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "اريبيبراكير",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "اريبكسان",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "اريببريكس",
+   "ingredient": "aripiprazole",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "اريبيبركس",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "سنتاليفاي",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "abilify discmelt",
+   "ingredient": "aripiprazole",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "ابيليفاي ديسكملت",
+   "ingredient": "aripiprazole",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23"
+  },
+  {
+   "name": "دوجمابرايد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "dogmapride",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "دوجمابرايد فورت",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "نيوروبرايد",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "neuropride",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "توبمود",
+   "ingredient": "sulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.dwaprices.com/med.php?id=3775"
+  },
+  {
+   "name": "لارجاكتيل",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=8736"
+  },
+  {
+   "name": "موديكيت",
+   "ingredient": "fluphenazine",
+   "form": "lai",
+   "profile": "FLUPHENAZINE_DEC_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=8270"
+  },
+  {
+   "name": "ليفوبرايد",
+   "ingredient": "levosulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23182"
+  },
+  {
+   "name": "Levopride",
+   "ingredient": "levosulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=23182"
+  },
+  {
+   "name": "ستيلاميد",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "trifluoperazine",
+    "isopropamide"
+   ],
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=27496"
+  },
+  {
+   "name": "Stellamid",
+   "ingredient": "trifluoperazine",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "trifluoperazine",
+    "isopropamide"
+   ],
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=27496"
+  },
+  {
+   "name": "فلونكسول ديبو",
+   "ingredient": "flupentixol",
+   "form": "lai",
+   "profile": "FLUPENTIXOL_DEPOT_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=4974"
+  },
+  {
+   "name": "Fluanxol depot",
+   "ingredient": "flupentixol",
+   "form": "lai",
+   "profile": "FLUPENTIXOL_DEPOT_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=4974"
+  },
+  {
+   "name": "فلونكسول",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=4974"
+  },
+  {
+   "name": "كلوبيكسول متخزن",
+   "ingredient": "zuclopenthixol",
+   "form": "lai",
+   "profile": "ZUC_DECANOATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2794"
+  },
+  {
+   "name": "الباكلوبكس ديبو",
+   "ingredient": "zuclopenthixol",
+   "form": "lai",
+   "profile": "ZUC_DECANOATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2794"
+  },
+  {
+   "name": "elbaclopex depo",
+   "ingredient": "zuclopenthixol",
+   "form": "lai",
+   "profile": "ZUC_DECANOATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2794"
+  },
+  {
+   "name": "كلوبيكسول اكيوفيز",
+   "ingredient": "zuclopenthixol",
+   "form": "injection_short",
+   "profile": "ZUC_ACETATE_REVIEW",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=2794"
+  },
+  {
+   "name": "انفيجا سوستينا",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP1M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "باليبير",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "paliper",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "بيريدوماجيك",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "peridomagic",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "تريفكتا",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP3M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://dwaprices.com/med.php?id=20914"
+  },
+  {
+   "name": "BYANNLI",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP6M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "PIRIFY",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "XALIPRO",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ABILIFY MAINTENA",
+   "ingredient": "aripiprazole",
+   "form": "lai",
+   "profile": "ARI_1M",
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ABIPREX",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ARIPIPAN",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ATYPRAL",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:30/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "RISCHOTIC OD",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:31/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "DISLEP",
+   "ingredient": "levosulpiride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:32/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "JOSWE QUZAL",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:32/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "SEROPINE",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:32/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "SEROPINE XR",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:32/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "QUETIAKEY",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:32/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "OLANZAX",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:33/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "PRANZA",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:33/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ZOLAPINE",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:33/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "ZYRWAN OD",
+   "ingredient": "olanzapine",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:33/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "LANOLEPT",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:34/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "LURABIL",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "arab",
+   "source_url": "https://www.moph.gov.lb/en/Drugs/index/3/4893/page:34/sort:Drug.atc/direction:desc"
+  },
+  {
+   "name": "再普乐",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733459/"
+  },
+  {
+   "name": "欧兰宁",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733470/"
+  },
+  {
+   "name": "悉敏",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733469/"
+  },
+  {
+   "name": "奥兰之",
+   "ingredient": "olanzapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2033418/"
+  },
+  {
+   "name": "思瑞康",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733476/"
+  },
+  {
+   "name": "比特力",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733475/"
+  },
+  {
+   "name": "巨泰",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733491/"
+  },
+  {
+   "name": "可乐尔",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733501/"
+  },
+  {
+   "name": "舒思",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733482/"
+  },
+  {
+   "name": "启维",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733488/"
+  },
+  {
+   "name": "瑞思妥",
+   "ingredient": "quetiapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.sohu.com/a/894356433_135869"
+  },
+  {
+   "name": "维思通",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/631859/"
+  },
+  {
+   "name": "维思通",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2009163/"
+  },
+  {
+   "name": "维思通",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2007770/"
+  },
+  {
+   "name": "索乐芬",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2032372/"
+  },
+  {
+   "name": "敬平",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733554/"
+  },
+  {
+   "name": "思利舒",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733556/"
+  },
+  {
+   "name": "卓夫",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733561/"
+  },
+  {
+   "name": "卓菲",
+   "ingredient": "risperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733566/"
+  },
+  {
+   "name": "醒志",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733544/"
+  },
+  {
+   "name": "诺富生",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733523/"
+  },
+  {
+   "name": "莱多菲",
+   "ingredient": "risperidone",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733525/"
+  },
+  {
+   "name": "海普美欣",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733527/"
+  },
+  {
+   "name": "可普芬",
+   "ingredient": "risperidone",
+   "form": "oral_solution",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733528/"
+  },
+  {
+   "name": "瑞欣妥",
+   "ingredient": "risperidone",
+   "form": "lai",
+   "profile": "RIS_RYKINDO",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://skl.luye.cn/news.php?nid=174"
+  },
+  {
+   "name": "芮达",
+   "ingredient": "paliperidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/928090/"
+  },
+  {
+   "name": "善思达",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP1M",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2007128/"
+  },
+  {
+   "name": "善妥达",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PP3M",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.pharnexcloud.com/data/lcsy_34e8d762489f9bec4e245002d5e2ec4e.html"
+  },
+  {
+   "name": "美比瑞",
+   "ingredient": "paliperidone",
+   "form": "lai",
+   "profile": "PAL_LUYE_REVIEW",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://skl.luye.cn/news.php?nid=174"
+  },
+  {
+   "name": "安律凡",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733443/"
+  },
+  {
+   "name": "博思清",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733435/"
+  },
+  {
+   "name": "博思清",
+   "ingredient": "aripiprazole",
+   "form": "odt",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733428/"
+  },
+  {
+   "name": "奥派",
+   "ingredient": "aripiprazole",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/578104/"
+  },
+  {
+   "name": "阿丽唯",
+   "ingredient": "aripiprazole",
+   "form": "lai",
+   "profile": "ARI_LIVZON_REVIEW",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.sohu.com/a/894356433_135869"
+  },
+  {
+   "name": "卓乐定",
+   "ingredient": "ziprasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733853/"
+  },
+  {
+   "name": "力复君安",
+   "ingredient": "ziprasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733856/"
+  },
+  {
+   "name": "思贝格",
+   "ingredient": "ziprasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733851/"
+  },
+  {
+   "name": "索里昂",
+   "ingredient": "amisulpride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2006823/"
+  },
+  {
+   "name": "翔宇乐康",
+   "ingredient": "clozapine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733626/"
+  },
+  {
+   "name": "哈力多",
+   "ingredient": "haloperidol",
+   "form": "lai",
+   "profile": "HAL_DECANOATE",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2011738/"
+  },
+  {
+   "name": "宁新宝",
+   "ingredient": "perphenazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/732510/"
+  },
+  {
+   "name": "冬眠灵",
+   "ingredient": "chlorpromazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.chemicalbook.com/SupplyInfo_214847.htm"
+  },
+  {
+   "name": "复康素",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733058/"
+  },
+  {
+   "name": "孚岚素",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2011014/"
+  },
+  {
+   "name": "倍舒林",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/731332/"
+  },
+  {
+   "name": "黛力新",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733059/"
+  },
+  {
+   "name": "圣美弗",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2031022/"
+  },
+  {
+   "name": "倍爱欣",
+   "ingredient": "flupentixol",
+   "form": "oral",
+   "profile": null,
+   "combination": [
+    "flupentixol",
+    "melitracen"
+   ],
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2031743/"
+  },
+  {
+   "name": "太韦络",
+   "ingredient": "zuclopenthixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733057/"
+  },
+  {
+   "name": "高抗素",
+   "ingredient": "zuclopenthixol",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/2002554/"
+  },
+  {
+   "name": "尼蒙舒",
+   "ingredient": "pipotiazine",
+   "form": "lai",
+   "profile": "PIPOTIAZINE_DEPOT_REVIEW",
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/732562/"
+  },
+  {
+   "name": "利达新",
+   "ingredient": "thioridazine",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/732586/"
+  },
+  {
+   "name": "泰必利",
+   "ingredient": "tiapride",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733375/"
+  },
+  {
+   "name": "罗舒达",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.pharnexcloud.com/zixun/sx_3913"
+  },
+  {
+   "name": "舒立达",
+   "ingredient": "lurasidone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.sohu.com/a/894356433_135869"
+  },
+  {
+   "name": "丽同欣",
+   "ingredient": "blonanserin",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://www.sohu.com/a/894356433_135869"
+  },
+  {
+   "name": "康尔汀",
+   "ingredient": "perospirone",
+   "form": "oral",
+   "profile": null,
+   "combination": null,
+   "region": "cn",
+   "source_url": "https://ypk.39.net/733665/"
+  }
+ ]
+}

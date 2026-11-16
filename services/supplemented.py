@@ -14,7 +14,7 @@ from services.exclusions import is_excluded, item_exclusion_basis
 from services.result_summary import METHOD_ORDER, TARGETS
 from services.result_status import classify, combine, COLUMNS, HEADERS
 
-# Study policy first (ED95 → MED → GARDNER, blonanserin via INADA), then the remaining
+# Study policy first (ED95 → MED → GARDNER, Japanese-only drugs such as blonanserin via INADA), then the remaining
 # trial-based CMD family, the WHO consumption unit, and the historical CPZ tables.
 PRIORITY = ('ED95', 'MED', 'GARDNER', 'INADA', 'CMD', 'CMD_DIRECT', 'CMD_INDIRECT', 'DDD', 'WOODS', 'CPZ_FGA')
 POLICY_VERSION = 'selected-base-sequential-4.0'

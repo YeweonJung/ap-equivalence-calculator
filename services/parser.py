@@ -114,7 +114,16 @@ def _alias_pattern(alias):
 # Longest alias first. Patterns are compiled on first use: compiling all ~11,500 at import took ~6 s
 # of every server start, and a plain substring test rejects almost every alias before any regex runs.
 ALIAS_ORDER = sorted(alias_map, key=len, reverse=True)
-COMPACT_ALIAS_MAP = {_compact(alias): standard for alias, standard in alias_map.items() if _compact(alias)}
+def _compact_key(alias):
+    """Compact form for spacing-insensitive matching, or '' when stripping other scripts would leave a
+    meaningless key ('降脂1号树脂' -> '1', which then matched any Arabic or Chinese text with a 1)."""
+    key = _compact(alias)
+    letters = len(re.findall(r"[a-z가-힣]", key))
+    dropped = re.search(r"[^\W\d_]", re.sub(r"[a-z0-9가-힣]+", "", _normalized_text(alias)))
+    return key if letters and (not dropped or letters >= 4) else ''
+
+
+COMPACT_ALIAS_MAP = {_compact_key(alias): standard for alias, standard in alias_map.items() if _compact_key(alias)}
 
 
 def _drug_only_text(text):
