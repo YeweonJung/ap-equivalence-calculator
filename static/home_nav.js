@@ -17,7 +17,8 @@
     if (tabs) {
       tabs.hidden = view === 'home' || study;
       tabs.querySelectorAll('a[data-view]').forEach(link => {
-        if (link.dataset.view === view) link.setAttribute('aria-current', 'page');
+        const group = ['guide', 'rules', 'read'].includes(view) ? 'help' : view;
+        if (link.dataset.view === group) link.setAttribute('aria-current', 'page');
         else link.removeAttribute('aria-current');
       });
     }

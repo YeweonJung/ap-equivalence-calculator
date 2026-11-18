@@ -9,6 +9,12 @@
   var D = {};
 
   D.en = {
+    nav_help: "Help & guide",
+    cd_help: "Input format, calculation basis, reading results, by-date analysis and sources in one place.",
+    tag_file: "File",
+    tag_quick: "Quick check",
+    help_sub: "Choose what you would like to read.",
+    back_help: "← Help & guide",
     nav_toc: "Contents",
     nav_home: "Home",
     nav_upload: "Calculate from Excel",
@@ -227,6 +233,12 @@
   };
 
   D.ja = {
+    nav_help: "使い方",
+    cd_help: "入力方法、計算の基準、結果の見方、処方日別の分析、換算の根拠をまとめています。",
+    tag_file: "ファイル",
+    tag_quick: "すばやく確認",
+    help_sub: "知りたい項目を選んでください。",
+    back_help: "← 使い方",
     nav_toc: "目次",
     nav_home: "ホーム",
     nav_upload: "Excelで計算",
@@ -445,6 +457,12 @@
   };
 
   D.zh = {
+    nav_help: "使用说明",
+    cd_help: "汇集了输入格式、计算基准、阅读结果、按处方日期分析和换算依据。",
+    tag_file: "文件",
+    tag_quick: "快速查看",
+    help_sub: "请选择想了解的项目。",
+    back_help: "← 使用说明",
     nav_toc: "目录",
     nav_home: "首页",
     nav_upload: "用 Excel 计算",
@@ -663,6 +681,12 @@
   };
 
   D.fr = {
+    nav_help: "Mode d'emploi",
+    cd_help: "Format d'entrée, base de calcul, lecture des résultats, analyse par date et sources, réunis au même endroit.",
+    tag_file: "Fichier",
+    tag_quick: "Vérification rapide",
+    help_sub: "Choisissez la rubrique à consulter.",
+    back_help: "← Mode d'emploi",
     nav_toc: "Sommaire",
     nav_home: "Accueil",
     nav_upload: "Calcul depuis Excel",
@@ -881,6 +905,12 @@
   };
 
   D.ar = {
+    nav_help: "دليل الاستخدام",
+    cd_help: "تنسيق الإدخال وأساس الحساب وقراءة النتائج والتحليل حسب التاريخ والمصادر في مكان واحد.",
+    tag_file: "ملف",
+    tag_quick: "تحقق سريع",
+    help_sub: "اختر ما تريد الاطلاع عليه.",
+    back_help: "دليل الاستخدام →",
     nav_toc: "المحتويات",
     nav_home: "الرئيسية",
     nav_upload: "الحساب من Excel",

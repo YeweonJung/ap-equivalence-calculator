@@ -84,13 +84,20 @@
     .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
     .home-card{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);text-decoration:none;box-shadow:0 10px 26px #223c630d;transition:border-color .15s,box-shadow .15s,transform .15s}
     .home-card:hover,.home-card:focus-visible{border-color:var(--blue);box-shadow:0 14px 32px #1268e81f;transform:translateY(-2px)}
-    .home-card b{font-size:19px}.home-card span:not(.card-no){color:var(--muted);font-size:15px;line-height:1.65;flex:1}
+    .home-card b{font-size:19px}
     .home-card em{font-style:normal;color:var(--blue);font-weight:800;font-size:14px}
     .card-no{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--soft);color:var(--blue);font-weight:900;font-size:13px}
-    .home-card.primary{background:var(--blue);border-color:var(--blue);color:#fff}.home-card.primary span:not(.card-no),.home-card.primary em{color:#e8f1ff}.home-card.primary .card-no{background:#ffffff26;color:#fff}
+    .home-card.primary{background:var(--blue);border-color:var(--blue);color:#fff}.home-card.primary em{color:#e8f1ff}.home-card.primary .card-no{background:#ffffff26;color:#fff}
     .view-title{font-size:clamp(26px,4vw,34px);letter-spacing:-.03em;margin:0 0 20px}
     .view-links{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:center;margin:20px 0 0;font-size:15px}.view-links a{color:var(--blue);font-weight:700;text-decoration:none}
     #view-guide .howto{margin-top:0}
+    .home-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.home-grid.three .home-card{padding:28px;min-height:230px}.home-grid.three .home-card b{font-size:22px}
+    .card-tag{display:inline-block;margin-inline-start:8px;padding:2px 9px;border-radius:99px;background:var(--soft);color:var(--blue);font-style:normal;font-size:13px;font-weight:800;vertical-align:middle}.home-card.primary .card-tag{background:#ffffff2e;color:#fff}
+    .home-card .card-desc{color:var(--muted);font-size:15px;line-height:1.65;flex:1}.home-card.primary .card-desc{color:#e8f1ff}
+    .view-sub{color:var(--muted);margin:-8px 0 22px;font-size:16px}
+    .back-link{margin:0 0 10px;font-size:15px}.back-link a{color:var(--blue);font-weight:700;text-decoration:none}
+    .help-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media(max-width:760px){.help-grid{grid-template-columns:1fr}.home-grid.three{grid-template-columns:1fr}.home-grid.three .home-card{min-height:0}}
   </style>
 </head>
 <body>
@@ -99,23 +106,15 @@
     <nav class="tabs" id="tabs" aria-label="목차" data-i18n-attr="aria-label:nav_toc" hidden><div class="wrap tabs-row">
       <a href="#" data-view="home" data-i18n="nav_home">홈</a>
       <a href="#upload" data-view="upload" data-i18n="nav_upload">엑셀로 계산</a>
-      <a href="#guide" data-view="guide" data-i18n="nav_guide">입력 방법</a>
       <a href="#quick" data-view="quick" data-i18n="nav_quick">한 줄 계산</a>
-      <a href="#rules" data-view="rules" data-i18n="nav_rules">계산 기준</a>
-      <a href="#read" data-view="read" data-i18n="nav_read">결과 읽는 법</a>
-      <a href="/longitudinal" data-i18n="nav_long">날짜별 분석</a>
-      <a href="/methods" data-i18n="nav_methods">환산 근거</a>
+      <a href="#help" data-view="help" data-i18n="nav_help">사용 안내</a>
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
         <div class="title"><h1 data-i18n="home_title">항정신병약 등가용량 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p></div>
-        <div class="home-grid">
-          <a class="home-card primary" href="#upload"><span class="card-no">1</span><b data-i18n="nav_upload">엑셀로 계산</b><span data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#guide"><span class="card-no">2</span><b data-i18n="nav_guide">입력 방법</b><span data-i18n="cd_guide">엑셀 열을 어떻게 넣어야 잘 읽히는지 예시로 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#quick"><span class="card-no">3</span><b data-i18n="nav_quick">한 줄 계산</b><span data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#rules"><span class="card-no">4</span><b data-i18n="nav_rules">계산 기준</b><span data-i18n="cd_rules">기준 환산표(ED95)와 값이 없을 때 보완하는 순서를 확인하고 바꿉니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#read"><span class="card-no">5</span><b data-i18n="nav_read">결과 읽는 법</b><span data-i18n="cd_read">결과 Excel의 시트와 상태코드가 무슨 뜻인지 설명합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="/longitudinal"><span class="card-no">6</span><b data-i18n="nav_long">날짜별 분석</b><span data-i18n="cd_long">처방일이 있는 CSV를 환자·처방일별로 따로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="/methods"><span class="card-no">7</span><b data-i18n="nav_methods">환산 근거</b><span data-i18n="cd_methods">환산표별 근거와 적용 한계를 확인합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+        <div class="home-grid three">
+          <a class="home-card primary" href="#upload"><span class="card-no">1</span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#quick"><span class="card-no">2</span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#help"><span class="card-no">3</span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 날짜별 분석, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
     </div></section>
     <section class="main view" id="view-upload" data-view="upload" hidden><div class="wrap">
@@ -138,7 +137,19 @@
           <div class="rule"><small data-i18n="rule_result">결과</small><b><span data-i18n="rule_total">환자별 합계</span> · <span id="rule-unit">{{ units['ED95'] }}</span> mg/day</b></div>
         </section>
     </div></section>
+    <section class="main view" id="view-help" data-view="help" hidden><div class="wrap">
+        <h1 class="view-title" data-i18n="nav_help">사용 안내</h1>
+        <p class="view-sub" data-i18n="help_sub">궁금한 항목을 골라 들어가세요.</p>
+        <div class="home-grid help-grid">
+          <a class="home-card" href="#guide"><span class="card-no">1</span><b><span data-i18n="nav_guide">입력 방법</span></b><span class="card-desc" data-i18n="cd_guide">엑셀 열을 어떻게 넣어야 잘 읽히는지 예시로 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#rules"><span class="card-no">2</span><b><span data-i18n="nav_rules">계산 기준</span></b><span class="card-desc" data-i18n="cd_rules">기준 환산표(ED95)와 값이 없을 때 보완하는 순서를 확인하고 바꿉니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#read"><span class="card-no">3</span><b><span data-i18n="nav_read">결과 읽는 법</span></b><span class="card-desc" data-i18n="cd_read">결과 Excel의 시트와 상태코드가 무슨 뜻인지 설명합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="/longitudinal"><span class="card-no">4</span><b><span data-i18n="nav_long">날짜별 분석</span></b><span class="card-desc" data-i18n="cd_long">처방일이 있는 CSV를 환자·처방일별로 따로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="/methods"><span class="card-no">5</span><b><span data-i18n="nav_methods">환산 근거</span></b><span class="card-desc" data-i18n="cd_methods">환산표별 근거와 적용 한계를 확인합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+        </div>
+    </div></section>
     <section class="main view" id="view-guide" data-view="guide" hidden><div class="wrap">
+        <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
         <section class="howto" aria-labelledby="howto-title">
           <h2 id="howto-title" data-i18n="howto_title">엑셀은 이렇게 넣으면 가장 잘 읽힙니다</h2>
           <p data-i18n="howto_desc">1열에는 환자 ID만, 2열에는 그 환자의 약을 모두 적습니다. 오른쪽처럼 환자별 합계가 나옵니다.</p>
@@ -176,6 +187,7 @@
         <p class="view-links"><a href="#upload" data-i18n="link_upload">엑셀 올리러 가기 →</a></p>
     </div></section>
     <section class="main view" id="view-rules" data-view="rules" hidden><div class="wrap">
+        <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
         <h1 class="view-title" data-i18n="fold_base">기준 바꾸기 · 전체 보완 순서</h1>
         <div class="fold-body view-body">
           <div class="base-choice"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
@@ -184,6 +196,7 @@
         </div>
     </div></section>
     <section class="main view" id="view-read" data-view="read" hidden><div class="wrap">
+        <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
         <h1 class="view-title" data-i18n="fold_read">결과 파일 읽는 법</h1>
         <div class="fold-body view-body">
           <ul class="sheet-guide" aria-label="결과 파일 시트 안내">
