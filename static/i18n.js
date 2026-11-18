@@ -1190,7 +1190,7 @@
     return fill(table && table[key] != null ? table[key] : ko, vars);
   }
 
-  var CSS = '.lang-select{border:1px solid #dce4ef;background:#fff;color:#4b5870;border-radius:99px;padding:5px 10px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;max-width:130px}' +
+  var CSS = '.lang-select{border:1px solid #d8dde3;background:#fff;color:#1f262e;border-radius:2px;padding:5px 10px;font:inherit;font-size:12px;font-weight:400;cursor:pointer;max-width:130px}' +
     '.lang-corner{display:flex;justify-content:flex-end;margin-bottom:8px}' +
     '[dir=rtl] code,[dir=rtl] input,[dir=rtl] .ltr{direction:ltr;unicode-bidi:isolate}' +
     '[dir=rtl] .xl{direction:ltr}[dir=rtl] .xl td[data-i18n],[dir=rtl] .xl th[data-i18n]{direction:rtl;text-align:right}' +
