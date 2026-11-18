@@ -28,4 +28,33 @@
 
   window.addEventListener('hashchange', show);
   show();
+
+  // One base method for the whole page: the quick view has its own selector that mirrors #base-method.
+  const base = document.querySelector('#base-method'), quickBase = document.querySelector('#base-method-quick');
+  if (base && quickBase) {
+    // Sync after every page script has run (the research bridge may lock #base-method to DDD).
+    const sync = () => { quickBase.value = base.value; quickBase.disabled = base.disabled; };
+    sync();
+    document.addEventListener('DOMContentLoaded', sync);
+    quickBase.addEventListener('change', () => {
+      if (base.disabled) { sync(); return; }
+      base.value = quickBase.value; base.dispatchEvent(new Event('change'));
+    });
+    base.addEventListener('change', () => { quickBase.value = base.value; });
+  }
+
+  // Home search box and example chips: open the one-line view and calculate.
+  const runQuick = text => {
+    const input = document.querySelector('#parser-input'), button = document.querySelector('#parse-button');
+    if (!input || !button || !text.trim()) return;
+    input.value = text.trim();
+    input.dispatchEvent(new Event('input'));
+    location.hash = '#quick';
+    setTimeout(() => button.click(), 0);
+  };
+  document.querySelector('#home-quick-form')?.addEventListener('submit', event => {
+    event.preventDefault();
+    runQuick(document.querySelector('#home-quick-input').value);
+  });
+  document.querySelectorAll('.home-chips .chip').forEach(chip => chip.addEventListener('click', () => runQuick(chip.dataset.example)));
 })();

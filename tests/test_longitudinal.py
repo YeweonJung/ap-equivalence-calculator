@@ -174,3 +174,19 @@ def test_blank_records_preserve_row_numbers():
     text = text.replace('\n', '\n\n', 1)
     frame, _ = read_csv_upload(FileStorage(io.BytesIO(text.encode()), filename='rx.csv'))
     assert [r['source_row'] for r in prepare(frame, detect_mapping(frame.columns))] == [3, 4]
+
+
+def test_dated_summary_uses_selected_base_and_defaults_to_ed95():
+    # 2026-11-18: the by-date 보완합계 used the first method (CMD) as base; it now follows the app default (ED95) or the chosen base.
+    from app import app
+    from openpyxl import load_workbook
+    client = app.test_client()
+    raw = pd.DataFrame([rx(patient='001')]).to_csv(index=False).encode('utf-8-sig')
+    def base_used(extra):
+        response = client.post('/api/longitudinal/analyze', data={'file': (io.BytesIO(raw), 'rx.csv'), 'ack': 'yes', **extra})
+        assert response.status_code == 200
+        return list(load_workbook(io.BytesIO(response.data), read_only=True)['보완합계'].iter_rows(values_only=True))[1][2]
+    assert base_used({}) == 'ED95'
+    assert base_used({'base_method': 'CMD'}) == 'CMD'
+    bad = client.post('/api/longitudinal/analyze', data={'file': (io.BytesIO(raw), 'rx.csv'), 'ack': 'yes', 'base_method': 'XYZ'})
+    assert bad.status_code == 400

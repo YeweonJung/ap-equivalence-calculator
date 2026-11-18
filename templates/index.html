@@ -126,6 +126,40 @@
     section.view.main,section.view.try{background:radial-gradient(820px 380px at 92% -12%,#e2e9ff 0%,#e2e9ff00 60%),radial-gradient(640px 320px at -8% 60%,#ddf8f0 0%,#ddf8f000 58%),#f7f9ff}
     .main .title h1,.view-title{background:linear-gradient(120deg,#13233d 10%,#2f4fd8 70%,#6b4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
     @media(max-width:760px){.hero{grid-template-columns:1fr;text-align:center}.hero-text{text-align:center}.hero-art{max-width:250px;order:-1}}
+    /* Clinical look (2026-11-18): one brand colour, white surfaces, no cartoon art. */
+    :root{--blue:#1f5be0;--brand:#1f5be0;--brand-soft:#eef3ff;--ink:#14213a}
+    body{background:#fff}
+    .home{background:#fff;background-image:radial-gradient(#d9e2f5 1px,transparent 1px);background-size:22px 22px;background-position:-11px -11px}
+    .home .wrap{position:relative}
+    .hero{display:block;max-width:820px;margin:0 auto 34px;text-align:center}
+    .hero-text{text-align:center;background:#ffffffe6;border-radius:24px;padding:8px 0}
+    .hero-text h1{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--ink);font-size:clamp(32px,4.6vw,50px);margin:14px 0 10px}
+    .hero-text h1 .accent{color:var(--brand)}
+    .hero-badge{background:var(--brand-soft);border-color:#d6e2ff;color:var(--brand);box-shadow:none}
+    .home-search{display:flex;gap:8px;max-width:680px;margin:24px auto 0;padding:6px;background:#fff;border:1.5px solid #cfd9ec;border-radius:14px;box-shadow:0 10px 28px #14213a14}
+    .home-search:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px #1f5be01f}
+    .home-search input{flex:1;min-width:0;border:0;outline:0;padding:12px 12px;font:inherit;font-size:16px;background:transparent}
+    .home-search button{border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-weight:800;padding:0 22px;cursor:pointer}
+    .home-chips{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin-top:14px;font-size:13px;color:var(--muted)}
+    .chip{border:1px solid #d6e2ff;background:var(--brand-soft);color:var(--brand);border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+    .chip:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+    .home-grid.four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:1080px;margin:0 auto 30px}
+    .home-grid.four .home-card,.help-grid .home-card{padding:20px;gap:8px;border-radius:16px;border:1px solid #dfe6f3;background:#fff;box-shadow:0 1px 2px #14213a0d}
+    .home-grid.four .home-card:hover,.help-grid .home-card:hover{transform:translateY(-2px);border-color:var(--brand);box-shadow:0 10px 24px #1f5be01a}
+    .home-grid.four .home-card b{font-size:18px}.home-grid.four .card-desc{font-size:14px}
+    .card-icon{width:42px;height:42px;border-radius:11px;color:var(--brand);background:var(--brand-soft);box-shadow:none}
+    .i-sheet,.i-bolt,.i-book,.i-cal{background:var(--brand-soft);box-shadow:none}
+    .home-card:not(.primary) .card-tag,.card-tag{background:#f1f4fa;color:#4d5a6d}
+    .home-example{max-width:940px}.home-example .panel{background:#fff;box-shadow:none;border-color:#dfe6f3}
+    .tabs a[aria-current=page]{background:var(--brand);box-shadow:none}
+    .logo-mark{background:var(--brand);box-shadow:none;border-radius:8px}
+    .upload button,#parse-button,#export-quick{background:var(--brand)!important;box-shadow:none}
+    section.view.main,section.view.try{background:#f7f9fc}
+    .main .title h1,.view-title{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--ink)}
+    .base-choice.in-box{margin:12px 0 0;padding:10px 12px;background:var(--brand-soft);border-radius:10px;font-weight:700;font-size:14px}.base-choice.in-box select{font-weight:700}
+    .parser .base-choice.in-box{margin:0 0 12px}
+    @media(max-width:900px){.home-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:560px){.home-grid.four{grid-template-columns:1fr}.home-search{flex-direction:column}.home-search button{padding:12px}}
   </style>
 </head>
 <body>
@@ -139,36 +173,7 @@
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
         <div class="hero">
-          <div class="hero-text"><span class="hero-badge" data-i18n="hero_badge">ED95 기준 · olanzapine mg/일 · 연구·교육용</span><h1 data-i18n="home_title">항정신병약 등가용량 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p></div>
-          <svg class="hero-art" viewBox="0 0 420 340" role="img" aria-label="계산기 일러스트" data-i18n-attr="aria-label:art_label">
-            <defs>
-              <linearGradient id="artCalc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f7cff"/><stop offset="1" stop-color="#6d4dff"/></linearGradient>
-              <linearGradient id="artScreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0f8ff"/><stop offset="1" stop-color="#d7ebff"/></linearGradient>
-              <linearGradient id="artPill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a9a"/><stop offset="1" stop-color="#ffa36b"/></linearGradient>
-            </defs>
-            <circle cx="330" cy="86" r="66" fill="#ffd66b" opacity=".32"/>
-            <circle cx="80" cy="262" r="62" fill="#5eead4" opacity=".32"/>
-            <g transform="rotate(-10 115 160)">
-              <rect x="40" y="70" width="150" height="180" rx="16" fill="#fff" stroke="#dbe5f5" stroke-width="2"/>
-              <path d="M56 70h118a16 16 0 0 1 16 16v18H40V86a16 16 0 0 1 16-16z" fill="#1f9d63"/>
-              <rect x="56" y="122" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="122" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="148" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="148" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="174" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="174" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="200" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="200" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="226" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="226" width="70" height="10" rx="5" fill="#e3e9f3"/>
-            </g>
-            <g transform="rotate(6 275 180)">
-              <rect x="190" y="60" width="170" height="240" rx="26" fill="url(#artCalc)"/>
-              <rect x="191" y="61" width="168" height="238" rx="25" fill="none" stroke="#ffffff40" stroke-width="2"/>
-              <rect x="210" y="82" width="130" height="58" rx="12" fill="url(#artScreen)"/>
-              <text x="330" y="117" text-anchor="end" font-family="system-ui,sans-serif" font-size="27" font-weight="800" fill="#1e3a8a">14.69</text>
-              <text x="330" y="132" text-anchor="end" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#4f6fae">OLZ mg/day</text>
-              <rect x="212" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="156" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="190" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="224" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="258" width="26" height="24" rx="7" fill="#34d399"/><text font-family="system-ui,sans-serif" x="327" y="173" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">+</text><text font-family="system-ui,sans-serif" x="327" y="207" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">−</text><text font-family="system-ui,sans-serif" x="327" y="241" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">×</text><text font-family="system-ui,sans-serif" x="327" y="275" text-anchor="middle" font-size="14" font-weight="800" fill="#064e3b">=</text>
-            </g>
-            <g transform="rotate(-32 150 285)">
-              <rect x="105" y="268" width="90" height="34" rx="17" fill="#fff" stroke="#f3c2cf" stroke-width="2"/>
-              <path d="M150 268h28a17 17 0 0 1 0 34h-28z" fill="url(#artPill)"/>
-            </g>
-            <path d="M384 150l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#ffd166"/>
-            <path d="M44 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#7dd3fc"/>
-            <path d="M170 24l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" fill="#c4b5fd"/>
-          </svg>
+          <div class="hero-text"><span class="hero-badge" data-i18n="hero_badge">ED95 기준 · olanzapine mg/일 · 연구·교육용</span><h1 data-i18n="home_title">항정신병약 <span class="accent">등가용량</span> 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p><form class="home-search" id="home-quick-form" role="search"><input id="home-quick-input" maxlength="10000" autocomplete="off" placeholder="처방을 입력하세요 (예: risperidone 2mg BID, olanzapine 5mg)" data-i18n-attr="placeholder:quick_ph,aria-label:parser_aria" aria-label="약물 문자열"><button type="submit" data-i18n="home_go">바로 계산</button></form><div class="home-chips"><span data-i18n="try_label">예시로 해보기</span><button type="button" class="chip" data-example="risperidone 2mg BID, olanzapine 5mg">risperidone 2mg BID, olanzapine 5mg</button><button type="button" class="chip" data-example="Invega Sustenna 150mg q4w">Invega Sustenna 150mg q4w</button><button type="button" class="chip" data-example="Abilify 10mg, Seroquel 100mg 0-0-1">Abilify 10mg, Seroquel 100mg 0-0-1</button><button type="button" class="chip" data-example="할로페리돌 5mg 1-0-1">할로페리돌 5mg 1-0-1</button></div></div>
         </div>
         <div class="home-example" aria-label="엑셀 입력·결과 예시">
           <div class="flow">
@@ -194,10 +199,11 @@
                 </table></figure></div>
           </div>
         </div>
-        <div class="home-grid three">
-          <a class="home-card primary" href="#upload"><span class="card-icon i-sheet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+        <div class="home-grid four">
+          <a class="home-card" href="#upload"><span class="card-icon i-sheet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#quick"><span class="card-icon i-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#help"><span class="card-icon i-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5V4.5M9 7.5h6M9 11h6"/></svg></span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 날짜별 분석, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="/longitudinal"><span class="card-icon i-cal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M4 10h16M8.5 3v4M15.5 3v4M8 14h3M8 17h6"/></svg></span><b><span data-i18n="nav_long">날짜별 분석</span><i class="card-tag" data-i18n="tag_dated">처방일별</i></b><span class="card-desc" data-i18n="cd_long">처방일이 있는 CSV를 환자·처방일별로 따로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#help"><span class="card-icon i-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5V4.5M9 7.5h6M9 11h6"/></svg></span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
         <p class="home-note"><a href="#help" data-i18n="home_note">엑셀 입력 방법과 결과 읽는 법은 ‘사용 안내’에서 확인하세요 →</a></p>
     </div></section>
@@ -208,7 +214,8 @@
             <input type="hidden" name="method" value="ALL">
             <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name" data-i18n="choose">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
             <button type="submit" id="submit-button" data-i18n="submit">결과파일 받기</button>
-          </form><p id="upload-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
           <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
         </section>
@@ -228,8 +235,7 @@
           <a class="home-card" href="#guide"><span class="card-no">1</span><b><span data-i18n="nav_guide">입력 방법</span></b><span class="card-desc" data-i18n="cd_guide">엑셀 열을 어떻게 넣어야 잘 읽히는지 예시로 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#rules"><span class="card-no">2</span><b><span data-i18n="nav_rules">계산 기준</span></b><span class="card-desc" data-i18n="cd_rules">기준 환산표(ED95)와 값이 없을 때 보완하는 순서를 확인하고 바꿉니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#read"><span class="card-no">3</span><b><span data-i18n="nav_read">결과 읽는 법</span></b><span class="card-desc" data-i18n="cd_read">결과 Excel의 시트와 상태코드가 무슨 뜻인지 설명합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="/longitudinal"><span class="card-no">4</span><b><span data-i18n="nav_long">날짜별 분석</span></b><span class="card-desc" data-i18n="cd_long">처방일이 있는 CSV를 환자·처방일별로 따로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="/methods"><span class="card-no">5</span><b><span data-i18n="nav_methods">환산 근거</span></b><span class="card-desc" data-i18n="cd_methods">환산표별 근거와 적용 한계를 확인합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="/methods"><span class="card-no">4</span><b><span data-i18n="nav_methods">환산 근거</span></b><span class="card-desc" data-i18n="cd_methods">환산표별 근거와 적용 한계를 확인합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
     </div></section>
     <section class="main view" id="view-guide" data-view="guide" hidden><div class="wrap">
@@ -272,9 +278,9 @@
     </div></section>
     <section class="main view" id="view-rules" data-view="rules" hidden><div class="wrap">
         <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
-        <h1 class="view-title" data-i18n="fold_base">기준 바꾸기 · 전체 보완 순서</h1>
+        <h1 class="view-title" data-i18n="rules_title">계산 기준 · 보완 순서</h1>
+        <p class="view-sub" data-i18n="rules_note">기준 방법은 ‘엑셀로 계산’, ‘한 줄 계산’, ‘날짜별 분석’ 화면에서 바꿀 수 있습니다.</p>
         <div class="fold-body view-body">
-          <div class="base-choice"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
           <div class="supplement-guide"><strong data-i18n="supp_title">보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small data-i18n="supp_desc">기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
           <p data-i18n="methods_note">ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>
         </div>
@@ -299,7 +305,7 @@
     </div></section>
     <section class="try view" id="view-quick" data-view="quick" hidden><div class="wrap try-grid">
       <div><h2 data-i18n="quick_title">한 줄로 바로 계산</h2><p data-i18n="quick_desc">여러 약물은 쉼표(,)로 구분하세요. 엑셀 계산과 같은 규칙으로 계산합니다.</p></div>
-      <div class="parser"><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열" data-i18n-attr="aria-label:parser_aria"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-i18n="export_quick" data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div class="parser"><div class="base-choice in-box"><label for="base-method-quick" data-i18n="base_label">기준 방법</label><select id="base-method-quick">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열" data-i18n-attr="aria-label:parser_aria"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-i18n="export_quick" data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
   </main>
   <footer><a href="/methods" data-i18n="footer_link">환산 근거·적용 한계 안내</a><br><span data-i18n="footer_note">연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</span><span data-i18n="srv_note" style="display:block"></span></footer>

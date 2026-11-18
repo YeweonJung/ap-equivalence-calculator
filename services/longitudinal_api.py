@@ -46,9 +46,24 @@ def no_store(response):
     return response
 
 
+def _methods():
+    from services.converter import available_methods
+    from services.result_summary import METHOD_ORDER
+    return [m for m in METHOD_ORDER if m in available_methods()]
+
+
+def _base_method(value):
+    # Same rule as the main calculator: ED95 unless another supported method is chosen.
+    if value is None or value == '':
+        return 'ED95'
+    if not isinstance(value, str) or value.strip().upper() not in _methods():
+        raise ValueError('지원하는 기준 방법을 하나 선택해 주세요.')
+    return value.strip().upper()
+
+
 @bp.get('/longitudinal')
 def page():
-    return render_template('longitudinal.html', fields=FIELDS)
+    return render_template('longitudinal.html', fields=FIELDS, methods=_methods())
 
 
 @bp.post('/api/longitudinal/inspect')
@@ -73,6 +88,7 @@ def calculate():
         mapping = mapping or detect_mapping(frame.columns)
         policy = 'prescription_date'
         mode = request.form.get('mode', 'all_dates')
+        base_method = _base_method(request.form.get('base_method'))
         refs = read_csv_upload(request.files.get('references'))[0] if mode == 'per_patient' else None
         records = prepare(frame, mapping, policy)
         pairs = reference_pairs(records, mode, request.form.get('reference_date', ''), refs)
@@ -83,7 +99,7 @@ def calculate():
         if sum(counts.get(p, 0) for p, _ in pairs) > 10000000:
             raise ValueError('처리량이 큽니다. 기준일이나 피험자를 나눠 주세요.')
         release = metadata()
-        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='exact_prescription_date', dose_basis='tablets_per_day', release=release), policy=policy)
+        out = analyze_export(records, pairs, dict(policy=policy, mode=mode, mapping=mapping, source_sha256=digest, date_basis='exact_prescription_date', dose_basis='tablets_per_day', release=release, base_method=base_method), policy=policy)
         from services.longitudinal_excel import FILENAME, MIMETYPE
         return send_file(out, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE)
     except (ValueError, TypeError) as exc:
