@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AP Dose Converter | 항정신병약물 등가용량 계산</title>
+  <title data-i18n="title_tag">AP Dose Converter | 항정신병약물 등가용량 계산</title>
   <style>
     :root{--blue:#1268e8;--navy:#13233d;--ink:#172033;--muted:#69758a;--line:#dce4ef;--soft:#f3f7fc;--green:#13805b}
     *{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}
@@ -50,7 +50,7 @@
 </style>
 </head>
 <body>
-  <header><div class="wrap nav"><div class="logo">AP <b>DOSE</b> CONVERTER</div><div class="nav-right"><a href="{{ url_for('sample_file') }}" data-i18n="nav_sample">샘플 Excel 내려받기</a><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="ko" aria-pressed="true">한국어</button><button type="button" data-lang="en" aria-pressed="false">English</button></div></div></div></header>
+  <header><div class="wrap nav"><div class="logo">AP <b>DOSE</b> CONVERTER</div><div class="nav-right"><a href="{{ url_for('sample_file') }}" data-i18n="nav_sample">샘플 Excel 내려받기</a><select class="lang-select" data-lang-select aria-label="Language / 언어"></select></div></div></header>
   <main>
     <section class="main">
       <div class="wrap">
@@ -106,51 +106,33 @@
           <div class="rule"><small data-i18n="rule_result">결과</small><b><span data-i18n="rule_total">환자별 합계</span> · <span id="rule-unit">{{ units['ED95'] }}</span> mg/day</b></div>
         </section>
         <details class="fold"><summary data-i18n="fold_base">기준 바꾸기 · 전체 보완 순서</summary><div class="fold-body">
-          <div class="base-choice"><label for="base-method">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
-          <div class="supplement-guide"><strong>보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small>기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
-          <p>ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>
+          <div class="base-choice"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div>
+          <div class="supplement-guide"><strong data-i18n="supp_title">보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small data-i18n="supp_desc">기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
+          <p data-i18n="methods_note">ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>
         </div></details>
         <details class="fold"><summary data-i18n="fold_read">결과 파일 읽는 법</summary><div class="fold-body">
           <ul class="sheet-guide" aria-label="결과 파일 시트 안내">
-            <li><b>보완합계</b> 환자별 최종 총합과 어떤 방법으로 채웠는지(예: ED95+MED)</li>
-            <li><b>보완근거</b> 약물마다 적용한 방법·계수·출처</li>
-            <li><b>Results · MedicationResults</b> 보완 없이 방법별로 따로 낸 합계와 약물별 값. <b>—</b> 는 그 방법으로 계산할 수 없다는 뜻</li>
-            <li><b>Review · AuditTrail · 코드안내</b> 확인할 항목, 원문을 읽은 기록, 상태코드 뜻</li>
+            <li data-i18n="sg1"><b>보완합계</b> 환자별 최종 총합과 어떤 방법으로 채웠는지(예: ED95+MED)</li>
+            <li data-i18n="sg2"><b>보완근거</b> 약물마다 적용한 방법·계수·출처</li>
+            <li data-i18n="sg3"><b>Results · MedicationResults</b> 보완 없이 방법별로 따로 낸 합계와 약물별 값. <b>—</b> 는 그 방법으로 계산할 수 없다는 뜻</li>
+            <li data-i18n="sg4"><b>Review · AuditTrail · 코드안내</b> 확인할 항목, 원문을 읽은 기록, 상태코드 뜻</li>
           </ul>
           <section class="status-guide" aria-label="결과 상태 코드 안내">
-            <strong>검토필요는 오류가 확인된 x 항목만 표시합니다.</strong>
-            <div class="status-codes">{% for code, label, description in status_legend %}<span{% if code == 'x' %} class="error-code"{% endif %} title="{{ description }}"><b>{{ code }}:</b> {{ label }}</span>{% endfor %}</div>
-            <p>결과 시트의 ‘상태코드·상태설명’에서 사유를 확인하세요. Review 시트에는 x 오류만 모이며, 자세한 뜻은 ‘코드안내’ 시트에 있습니다.</p>
-            <p>빈칸은 0이 아닙니다. 계산할 수 없는 약이 있으면 총합 대신 부분합을 따로 표시합니다.</p>
+            <strong data-i18n="status_title">검토필요는 오류가 확인된 x 항목만 표시합니다.</strong>
+            <div class="status-codes">{% for code, label, description in status_legend %}<span{% if code == 'x' %} class="error-code"{% endif %} title="{{ description }}" data-i18n-attr="title:lgd_{{ code }}"><b>{{ code }}:</b> <span data-i18n="lg_{{ code }}">{{ label }}</span></span>{% endfor %}</div>
+            <p data-i18n="status_p1">결과 시트의 ‘상태코드·상태설명’에서 사유를 확인하세요. Review 시트에는 x 오류만 모이며, 자세한 뜻은 ‘코드안내’ 시트에 있습니다.</p>
+            <p data-i18n="status_p2">빈칸은 0이 아닙니다. 계산할 수 없는 약이 있으면 총합 대신 부분합을 따로 표시합니다.</p>
           </section>
         </div></details>
       </div>
     </section>
     <section class="try"><div class="wrap try-grid">
       <div><h2 data-i18n="quick_title">한 줄로 바로 계산</h2><p data-i18n="quick_desc">여러 약물은 쉼표(,)로 구분하세요. 위와 같은 규칙으로 계산합니다.</p></div>
-      <div class="parser"><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div class="parser"><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열" data-i18n-attr="aria-label:parser_aria"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-i18n="export_quick" data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
   </main>
-  <footer><a href="/methods" data-i18n="footer_link">환산 근거·적용 한계 안내</a><br><span data-i18n="footer_note">연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</span></footer>
-  <script>
-  (function(){
-    var EN={nav_sample:'Download sample Excel',title:'Upload a prescription spreadsheet.<br>Get each patient\'s total equivalent dose.',subtitle:'Drug names, doses and frequencies are read and converted to olanzapine-equivalent mg/day.',choose:'Choose an Excel or CSV file',submit:'Get result file',limits:'CSV · XLS · XLSX · up to 100 MB · deleted from the server after processing',sample_link:'Download input sample →',upload_note:'Best layout: <b>column 1 = patient ID, column 2 = all medications</b> (separate several drugs with commas). If there is a prescription-date column, each date is totalled separately. See the example below.',howto_title:'Lay out your spreadsheet like this',howto_desc:'Put only the patient ID in column 1 and all of that patient\'s medications in column 2. You get one total per patient, as on the right.',howto_in:'Input (your spreadsheet)',howto_out:'Output (“보완합계” sheet)',col_id:'Patient ID',col_med:'Medications',col_total:'Total (OLZ mg/day)',col_basis:'How it was read',ex1:'risperidone 4 mg/day + olanzapine 5 mg/day',ex2:'Ativan (lorazepam) = 0; quetiapine 100 mg once at bedtime',ex3:'0.5-0-1 without strength → 1.5 mg/day (flag c)',ex4:'LAI 150 mg every 4 weeks; PRN = 0',tip1:'<b>Several drugs</b> in one cell, separated by commas: <code>risperidone 2mg BID, olanzapine 5mg</code>',tip2:'<b>Frequency</b>: <code>QD·BID·TID</code>, <code>twice a day</code> or <code>1-0-1</code>',tip3:'<b>a-b-c</b>: with a strength in mg the numbers are tablets (<code>2mg 0.5-0-1</code> = 3 mg); without, they are mg (<code>risperidone2 0.5-0-1</code> = 1.5 mg)',tip4:'<b>Drug names</b>: ingredient or brand, Korean, Chinese, Japanese and more; typos are corrected and flagged <code>c</code>',tip5:'<b>PRN</b> orders and non-antipsychotics count as 0',tip6:'<b>Raw EHR exports</b> (mixed dates, order numbers) should first be reduced to these two columns',rule_base:'Base',rule_fill:'Missing values filled from',rule_result:'Result',rule_total:'Per-patient total',fold_base:'Change base · full supplement order',fold_read:'How to read the result file',quick_title:'Quick one-line calculation',quick_desc:'Separate several drugs with commas. The same rules apply.',quick_example:'Example: risperidone 2mg, olanzapine 5mg, quetiapine 100mg',quick_button:'Calculate',footer_link:'Conversion sources and limitations',footer_note:'For research and education; it does not replace clinical judgement or prescribing.'};
-    var KO={};
-    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(!(k in KO))KO[k]=el.innerHTML;});
-    function apply(lang){
-      var table=lang==='en'?EN:KO;
-      document.querySelectorAll('[data-i18n]').forEach(function(el){var v=table[el.getAttribute('data-i18n')];if(v!==undefined)el.innerHTML=v;});
-      document.documentElement.lang=lang;
-      document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-lang')===lang));});
-      try{localStorage.setItem('ap-lang',lang);}catch(e){}
-    }
-    document.querySelectorAll('[data-lang]').forEach(function(b){b.addEventListener('click',function(){apply(b.getAttribute('data-lang'));});});
-    var saved=null;try{saved=localStorage.getItem('ap-lang');}catch(e){}
-    var q=new URLSearchParams(location.search).get('lang');
-    var lang=q==='en'||q==='ko'?q:(saved||((navigator.language||'').slice(0,2)==='ko'?'ko':'en'));
-    if(lang==='en')apply('en');
-  })();
-  </script>
+  <footer><a href="/methods" data-i18n="footer_link">환산 근거·적용 한계 안내</a><br><span data-i18n="footer_note">연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</span><span data-i18n="srv_note" style="display:block"></span></footer>
+  <script src="{{ url_for('static', filename='i18n.js') }}"></script>
   <script src="{{ url_for('static', filename='home_upload.js') }}"></script>
   <script src="{{ url_for('static', filename='study_bridge.js') }}"></script>
   <script src="{{ url_for('static', filename='quick_check.js') }}"></script>
