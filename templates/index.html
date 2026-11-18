@@ -207,6 +207,7 @@
     .parse-item{border-radius:2px}.tips code{border-radius:0}
     .home-note a,.view-links a,.back-link a{font-weight:400;text-decoration:underline;text-underline-offset:3px}
     .home-card,.home-search,.upload,.parser{transition:none}
+    @media(max-width:760px){.home .wrap{display:flex;flex-direction:column}.home .hero{order:1}.home .home-grid.four{order:2}.home .home-example{order:3;margin-top:8px}.home .home-note{order:4}}
   </style>
 </head>
 <body>
@@ -216,6 +217,7 @@
       <a href="#" data-view="home" data-i18n="nav_home">홈</a>
       <a href="#upload" data-view="upload" data-i18n="nav_upload">엑셀로 계산</a>
       <a href="#quick" data-view="quick" data-i18n="nav_quick">한 줄 계산</a>
+      <a href="/longitudinal" data-i18n="nav_long">날짜별 분석</a>
       <a href="#help" data-view="help" data-i18n="nav_help">사용 안내</a>
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
@@ -262,7 +264,7 @@
             <label class="file-label" id="drop-zone" for="file"><span aria-hidden="true">＋</span><span id="file-name" data-i18n="choose">Excel 또는 CSV 파일 선택</span><input id="file" type="file" name="file" accept=".csv,.xls,.xlsx" required></label>
             <button type="submit" id="submit-button" data-i18n="submit">결과파일 받기</button>
           </form>
-          <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
+          <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
           <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
         </section>
@@ -352,7 +354,7 @@
     </div></section>
     <section class="try view" id="view-quick" data-view="quick" hidden><div class="wrap try-grid">
       <div><h2 data-i18n="quick_title">한 줄로 바로 계산</h2><p data-i18n="quick_desc">여러 약물은 쉼표(,)로 구분하세요. 엑셀 계산과 같은 규칙으로 계산합니다.</p></div>
-      <div class="parser"><div class="base-choice in-box"><label for="base-method-quick" data-i18n="base_label">기준 방법</label><select id="base-method-quick">{% for method in methods %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열" data-i18n-attr="aria-label:parser_aria"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-i18n="export_quick" data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
+      <div class="parser"><div class="base-choice in-box"><label for="base-method-quick" data-i18n="base_label">기준 방법</label><select id="base-method-quick">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p data-i18n="quick_example">예시: risperidone 2mg, olanzapine 5mg, quetiapine 100mg</p><div class="parser-row"><input maxlength="10000" id="parser-input" value="risperidone 2mg, olanzapine 5mg" aria-label="약물 문자열" data-i18n-attr="aria-label:parser_aria"><button id="parse-button" type="button" data-i18n="quick_button">바로 계산</button></div><button id="export-quick" type="button" hidden data-i18n="export_quick" data-export-url="{{ url_for('export_quick_check') }}">이 결과 Excel 저장</button><div id="download-status" role="status"></div><div id="feedback-status" role="status" aria-live="polite"></div><div id="parse-results" class="parse-results" aria-live="polite" data-api-url="{{ url_for('parse_text') }}"></div></div>
     </div></section>
   </main>
   <footer><a href="/methods" data-i18n="footer_link">환산 근거·적용 한계 안내</a><br><span data-i18n="footer_note">연구·교육 보조용이며 임상 판단이나 처방을 대체하지 않습니다.</span><span data-i18n="srv_note" style="display:block"></span></footer>

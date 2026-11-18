@@ -9,6 +9,7 @@
   var D = {};
 
   D.en = {
+    up_empty: "No prescription line was found. Check that column 1 is the patient ID and column 2 the medications. The file you received is empty.",
     cd_help: "Input format, calculation basis, reading results and sources in one place.",
     lp_base_note: "Doses are converted with the base method; only drugs without a value are filled from other tables in a fixed order.",
     rules_note: "You can change the base method on the Excel, one-line and by-date screens.",
@@ -243,6 +244,7 @@
   };
 
   D.ja = {
+    up_empty: "処方の行が見つかりませんでした。1列目が患者ID、2列目が処方薬になっているか確認してください。受け取ったファイルは空です。",
     cd_help: "入力方法、計算の基準、結果の見方、換算の根拠をまとめています。",
     lp_base_note: "基準の方法で換算し、値がない薬のみ決められた順序で他の換算表から補完します。",
     rules_note: "基準の方法は「Excelで計算」「1行計算」「処方日別の分析」画面で変更できます。",
@@ -477,6 +479,7 @@
   };
 
   D.zh = {
+    up_empty: "未找到任何处方行。请确认第1列为患者ID、第2列为处方药。收到的文件为空。",
     cd_help: "汇集了输入格式、计算基准、阅读结果和换算依据。",
     lp_base_note: "按基准方法换算，仅对缺值的药物按固定顺序用其他换算表补充。",
     rules_note: "可在“用 Excel 计算”“单行计算”“按处方日期分析”页面更改基准方法。",
@@ -711,6 +714,7 @@
   };
 
   D.fr = {
+    up_empty: "Aucune ligne de prescription trouvée. Vérifiez que la colonne 1 contient l'identifiant du patient et la colonne 2 les médicaments. Le fichier reçu est vide.",
     cd_help: "Format d'entrée, base de calcul, lecture des résultats et sources, réunis au même endroit.",
     lp_base_note: "Les doses sont converties avec la méthode de référence ; seuls les médicaments sans valeur sont complétés par d'autres tables dans un ordre fixe.",
     rules_note: "La méthode de référence se change sur les écrans Excel, calcul sur une ligne et analyse par date.",
@@ -945,6 +949,7 @@
   };
 
   D.ar = {
+    up_empty: "لم يُعثر على أي سطر وصفة. تحقق من أن العمود 1 هو معرّف المريض والعمود 2 هو الأدوية. الملف المستلم فارغ.",
     cd_help: "تنسيق الإدخال وأساس الحساب وقراءة النتائج والمصادر في مكان واحد.",
     lp_base_note: "تُحوَّل الجرعات بطريقة الأساس، ولا تُستكمل إلا الأدوية التي لا قيمة لها من جداول أخرى بترتيب ثابت.",
     rules_note: "يمكن تغيير طريقة الأساس في شاشات Excel والحساب في سطر واحد والتحليل حسب التاريخ.",

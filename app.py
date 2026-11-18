@@ -312,12 +312,15 @@ def process_upload(uploaded_file, method, base_method=None):
             output_file = export_results(audit_rows, error_rows, directory=temp_dir, summary_rows=summary_rows, patient_rows=patient_rows, patient_checks=patient_checks, base_method=base_method)
             result_bytes = io.BytesIO(Path(output_file).read_bytes())
             result_bytes.seek(0)
-            return send_file(
+            response = send_file(
                 result_bytes,
                 as_attachment=True,
                 download_name="AP_equivalence_result.xlsx",
                 mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             )
+            # Lets the page warn when no prescription line was found (the file is then empty).
+            response.headers["X-Medication-Lines"] = str(len(audit_rows))
+            return response
     except (ValueError, OSError) as exc:
         return render_template("error.html", message=str(exc)), 400
 

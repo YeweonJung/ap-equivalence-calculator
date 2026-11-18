@@ -12,7 +12,8 @@
     const wanted = location.hash.replace(/^#/, '');
     const view = study ? 'all' : (names.has(wanted) && wanted !== 'home' ? wanted : 'home');
     views.forEach(section => {
-      section.hidden = view === 'all' ? section.dataset.view === 'home' : section.dataset.view !== view;
+      // Research mode keeps the pre-redesign page: every calculator view, but not the home or help hub.
+      section.hidden = view === 'all' ? ['home', 'help'].includes(section.dataset.view) : section.dataset.view !== view;
     });
     if (tabs) {
       tabs.hidden = view === 'home' || study;
