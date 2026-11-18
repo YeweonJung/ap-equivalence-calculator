@@ -98,6 +98,10 @@
     .back-link{margin:0 0 10px;font-size:15px}.back-link a{color:var(--blue);font-weight:700;text-decoration:none}
     .help-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     @media(max-width:760px){.help-grid{grid-template-columns:1fr}.home-grid.three{grid-template-columns:1fr}.home-grid.three .home-card{min-height:0}}
+    .home{min-height:calc(100vh - 65px);padding:40px 0 120px}.home .title{margin-bottom:26px}
+    .home-example{max-width:940px;margin:0 auto 28px}.home-example .panel{padding:14px;min-height:0}.home-example .panel-label{margin-bottom:10px;font-size:14px}.home-example .xl{font-size:12.5px}.home-example .xl th,.home-example .xl td{padding:7px 6px}
+    .home-grid.three{max-width:940px;margin:0 auto;gap:14px}.home-grid.three .home-card{padding:18px 20px;min-height:0;gap:6px}.home-grid.three .home-card b{font-size:18px}.home-grid.three .card-desc{font-size:14px}
+    .home-note{text-align:center;margin:22px 0 0;font-size:15px}.home-note a{color:var(--blue);font-weight:700;text-decoration:none}
   </style>
 </head>
 <body>
@@ -111,11 +115,36 @@
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
         <div class="title"><h1 data-i18n="home_title">항정신병약 등가용량 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p></div>
+        <div class="home-example" aria-label="엑셀 입력·결과 예시">
+          <div class="flow">
+            <div class="panel"><div class="panel-label"><span class="number">1</span><span data-i18n="howto_in">입력 (내 엑셀)</span></div>
+              <figure class="xl" aria-label="입력 예시 표" style="margin:0"><div class="xl-bar">input.xlsx</div>
+                <table><colgroup><col style="width:26px"><col style="width:26%"><col></colgroup>
+                  <tr><td class="col"></td><td class="col">A</td><td class="col">B</td></tr>
+                  <tr><td class="rn">1</td><th data-i18n="col_id">환자 ID</th><th data-i18n="col_med">약물 처방</th></tr>
+                  <tr><td class="rn">2</td><td>P001</td><td>risperidone 2mg BID, olanzapine 5mg QD</td></tr>
+                  <tr><td class="rn">3</td><td>P002</td><td>Ativan 1mg, 쿠에티아핀 100mg 0-0-1</td></tr>
+                  <tr><td class="rn">4</td><td>P003</td><td>risperidone2 0.5-0-1</td></tr>
+                  <tr><td class="rn">5</td><td>P004</td><td>Invega Sustenna 150mg q4w, quetiapine 25mg PRN</td></tr>
+                </table></figure></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="panel"><div class="panel-label"><span class="number">2</span><span data-i18n="howto_out">결과 (보완합계 시트)</span></div>
+              <figure class="xl out" aria-label="결과 예시 표" style="margin:0"><div class="xl-bar blue">AP_equivalence_result.xlsx</div>
+                <table><colgroup><col style="width:20%"><col style="width:27%"><col></colgroup>
+                  <tr><th data-i18n="col_id">환자 ID</th><th data-i18n="col_total">총합 (OLZ mg/일)</th><th data-i18n="col_basis">읽은 방법</th></tr>
+                  <tr><td>P001</td><td class="num">14.69</td><td data-i18n="ex1">risperidone 4 mg/일 + olanzapine 5 mg/일</td></tr>
+                  <tr><td>P002</td><td class="num">3.15</td><td data-i18n="ex2">Ativan(lorazepam) = 0, 쿠에티아핀 100 mg 취침 1회</td></tr>
+                  <tr><td>P003</td><td class="num">3.64</td><td data-i18n="ex3">함량 없는 0.5-0-1 → 1.5 mg/일 (확인 표시 c)</td></tr>
+                  <tr><td>P004</td><td class="num">13.64</td><td data-i18n="ex4">LAI 150 mg 4주 간격, PRN = 0</td></tr>
+                </table></figure></div>
+          </div>
+        </div>
         <div class="home-grid three">
           <a class="home-card primary" href="#upload"><span class="card-no">1</span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#quick"><span class="card-no">2</span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#help"><span class="card-no">3</span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 날짜별 분석, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
+        <p class="home-note"><a href="#help" data-i18n="home_note">엑셀 입력 방법과 결과 읽는 법은 ‘사용 안내’에서 확인하세요 →</a></p>
     </div></section>
     <section class="main view" id="view-upload" data-view="upload" hidden><div class="wrap">
         <div class="title"><h1 data-i18n="title">처방 엑셀을 올리면<br>환자별 등가용량 합계가 나옵니다</h1><p data-i18n="subtitle">약물명·용량·복용 횟수를 읽어 olanzapine 기준 mg/day로 계산합니다.</p></div>

@@ -9,6 +9,7 @@
   var D = {};
 
   D.en = {
+    home_note: "See “Help & guide” for the Excel input format and how to read the results →",
     nav_help: "Help & guide",
     cd_help: "Input format, calculation basis, reading results, by-date analysis and sources in one place.",
     tag_file: "File",
@@ -233,6 +234,7 @@
   };
 
   D.ja = {
+    home_note: "Excelの入力方法と結果の見方は「使い方」をご覧ください →",
     nav_help: "使い方",
     cd_help: "入力方法、計算の基準、結果の見方、処方日別の分析、換算の根拠をまとめています。",
     tag_file: "ファイル",
@@ -457,6 +459,7 @@
   };
 
   D.zh = {
+    home_note: "Excel 输入格式和结果阅读方法请查看“使用说明” →",
     nav_help: "使用说明",
     cd_help: "汇集了输入格式、计算基准、阅读结果、按处方日期分析和换算依据。",
     tag_file: "文件",
@@ -681,6 +684,7 @@
   };
 
   D.fr = {
+    home_note: "Le format d'entrée Excel et la lecture des résultats sont dans « Mode d'emploi » →",
     nav_help: "Mode d'emploi",
     cd_help: "Format d'entrée, base de calcul, lecture des résultats, analyse par date et sources, réunis au même endroit.",
     tag_file: "Fichier",
@@ -905,6 +909,7 @@
   };
 
   D.ar = {
+    home_note: "← راجع «دليل الاستخدام» لتنسيق إدخال Excel وقراءة النتائج",
     nav_help: "دليل الاستخدام",
     cd_help: "تنسيق الإدخال وأساس الحساب وقراءة النتائج والتحليل حسب التاريخ والمصادر في مكان واحد.",
     tag_file: "ملف",
