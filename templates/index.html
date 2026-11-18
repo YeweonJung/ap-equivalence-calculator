@@ -160,6 +160,29 @@
     .parser .base-choice.in-box{margin:0 0 12px}
     @media(max-width:900px){.home-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:560px){.home-grid.four{grid-template-columns:1fr}.home-search{flex-direction:column}.home-search button{padding:12px}}
+    /* Colour and font only (2026-11-18): muted navy and greys, Malgun Gothic; shapes and layout unchanged. */
+    :root{--brand:#2c4a6e;--blue:#2c4a6e;--brand-soft:#eef1f4;--ink:#1f262e;--muted:#58616b;--line:#d8dde3;--soft:#f4f6f8;--green:#2f6b4f}
+    body{font-family:"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink)}
+    .home{background-color:#fff;background-image:radial-gradient(#e2e5e9 1px,transparent 1px)}
+    .hero-text h1 .accent{color:var(--brand)}
+    .hero-badge{background:var(--soft);border-color:var(--line);color:var(--muted)}
+    .home-search{border-color:#c3c9d1;box-shadow:0 6px 18px #1f262e10}.home-search:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px #2c4a6e1a}
+    .chip{background:var(--soft);border-color:var(--line);color:var(--ink)}.chip:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+    .home-grid.four .home-card,.help-grid .home-card{border-color:var(--line);box-shadow:0 1px 2px #1f262e0d}
+    .home-grid.four .home-card:hover,.help-grid .home-card:hover{border-color:var(--brand);box-shadow:0 8px 20px #1f262e14}
+    .card-icon,.i-sheet,.i-bolt,.i-book,.i-cal{background:var(--brand-soft);color:var(--brand)}
+    .card-tag,.home-card:not(.primary) .card-tag{background:var(--soft);color:var(--muted)}
+    .card-no{background:var(--soft);color:var(--brand)}
+    .tabs a[aria-current=page]{background:var(--brand);color:#fff}
+    .logo-mark{background:var(--brand)}.logo b{color:var(--brand)}
+    .number{background:var(--brand)}.arrow,.rule-arrow{color:var(--brand)}
+    .xl-bar.blue{background:var(--brand)}.xl.out th{background:#eef1f4;color:#2c4a6e}.xl-bar{background:var(--green)}.xl th{background:#eaf1ec;color:#2f5140}
+    .upload button,#parse-button,#export-quick,.home-search button{background:var(--brand)!important}
+    .base-choice.in-box{background:var(--brand-soft)}
+    .rule b,.supplement-guide p{color:var(--brand)}
+    .tips code{color:var(--brand)}
+    .home-note a,.view-links a,.back-link a,.home-card em,.under-actions a{color:var(--brand)}
+    .upload,.parser{border-color:var(--line)}
   </style>
 </head>
 <body>
@@ -219,7 +242,7 @@
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
           <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
         </section>
-        <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 바꾸기 →</a></p>
+        <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 설명 →</a></p>
         <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
           <div class="rule"><small data-i18n="rule_base">기준</small><b id="rule-base">ED95</b></div>
           <span class="rule-arrow" aria-hidden="true">→</span>
