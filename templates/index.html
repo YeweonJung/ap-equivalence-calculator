@@ -102,10 +102,34 @@
     .home-example{max-width:940px;margin:0 auto 28px}.home-example .panel{padding:14px;min-height:0}.home-example .panel-label{margin-bottom:10px;font-size:14px}.home-example .xl{font-size:12.5px}.home-example .xl th,.home-example .xl td{padding:7px 6px}
     .home-grid.three{max-width:940px;margin:0 auto;gap:14px}.home-grid.three .home-card{padding:18px 20px;min-height:0;gap:6px}.home-grid.three .home-card b{font-size:18px}.home-grid.three .card-desc{font-size:14px}
     .home-note{text-align:center;margin:22px 0 0;font-size:15px}.home-note a{color:var(--blue);font-weight:700;text-decoration:none}
+    /* Visual refresh (2026-11-18) */
+    :root{--blue:#2f6bff;--indigo:#5b4dff;--grad:linear-gradient(135deg,#2f6bff 0%,#5b4dff 100%)}
+    body{background:#f7f9ff}
+    header{background:#ffffffd9;backdrop-filter:blur(8px);position:relative;z-index:6}
+    a.logo{display:inline-flex;align-items:center;gap:9px}.logo-mark{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;box-shadow:0 6px 14px #2f6bff40}.logo-mark svg{width:18px;height:18px}
+    .tabs{background:#ffffffe6;backdrop-filter:blur(8px)}.tabs a[aria-current=page]{background:var(--grad);box-shadow:0 6px 14px #2f6bff33}
+    .home{background:radial-gradient(900px 480px at 88% -8%,#dfe7ff 0%,#dfe7ff00 62%),radial-gradient(760px 420px at -6% 34%,#d9faf1 0%,#d9faf100 58%),radial-gradient(700px 380px at 60% 108%,#fff1d6 0%,#fff1d600 60%),#f7f9ff}
+    .hero{max-width:980px;margin:0 auto 26px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:20px}
+    .hero-text{text-align:left}.hero-text h1{margin:12px 0 12px;font-size:clamp(30px,4.2vw,46px);word-break:keep-all;line-height:1.2;letter-spacing:-.035em;background:linear-gradient(120deg,#13233d 10%,#2f4fd8 70%,#6b4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-text p{margin:0;color:var(--muted);font-size:17px;line-height:1.7}
+    .hero-badge{display:inline-block;padding:6px 12px;border-radius:99px;background:#fff;border:1px solid #dfe6ff;color:#3b4fd8;font-size:13px;font-weight:800;box-shadow:0 4px 12px #2f6bff14}
+    .hero-art{width:100%;max-width:380px;justify-self:center;filter:drop-shadow(0 18px 30px #3b4fd826)}
+    .home-example .panel{background:#ffffffcc;border-color:#e3e9f7;box-shadow:0 12px 30px #223c630f}
+    .home-grid.three .home-card{border-radius:20px;border-color:#e6ebf7;box-shadow:0 12px 30px #223c6312}
+    .home-grid.three .home-card:hover{transform:translateY(-4px);box-shadow:0 18px 38px #2f6bff26}
+    .home-card.primary{background:var(--grad);border-color:transparent;box-shadow:0 16px 34px #2f6bff40}
+    .card-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:#fff}.card-icon svg{width:24px;height:24px}
+    .i-sheet{background:#ffffff2e}.i-bolt{background:linear-gradient(135deg,#14b8a6,#22c55e);box-shadow:0 8px 16px #14b8a633}.i-book{background:linear-gradient(135deg,#f59e0b,#f97316);box-shadow:0 8px 16px #f59e0b33}
+    .home-card:not(.primary) .card-tag{background:#e6fbf5;color:#0f8a74}
+    .upload button,#parse-button,#export-quick{background:var(--grad)!important;box-shadow:0 10px 22px #2f6bff33}
+    .upload,.parser{border-color:#e3e9f7}
+    section.view.main,section.view.try{background:radial-gradient(820px 380px at 92% -12%,#e2e9ff 0%,#e2e9ff00 60%),radial-gradient(640px 320px at -8% 60%,#ddf8f0 0%,#ddf8f000 58%),#f7f9ff}
+    .main .title h1,.view-title{background:linear-gradient(120deg,#13233d 10%,#2f4fd8 70%,#6b4dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;text-align:center}.hero-text{text-align:center}.hero-art{max-width:250px;order:-1}}
   </style>
 </head>
 <body>
-  <header><div class="wrap nav"><a class="logo" href="#">AP <b>DOSE</b> CONVERTER</a><div class="nav-right"><a href="{{ url_for('sample_file') }}" data-i18n="nav_sample">샘플 Excel 내려받기</a><select class="lang-select" data-lang-select aria-label="Language / 언어"></select></div></div></header>
+  <header><div class="wrap nav"><a class="logo" href="#"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7.5h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></svg></span><span>AP <b>DOSE</b> CONVERTER</span></a><div class="nav-right"><a href="{{ url_for('sample_file') }}" data-i18n="nav_sample">샘플 Excel 내려받기</a><select class="lang-select" data-lang-select aria-label="Language / 언어"></select></div></div></header>
   <main>
     <nav class="tabs" id="tabs" aria-label="목차" data-i18n-attr="aria-label:nav_toc" hidden><div class="wrap tabs-row">
       <a href="#" data-view="home" data-i18n="nav_home">홈</a>
@@ -114,7 +138,38 @@
       <a href="#help" data-view="help" data-i18n="nav_help">사용 안내</a>
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
-        <div class="title"><h1 data-i18n="home_title">항정신병약 등가용량 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p></div>
+        <div class="hero">
+          <div class="hero-text"><span class="hero-badge" data-i18n="hero_badge">ED95 기준 · olanzapine mg/일 · 연구·교육용</span><h1 data-i18n="home_title">항정신병약 등가용량 계산기</h1><p data-i18n="home_sub">처방 기록을 읽어 환자별 총 항정신병약 용량을 olanzapine 기준 mg/일로 계산합니다. 무엇을 하시겠어요?</p></div>
+          <svg class="hero-art" viewBox="0 0 420 340" role="img" aria-label="계산기 일러스트" data-i18n-attr="aria-label:art_label">
+            <defs>
+              <linearGradient id="artCalc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f7cff"/><stop offset="1" stop-color="#6d4dff"/></linearGradient>
+              <linearGradient id="artScreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0f8ff"/><stop offset="1" stop-color="#d7ebff"/></linearGradient>
+              <linearGradient id="artPill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a9a"/><stop offset="1" stop-color="#ffa36b"/></linearGradient>
+            </defs>
+            <circle cx="330" cy="86" r="66" fill="#ffd66b" opacity=".32"/>
+            <circle cx="80" cy="262" r="62" fill="#5eead4" opacity=".32"/>
+            <g transform="rotate(-10 115 160)">
+              <rect x="40" y="70" width="150" height="180" rx="16" fill="#fff" stroke="#dbe5f5" stroke-width="2"/>
+              <path d="M56 70h118a16 16 0 0 1 16 16v18H40V86a16 16 0 0 1 16-16z" fill="#1f9d63"/>
+              <rect x="56" y="122" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="122" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="148" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="148" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="174" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="174" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="200" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="200" width="70" height="10" rx="5" fill="#e3e9f3"/><rect x="56" y="226" width="40" height="10" rx="5" fill="#cfe8da"/><rect x="104" y="226" width="70" height="10" rx="5" fill="#e3e9f3"/>
+            </g>
+            <g transform="rotate(6 275 180)">
+              <rect x="190" y="60" width="170" height="240" rx="26" fill="url(#artCalc)"/>
+              <rect x="191" y="61" width="168" height="238" rx="25" fill="none" stroke="#ffffff40" stroke-width="2"/>
+              <rect x="210" y="82" width="130" height="58" rx="12" fill="url(#artScreen)"/>
+              <text x="330" y="117" text-anchor="end" font-family="system-ui,sans-serif" font-size="27" font-weight="800" fill="#1e3a8a">14.69</text>
+              <text x="330" y="132" text-anchor="end" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#4f6fae">OLZ mg/day</text>
+              <rect x="212" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="156" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="156" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="190" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="190" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="224" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="224" width="26" height="24" rx="7" fill="#ffd166"/><rect x="212" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="246" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="280" y="258" width="26" height="24" rx="7" fill="#ffffff30"/><rect x="314" y="258" width="26" height="24" rx="7" fill="#34d399"/><text font-family="system-ui,sans-serif" x="327" y="173" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">+</text><text font-family="system-ui,sans-serif" x="327" y="207" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">−</text><text font-family="system-ui,sans-serif" x="327" y="241" text-anchor="middle" font-size="14" font-weight="800" fill="#7a4b00">×</text><text font-family="system-ui,sans-serif" x="327" y="275" text-anchor="middle" font-size="14" font-weight="800" fill="#064e3b">=</text>
+            </g>
+            <g transform="rotate(-32 150 285)">
+              <rect x="105" y="268" width="90" height="34" rx="17" fill="#fff" stroke="#f3c2cf" stroke-width="2"/>
+              <path d="M150 268h28a17 17 0 0 1 0 34h-28z" fill="url(#artPill)"/>
+            </g>
+            <path d="M384 150l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#ffd166"/>
+            <path d="M44 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#7dd3fc"/>
+            <path d="M170 24l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" fill="#c4b5fd"/>
+          </svg>
+        </div>
         <div class="home-example" aria-label="엑셀 입력·결과 예시">
           <div class="flow">
             <div class="panel"><div class="panel-label"><span class="number">1</span><span data-i18n="howto_in">입력 (내 엑셀)</span></div>
@@ -140,9 +195,9 @@
           </div>
         </div>
         <div class="home-grid three">
-          <a class="home-card primary" href="#upload"><span class="card-no">1</span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#quick"><span class="card-no">2</span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="#help"><span class="card-no">3</span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 날짜별 분석, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card primary" href="#upload"><span class="card-icon i-sheet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#quick"><span class="card-icon i-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="#help"><span class="card-icon i-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5V4.5M9 7.5h6M9 11h6"/></svg></span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 날짜별 분석, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
         <p class="home-note"><a href="#help" data-i18n="home_note">엑셀 입력 방법과 결과 읽는 법은 ‘사용 안내’에서 확인하세요 →</a></p>
     </div></section>

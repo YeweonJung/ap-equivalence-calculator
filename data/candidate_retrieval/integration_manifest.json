@@ -117,7 +117,7 @@
     "services/validator.py": "a6fafa59fbeede8fcbe22a9f85b5554fa2273aa3b4bca0b7623f96586d8e1208",
     "static/quick_check.js": "7b780ada6462229a353c831d3dcc9bf458b0e1d93ae60d1328ce90bf2ebb5f39",
     "templates/error.html": "1b2b4f6c0539f4a85aa7bd5781a0a554c47da9f1451caf27c5c0ac7db778b5e1",
-    "templates/index.html": "0977a12d1d8fd4a665b3422d26d0beca72c8254d1e44d9c90f1578cc2ec6b9e3",
+    "templates/index.html": "30f19627905b6f14be9e6ad87c7875aa5c13b0eedaf86c1176478cbd59ee5f41",
     "templates/results.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/annotated_equivalence_cases.csv": "2303b146c02bc36243bd4866b3ada189fa5ae081f8ae5e4ebedaeae4baba7cfa",
     "tests/conftest.py": "8659c4f6af34a32f61ecc29774fd873cf628e7e0828ce9ff04773418357a6cc6",
