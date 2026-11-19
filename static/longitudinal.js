@@ -5,18 +5,30 @@
   const labels = {patient:'피험자 ID',date:'처방일',drug:'성분·함량·제형이 적힌 약물명',product:'제품명 (선택)',code:'보험 약품코드 (선택)',daily:'하루 정/캡슐 수',days:'처방일수 (선택)'};
   const fieldLabel = field => T('lf_' + field, labels[field]);
   let generation = 0, lastInspect = null, lastStatus = null;
-  const inspectText = d => T('lj_rows', '{n}행 · ').replace('{n}', d.rows.toLocaleString()) + (d.recognized ? T('lj_recog', '종단 처방 형식 인식 완료. 열 연결을 확인하세요.') : T('lj_unrecog', '자동 인식하지 못한 열을 직접 선택하세요.'));
+  const inspectText = d => T('lj_rows', '{n}행 · ').replace('{n}', d.rows.toLocaleString()) + (d.recognized ? T('lj_recog', '열 이름이 같은 칸은 미리 채웠습니다. 칸마다 맞는 열인지 확인하세요.') : T('lj_unrecog', '빈 칸에 맞는 열을 고르세요. 열 이름이 같은 칸은 미리 채웠습니다.'));
   document.addEventListener('ap:lang', () => {
     for (const field of Object.keys(labels)) { const title = document.querySelector(`label[for="map-${field}"]`); if (title) title.textContent = fieldLabel(field); }
-    const empty = document.querySelectorAll('#mapping option[value=""]'); empty.forEach(o => { o.textContent = T('lj_col', '열 선택'); });
+    const empty = document.querySelectorAll('#mapping option[value=""]'); empty.forEach(o => { o.textContent = lastInspect ? T('lj_col', '열 선택') : T('lj_wait', '파일을 먼저 고르세요'); });
     if (lastInspect) $('inspection').textContent = inspectText(lastInspect);
     if (lastStatus) $('status').textContent = T(lastStatus[0], lastStatus[1]);
   });
+  // The boxes are on the page from the start; they list the file's columns once a file is chosen.
+  function build(columns, mapping) {
+    $('mapping').replaceChildren();
+    for (const field of Object.keys(labels)) {
+      const box = document.createElement('div'), title = document.createElement('label'), select = document.createElement('select');
+      select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days', 'code'].includes(field);
+      select.add(new Option(columns.length ? T('lj_col', '열 선택') : T('lj_wait', '파일을 먼저 고르세요'), ''));
+      columns.forEach(column => select.add(new Option(column, column)));
+      select.disabled = !columns.length; select.value = mapping[field] || ''; box.append(title, select); $('mapping').append(box);
+    }
+  }
+  build([], {});
   $('rx-file').addEventListener('change', async () => {
     const token = ++generation;
-    $('calculate').disabled = true; $('mapping').replaceChildren(); $('status').textContent = ''; lastInspect = null; lastStatus = null;
+    $('calculate').disabled = true; build([], {}); $('status').textContent = ''; lastInspect = null; lastStatus = null;
     $('inspection').removeAttribute('data-i18n');
-    if (!$('rx-file').files[0]) return;
+    if (!$('rx-file').files[0]) { $('inspection').textContent = T('lp_inspect', $('inspection').textContent); return; }
     $('inspection').textContent = T('lj_checking', '열 확인 중…');
     const form = new FormData(); form.append('file', $('rx-file').files[0]);
     try {
@@ -24,13 +36,7 @@
       const data = await response.json();
       if (token !== generation) return;
       if (!response.ok) throw new Error(data.error || T('lj_read_fail', '파일을 읽지 못했습니다.'));
-      for (const field of Object.keys(labels)) {
-        const box = document.createElement('div'), title = document.createElement('label'), select = document.createElement('select');
-        select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days', 'code'].includes(field);
-        select.add(new Option(T('lj_col', '열 선택'), ''));
-        data.columns.forEach(column => select.add(new Option(column, column)));
-        select.value = data.mapping[field] || ''; box.append(title, select); $('mapping').append(box);
-      }
+      build(data.columns, data.mapping);
       lastInspect = data; $('inspection').textContent = inspectText(data);
       $('calculate').disabled = false;
     } catch (error) { if (token === generation) $('inspection').textContent = error.message; }

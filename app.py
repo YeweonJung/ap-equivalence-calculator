@@ -11,6 +11,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
+LONGITUDINAL_REDIRECT = '처방일 열이 있는 처방 원자료입니다. 날짜별 분석 화면에서 파일을 다시 고르고 열을 직접 연결해 계산하세요.'
 from services.column_detector import detect_columns, detect_medication_groups, column_problem, MISSING_DRUG, MISSING_ID
 from services.converter import available_methods, normalize_target
 from services.exporter import export_results
@@ -240,6 +241,10 @@ def process_upload(uploaded_file, method, base_method=None):
             sheets = read_file(str(upload_path))
             from services.longitudinal import is_longitudinal
             if any(is_longitudinal(df.columns) for df in sheets.values()):
+                if request.form.get('dated') == 'page':
+                    # Uploads from the web page: dated prescription records are calculated only after
+                    # the researcher links each column on the by-date page.
+                    return jsonify({'error': LONGITUDINAL_REDIRECT, 'redirect': '/longitudinal?from=upload'}), 409
                 import hashlib
                 from services.longitudinal_auto import automatic_analysis
                 from services.release import metadata

@@ -81,7 +81,7 @@
     "tests/test_results_injections.py": "ccb39717920e88fcf8e163cedbaf79bec73c5624a232d17faab60b4ba59ca83d"
   },
   "expected_source_sha256_lf": {
-    "app.py": "d2a552d1ebb0ec2f3df88e25ff9d48d850e91704faf41eee1bd106e77e3b2a2a",
+    "app.py": "cd1b7a890fe4531fe7a7cf46b6d6033757872b07f166c54687af45cf8acf451a",
     "data/name_ranker/evaluation.json": "e5c6ec074768757f80605acf1e2088884641812ba077a56ba6b919156da1d874",
     "data/name_ranker/synthetic.jsonl": "0bc7481f554e0268eaf8715ac1ad1f9c8f047ecc1a3504a061f8267984c8d23d",
     "lookup/antidepressants.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

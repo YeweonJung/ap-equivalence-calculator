@@ -87,7 +87,7 @@ def _base_method(value):
 
 @bp.get('/longitudinal')
 def page():
-    return render_template('longitudinal.html', fields=FIELDS, methods=_methods())
+    return render_template('longitudinal.html', fields=FIELDS, methods=_methods(), detected_notice=request.args.get('from') == 'upload')
 
 
 @bp.post('/api/longitudinal/inspect')

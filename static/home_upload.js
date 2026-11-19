@@ -18,6 +18,7 @@
     event.preventDefault();if (busy || !file.files[0]) return;
     if (!/\.(csv|xlsx|xls)$/i.test(file.files[0].name)) {status.textContent=T('up_type', 'CSV 또는 Excel 파일을 선택해 주세요.');status.dataset.error='true';return;}
     const body = new FormData(form);
+    body.append('dated', 'page');
     busy = true;button.disabled = true;file.disabled = true;button.removeAttribute('data-i18n');button.textContent = T('up_busy', '파일을 분석하고 있습니다…');
     status.textContent = T('up_busy_status', '약물과 처방일을 확인하고 결과를 준비합니다.');status.dataset.error = 'false';
     try {
@@ -25,7 +26,7 @@
       if (!response.ok) {
         if ([502, 503, 504].includes(response.status)) throw new Error(T('up_server', '서버에서 처리를 완료하지 못했습니다. 잠시 후 다시 계산해 주세요.'));
         const type = response.headers.get('Content-Type') || '';let message;
-        if (type.includes('json')) message = (await response.json()).error;
+        if (type.includes('json')) {const data = await response.json();if (data.redirect) {location.href = data.redirect;return;}message = data.error;}
         else {const page = new DOMParser().parseFromString(await response.text(), 'text/html');message = page.querySelector('.message, .error-message, main p, p')?.textContent;}
         throw new Error(message || T('up_fail', '파일을 처리하지 못했습니다. 열 이름과 파일 크기를 확인해 주세요.'));
       }
