@@ -11,7 +11,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
-LONGITUDINAL_REDIRECT = '처방일 열이 있는 처방 원자료입니다. 날짜별 분석 화면에서 파일을 다시 고르고 열을 직접 연결해 계산하세요.'
+LONGITUDINAL_REDIRECT = '처방일 열이 있는 처방 원자료입니다. 전산실 처방자료 분석 화면에서 파일을 다시 고르고 열을 직접 연결해 계산하세요.'
 from services.column_detector import detect_columns, detect_medication_groups, column_problem, MISSING_DRUG, MISSING_ID
 from services.converter import available_methods, normalize_target
 from services.exporter import export_results

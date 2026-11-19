@@ -28,7 +28,7 @@ def automatic_analysis(sheets, methods, source_sha256='', release=None, base_met
         mapping = detect_mapping(frame.columns)
         missing = [k for k in REQUIRED[:-1] if not mapping[k]]
         if missing:
-            raise ValueError(f'{sheet}: 파일에 처방일 열이 있어 날짜별 분석으로 읽었지만 필요한 열을 찾지 못했습니다 ({", ".join(NAMES[k] for k in missing)}). 열 제목을 id, 처방일, med, 하루정수로 맞추거나 날짜별 분석 화면에서 열을 직접 연결하세요.')
+            raise ValueError(f'{sheet}: 파일에 처방일 열이 있어 전산실 처방자료 분석으로 읽었지만 필요한 열을 찾지 못했습니다 ({", ".join(NAMES[k] for k in missing)}). 열 제목을 id, 처방일, med, 하루정수로 맞추거나 전산실 처방자료 분석 화면에서 열을 직접 연결하세요.')
         mappings[sheet] = dict(mapping)
         for i, row in enumerate(frame.to_dict('records')):
             if not any(str(v).strip() for v in row.values()):

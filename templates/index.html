@@ -217,7 +217,7 @@
       <a href="#" data-view="home" data-i18n="nav_home">홈</a>
       <a href="#upload" data-view="upload" data-i18n="nav_upload">엑셀로 계산</a>
       <a href="#quick" data-view="quick" data-i18n="nav_quick">한 줄 계산</a>
-      <a href="/longitudinal" data-i18n="nav_long">날짜별 분석</a>
+      <a href="/longitudinal" data-i18n="nav_long">전산실 처방자료 분석</a>
       <a href="#help" data-view="help" data-i18n="nav_help">사용 안내</a>
     </div></nav>
     <section class="home view" id="view-home" data-view="home"><div class="wrap">
@@ -251,7 +251,7 @@
         <div class="home-grid four">
           <a class="home-card" href="#upload"><span class="card-icon i-sheet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span><b><span data-i18n="nav_upload">엑셀로 계산</span><i class="card-tag" data-i18n="tag_file">파일</i></b><span class="card-desc" data-i18n="cd_upload">여러 환자의 처방이 담긴 Excel·CSV를 올리면 환자별 합계 Excel을 받습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#quick"><span class="card-icon i-bolt" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><b><span data-i18n="nav_quick">한 줄 계산</span><i class="card-tag" data-i18n="tag_quick">빠르게 확인</i></b><span class="card-desc" data-i18n="cd_quick">처방 한 줄을 입력하면 바로 결과와 근거를 보여줍니다.</span><em data-i18n="card_go">들어가기 →</em></a>
-          <a class="home-card" href="/longitudinal"><span class="card-icon i-cal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M4 10h16M8.5 3v4M15.5 3v4M8 14h3M8 17h6"/></svg></span><b><span data-i18n="nav_long">날짜별 분석</span><i class="card-tag" data-i18n="tag_dated">처방일별</i></b><span class="card-desc" data-i18n="cd_long">처방일이 있는 CSV를 환자·처방일별로 따로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
+          <a class="home-card" href="/longitudinal"><span class="card-icon i-cal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M4 10h16M8.5 3v4M15.5 3v4M8 14h3M8 17h6"/></svg></span><b><span data-i18n="nav_long">전산실 처방자료 분석</span><i class="card-tag" data-i18n="tag_dated">처방일별</i></b><span class="card-desc" data-i18n="cd_long">전산실에서 받은 처방 원자료(CSV·Excel)를 열을 직접 연결해 환자·처방일별로 합산합니다.</span><em data-i18n="card_go">들어가기 →</em></a>
           <a class="home-card" href="#help"><span class="card-icon i-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5V4.5M9 7.5h6M9 11h6"/></svg></span><b><span data-i18n="nav_help">사용 안내</span></b><span class="card-desc" data-i18n="cd_help">입력 방법, 계산 기준, 결과 읽는 법, 환산 근거를 모아 두었습니다.</span><em data-i18n="card_go">들어가기 →</em></a>
         </div>
         <p class="home-note"><a href="#help" data-i18n="home_note">엑셀 입력 방법과 결과 읽는 법은 ‘사용 안내’에서 확인하세요 →</a></p>
@@ -266,7 +266,7 @@
           </form>
           <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
-          <p class="upload-note" data-i18n="upload_note" data-html>첫 번째 열 제목은 <b>id</b>, 두 번째 열 제목은 <b>med</b>로 하세요. med 칸에는 그 환자의 약을 모두 쉼표로 구분해 적으세요. 전산실에서 받은 처방 원자료는 <b>날짜별 분석</b>에서 올리세요.</p>
+          <p class="upload-note" data-i18n="upload_note" data-html>첫 번째 열 제목은 <b>id</b>, 두 번째 열 제목은 <b>med</b>로 하세요. med 칸에는 그 환자의 약을 모두 쉼표로 구분해 적으세요. 전산실에서 받은 처방 원자료는 <b>전산실 처방자료 분석</b>에서 올리세요.</p>
         </section>
         <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 설명 →</a></p>
         <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
@@ -320,16 +320,16 @@
             <li data-i18n="tip3" data-html><b>a-b-c</b>: 함량(mg)이 있으면 정 수(<code>2mg 0.5-0-1</code> = 3 mg), 없으면 mg(<code>risperidone2 0.5-0-1</code> = 1.5 mg)</li>
             <li data-i18n="tip4" data-html><b>약물명</b>은 성분명·국내외 상품명·한글·중국어·일본어 등 모두 가능, 오타는 자동 보정 후 <code>c</code> 표시</li>
             <li data-i18n="tip5" data-html><b>PRN</b>(필요시)과 항정신병약이 아닌 약은 0으로 계산</li>
-            <li data-i18n="tip6" data-html><b>전산실 처방 원자료</b>(처방일·일수 등이 있는 표)는 <b>날짜별 분석</b>에서 올리세요</li>
+            <li data-i18n="tip6" data-html><b>전산실 처방 원자료</b>(처방일·일수 등이 있는 표)는 <b>전산실 처방자료 분석</b>에서 올리세요</li>
           </ul>
-          <details class="fold"><summary data-i18n="cols_sum">열 이름 규칙</summary><div class="fold-body"><ul class="sheet-guide"><li data-i18n="cols1" data-html><b>id</b>: 첫 번째 열에 환자 번호를 적으세요.</li><li data-i18n="cols2" data-html><b>med</b>: 두 번째 열에 그 환자의 약을 모두 쉼표로 구분해 적으세요.</li><li data-i18n="cols3" data-html>열 제목은 id와 med 두 가지로 맞추세요. 다르게 적으면 고칠 곳을 화면에 알려 드립니다.</li><li data-i18n="cols4" data-html>전산실에서 받은 처방 원자료(처방일·일수 등이 있는 표)는 <b>날짜별 분석</b>에서 올리세요.</li></ul></div></details>
+          <details class="fold"><summary data-i18n="cols_sum">열 이름 규칙</summary><div class="fold-body"><ul class="sheet-guide"><li data-i18n="cols1" data-html><b>id</b>: 첫 번째 열에 환자 번호를 적으세요.</li><li data-i18n="cols2" data-html><b>med</b>: 두 번째 열에 그 환자의 약을 모두 쉼표로 구분해 적으세요.</li><li data-i18n="cols3" data-html>열 제목은 id와 med 두 가지로 맞추세요. 다르게 적으면 고칠 곳을 화면에 알려 드립니다.</li><li data-i18n="cols4" data-html>전산실에서 받은 처방 원자료(처방일·일수 등이 있는 표)는 <b>전산실 처방자료 분석</b>에서 올리세요.</li></ul></div></details>
         </section>
         <p class="view-links"><a href="#upload" data-i18n="link_upload">엑셀 올리러 가기 →</a></p>
     </div></section>
     <section class="main view" id="view-rules" data-view="rules" hidden><div class="wrap">
         <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
         <h1 class="view-title" data-i18n="rules_title">계산 기준 · 보완 순서</h1>
-        <p class="view-sub" data-i18n="rules_note">기준 방법은 ‘엑셀로 계산’, ‘한 줄 계산’, ‘날짜별 분석’ 화면에서 바꿀 수 있습니다.</p>
+        <p class="view-sub" data-i18n="rules_note">기준 방법은 ‘엑셀로 계산’, ‘한 줄 계산’, ‘전산실 처방자료 분석’ 화면에서 바꿀 수 있습니다.</p>
         <div class="fold-body view-body">
           <div class="supplement-guide"><strong data-i18n="supp_title">보완 순서</strong><p id="supplement-order" data-priority="{{ supplement_priority|join(',') }}" aria-live="polite">{{ supplement_priority|reject('equalto', 'ED95')|join(' → ') }}</p><small data-i18n="supp_desc">기준 방법으로 계산된 값은 그대로 두고, 값이 없는 약물만 이 순서에서 처음 계산되는 방법으로 채웁니다. 파일 업로드와 한 줄 계산에 같이 적용됩니다.</small></div>
           <p data-i18n="methods_note">ED95는 Leucht 2020(저자 TUM 계산기 값), MED는 Leucht 2014, GARDNER는 2010 전문가 합의, INADA는 blonanserin용 Inada &amp; Inagaki 2015 값입니다. <a href="/methods">방법별 근거 보기</a></p>

@@ -33,7 +33,7 @@ def test_base_selectors_list_ed95_first():
 
 def test_secondary_pages_share_header_and_tabs():
     client = app.test_client()
-    for path, active in [('/longitudinal', '날짜별 분석'), ('/methods', '사용 안내')]:
+    for path, active in [('/longitudinal', '전산실 처방자료 분석'), ('/methods', '사용 안내')]:
         html = client.get(path).get_data(as_text=True)
         assert 'class="site-tabs"' in html and '/static/site.css' in html and 'data-lang-select' in html
         assert re.search(r'aria-current="page">%s<' % active, html), path
