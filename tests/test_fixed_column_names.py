@@ -54,9 +54,9 @@ def test_numbered_groups_pair_by_number():
 
 def test_missing_columns_stop_with_a_message():
     response = upload('환자번호,처방내역\nP1,olanzapine 5mg\n')
-    assert response.status_code == 400 and '약물이 적힌 열' in response.get_data(as_text=True)
+    assert response.status_code == 400 and 'med 열을 찾지 못했습니다' in response.get_data(as_text=True)
     response = upload('No,약물\n1,olanzapine 5mg\n')
-    assert response.status_code == 400 and '환자 번호가 적힌 열' in response.get_data(as_text=True)
+    assert response.status_code == 400 and 'id 열을 찾지 못했습니다' in response.get_data(as_text=True)
 
 
 def test_skipped_sheets_and_ids_shared_by_sheets_are_reported():

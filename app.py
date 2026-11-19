@@ -103,20 +103,14 @@ def version():
 def sample_file():
     workbook = Workbook()
     sheet = workbook.active
-    # Recommended layout: column A = patient ID only, column B = all medications of that patient.
+    # The one layout users are told to use: column A "id", column B "med" with all of the patient's drugs.
     sheet.title = "입력예시"
-    sheet.append(["환자ID", "약물"])
+    sheet.append(["id", "med"])
     sheet.append(["P001", "risperidone 2mg BID, olanzapine 5mg QD"])
     sheet.append(["P002", "Ativan 1mg, 쿠에티아핀 100mg 0-0-1"])
     sheet.append(["P003", "risperidone2 0.5-0-1"])
     sheet.append(["P004", "Invega Sustenna 150mg q4w, quetiapine 25mg PRN"])
-    detail = workbook.create_sheet("열을 나눈 형식(선택)")
-    detail.append(["환자ID", "약물", "용량", "단위", "횟수"])
-    # Different IDs from the first sheet: the same ID in two sheets is added up as one patient.
-    detail.append(["S001", "risperidone", 2, "mg", "BID"])
-    detail.append(["S001", "olanzapine", 5, "mg", "QD"])
-    detail.append(["S002", "risperidone", 1, "mg", "QD"])
-    for ws, widths in ((sheet, {"A": 14, "B": 56}), (detail, {"A": 16, "B": 20, "C": 12, "D": 10, "E": 16})):
+    for ws, widths in ((sheet, {"A": 14, "B": 56}),):
         for cell in ws[1]:
             cell.font = Font(bold=True, color="FFFFFF")
             cell.fill = PatternFill("solid", fgColor="1769E0")

@@ -39,7 +39,7 @@
         status.textContent = T('up_done', '계산 완료. 첫 시트(보완합계)에서 환자별 최종 합계를 확인하세요.');
         const notes = Object.fromEntries((response.headers.get('X-Upload-Notes') || '').split(';').filter(Boolean).map(p => p.split('=')));
         const extra = [];
-        if (+notes.skipped > 0) extra.push(T('up_note_skipped', '환자ID·약물 열이 없는 시트 {n}개는 읽지 않았습니다.').replace('{n}', notes.skipped));
+        if (+notes.skipped > 0) extra.push(T('up_note_skipped', 'id·med 열이 없는 시트 {n}개는 읽지 않았습니다.').replace('{n}', notes.skipped));
         if (+notes.shared > 0) extra.push(T('up_note_shared', '같은 환자ID가 여러 시트에 있어 {n}명은 시트를 합쳐 계산했습니다. 의도한 것이 아니면 ID를 확인하세요.').replace('{n}', notes.shared));
         if (extra.length) {status.textContent += ' ' + extra.join(' ');status.dataset.error = 'true';}
       }

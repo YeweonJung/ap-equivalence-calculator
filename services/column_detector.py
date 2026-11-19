@@ -7,8 +7,10 @@ contents: a wrong guess would put another column into the totals without any war
 import re
 import unicodedata
 
-ID_NAMES = ["환자ID", "ID", "patient_id"]
-DRUG_NAMES = ["약물", "medication", "drug"]
+# Users are told one rule: column 1 "id", column 2 "med". The other exact names are
+# still read so that files made under the earlier instructions keep working.
+ID_NAMES = ["id", "환자ID", "patient_id"]
+DRUG_NAMES = ["med", "약물", "medication", "drug"]
 DOSE_NAMES = ["용량", "dose", "1일용량", "daily_dose"]
 UNIT_NAMES = ["단위", "unit"]
 FREQUENCY_NAMES = ["횟수", "frequency"]
@@ -18,8 +20,8 @@ MEDICATION_KEYWORDS = DRUG_NAMES
 
 DOSE_VALUE_RE = re.compile(r"(?:\d+(?:\.\d+)?|\.\d+)\s*(?:mcg|ug|μg|㎍|mg|㎎|g)(?=$|[\s,;+/])", re.I)
 
-MISSING_DRUG = "약물 열을 찾지 못했습니다. 약물이 적힌 열의 제목을 '약물'(또는 medication, drug)로 바꿔 주세요."
-MISSING_ID = "환자ID 열을 찾지 못했습니다. 환자 번호가 적힌 열의 제목을 '환자ID'(또는 ID)로 바꿔 주세요."
+MISSING_DRUG = "med 열을 찾지 못했습니다. 첫 번째 열 제목은 id, 두 번째 열 제목은 med로 해 주세요."
+MISSING_ID = "id 열을 찾지 못했습니다. 첫 번째 열 제목은 id, 두 번째 열 제목은 med로 해 주세요."
 
 
 def _key(column):
@@ -100,9 +102,9 @@ def column_problem(df):
     if numbered:
         mixed = [plain[k][0] for k in ("medication_column", "dose_column", "unit_column", "frequency_column") if k in plain]
         if mixed:
-            return f"번호 붙은 열(약물1, 약물2 …)과 번호 없는 열({', '.join(mixed)})이 함께 있습니다. 한 가지 방식으로 맞춰 주세요."
+            return f"번호 붙은 열(med1, med2 …)과 번호 없는 열({', '.join(mixed)})이 함께 있습니다. 한 가지 방식으로 맞춰 주세요."
         drugs = {number for (kind, number) in numbered if kind == "medication_column"}
         orphans = [columns[0] for (kind, number), columns in numbered.items() if kind != "medication_column" and number not in drugs]
         if orphans:
-            return f"짝이 되는 약물 열이 없는 열이 있습니다: {', '.join(orphans)}. 예: 용량2가 있으면 약물2도 있어야 합니다."
+            return f"짝이 되는 약물 열이 없는 열이 있습니다: {', '.join(orphans)}. 예: dose2가 있으면 med2도 있어야 합니다."
     return None

@@ -151,7 +151,7 @@ def test_drug_id_is_not_mistaken_for_patient_identifier():
     csv_bytes = b"drug_id,medication\nD001,Risperdal 2mg BID\n"
     response = _upload(app.test_client(), csv_bytes, "data.csv")
     assert response.status_code == 400
-    assert "환자ID" in response.get_data(as_text=True)
+    assert "id 열을 찾지 못했습니다" in response.get_data(as_text=True)
 
 
 def test_every_registered_alias_parses_to_its_declared_standard_name():
@@ -239,7 +239,7 @@ def test_common_korean_structured_column_names_are_detected():
     # 2026-11-19: hospital-export names are not guessed any more; the fixed Korean names are read.
     csv_bytes = "환자ID,제품명,1회용량,용량단위,일일횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
-    assert response.status_code == 400 and "약물이 적힌 열" in response.get_data(as_text=True)
+    assert response.status_code == 400 and "med 열을 찾지 못했습니다" in response.get_data(as_text=True)
     csv_bytes = "환자 ID,약물,용량,단위,횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
     assert response.status_code == 200
@@ -269,10 +269,9 @@ def test_sample_download_is_a_real_xlsx_file():
     assert response.status_code == 200
     workbook = load_workbook(io.BytesIO(response.data))
     # 2026-10-29: recommended layout is column A = patient ID, column B = all medications.
-    assert [c.value for c in workbook.active[1]] == ["환자ID", "약물"]
+    assert [c.value for c in workbook.active[1]] == ["id", "med"]
+    assert workbook.sheetnames == ["입력예시"]
     assert workbook.active["B2"].value == "risperidone 2mg BID, olanzapine 5mg QD"
-    detail = workbook["열을 나눈 형식(선택)"]
-    assert [c.value for c in detail[1]] == ["환자ID", "약물", "용량", "단위", "횟수"]
     result = app.test_client().post("/upload", data={"method": "ALL", "file": (io.BytesIO(response.data), "sample.xlsx")})
     assert result.status_code == 200
 

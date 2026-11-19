@@ -8,7 +8,7 @@ from app import app
 def test_upload_without_the_fixed_drug_column_stops_with_a_message():
     response = app.test_client().post('/upload', data={'file': (io.BytesIO(b'a,b\n1,2'), 'x.csv'), 'method': 'ALL'})
     assert response.status_code == 400
-    assert "약물이 적힌 열" in response.get_data(as_text=True)
+    assert "med 열을 찾지 못했습니다" in response.get_data(as_text=True)
 
 
 def test_blank_drug_column_is_flagged_with_zero_medication_lines():

@@ -230,7 +230,7 @@
               <figure class="xl" aria-label="입력 예시 표" style="margin:0"><div class="xl-bar">input.xlsx</div>
                 <table><colgroup><col style="width:26px"><col style="width:26%"><col></colgroup>
                   <tr><td class="col"></td><td class="col">A</td><td class="col">B</td></tr>
-                  <tr><td class="rn">1</td><th data-i18n="ex_col_id">환자ID</th><th data-i18n="ex_col_med">약물</th></tr>
+                  <tr><td class="rn">1</td><th data-i18n="ex_col_id">id</th><th data-i18n="ex_col_med">med</th></tr>
                   <tr><td class="rn">2</td><td>P001</td><td>risperidone 2mg BID, olanzapine 5mg QD</td></tr>
                   <tr><td class="rn">3</td><td>P002</td><td>Ativan 1mg, 쿠에티아핀 100mg 0-0-1</td></tr>
                   <tr><td class="rn">4</td><td>P003</td><td>risperidone2 0.5-0-1</td></tr>
@@ -266,7 +266,7 @@
           </form>
           <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
-          <p class="upload-note" data-i18n="upload_note" data-html>엑셀 첫 줄(열 제목)을 <b>환자ID</b>와 <b>약물</b>로 맞춰 주세요. <b>이 이름의 열만 읽습니다</b>(한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
+          <p class="upload-note" data-i18n="upload_note" data-html>첫 번째 열 제목은 <b>id</b>, 두 번째 열 제목은 <b>med</b>로 하세요. med 칸에는 그 환자의 약을 모두 쉼표로 구분해 적으세요. 전산실에서 받은 처방 원자료는 <b>날짜별 분석</b>에서 올리세요.</p>
         </section>
         <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 설명 →</a></p>
         <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
@@ -291,13 +291,13 @@
         <p class="back-link"><a href="#help" data-i18n="back_help">← 사용 안내</a></p>
         <section class="howto" aria-labelledby="howto-title">
           <h2 id="howto-title" data-i18n="howto_title">엑셀은 이렇게 넣으면 가장 잘 읽힙니다</h2>
-          <p data-i18n="howto_desc" data-html>1열 제목은 <b>환자ID</b>, 2열 제목은 <b>약물</b>로 하고, 약물 칸에 그 환자의 약을 모두 적습니다. 오른쪽처럼 환자별 합계가 나옵니다.</p>
+          <p data-i18n="howto_desc" data-html>첫 번째 열 제목은 <b>id</b>, 두 번째 열 제목은 <b>med</b>로 하고, med 칸에 그 환자의 약을 모두 적으세요. 오른쪽처럼 환자별 합계가 나옵니다.</p>
           <div class="flow">
             <div class="panel"><div class="panel-label"><span class="number">1</span><span data-i18n="howto_in">입력 (내 엑셀)</span></div>
               <figure class="xl" aria-label="입력 예시 표" style="margin:0"><div class="xl-bar">input.xlsx</div>
                 <table><colgroup><col style="width:26px"><col style="width:26%"><col></colgroup>
                   <tr><td class="col"></td><td class="col">A</td><td class="col">B</td></tr>
-                  <tr><td class="rn">1</td><th data-i18n="ex_col_id">환자ID</th><th data-i18n="ex_col_med">약물</th></tr>
+                  <tr><td class="rn">1</td><th data-i18n="ex_col_id">id</th><th data-i18n="ex_col_med">med</th></tr>
                   <tr><td class="rn">2</td><td>P001</td><td>risperidone 2mg BID, olanzapine 5mg QD</td></tr>
                   <tr><td class="rn">3</td><td>P002</td><td>Ativan 1mg, 쿠에티아핀 100mg 0-0-1</td></tr>
                   <tr><td class="rn">4</td><td>P003</td><td>risperidone2 0.5-0-1</td></tr>
@@ -320,9 +320,9 @@
             <li data-i18n="tip3" data-html><b>a-b-c</b>: 함량(mg)이 있으면 정 수(<code>2mg 0.5-0-1</code> = 3 mg), 없으면 mg(<code>risperidone2 0.5-0-1</code> = 1.5 mg)</li>
             <li data-i18n="tip4" data-html><b>약물명</b>은 성분명·국내외 상품명·한글·중국어·일본어 등 모두 가능, 오타는 자동 보정 후 <code>c</code> 표시</li>
             <li data-i18n="tip5" data-html><b>PRN</b>(필요시)과 항정신병약이 아닌 약은 0으로 계산</li>
-            <li data-i18n="tip6" data-html><b>전산 원자료</b>(처방일·주문번호가 섞인 표)는 먼저 이 두 열로 정리해 주세요</li>
+            <li data-i18n="tip6" data-html><b>전산실 처방 원자료</b>(처방일·일수 등이 있는 표)는 <b>날짜별 분석</b>에서 올리세요</li>
           </ul>
-          <details class="fold"><summary data-i18n="cols_sum">열 이름 규칙 보기</summary><div class="fold-body"><ul class="sheet-guide"><li data-i18n="cols1" data-html><b>환자ID</b> (또는 ID, patient_id): 환자 번호. 이 열이 없으면 계산하지 않습니다.</li><li data-i18n="cols2" data-html><b>약물</b> (또는 medication, drug): 처방 내용. 이 열이 없으면 계산하지 않습니다.</li><li data-i18n="cols3" data-html>따로 적을 때만: <b>용량</b>(1회), <b>1일용량</b>, <b>단위</b>, <b>횟수</b> (dose, daily_dose, unit, frequency)</li><li data-i18n="cols4" data-html>약이 여러 열이면 <b>약물1·용량1, 약물2·용량2</b>처럼 번호를 붙입니다.</li><li data-i18n="cols5" data-html><b>처방일</b> 열이 있으면 날짜별 분석으로 넘어갑니다.</li><li data-i18n="cols6" data-html>대소문자와 띄어쓰기는 구분하지 않습니다. 그 밖의 이름은 읽지 않습니다.</li></ul></div></details>
+          <details class="fold"><summary data-i18n="cols_sum">열 이름 규칙</summary><div class="fold-body"><ul class="sheet-guide"><li data-i18n="cols1" data-html><b>id</b>: 첫 번째 열에 환자 번호를 적으세요.</li><li data-i18n="cols2" data-html><b>med</b>: 두 번째 열에 그 환자의 약을 모두 쉼표로 구분해 적으세요.</li><li data-i18n="cols3" data-html>열 제목은 id와 med 두 가지로 맞추세요. 다르게 적으면 고칠 곳을 화면에 알려 드립니다.</li><li data-i18n="cols4" data-html>전산실에서 받은 처방 원자료(처방일·일수 등이 있는 표)는 <b>날짜별 분석</b>에서 올리세요.</li></ul></div></details>
         </section>
         <p class="view-links"><a href="#upload" data-i18n="link_upload">엑셀 올리러 가기 →</a></p>
     </div></section>
