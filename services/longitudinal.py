@@ -22,6 +22,9 @@ FIELDS = {
     'date': ['PRESCR_DATE', 'prescription_date', 'rx_date', '처방일', '처방일자'],
     'drug': ['DRUG', 'drug_name', 'medication', '약물명', '성분명', 'ingredient', 'generic_name', '일반명', '성분', '약물', 'med'],
     'product': ['COMMERCIAL_DRUG', 'product_name', 'brand', '제품명', '상품명'],
+    # Optional 9-digit insurance (EDI) product code: when it is in the public catalogue it fixes
+    # the ingredient, strength and route instead of the drug name being read.
+    'code': ['EDI_CODE', 'drug_code', 'insurance_code', '약품코드', '보험코드', 'EDI코드', '청구코드'],
     'daily': ['TABS_PER_DAY', 'tablets_per_day', 'daily_tablets', '일일정수', '하루정수', 'tabs_per_day', '1일정수', '하루복용정수'],
     'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수', 'duration_days', '투여일수', '처방기간'],
 }
@@ -80,6 +83,11 @@ def number(value):
 
 
 @lru_cache(maxsize=4096)
+def normalize_product_text(text):
+    from services.korean_products import normalize_product
+    return normalize_product(text)[0]
+
+
 def medication(drug, product):
     from services.korean_products import normalize_product
     drug, _ = normalize_product(drug)
@@ -166,14 +174,26 @@ def prepare(frame, mapping, policy='review', provenance=None):
                 r['effective_end'] = r['end']
             except OverflowError:
                 r['issues'].append('invalid_days')
-        name, form, strength, issues, kind = medication(r['drug'], r['product'])
+        drug_text = r['drug']
+        if r.get('code'):
+            from services.korean_products import product_by_code
+            listed = product_by_code(r['code'])
+            if listed:
+                named = dictionary_match(normalize_product_text(r['drug'])) if r['drug'] else None
+                drug_text = listed['normalized']
+                r['adjustments'].append('matched_by_insurance_code')
+                if named and named != listed['drug']:
+                    r['issues'].append('code_name_conflict')
+            else:
+                r['adjustments'].append('insurance_code_not_in_antipsychotic_catalogue')
+        name, form, strength, issues, kind = medication(drug_text, '' if drug_text != r['drug'] else r['product'])
         r.update(canonical=name, formulation=form, strength_mg=strength, kind=kind,
                  prn=kind == 'non_target' and name in TARGETS)
         r['issues'].extend(issues)
         if form.startswith('injection') and policy == 'prescription_date' and name in TARGETS:
             from services.dated_injections import prepare_injection
             try:
-                injection = prepare_injection(r['drug'], r['product'], name)
+                injection = prepare_injection(r['drug'] if drug_text == r['drug'] else drug_text + ' ' + r['drug'], r['product'], name)
                 # Only formulation/strength issues explicitly validated above are cleared.
                 cleared = {'injection_requires_review', 'strength_missing', 'product_strength_missing', 'strength_conflict'}
                 r['issues'] = [issue for issue in r['issues'] if issue not in cleared]
@@ -349,7 +369,7 @@ def export_zip(records, results, details, metadata):
         for r in records:
             def last_day(end):
                 return (end - timedelta(days=1)).isoformat() if end else ''
-            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
+            yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'], drug=r['drug'], product=r['product'], insurance_code=r.get('code', ''), prescription_date=r['date'], days=r['days'], daily_tablets=r['daily'], canonical=r['canonical'], daily_mg=r['daily_mg'], original_end=last_day(r['end']), effective_end=last_day(r['effective_end']), kind=r['kind'], issues=';'.join(dict.fromkeys(r['issues'])), adjustments=';'.join(r['adjustments']), duplicate_of=r['duplicate_of'],
                        injection_evidence=json.dumps(r['injection_frame'], ensure_ascii=False) if r.get('injection_frame') else '',
                        injection_error=r.get('injection_error', ''), **classify(r))
     out = io.BytesIO()

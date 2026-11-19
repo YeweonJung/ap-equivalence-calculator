@@ -2,7 +2,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const T = (key, ko) => (window.APi18n ? window.APi18n.t(key, ko) : ko);
-  const labels = {patient:'피험자 ID',date:'처방일',drug:'성분·함량·제형이 적힌 약물명',product:'제품명 (선택)',daily:'하루 정/캡슐 수',days:'처방일수 (선택)'};
+  const labels = {patient:'피험자 ID',date:'처방일',drug:'성분·함량·제형이 적힌 약물명',product:'제품명 (선택)',code:'보험 약품코드 (선택)',daily:'하루 정/캡슐 수',days:'처방일수 (선택)'};
   const fieldLabel = field => T('lf_' + field, labels[field]);
   let generation = 0, lastInspect = null, lastStatus = null;
   const inspectText = d => T('lj_rows', '{n}행 · ').replace('{n}', d.rows.toLocaleString()) + (d.recognized ? T('lj_recog', '종단 처방 형식 인식 완료. 열 연결을 확인하세요.') : T('lj_unrecog', '자동 인식하지 못한 열을 직접 선택하세요.'));
@@ -26,7 +26,7 @@
       if (!response.ok) throw new Error(data.error || T('lj_read_fail', '파일을 읽지 못했습니다.'));
       for (const field of Object.keys(labels)) {
         const box = document.createElement('div'), title = document.createElement('label'), select = document.createElement('select');
-        select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days'].includes(field);
+        select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days', 'code'].includes(field);
         select.add(new Option(T('lj_col', '열 선택'), ''));
         data.columns.forEach(column => select.add(new Option(column, column)));
         select.value = data.mapping[field] || ''; box.append(title, select); $('mapping').append(box);

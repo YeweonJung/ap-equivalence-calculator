@@ -14,7 +14,7 @@ LEGEND = (
 LABELS = {code: label for code, label, _ in LEGEND}
 COLUMNS = ['status_code', 'status_label', 'review_required']
 HEADERS = dict(status_code='상태코드', status_label='상태설명', review_required='검토필요')
-CONFLICTS = {'ingredient_conflict', 'strength_conflict', 'release_form_conflict',
+CONFLICTS = {'ingredient_conflict', 'strength_conflict', 'release_form_conflict', 'code_name_conflict',
              'unit_conflict', 'count_conflict', 'invalid_value'}
 UNCERTAIN = {'strength_missing', 'product_strength_missing', 'oral_solid_unconfirmed',
              'injection_requires_review', 'injection_quantity_ambiguous', 'missing_patient',

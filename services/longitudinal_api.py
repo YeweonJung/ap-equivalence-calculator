@@ -16,12 +16,36 @@ MAX_BYTES = 15 * 1024 * 1024
 MAX_ROWS = 100000
 
 
+def read_excel_upload(raw):
+    import tempfile
+    from services.file_reader import _read_excel_sheet
+    with tempfile.NamedTemporaryFile(suffix='.xlsx') as handle:
+        handle.write(raw); handle.flush()
+        try:
+            excel = pd.ExcelFile(handle.name)
+        except Exception as exc:
+            raise ValueError('Excel 파일을 열 수 없습니다. 파일이 손상되지 않았는지 확인하세요.') from exc
+        with excel:
+            sheets = [name for name in excel.sheet_names if not excel.parse(name, header=None, nrows=2).dropna(how='all').empty]
+            if not sheets:
+                raise ValueError('Excel 파일에 내용이 있는 시트가 없습니다.')
+            if len(sheets) > 1:
+                raise ValueError('내용이 있는 시트가 여러 개입니다(' + ', '.join(sheets) + '). 분석할 처방 시트 하나만 남겨 주세요.')
+            frame = _read_excel_sheet(excel, sheets[0])
+    if len(frame) > MAX_ROWS:
+        raise ValueError('파일은 100,000행 이하로 나눠 주세요.')
+    return frame.fillna('')
+
+
 def read_csv_upload(upload):
-    if not upload or not upload.filename.lower().endswith('.csv'):
-        raise ValueError('CSV 파일을 선택하세요.')
+    name = upload.filename.lower() if upload and upload.filename else ''
+    if not name.endswith(('.csv', '.xlsx', '.xls')):
+        raise ValueError('CSV 또는 Excel 파일을 선택하세요.')
     raw = upload.read(MAX_BYTES + 1)
     if len(raw) > MAX_BYTES:
-        raise ValueError('CSV는 15MB 이하로 나눠 주세요.')
+        raise ValueError('파일은 15MB 이하로 나눠 주세요.')
+    if not name.endswith('.csv'):
+        return read_excel_upload(raw), hashlib.sha256(raw).hexdigest()
     for encoding in ('utf-8-sig', 'cp949', 'euc-kr'):
         try:
             text = raw.decode(encoding)

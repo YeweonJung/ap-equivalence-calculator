@@ -16,6 +16,15 @@ for record in CATALOG['products']:
 PATTERN = re.compile(r'^(?:' + '|'.join(re.escape(a) for a in sorted(ALIASES, key=len, reverse=True)) + r')(?=$|\s)', re.I)
 
 
+BY_CODE = {record['code']: record for record in CATALOG['products']}
+
+
+def product_by_code(value):
+    """The public catalogue entry for a 9-digit insurance (EDI) product code, or None."""
+    digits = re.sub(r'\D', '', unicodedata.normalize('NFKC', str(value)).split('.')[0])
+    return BY_CODE.get(digits.zfill(9)) if digits else None
+
+
 def normalize_product(text):
     normalized = unicodedata.normalize('NFKC', str(text))
     match = PATTERN.match(normalized)

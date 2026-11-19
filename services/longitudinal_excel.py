@@ -26,6 +26,10 @@ REASONS = {
     'injection_requires_review': '주사제 투여 정보 확인', 'variable_schedule': '복용 일정 확인',
     'missing_factor': '환산 계수 없음',
     'injection_quantity_ambiguous': '주사 수량 확인: 하루 정 수를 주사 용량에 곱하지 않음',
+    'code_name_conflict': '보험 약품코드와 약품명의 성분이 다름',
+    'matched_by_insurance_code': '보험 약품코드로 성분·함량 확인',
+    'insurance_code_not_in_antipsychotic_catalogue': '항정신병약 목록에 없는 약품코드: 약품명으로 판단',
+    'new_order_replaces_previous': '새 처방으로 대체 가정',
 }
 
 
@@ -103,7 +107,7 @@ def export_excel(records, results, details, metadata):
             note = '; '.join(filter(None, [note, original.get('injection_error'), original.get('injection_frame', {}).get('calculation_note')]))
             values = {r['method']: float(r['equivalent_mg']) if r['equivalent_mg'] else None for r in batch}
             append(detail_sheet, [first['patient_id'], first['reference_date'], original['drug'], first['canonical']] + [display_value(codes[c], c) for c in COLUMNS] + [original['daily_mg']] +
-                   [values.get(m) for m in methods] + [codes['status_label'] if codes['status_code'] else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], '새 처방으로 대체 가정' if first['adjustments'] else ''])
+                   [values.get(m) for m in methods] + [codes['status_label'] if codes['status_code'] else '계산 완료', note, *key, original['date'], original['days'], original['daily'], original['product'], reason_text(first['adjustments'].split(';')) if first['adjustments'] else ''])
             detail_count += 1
     finally:
         text.detach()
@@ -125,7 +129,7 @@ def export_excel(records, results, details, metadata):
     # that do not produce a patient/date detail row.
     from services.excel_tables import write_table
     from datetime import timedelta
-    audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product',
+    audit_columns = ['patient_id', 'source_sheet', 'source_row', 'drug', 'product', 'insurance_code',
                      'prescription_date', 'days', 'daily_tablets', 'canonical',
                      'formulation', 'strength_mg', 'daily_mg', 'kind', 'drug_class', 'exclusion_basis', 'issues',
                      'adjustments', 'duplicate_of', 'original_end', 'effective_end', 'injection_evidence', 'injection_error', 'factor_evidence', 'unavailable_methods']
@@ -136,7 +140,7 @@ def export_excel(records, results, details, metadata):
             def last_day(end):
                 return (end - timedelta(days=1)).isoformat() if end else None
             yield dict(patient_id=r['patient'], source_sheet=r['source_sheet'], source_row=r['source_row'],
-                       drug=r['drug'], product=r['product'], prescription_date=r['date'], days=r['days'],
+                       drug=r['drug'], product=r['product'], insurance_code=r.get('code', ''), prescription_date=r['date'], days=r['days'],
                        daily_tablets=r['daily'], canonical=r['canonical'], formulation=r['formulation'],
                        strength_mg=r['strength_mg'], daily_mg=r['daily_mg'], kind=r['kind'],
                        drug_class=CLASSES.get(r['canonical'], ''),
