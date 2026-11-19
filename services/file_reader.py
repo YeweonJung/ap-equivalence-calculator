@@ -17,9 +17,19 @@ def validate_headers(columns):
 
 def csv_layout(text):
     lines = text.splitlines(keepends=True)
-    start = next((i for i, line in enumerate(lines) if line.strip()), None)
-    if start is None:
+    filled = [i for i, line in enumerate(lines) if line.strip()]
+    if not filled:
         raise ValueError('CSV 파일에 열 이름이나 데이터가 없습니다.')
+    start = filled[0]
+    # A title line above the table: use the first of the top five lines that holds a fixed column name.
+    for i in filled[:5]:
+        try:
+            cells = next(csv.reader([lines[i]], delimiter=csv.Sniffer().sniff(lines[i], delimiters=',;\t|').delimiter))
+        except csv.Error:
+            cells = next(csv.reader([lines[i]]))
+        if any(is_known_header(cell) for cell in cells):
+            start = i
+            break
     try:
         separator = csv.Sniffer().sniff(lines[start], delimiters=',;\t|').delimiter
     except csv.Error:

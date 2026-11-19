@@ -10,6 +10,8 @@
 
   D.en = {
     up_empty: 'The medication column was found but it has no prescription lines. Check that the cells are not empty. The file you received is empty.',
+    up_note_skipped: 'Sheets without patient ID and medication columns were not read: {n}.',
+    up_note_shared: 'The same patient ID appears in several sheets, so {n} patient(s) were added up across sheets. Check the IDs if this was not intended.',
     cd_help: "Input format, calculation basis, reading results and sources in one place.",
     lp_base_note: "Doses are converted with the base method; only drugs without a value are filled from other tables in a fixed order.",
     rules_note: "You can change the base method on the Excel, one-line and by-date screens.",
@@ -254,6 +256,8 @@
 
   D.ja = {
     up_empty: 'medication 列は見つかりましたが、処方の行がありません。セルが空でないか確認してください。受け取ったファイルは空です。',
+    up_note_skipped: '患者ID・薬剤の列がないシート {n} 件は読み込みませんでした。',
+    up_note_shared: '同じ患者IDが複数のシートにあるため、{n} 名はシートをまたいで合計しました。意図しない場合はIDを確認してください。',
     cd_help: "入力方法、計算の基準、結果の見方、換算の根拠をまとめています。",
     lp_base_note: "基準の方法で換算し、値がない薬のみ決められた順序で他の換算表から補完します。",
     rules_note: "基準の方法は「Excelで計算」「1行計算」「処方日別の分析」画面で変更できます。",
@@ -498,6 +502,8 @@
 
   D.zh = {
     up_empty: '找到了 medication 列，但没有处方行。请确认单元格不为空。收到的文件是空的。',
+    up_note_skipped: '没有患者ID和药物列的 {n} 个工作表未读取。',
+    up_note_shared: '同一患者ID出现在多个工作表中，{n} 名患者已跨表合计。如非本意，请检查ID。',
     cd_help: "汇集了输入格式、计算基准、阅读结果和换算依据。",
     lp_base_note: "按基准方法换算，仅对缺值的药物按固定顺序用其他换算表补充。",
     rules_note: "可在“用 Excel 计算”“单行计算”“按处方日期分析”页面更改基准方法。",
@@ -742,6 +748,8 @@
 
   D.fr = {
     up_empty: 'La colonne medication a été trouvée mais ne contient aucune ligne de prescription. Vérifiez que les cellules ne sont pas vides. Le fichier reçu est vide.',
+    up_note_skipped: '{n} feuille(s) sans colonnes identifiant et médicament n\'ont pas été lues.',
+    up_note_shared: 'Le même identifiant figure dans plusieurs feuilles : {n} patient(s) ont été totalisés sur l\'ensemble des feuilles. Vérifiez les identifiants si ce n\'était pas voulu.',
     cd_help: "Format d'entrée, base de calcul, lecture des résultats et sources, réunis au même endroit.",
     lp_base_note: "Les doses sont converties avec la méthode de référence ; seuls les médicaments sans valeur sont complétés par d'autres tables dans un ordre fixe.",
     rules_note: "La méthode de référence se change sur les écrans Excel, calcul sur une ligne et analyse par date.",
@@ -986,6 +994,8 @@
 
   D.ar = {
     up_empty: 'وُجد عمود medication لكنه لا يحتوي على أي سطر وصفة. تأكد من أن الخلايا ليست فارغة. الملف الذي استلمته فارغ.',
+    up_note_skipped: 'لم تُقرأ {n} من الأوراق لأنها بلا عمودي معرّف المريض والدواء.',
+    up_note_shared: 'يظهر معرّف المريض نفسه في عدة أوراق، لذلك جُمعت قيم {n} من المرضى عبر الأوراق. تحقق من المعرّفات إن لم يكن ذلك مقصودًا.',
     cd_help: "تنسيق الإدخال وأساس الحساب وقراءة النتائج والمصادر في مكان واحد.",
     lp_base_note: "تُحوَّل الجرعات بطريقة الأساس، ولا تُستكمل إلا الأدوية التي لا قيمة لها من جداول أخرى بترتيب ثابت.",
     rules_note: "يمكن تغيير طريقة الأساس في شاشات Excel والحساب في سطر واحد والتحليل حسب التاريخ.",

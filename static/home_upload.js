@@ -35,7 +35,14 @@
       link.href = url;link.download = 'AP_equivalence_results.xlsx';
       document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url), 60000);
       if (response.headers.get('X-Medication-Lines') === '0') {status.textContent = T('up_empty', '약물 열은 찾았지만 처방 줄이 하나도 없습니다. 약물 칸이 비어 있지 않은지 확인해 주세요. 받은 파일은 비어 있습니다.');status.dataset.error = 'true';}
-      else status.textContent = T('up_done', '계산 완료. 첫 시트(보완합계)에서 환자별 최종 합계를 확인하세요.');
+      else {
+        status.textContent = T('up_done', '계산 완료. 첫 시트(보완합계)에서 환자별 최종 합계를 확인하세요.');
+        const notes = Object.fromEntries((response.headers.get('X-Upload-Notes') || '').split(';').filter(Boolean).map(p => p.split('=')));
+        const extra = [];
+        if (+notes.skipped > 0) extra.push(T('up_note_skipped', '환자ID·약물 열이 없는 시트 {n}개는 읽지 않았습니다.').replace('{n}', notes.skipped));
+        if (+notes.shared > 0) extra.push(T('up_note_shared', '같은 환자ID가 여러 시트에 있어 {n}명은 시트를 합쳐 계산했습니다. 의도한 것이 아니면 ID를 확인하세요.').replace('{n}', notes.shared));
+        if (extra.length) {status.textContent += ' ' + extra.join(' ');status.dataset.error = 'true';}
+      }
     } catch (error) {status.textContent = error.message || T('up_conn', '연결을 확인한 뒤 다시 시도해 주세요.');status.dataset.error = 'true';}
     finally {busy = false;button.disabled = false;file.disabled = false;button.removeAttribute('data-i18n');button.textContent = T('up_again', '다시 계산하기 →');}
   });

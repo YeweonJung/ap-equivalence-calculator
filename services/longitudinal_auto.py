@@ -17,6 +17,9 @@ def date_cell(value):
     return text
 
 
+NAMES = {'patient': '환자ID', 'date': '처방일', 'drug': '약물', 'daily': '하루정수', 'days': '처방일수'}
+
+
 def automatic_analysis(sheets, methods, source_sha256='', release=None, base_method=None):
     standardized, provenance, mappings = [], [], {}
     for sheet, frame in sheets.items():
@@ -25,7 +28,7 @@ def automatic_analysis(sheets, methods, source_sha256='', release=None, base_met
         mapping = detect_mapping(frame.columns)
         missing = [k for k in REQUIRED[:-1] if not mapping[k]]
         if missing:
-            raise ValueError(f'{sheet}: 종단 처방 필수 열을 자동 연결하지 못했습니다 ({", ".join(missing)}). 열 이름을 patient_id, PRESCR_DATE, DRUG, TABS_PER_DAY로 지정하거나 상세 설정을 사용하세요.')
+            raise ValueError(f'{sheet}: 파일에 처방일 열이 있어 날짜별 분석으로 읽었지만 필요한 열을 찾지 못했습니다 ({", ".join(NAMES[k] for k in missing)}). 열 제목을 환자ID, 처방일, 약물, 하루정수로 맞추거나 날짜별 분석 화면에서 열을 직접 연결하세요.')
         mappings[sheet] = dict(mapping)
         for i, row in enumerate(frame.to_dict('records')):
             if not any(str(v).strip() for v in row.values()):

@@ -58,7 +58,7 @@ def test_excel_native_dates_multiple_sheets_via_main_upload():
 
 
 def test_mixed_static_and_longitudinal_sheets_fail_closed():
-    with pytest.raises(ValueError, match='필수 열'):
+    with pytest.raises(ValueError, match='필요한 열'):
         automatic_analysis({'Rx':pd.DataFrame([rx()]),'Static':pd.DataFrame([dict(patient_id='P1',drug='risperidone 2mg')])}, ['DDD'])
 
 

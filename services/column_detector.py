@@ -5,6 +5,7 @@ underscores, hyphens, dots and brackets are ignored). Nothing is guessed from ce
 contents: a wrong guess would put another column into the totals without any warning.
 """
 import re
+import unicodedata
 
 ID_NAMES = ["환자ID", "ID", "patient_id"]
 DRUG_NAMES = ["약물", "medication", "drug"]
@@ -22,7 +23,9 @@ MISSING_ID = "환자ID 열을 찾지 못했습니다. 환자 번호가 적힌 �
 
 
 def _key(column):
-    return re.sub(r"[\s_\-().\[\]]", "", str(column).casefold())
+    # NFKC folds full-width letters and the decomposed Hangul that some Mac files contain.
+    text = unicodedata.normalize("NFKC", str(column)).replace("\u200b", "").replace("\ufeff", "")
+    return re.sub(r"[\s_\-().\[\]]", "", text.casefold())
 
 
 _KINDS = {
@@ -71,3 +74,35 @@ def detect_medication_groups(df):
             groups.setdefault(number, {}).setdefault(kind, column)
     return [{key: group.get(key) for key in ("medication_column", "dose_column", "unit_column", "frequency_column")}
             for number, group in sorted(groups.items(), key=lambda item: int(item[0])) if "medication_column" in group]
+
+
+LABEL = {"patient_column": "환자ID", "medication_column": "약물", "dose_column": "용량",
+         "unit_column": "단위", "frequency_column": "횟수"}
+
+
+def column_problem(df):
+    """A message when the fixed-name columns cannot be read without guessing, else None."""
+    plain, numbered = {}, {}
+    for column in df.columns:
+        kind = column_kind(column)
+        if kind:
+            plain.setdefault(kind, []).append(str(column))
+            continue
+        hit = _numbered(column)
+        if hit:
+            numbered.setdefault(hit, []).append(str(column))
+    for kind, columns in plain.items():
+        if len(columns) > 1:
+            return f"같은 역할의 열이 여러 개입니다: {', '.join(columns)}. 하나만 남기거나 이름을 바꿔 주세요."
+    for (kind, number), columns in numbered.items():
+        if len(columns) > 1:
+            return f"같은 번호의 열이 여러 개입니다: {', '.join(columns)}."
+    if numbered:
+        mixed = [plain[k][0] for k in ("medication_column", "dose_column", "unit_column", "frequency_column") if k in plain]
+        if mixed:
+            return f"번호 붙은 열(약물1, 약물2 …)과 번호 없는 열({', '.join(mixed)})이 함께 있습니다. 한 가지 방식으로 맞춰 주세요."
+        drugs = {number for (kind, number) in numbered if kind == "medication_column"}
+        orphans = [columns[0] for (kind, number), columns in numbered.items() if kind != "medication_column" and number not in drugs]
+        if orphans:
+            return f"짝이 되는 약물 열이 없는 열이 있습니다: {', '.join(orphans)}. 예: 용량2가 있으면 약물2도 있어야 합니다."
+    return None

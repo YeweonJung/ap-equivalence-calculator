@@ -1,3 +1,4 @@
+from collections import Counter
 import io
 import os
 import re
@@ -10,7 +11,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
-from services.column_detector import detect_columns, detect_medication_groups, MISSING_DRUG, MISSING_ID
+from services.column_detector import detect_columns, detect_medication_groups, column_problem, MISSING_DRUG, MISSING_ID
 from services.converter import available_methods, normalize_target
 from services.exporter import export_results
 from services.file_reader import read_file
@@ -111,9 +112,10 @@ def sample_file():
     sheet.append(["P004", "Invega Sustenna 150mg q4w, quetiapine 25mg PRN"])
     detail = workbook.create_sheet("열을 나눈 형식(선택)")
     detail.append(["환자ID", "약물", "용량", "단위", "횟수"])
-    detail.append(["P001", "risperidone", 2, "mg", "BID"])
-    detail.append(["P001", "olanzapine", 5, "mg", "QD"])
-    detail.append(["P002", "risperidone", 1, "mg", "QD"])
+    # Different IDs from the first sheet: the same ID in two sheets is added up as one patient.
+    detail.append(["S001", "risperidone", 2, "mg", "BID"])
+    detail.append(["S001", "olanzapine", 5, "mg", "QD"])
+    detail.append(["S002", "risperidone", 1, "mg", "QD"])
     for ws, widths in ((sheet, {"A": 14, "B": 56}), (detail, {"A": 16, "B": 20, "C": 12, "D": 10, "E": 16})):
         for cell in ws[1]:
             cell.font = Font(bold=True, color="FFFFFF")
@@ -259,8 +261,16 @@ def process_upload(uploaded_file, method, base_method=None):
                         if detect_columns(df)['medication_column'] is not None or detect_medication_groups(df)}
             if not readable:
                 raise ValueError(MISSING_DRUG)
-            if any(detect_columns(df)['patient_column'] is None for df in readable.values()):
-                raise ValueError(MISSING_ID)
+            for name, df in readable.items():
+                problem = column_problem(df)
+                if problem:
+                    raise ValueError(f"'{name}' 시트: {problem}")
+                if detect_columns(df)['patient_column'] is None:
+                    raise ValueError(f"'{name}' 시트: {MISSING_ID}")
+            skipped_sheets = sum(1 for name, df in sheets.items() if name not in readable and not df.dropna(how='all').empty)
+            sheet_ids = [{str(v).strip() for v in df[detect_columns(df)['patient_column']] if _cell_text(v)} for df in readable.values()]
+            id_counts = Counter(i for ids in sheet_ids for i in ids)
+            shared_ids = sum(1 for count in id_counts.values() if count > 1)
 
             patients = {}
             used_ids = {str(value) for df in sheets.values()
@@ -293,7 +303,7 @@ def process_upload(uploaded_file, method, base_method=None):
                         used_ids.add(patient_id)
                         error_rows.append({'sheet': sheet_name, 'source_row': source_row,
                                            'patient': patient_id, 'error': 'ID 누락: 원본 행별 임시 ID입니다. 병합 전 ID를 확인하세요.'})
-                    patient_id = str(patient_id)
+                    patient_id = str(patient_id).strip()  # " P1" and "P1" are the same patient
                     patients.setdefault(patient_id, [])
                     for group in groups:
                         medication_col, dose_col, unit_col, frequency_col = (group[key] for key in ("medication_column", "dose_column", "unit_column", "frequency_column"))
@@ -328,6 +338,8 @@ def process_upload(uploaded_file, method, base_method=None):
             )
             # Lets the page warn when no prescription line was found (the file is then empty).
             response.headers["X-Medication-Lines"] = str(len(audit_rows))
+            # Things the user should know although the file was read: sheets without the fixed columns, IDs in several sheets.
+            response.headers["X-Upload-Notes"] = f"skipped={skipped_sheets};shared={shared_ids}"
             return response
     except (ValueError, OSError) as exc:
         return render_template("error.html", message=str(exc)), 400
