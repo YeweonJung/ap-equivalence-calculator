@@ -143,11 +143,16 @@ def _html_grids(text, limit):
 
 
 def _text_grid(text, limit):
+    # NUL and other control characters (seen in some system exports) are not data; drop them before parsing.
+    text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', text)
     lines = text.splitlines()
     sample = [line for line in lines[:60] if line.strip()]
     best, best_score = ',', -1
     for delimiter in ('\t', ',', ';', '|'):
-        counts = [len(next(csv.reader([line], delimiter=delimiter))) for line in sample[:40]]
+        try:
+            counts = [len(next(csv.reader([line], delimiter=delimiter))) for line in sample[:40]]
+        except csv.Error:
+            continue
         wide = [n for n in counts if n > 1]
         if not wide:
             continue

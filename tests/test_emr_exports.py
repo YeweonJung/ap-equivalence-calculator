@@ -122,3 +122,9 @@ def test_tablet_and_day_counts(value, expected):
 def test_korean_and_timestamp_dates(value):
     from services.longitudinal import parse_date
     assert parse_date(value) == datetime.date(2024, 1, 2)
+
+
+def test_control_characters_in_text_exports_are_ignored():
+    raw = 'HID,PRESCR_DATE,DRUG,TABS_PER_DAY\nP1\x00,2024-01-02,olanzapine 10mg tab\x07,2\n'.encode()
+    data = app.test_client().post('/api/longitudinal/inspect', data={'file': (io.BytesIO(raw), 'nul.csv')}).get_json()
+    assert data['columns'] == ['HID', 'PRESCR_DATE', 'DRUG', 'TABS_PER_DAY'] and data['rows'] == 1

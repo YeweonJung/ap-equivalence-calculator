@@ -45,11 +45,11 @@ def test_no_readable_date_names_an_example():
     assert "'24-01-02'" in response.get_json()['error'] and '연도 네 자리' in response.get_json()['error']
 
 
-def test_main_upload_stops_above_2000_rows():
-    frame = pd.DataFrame({'id': [f'P{i}' for i in range(2001)], 'med': ['olanzapine 5mg'] * 2001})
+def test_main_upload_stops_above_1000_rows():
+    frame = pd.DataFrame({'id': [f'P{i}' for i in range(1001)], 'med': ['olanzapine 5mg'] * 1001})
     raw = io.BytesIO(); frame.to_excel(raw, index=False); raw.seek(0)
     response = app.test_client().post('/upload', data={'file': (raw, 'big.xlsx'), 'dated': 'page'})
-    assert response.status_code == 400 and '2,000행까지' in response.get_data(as_text=True)
+    assert response.status_code == 400 and '1,000행까지' in response.get_data(as_text=True)
 
 
 def test_hospital_data_page_stops_above_2000_rows():

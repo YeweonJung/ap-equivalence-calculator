@@ -27,8 +27,8 @@ from services.result_summary import result_rows, METHOD_ORDER, patient_results
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 15 * 1024 * 1024
-# Measured on the hosted server: about 30 ms per row; larger uploads hit the time and memory limits.
-MAX_UPLOAD_ROWS = 2000
+# Measured on the hosted server (512 MB): 1,500 rows took 43 s; 2,000 rows (about +215 MB) exhausted memory.
+MAX_UPLOAD_ROWS = 1000
 from services.feedback_api import bp as feedback_bp, attach_feedback
 app.register_blueprint(feedback_bp)
 from services.llm_worker_api import bp as llm_worker_bp
