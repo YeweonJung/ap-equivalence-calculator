@@ -80,7 +80,7 @@ def test_export_carries_short_candidate_evidence_without_conversion():
 
 def test_csv_upload_uses_same_manual_retrieval():
     response = app.test_client().post('/upload', data={
-        'file': (io.BytesIO('medication\n로핀 1mg QD\n'.encode('utf-8')), 'synthetic.csv'),
+        'file': (io.BytesIO('patient_id,medication\nP1,로핀 1mg QD\n'.encode('utf-8')), 'synthetic.csv'),
         'method': 'ALL'}, content_type='multipart/form-data')
     assert response.status_code == 200
     wb = load_workbook(io.BytesIO(response.data))
@@ -92,7 +92,7 @@ def test_csv_upload_uses_same_manual_retrieval():
     assert all(rows[0][value_column(m)] is None for m in METHOD_ORDER)
     assert 'name_candidates' not in rows[0]
     assert records(wb, 'Review') == []
-    assert any(r['상태코드'] == 'b;c' for r in records(wb, 'AuditTrail'))  # unknown name and missing ID
+    assert any(r['상태코드'] == 'b' for r in records(wb, 'AuditTrail'))  # unknown name (the ID column is now required)
     assert wb.sheetnames == ['보완합계', '보완근거', 'Results', 'MedicationResults', 'Review', 'AuditTrail', '코드안내']
 
 

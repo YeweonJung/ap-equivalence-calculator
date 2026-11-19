@@ -17,7 +17,7 @@ def test_no_supported_factor_is_not_reported_as_success():
 
 
 def test_no_factor_is_in_errors_and_medication_explanation():
-    text='id,cpz,raw_redcap_event_name,raw_med_aps,olz\nTEST,9999,baseline,"blonanserin 8mg, quetiapine 50mg",999\n'
+    text='id,cpz,raw_redcap_event_name,medication,olz\nTEST,9999,baseline,"blonanserin 8mg, quetiapine 50mg",999\n'
     response=app.test_client().post('/upload',data={'file':(io.BytesIO(text.encode()),'review.csv')})
     assert response.status_code==200
     wb=load_workbook(io.BytesIO(response.data),read_only=True)

@@ -34,7 +34,7 @@
       const url = URL.createObjectURL(await response.blob()), link = document.createElement('a');
       link.href = url;link.download = 'AP_equivalence_results.xlsx';
       document.body.append(link);link.click();link.remove();setTimeout(() => URL.revokeObjectURL(url), 60000);
-      if (response.headers.get('X-Medication-Lines') === '0') {status.textContent = T('up_empty', '처방 줄을 하나도 찾지 못했습니다. 1열 환자 ID, 2열 약물 처방 형식인지 확인해 주세요. 받은 파일은 비어 있습니다.');status.dataset.error = 'true';}
+      if (response.headers.get('X-Medication-Lines') === '0') {status.textContent = T('up_empty', '약물 열은 찾았지만 처방 줄이 하나도 없습니다. 약물 칸이 비어 있지 않은지 확인해 주세요. 받은 파일은 비어 있습니다.');status.dataset.error = 'true';}
       else status.textContent = T('up_done', '계산 완료. 첫 시트(보완합계)에서 환자별 최종 합계를 확인하세요.');
     } catch (error) {status.textContent = error.message || T('up_conn', '연결을 확인한 뒤 다시 시도해 주세요.');status.dataset.error = 'true';}
     finally {busy = false;button.disabled = false;file.disabled = false;button.removeAttribute('data-i18n');button.textContent = T('up_again', '다시 계산하기 →');}

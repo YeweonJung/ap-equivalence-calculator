@@ -5,14 +5,20 @@ import re
 from app import app
 
 
-def test_empty_upload_is_flagged_with_zero_medication_lines():
+def test_upload_without_the_fixed_drug_column_stops_with_a_message():
     response = app.test_client().post('/upload', data={'file': (io.BytesIO(b'a,b\n1,2'), 'x.csv'), 'method': 'ALL'})
+    assert response.status_code == 400
+    assert "약물이 적힌 열" in response.get_data(as_text=True)
+
+
+def test_blank_drug_column_is_flagged_with_zero_medication_lines():
+    response = app.test_client().post('/upload', data={'file': (io.BytesIO('환자ID,약물\nP1,\n'.encode()), 'x.csv'), 'method': 'ALL'})
     assert response.status_code == 200
     assert response.headers['X-Medication-Lines'] == '0'
 
 
 def test_upload_reports_medication_line_count():
-    raw = 'ID,처방\nP001,"risperidone 2mg BID, olanzapine 5mg"\n'.encode('utf-8-sig')
+    raw = 'ID,약물\nP001,"risperidone 2mg BID, olanzapine 5mg"\n'.encode('utf-8-sig')
     response = app.test_client().post('/upload', data={'file': (io.BytesIO(raw), 'x.csv'), 'method': 'ALL'})
     assert int(response.headers['X-Medication-Lines']) == 2
 

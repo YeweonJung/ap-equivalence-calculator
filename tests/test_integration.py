@@ -21,7 +21,7 @@ def _upload(client, content, filename, method="CMD"):
 
 def test_korean_cp949_csv_is_detected_and_converted():
     client = app.test_client()
-    csv_bytes = "환자번호,처방내역\nA-001,리스페달 2mg BID\nA-002,아빌리파이 15mg QD\n".encode("cp949")
+    csv_bytes = "환자ID,약물\nA-001,리스페달 2mg BID\nA-002,아빌리파이 15mg QD\n".encode("cp949")
     response = _upload(client, csv_bytes, "처방.csv")
     assert response.status_code == 200
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
@@ -33,7 +33,7 @@ def test_korean_cp949_csv_is_detected_and_converted():
 def test_offset_header_multisheet_xlsx_and_review_rows():
     workbook = io.BytesIO()
     with pd.ExcelWriter(workbook, engine="openpyxl") as writer:
-        pd.DataFrame({"환자번호": ["P01", "P02"], "약물정보": ["Risperdal 2㎎ BID", "lithium 600mg"]}).to_excel(
+        pd.DataFrame({"환자ID": ["P01", "P02"], "약물": ["Risperdal 2㎎ BID", "lithium 600mg"]}).to_excel(
             writer, sheet_name="처방", index=False, startrow=2
         )
         pd.DataFrame({"설명": ["처방 데이터가 아닌 시트"]}).to_excel(writer, sheet_name="안내", index=False)
@@ -147,10 +147,11 @@ def test_patient_ids_stay_consistent_across_sheets_and_formula_text_is_safe():
 
 
 def test_drug_id_is_not_mistaken_for_patient_identifier():
+    # 2026-11-19: only the fixed names are read; drug_id is not an ID column, so the upload stops.
     csv_bytes = b"drug_id,medication\nD001,Risperdal 2mg BID\n"
     response = _upload(app.test_client(), csv_bytes, "data.csv")
-    detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
-    assert detailed.loc[0, "patient"] != "PATIENT_00001"
+    assert response.status_code == 400
+    assert "환자ID" in response.get_data(as_text=True)
 
 
 def test_every_registered_alias_parses_to_its_declared_standard_name():
@@ -187,17 +188,17 @@ def test_all_lookup_pairs_have_a_consistent_reciprocal():
 
 
 def test_split_drug_dose_unit_and_frequency_columns_are_combined():
-    csv_bytes = "환자번호,약물명,용량,단위,복용빈도\nP01,리스페달,2,mg,2\nP02,아빌리파이,10,mg,QD\n".encode("utf-8-sig")
+    csv_bytes = "환자ID,약물,용량,단위,횟수\nP01,리스페달,2,mg,2\nP02,아빌리파이,10,mg,QD\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "분리열.csv")
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed["약물"].tolist() == ["risperidone", "aripiprazole"]
     assert detailed["daily_dose_mg"].tolist() == [4, 10]
     assert detailed["source_row"].tolist() == [2, 3]
-    assert detailed["medication_column"].tolist() == ["약물명", "약물명"]
+    assert detailed["medication_column"].tolist() == ["약물", "약물"]
 
 
 def test_dose_unit_is_inferred_from_header_and_daily_dose_is_not_multiplied():
-    csv_bytes = b"patient_id,drug,daily_dose_mg\nP01,risperidone,4\n"
+    csv_bytes = b"patient_id,drug,daily_dose,unit\nP01,risperidone,4,mg\n"
     response = _upload(app.test_client(), csv_bytes, "daily.csv")
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed.loc[0, "dose_mg"] == 4
@@ -205,7 +206,7 @@ def test_dose_unit_is_inferred_from_header_and_daily_dose_is_not_multiplied():
 
 
 def test_daily_dose_column_is_not_multiplied_by_a_separate_frequency_column():
-    csv_bytes = b"patient_id,drug,daily_dose_mg,frequency\nP01,risperidone,4,2\n"
+    csv_bytes = b"patient_id,drug,daily_dose,unit,frequency\nP01,risperidone,4,mg,2\n"
     response = _upload(app.test_client(), csv_bytes, "daily_with_frequency.csv")
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed.loc[0, "original"] == "risperidone"
@@ -235,13 +236,17 @@ def test_all_methods_are_exported_when_site_uses_all():
 
 
 def test_common_korean_structured_column_names_are_detected():
+    # 2026-11-19: hospital-export names are not guessed any more; the fixed Korean names are read.
     csv_bytes = "환자ID,제품명,1회용량,용량단위,일일횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
+    response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
+    assert response.status_code == 400 and "약물이 적힌 열" in response.get_data(as_text=True)
+    csv_bytes = "환자 ID,약물,용량,단위,횟수\nK01,리스페달,2,mg,2\n".encode("utf-8-sig")
     response = _upload(app.test_client(), csv_bytes, "병원추출.csv")
     assert response.status_code == 200
     detailed = pd.read_excel(io.BytesIO(response.data), sheet_name="MedicationResults")
     assert detailed.loc[0, "약물"] == "risperidone"
     assert detailed.loc[0, "daily_dose_mg"] == 4
-    assert detailed.loc[0, "medication_column"] == "제품명"
+    assert detailed.loc[0, "medication_column"] == "약물"
 
 
 def test_case_punctuation_and_curated_korean_typos_are_normalized():
@@ -264,10 +269,10 @@ def test_sample_download_is_a_real_xlsx_file():
     assert response.status_code == 200
     workbook = load_workbook(io.BytesIO(response.data))
     # 2026-10-29: recommended layout is column A = patient ID, column B = all medications.
-    assert [c.value for c in workbook.active[1]] == ["환자 ID", "약물 처방"]
+    assert [c.value for c in workbook.active[1]] == ["환자ID", "약물"]
     assert workbook.active["B2"].value == "risperidone 2mg BID, olanzapine 5mg QD"
     detail = workbook["열을 나눈 형식(선택)"]
-    assert [c.value for c in detail[1]] == ["patient_id", "drug", "dose", "unit", "frequency"]
+    assert [c.value for c in detail[1]] == ["환자ID", "약물", "용량", "단위", "횟수"]
     result = app.test_client().post("/upload", data={"method": "ALL", "file": (io.BytesIO(response.data), "sample.xlsx")})
     assert result.status_code == 200
 

@@ -67,7 +67,7 @@ def test_shared_lai_does_not_borrow_another_drugs_interval():
 def test_existing_equivalent_columns_are_not_reconverted():
     import io
     from openpyxl import load_workbook
-    csv = 'id,cpz,raw_redcap_event_name,raw_med_aps,olz\nTEST,8200,baseline,risperidone 2mg,999\n'
+    csv = 'id,cpz,raw_redcap_event_name,medication,olz\nTEST,8200,baseline,risperidone 2mg,999\n'
     response = app.test_client().post('/upload', data={
         'file': (io.BytesIO(csv.encode()), 'prior_equivalents.csv')})
     assert response.status_code == 200
@@ -78,5 +78,5 @@ def test_existing_equivalent_columns_are_not_reconverted():
     audit = list(wb['MedicationResults'].values)
     assert len(audit) == 2
     row = dict(zip(audit[0], audit[1]))
-    assert row['medication_column'] == 'raw_med_aps'
+    assert row['medication_column'] == 'medication'
     assert row['daily_dose_mg'] == 2

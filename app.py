@@ -10,7 +10,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
-from services.column_detector import detect_columns, detect_medication_groups
+from services.column_detector import detect_columns, detect_medication_groups, MISSING_DRUG, MISSING_ID
 from services.converter import available_methods, normalize_target
 from services.exporter import export_results
 from services.file_reader import read_file
@@ -104,13 +104,13 @@ def sample_file():
     sheet = workbook.active
     # Recommended layout: column A = patient ID only, column B = all medications of that patient.
     sheet.title = "입력예시"
-    sheet.append(["환자 ID", "약물 처방"])
+    sheet.append(["환자ID", "약물"])
     sheet.append(["P001", "risperidone 2mg BID, olanzapine 5mg QD"])
     sheet.append(["P002", "Ativan 1mg, 쿠에티아핀 100mg 0-0-1"])
     sheet.append(["P003", "risperidone2 0.5-0-1"])
     sheet.append(["P004", "Invega Sustenna 150mg q4w, quetiapine 25mg PRN"])
     detail = workbook.create_sheet("열을 나눈 형식(선택)")
-    detail.append(["patient_id", "drug", "dose", "unit", "frequency"])
+    detail.append(["환자ID", "약물", "용량", "단위", "횟수"])
     detail.append(["P001", "risperidone", 2, "mg", "BID"])
     detail.append(["P001", "olanzapine", 5, "mg", "QD"])
     detail.append(["P002", "risperidone", 1, "mg", "QD"])
@@ -254,6 +254,14 @@ def process_upload(uploaded_file, method, base_method=None):
                 response.headers['Cache-Control'] = 'no-store'
                 return response
 
+            # Only columns with the fixed names are read (see services/column_detector.py).
+            readable = {name: df for name, df in sheets.items()
+                        if detect_columns(df)['medication_column'] is not None or detect_medication_groups(df)}
+            if not readable:
+                raise ValueError(MISSING_DRUG)
+            if any(detect_columns(df)['patient_column'] is None for df in readable.values()):
+                raise ValueError(MISSING_ID)
+
             patients = {}
             used_ids = {str(value) for df in sheets.values()
                         for col in [detect_columns(df)['patient_column']] if col is not None
@@ -268,8 +276,8 @@ def process_upload(uploaded_file, method, base_method=None):
 
                 groups = detect_medication_groups(dataframe) or [{"medication_column": medication_col, "dose_column": dose_col, "unit_column": unit_col, "frequency_column": frequency_col}]
 
-                if medication_col is None and not any(g["medication_column"] for g in groups):
-                    error_rows.append({"sheet": sheet_name, "source_row": "", "medication_column": "", "patient": "", "original": "", "error": "약물 열을 찾지 못했습니다."})
+                if sheet_name not in readable:
+                    error_rows.append({"sheet": sheet_name, "source_row": "", "medication_column": "", "patient": "", "original": "", "error": "'약물' 열이 없어 이 시트는 읽지 않았습니다."})
                     continue
 
                 header_row = int(dataframe.attrs.get("header_row", 0))

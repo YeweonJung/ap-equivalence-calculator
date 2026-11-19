@@ -39,7 +39,7 @@ def test_quick_export_preserves_newlines_and_commas():
 
 
 @pytest.mark.parametrize('content', [
-    'medication\n"Sustenna 156mg monthly; risperidone 2mg QD"\n',
+    'patient_id,medication\nP1,"Sustenna 156mg monthly; risperidone 2mg QD"\n',
     'patient_id;medication\nP1;"Sustenna 156mg monthly; risperidone 2mg QD"\n',
     'patient_id\tmedication\nP1\tSustenna 156mg monthly; risperidone 2mg QD\n',
 ])
