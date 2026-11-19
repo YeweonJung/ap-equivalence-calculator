@@ -28,6 +28,7 @@ REASONS = {
     'injection_quantity_ambiguous': '주사 수량 확인: 하루 정 수를 주사 용량에 곱하지 않음',
     'code_name_conflict': '보험 약품코드와 약품명의 성분이 다름',
     'matched_by_insurance_code': '보험 약품코드로 성분·함량 확인',
+    'daily_from_dose_and_times': '하루 정 수 = 1회 정 수 × 1일 횟수',
     'insurance_code_not_in_antipsychotic_catalogue': '항정신병약 목록에 없는 약품코드: 약품명으로 판단',
     'new_order_replaces_previous': '새 처방으로 대체 가정',
 }

@@ -27,6 +27,10 @@ FIELDS = {
     # the ingredient, strength and route instead of the drug name being read.
     'code': ['EDI_CODE', 'drug_code', 'insurance_code', '약품코드', '보험코드', 'EDI코드', '청구코드'],
     'daily': ['TABS_PER_DAY', 'tablets_per_day', 'daily_tablets', '일일정수', '하루정수', 'tabs_per_day', '1일정수', '하루복용정수'],
+    # Optional pair used only when there is no tablets-per-day column: daily = tablets per dose x doses per day.
+    # Names such as '1회량' are deliberately absent: in many exports they hold mg, not a tablet count.
+    'per_dose': ['TABS_PER_DOSE', 'tablets_per_dose', '1회정수', '1회복용정수'],
+    'times': ['TIMES_PER_DAY', 'times_per_day', 'doses_per_day', '1일횟수', '1일투여횟수'],
     'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수', 'duration_days', '투여일수', '처방기간', '일수', '투약일'],
 }
 REQUIRED = ('patient', 'date', 'drug', 'daily', 'days')
@@ -55,8 +59,10 @@ def is_longitudinal(columns):
 
 def validate_mapping(columns, mapping, policy='review'):
     required = REQUIRED if policy != 'prescription_date' else REQUIRED[:-1]
+    if mapping.get('per_dose') and mapping.get('times') and not mapping.get('daily'):
+        required = tuple(k for k in required if k != 'daily')
     if any(not mapping.get(k) or mapping[k] not in columns for k in required):
-        raise ValueError('피험자 ID, 처방일, 약물명, 일일 정 수 열을 연결하세요.' if policy == 'prescription_date' else '피험자 ID, 처방일, 약물명, 일일 정 수, 처방일수 열을 모두 연결하세요.')
+        raise ValueError('피험자 ID, 처방일, 약물명 열과, 하루 정 수 열(또는 1회 정 수와 1일 횟수 열 두 개)을 연결하세요.' if policy == 'prescription_date' else '피험자 ID, 처방일, 약물명, 일일 정 수, 처방일수 열을 모두 연결하세요.')
     selected = [v for v in mapping.values() if v]
     if len(selected) != len(set(selected)) or any(v not in columns for v in selected):
         raise ValueError('열 연결이 중복되거나 존재하지 않는 열입니다.')
@@ -188,6 +194,10 @@ def prepare(frame, mapping, policy='review', provenance=None):
             r['start'] = parse_date(r['date'])
         except ValueError:
             r['issues'].append('invalid_date')
+        if not mapping.get('daily') and mapping.get('per_dose') and mapping.get('times'):
+            per_dose, times = number(r['per_dose']), number(r['times'])
+            r['daily'] = f'{per_dose * times:g}' if per_dose and times else ''
+            r['adjustments'].append('daily_from_dose_and_times')
         days, daily = number(r['days']), number(r['daily'])
         if days is None or not days.is_integer() or days > 3660:
             if policy != 'prescription_date':

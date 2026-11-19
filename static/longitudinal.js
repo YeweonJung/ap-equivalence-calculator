@@ -2,7 +2,7 @@
 (() => {
   const $ = id => document.getElementById(id);
   const T = (key, ko) => (window.APi18n ? window.APi18n.t(key, ko) : ko);
-  const labels = {patient:'피험자 ID',date:'처방일',drug:'성분·함량·제형이 적힌 약물명',product:'제품명 (선택)',code:'보험 약품코드 (선택)',daily:'하루 정/캡슐 수',days:'처방일수 (선택)'};
+  const labels = {patient:'피험자 ID',date:'처방일',drug:'성분·함량·제형이 적힌 약물명',product:'제품명 (선택)',code:'보험 약품코드 (선택)',daily:'하루 정/캡슐 수',per_dose:'1회 정/캡슐 수 (하루 정 수 열이 없을 때)',times:'1일 횟수 (하루 정 수 열이 없을 때)',days:'처방일수 (선택)'};
   const fieldLabel = field => T('lf_' + field, labels[field]);
   let generation = 0, lastInspect = null, lastStatus = null;
   const inspectText = d => T('lj_rows', '{n}행 · ').replace('{n}', d.rows.toLocaleString()) + (d.recognized ? T('lj_recog', '열 이름이 같은 칸은 미리 채웠습니다. 칸마다 맞는 열인지 확인하세요.') : T('lj_unrecog', '빈 칸에 맞는 열을 고르세요. 열 이름이 같은 칸은 미리 채웠습니다.'));
@@ -17,7 +17,7 @@
     $('mapping').replaceChildren();
     for (const field of Object.keys(labels)) {
       const box = document.createElement('div'), title = document.createElement('label'), select = document.createElement('select');
-      select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days', 'code'].includes(field);
+      select.id = 'map-' + field; title.htmlFor = select.id; title.textContent = fieldLabel(field); select.required = !['product', 'days', 'code', 'daily', 'per_dose', 'times'].includes(field);
       select.add(new Option(columns.length ? T('lj_col', '열 선택') : T('lj_wait', '파일을 먼저 고르세요'), ''));
       columns.forEach(column => select.add(new Option(column, column)));
       select.disabled = !columns.length; select.value = mapping[field] || ''; box.append(title, select); $('mapping').append(box);
@@ -44,6 +44,7 @@
   $('longitudinal-form').addEventListener('submit', async event => {
     event.preventDefault();
     const mapping = Object.fromEntries(Object.keys(labels).map(k => [k, $('map-' + k).value]));
+    if (!mapping.daily && !(mapping.per_dose && mapping.times)) { $('status').textContent = T('lj_need_daily', '하루 정/캡슐 수 열을 고르거나, 그 열이 없으면 1회 정/캡슐 수와 1일 횟수 열을 둘 다 고르세요.'); return; }
     const form = new FormData();
     form.append('file', $('rx-file').files[0]); form.append('mapping', JSON.stringify(mapping));
     form.append('mode', 'all_dates'); form.append('base_method', $('lg-base') ? $('lg-base').value : 'ED95'); form.append('ack', $('ack').checked ? 'yes' : '');
