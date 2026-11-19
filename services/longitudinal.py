@@ -61,8 +61,21 @@ def validate_mapping(columns, mapping, policy='review'):
         raise ValueError('열 연결이 중복되거나 존재하지 않는 열입니다.')
 
 
+EXCEL_EPOCH = date(1899, 12, 30)
+
+
 def parse_date(value):
+    if hasattr(value, 'year') and hasattr(value, 'month') and hasattr(value, 'day'):
+        return date(value.year, value.month, value.day)
     value = str(value).strip()
+    # Excel date cells and EMR timestamps: keep the date, drop the time of day.
+    value = re.sub(r'^(\d{4}[-./]\d{1,2}[-./]\d{1,2})(?:[ T]\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?$', r'\1', value)
+    korean = re.fullmatch(r'(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?', value)
+    if korean:
+        value = '-'.join(korean.groups())
+    # A date cell read without its format arrives as an Excel serial number (e.g. 45293 = 2024-01-02).
+    if re.fullmatch(r'\d{5}(?:\.0+)?', value) and 20000 <= float(value) <= 80000:
+        return EXCEL_EPOCH + timedelta(days=int(float(value)))
     if re.fullmatch(r'\d{8}', value):
         value = value[:4] + '-' + value[4:6] + '-' + value[6:]
     value = value.replace('/', '-').replace('.', '-')
@@ -257,6 +270,9 @@ def reference_pairs(records, mode, common_date='', reference_frame=None):
             raise ValueError('기준일 파일에 중복된 ID·날짜가 있습니다.')
     else:
         raise ValueError('기준일 모드를 확인하세요.')
+    if not pairs and mode == 'all_dates' and records:
+        bad = next((str(r['date']).strip() for r in records if 'invalid_date' in r['issues'] and str(r['date']).strip()), '')
+        raise ValueError('처방일을 하나도 읽지 못했습니다' + (f" (예: '{bad}')" if bad else '') + '. 처방일 열을 맞게 골랐는지 확인하고, 날짜는 2024-01-02처럼 연도 네 자리로 적어 주세요.')
     if not pairs or len(pairs) > 30000:
         raise ValueError('기준일 조합은 1~30,000개여야 합니다. 파일을 나눠 주세요.')
     return pairs

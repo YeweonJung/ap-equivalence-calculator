@@ -265,7 +265,7 @@
             <button type="submit" id="submit-button" data-i18n="submit">결과파일 받기</button>
           </form>
           <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
-          <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
+          <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 2,000행·15MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
           <p class="upload-note" data-i18n="upload_note" data-html>첫 번째 열 제목은 <b>id</b>, 두 번째 열 제목은 <b>med</b>로 하세요. med 칸에는 그 환자의 약을 모두 쉼표로 구분해 적으세요. 전산실에서 받은 처방 원자료는 <b>전산실 처방자료 분석</b>에서 올리세요.</p>
         </section>
         <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 설명 →</a></p>

@@ -13,7 +13,9 @@ from services.file_reader import csv_layout
 
 bp = Blueprint('longitudinal', __name__)
 MAX_BYTES = 15 * 1024 * 1024
-MAX_ROWS = 100000
+ROWS_MESSAGE = '한 번에 처방 2,000행까지 계산합니다(지금 {n}). 환자별로 파일을 나눠 차례로 올려 주세요.'
+# Measured on the hosted server: about 30 ms per row, and 3,000 rows ran it out of memory.
+MAX_ROWS = 2000
 
 
 def read_excel_upload(raw):
@@ -33,7 +35,7 @@ def read_excel_upload(raw):
                 raise ValueError('내용이 있는 시트가 여러 개입니다(' + ', '.join(sheets) + '). 분석할 처방 시트 하나만 남겨 주세요.')
             frame = _read_excel_sheet(excel, sheets[0])
     if len(frame) > MAX_ROWS:
-        raise ValueError('파일은 100,000행 이하로 나눠 주세요.')
+        raise ValueError(ROWS_MESSAGE.format(n=len(frame)))
     return frame.fillna('')
 
 
@@ -56,7 +58,7 @@ def read_csv_upload(upload):
             frame = pd.read_csv(io.StringIO(text), sep=delimiter, dtype=str, keep_default_na=False, skip_blank_lines=False, skiprows=header_row, nrows=MAX_ROWS + 1)
             frame.attrs['header_row'] = header_row
             if len(frame) > MAX_ROWS:
-                raise ValueError('CSV는 100,000행 이하로 나눠 주세요.')
+                raise ValueError(ROWS_MESSAGE.format(n=f'{MAX_ROWS:,}행 초과'))
             return frame.fillna(''), hashlib.sha256(raw).hexdigest()
         except (pd.errors.ParserError, pd.errors.EmptyDataError, IndexError) as exc:
             raise ValueError('CSV 구조를 읽을 수 없습니다. 첫 행의 열 이름과 구분자를 확인하세요.') from exc

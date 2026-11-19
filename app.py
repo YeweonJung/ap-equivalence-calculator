@@ -26,7 +26,9 @@ from services.result_summary import result_rows, METHOD_ORDER, patient_results
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
+app.config["MAX_CONTENT_LENGTH"] = 15 * 1024 * 1024
+# Measured on the hosted server: about 30 ms per row; larger uploads hit the time and memory limits.
+MAX_UPLOAD_ROWS = 2000
 from services.feedback_api import bp as feedback_bp, attach_feedback
 app.register_blueprint(feedback_bp)
 from services.llm_worker_api import bp as llm_worker_bp
@@ -260,6 +262,9 @@ def process_upload(uploaded_file, method, base_method=None):
                         if detect_columns(df)['medication_column'] is not None or detect_medication_groups(df)}
             if not readable:
                 raise ValueError(MISSING_DRUG)
+            total_rows = sum(len(df.dropna(how='all')) for df in readable.values())
+            if total_rows > MAX_UPLOAD_ROWS:
+                raise ValueError(f'한 번에 {MAX_UPLOAD_ROWS:,}행까지 계산합니다(지금 {total_rows:,}행). 환자별로 파일을 나눠 차례로 올려 주세요.')
             for name, df in readable.items():
                 problem = column_problem(df)
                 if problem:
@@ -346,7 +351,7 @@ def process_upload(uploaded_file, method, base_method=None):
 
 @app.errorhandler(413)
 def file_too_large(_error):
-    return render_template("error.html", message="파일 크기는 최대 100MB입니다."), 413
+    return render_template("error.html", message="파일 크기는 최대 15MB입니다. 파일을 나눠 올려 주세요."), 413
 
 
 if __name__ == "__main__":
