@@ -93,8 +93,17 @@ def evidence_download():
 
 @app.get("/health")
 def health():
-    # The process id shows how many worker processes answer (one is expected: see render.yaml).
-    return {"status": "ok", "worker": os.getpid()}
+    # The process id shows how many worker processes answer (one is expected: see render.yaml);
+    # memory now and at its peak (MB) shows how close the 512 MB server is to its limit.
+    memory = {}
+    try:
+        with open('/proc/self/status') as status:
+            for line in status:
+                if line.startswith(('VmRSS', 'VmHWM')):
+                    memory[line.split(':')[0]] = int(line.split()[1]) // 1024
+    except OSError:
+        pass
+    return {"status": "ok", "worker": os.getpid(), "memory_mb": memory.get('VmRSS'), "peak_memory_mb": memory.get('VmHWM')}
 
 
 @app.get("/version")
