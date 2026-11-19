@@ -266,7 +266,7 @@
           </form>
           <div class="base-choice in-box"><label for="base-method" data-i18n="base_label">기준 방법</label><select id="base-method" name="base_method" form="upload-form">{% for method in (['ED95'] if 'ED95' in methods else []) + (methods|reject('equalto', 'ED95')|list) %}<option value="{{ method }}"{% if method == 'ED95' %} selected data-i18n="opt_ed95"{% endif %}>{{ method }}{% if method == 'ED95' %} (기본){% endif %}</option>{% endfor %}</select></div><p id="upload-status" role="status" aria-live="polite"></p>
           <div class="under-actions"><span data-i18n="limits">CSV · XLS · XLSX · 최대 100MB · 처리 후 서버에서 삭제</span><a href="{{ url_for('sample_file') }}" data-i18n="sample_link">입력 샘플 받기 →</a></div>
-          <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다.</p>
+          <p class="upload-note" data-i18n="upload_note" data-html>가장 잘 읽히는 형식: <b>1열 환자 ID, 2열 약물 처방</b> (한 칸에 여러 약은 쉼표로). 처방일 열이 있으면 날짜별로 따로 합산합니다. 열 이름은 <b>처방·약물·medication·drug</b>처럼 쓰면 되고, <b>환자 ID 열이 없으면 행마다 다른 환자로 계산</b>합니다.</p>
         </section>
         <p class="view-links"><a href="#guide" data-i18n="link_guide">처음이면 입력 방법을 먼저 보세요 →</a><a href="#rules" data-i18n="link_rules">계산 기준 설명 →</a></p>
         <section class="rule-strip" aria-label="계산 규칙" id="rule-strip" data-units='{{ units|tojson }}'>
@@ -322,6 +322,7 @@
             <li data-i18n="tip5" data-html><b>PRN</b>(필요시)과 항정신병약이 아닌 약은 0으로 계산</li>
             <li data-i18n="tip6" data-html><b>전산 원자료</b>(처방일·주문번호가 섞인 표)는 먼저 이 두 열로 정리해 주세요</li>
           </ul>
+          <details class="fold"><summary data-i18n="cols_sum">인식하는 열 이름 전체 보기</summary><div class="fold-body"><ul class="sheet-guide"><li data-i18n="cols1" data-html><b>약물</b>: 처방, 투약, 약물, 약품, 약제, 복용약, 항정신병, 제품명, 성분명, medication, prescription, drug, rx, regimen 등이 들어간 이름. aps, ap, meds, med, 약은 열 이름 전체가 그 단어일 때만 읽습니다. 이름이 낯설어도 약 이름이나 mg가 적힌 열을 찾아 읽습니다.</li><li data-i18n="cols2" data-html><b>환자 ID</b>: ID, 환자번호, 등록번호, 차트번호, 연구번호, 피험자, patient_id, subject, pt_id, pid, mrn 등. No, 번호는 행 번호로 보고 쓰지 않습니다.</li><li data-i18n="cols3" data-html><b>용량·단위·횟수</b> (따로 열이 있을 때만): 용량, 투여량, dose, mg/day / 단위, unit / 횟수, 빈도, 용법, freq, sig</li><li data-i18n="cols4" data-html><b>약이 여러 열</b>이면 약물1·용량1, 약물2·용량2처럼 번호를 붙이면 짝지어 읽습니다.</li><li data-i18n="cols5" data-html><b>처방일</b> 열(처방일, 처방일자, prescription_date)이 있으면 날짜별 분석으로 넘어갑니다.</li><li data-i18n="cols6" data-html>대소문자, 띄어쓰기, 밑줄은 구분하지 않습니다.</li></ul></div></details>
         </section>
         <p class="view-links"><a href="#upload" data-i18n="link_upload">엑셀 올리러 가기 →</a></p>
     </div></section>
