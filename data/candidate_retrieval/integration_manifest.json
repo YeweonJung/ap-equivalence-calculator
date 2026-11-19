@@ -92,7 +92,7 @@
     "models/name_ranker/metadata.json": "fa69c9569daab83a9149b29dfbce5d812b38db56ad625bf874db19ba856070a4",
     "models/name_ranker/model.json": "f3cb307e0e5a11c722dd2012b8ec6bf763cea7f8261c0141586f040a2147d7fc",
     "services/anonymizer.py": "af07c6f77cdbab654b45dcfad8bba685b6e97dcd85ea639cac4ea1260fcea4f7",
-    "services/column_detector.py": "b1ad80b12047c160268c27dbedebb97cce8dda1a092baf680805fe11196f3a95",
+    "services/column_detector.py": "3e9d9c21a6da0db4e98e6b3bed3a095bab7e0739509217f9991b01d8424b7f7a",
     "services/converter.py": "3bc51a40ee46e901b2c90e2c4b8b950b97bb7ec543aceabe401ae4c42d8385e8",
     "services/drug_data_sources.py": "058324ade378f5c474f67ec3d5f38199569379d7a72627bc1b99831d52daa2cc",
     "services/drug_suggestions.py": "ed35a80f4fa6f8270fd0b6c90f88457546d63cf6867325a4abb79b7303bc0ffd",

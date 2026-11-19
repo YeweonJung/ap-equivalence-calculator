@@ -20,10 +20,10 @@ RULE_VERSION = 'prescription-date-2.1-lai'
 FIELDS = {
     'patient': ['HID', 'patient_id', 'subject_id', '피험자ID', '환자ID', '연구번호'],
     'date': ['PRESCR_DATE', 'prescription_date', 'rx_date', '처방일', '처방일자'],
-    'drug': ['DRUG', 'drug_name', 'medication', '약물명', '성분명'],
+    'drug': ['DRUG', 'drug_name', 'medication', '약물명', '성분명', 'ingredient', 'generic_name', '일반명', '성분'],
     'product': ['COMMERCIAL_DRUG', 'product_name', 'brand', '제품명', '상품명'],
-    'daily': ['TABS_PER_DAY', 'tablets_per_day', 'daily_tablets', '일일정수', '하루정수'],
-    'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수'],
+    'daily': ['TABS_PER_DAY', 'tablets_per_day', 'daily_tablets', '일일정수', '하루정수', 'tabs_per_day', '1일정수', '하루복용정수'],
+    'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수', 'duration_days', '투여일수', '처방기간'],
 }
 REQUIRED = ('patient', 'date', 'drug', 'daily', 'days')
 TARGETS = set(lookup.source_drug)
