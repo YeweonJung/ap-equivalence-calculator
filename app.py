@@ -93,7 +93,8 @@ def evidence_download():
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    # The process id shows how many worker processes answer (one is expected: see render.yaml).
+    return {"status": "ok", "worker": os.getpid()}
 
 
 @app.get("/version")
