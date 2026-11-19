@@ -218,7 +218,13 @@ def study_status():
 def upload():
     uploaded_file = request.files.get("file")
     method = request.form.get("method", "ALL").strip().upper() or "ALL"
-    return process_upload(uploaded_file, method, request.form.get('base_method'))
+    from services.heavy_lock import one_at_a_time
+    try:
+        # Uploads queue one at a time: several large files at once ran the 512 MB server out of memory.
+        with one_at_a_time():
+            return process_upload(uploaded_file, method, request.form.get('base_method'))
+    except ValueError as exc:
+        return render_template("error.html", message=str(exc)), 503
 
 
 def read_upload(path):

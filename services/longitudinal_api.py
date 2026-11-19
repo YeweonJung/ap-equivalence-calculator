@@ -10,6 +10,7 @@ from flask import Blueprint, current_app, jsonify, render_template, request, sen
 from services.longitudinal import (FIELDS, analyze_export, detect_mapping,
                                   prepare, reference_pairs)
 from services.release import metadata
+from services.heavy_lock import one_at_a_time
 
 bp = Blueprint('longitudinal', __name__)
 MAX_BYTES = 15 * 1024 * 1024
@@ -65,6 +66,14 @@ def page():
 @bp.post('/api/longitudinal/inspect')
 def inspect():
     try:
+        with one_at_a_time():
+            return _inspect()
+    except ValueError as exc:
+        return jsonify(error=str(exc)), 400
+
+
+def _inspect():
+    try:
         frame, _ = read_csv_upload(request.files.get('file'))
         mapping = detect_mapping(frame.columns)
         # A name that occurs twice ('처방일', '처방일 (2)') is never chosen for the researcher.
@@ -82,6 +91,14 @@ def inspect():
 
 @bp.post('/api/longitudinal/analyze')
 def calculate():
+    try:
+        with one_at_a_time():
+            return _calculate()
+    except ValueError as exc:
+        return jsonify(error=str(exc)), 400
+
+
+def _calculate():
     try:
         if request.form.get('ack') != 'yes':
             raise ValueError('처방일과 일일 정 수의 의미를 확인하세요.')
