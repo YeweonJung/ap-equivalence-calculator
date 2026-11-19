@@ -33,6 +33,15 @@ def _content_score(series):
     return sum(bool(DOSE_VALUE_RE.search(value)) for value in values) / len(values)
 
 
+def _drug_name_score(series):
+    """Share of cells that contain a known drug name ("ris 3, olan 10"), for files whose drug column has no usual header."""
+    from services.parser import dictionary_match
+    values = [str(value).strip() for value in series.dropna().head(100) if str(value).strip()]
+    if not values:
+        return 0.0
+    return sum(dictionary_match(value) is not None for value in values) / len(values)
+
+
 def detect_columns(df):
     patient_scores = {col: _patient_name_score(col) for col in df.columns}
     patient_col = max(patient_scores, key=patient_scores.get) if any(patient_scores.values()) else None
@@ -53,6 +62,10 @@ def detect_columns(df):
     best_name = _name_score(medication_col, MEDICATION_KEYWORDS) if medication_col is not None else 0
     if best_content == 0 and best_name == 0:
         medication_col = None
+        # Last resort: a column of drug names written without mg and under an unusual header (e.g. "aps").
+        name_scores = {col: _drug_name_score(df[col]) for col in df.columns if col != patient_col}
+        if name_scores and max(name_scores.values()) >= 0.5:
+            medication_col = max(name_scores, key=name_scores.get)
 
     def best_named(keywords, excluded=()):
         scores = {col: _name_score(col, keywords) for col in df.columns if col not in excluded}
