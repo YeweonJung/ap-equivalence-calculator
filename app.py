@@ -221,6 +221,34 @@ def upload():
     return process_upload(uploaded_file, method, request.form.get('base_method'))
 
 
+def read_upload(path):
+    """Researcher files go through read_file. Files it cannot open (UTF-16 text, '.xls' files that are
+    really web pages or text, as hospital systems export them) are read by the hospital-data reader."""
+    raw = path.read_bytes()
+    if raw.startswith(b'PK\x03\x04'):
+        # Count rows by streaming before pandas loads the whole workbook into memory.
+        from services.emr_reader import _xlsx_grids
+        try:
+            longest = max((len(rows) - 1 for _, rows in _xlsx_grids(raw, MAX_UPLOAD_ROWS + 20)), default=0)
+        except ValueError:
+            longest = 0
+        if longest > MAX_UPLOAD_ROWS:
+            raise ValueError(f'한 번에 {MAX_UPLOAD_ROWS:,}행까지 계산합니다(지금 {MAX_UPLOAD_ROWS:,}행 초과). 환자별로 파일을 나눠 차례로 올려 주세요.')
+    try:
+        return read_file(str(path))
+    except ValueError as exc:
+        if '열 이름이 중복' in str(exc) or '시트는 최대' in str(exc):
+            raise
+    except Exception:
+        pass
+    from services.emr_reader import read_prescription_table
+    from services.column_detector import ID_NAMES, DRUG_NAMES, _key
+    from services.longitudinal import FIELDS, norm
+    aliases = {_key(n) for n in ID_NAMES + DRUG_NAMES} | {norm(a) for names in FIELDS.values() for a in names}
+    frame = read_prescription_table(raw, MAX_UPLOAD_ROWS, aliases, {norm(a) for a in FIELDS['date']})
+    return {'Sheet1': frame}
+
+
 def process_upload(uploaded_file, method, base_method=None):
     try:
         validate_file(uploaded_file)
@@ -240,7 +268,7 @@ def process_upload(uploaded_file, method, base_method=None):
         with tempfile.TemporaryDirectory() as temp_dir:
             upload_path = Path(temp_dir) / f"upload{suffix}"
             uploaded_file.save(upload_path)
-            sheets = read_file(str(upload_path))
+            sheets = read_upload(upload_path)
             from services.longitudinal import is_longitudinal
             if any(is_longitudinal(df.columns) for df in sheets.values()):
                 if request.form.get('dated') == 'page':
@@ -261,7 +289,7 @@ def process_upload(uploaded_file, method, base_method=None):
             readable = {name: df for name, df in sheets.items()
                         if detect_columns(df)['medication_column'] is not None or detect_medication_groups(df)}
             if not readable:
-                raise ValueError(MISSING_DRUG)
+                raise ValueError(MISSING_DRUG + " 전산실에서 받은 처방 원자료라면 '전산실 처방자료 분석' 화면에서 올려 주세요.")
             total_rows = sum(len(df.dropna(how='all')) for df in readable.values())
             if total_rows > MAX_UPLOAD_ROWS:
                 raise ValueError(f'한 번에 {MAX_UPLOAD_ROWS:,}행까지 계산합니다(지금 {total_rows:,}행). 환자별로 파일을 나눠 차례로 올려 주세요.')
@@ -347,6 +375,20 @@ def process_upload(uploaded_file, method, base_method=None):
             return response
     except (ValueError, OSError) as exc:
         return render_template("error.html", message=str(exc)), 400
+    except Exception:
+        # Never a bare server error: log it and tell the researcher what to try.
+        app.logger.exception('upload failed')
+        return render_template("error.html", message="파일을 처리하지 못했습니다. Excel에서 열어 Excel 통합 문서(.xlsx)로 다시 저장한 뒤 올려 주세요. 전산실에서 받은 처방 원자료라면 '전산실 처방자료 분석' 화면에서 올려 주세요."), 400
+
+
+@app.errorhandler(500)
+def server_error(error):
+    # Last line of defence: a plain message instead of 'Internal Server Error'.
+    app.logger.error('unhandled error on %s: %r', request.path, getattr(error, 'original_exception', error))
+    message = '처리 중 예상하지 못한 문제가 생겼습니다. 입력을 확인하고 다시 시도해 주세요. 계속되면 입력 형식을 알려 주세요.'
+    if request.path.startswith('/api/'):
+        return jsonify({'error': message}), 500
+    return render_template("error.html", message=message), 500
 
 
 @app.errorhandler(413)

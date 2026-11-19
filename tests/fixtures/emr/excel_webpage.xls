@@ -1,0 +1,156 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=ks_c_5601-1987">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link id=Main-File rel=Main-File href="../page.htm">
+<link rel=File-List href=filelist.xml>
+<link rel=Stylesheet href=stylesheet.css>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:1.0in .75in 1.0in .75in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:8.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"맑은 고딕", monospace;
+	mso-font-charset:129;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+function fnUpdateTabs()
+ {
+  if (parent.window.g_iIEVer>=4) {
+   if (parent.document.readyState=="complete"
+    && parent.frames['frTabs'].document.readyState=="complete")
+   parent.fnSetActiveSheet(0);
+  else
+   window.setTimeout("fnUpdateTabs();",150);
+ }
+}
+
+if (window.name!="frSheet")
+ window.location.replace("../page.htm");
+else
+ fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link=blue vlink=purple>
+
+<table border=0 cellpadding=0 cellspacing=0 width=576 style='border-collapse:
+ collapse;table-layout:fixed;width:432pt'>
+ <col width=72 span=8 style='width:54pt'>
+ <tr height=23 style='height:16.9pt'>
+  <td colspan=8 height=23 width=576 style='height:16.9pt;width:432pt'>외래 처방 내역
+  조회</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 colspan=4 style='height:16.9pt;mso-ignore:colspan'>조회기간:
+  2024-01-01 ~ 2024-01-31</td>
+  <td colspan=4 style='mso-ignore:colspan'></td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 colspan=8 style='height:16.9pt;mso-ignore:colspan'></td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 style='height:16.9pt'>등록번호</td>
+  <td>처방<br />
+    일자</td>
+  <td>보험코드</td>
+  <td>약품명</td>
+  <td>1회량</td>
+  <td>횟수</td>
+  <td>총량</td>
+  <td>일수</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 align=right style='height:16.9pt'>1001</td>
+  <td class=xl65 align=center>#######</td>
+  <td align=right>6.57E+08</td>
+  <td>자이프렉<span style='display:none'>사정10mg</span></td>
+  <td align=right>1</td>
+  <td align=right>2</td>
+  <td>2정</td>
+  <td align=right>7</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 align=right style='height:16.9pt'>1001</td>
+  <td class=xl65 align=center>#######</td>
+  <td></td>
+  <td>로라제팜<span style='display:none'>정1mg</span></td>
+  <td align=right>1</td>
+  <td align=right>1</td>
+  <td align=right>1</td>
+  <td align=right>7</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 align=right style='height:16.9pt'>2002</td>
+  <td class=xl65 align=center>#######</td>
+  <td></td>
+  <td>리스페달<span style='display:none'>정 2mg</span></td>
+  <td align=right>1</td>
+  <td align=right>2</td>
+  <td align=right>2</td>
+  <td align=right>14</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 style='height:16.9pt'>등록번호</td>
+  <td>처방<br />
+    일자</td>
+  <td>보험코드</td>
+  <td>약품명</td>
+  <td>1회량</td>
+  <td>횟수</td>
+  <td>총량</td>
+  <td>일수</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 align=right style='height:16.9pt'>2002</td>
+  <td class=xl65 align=center>#######</td>
+  <td></td>
+  <td>Seroquel 1<span style='display:none'>00mg</span></td>
+  <td align=right>1</td>
+  <td align=right>1</td>
+  <td>1T</td>
+  <td align=right>7</td>
+ </tr>
+ <tr height=23 style='height:16.9pt'>
+  <td height=23 style='height:16.9pt'>합계</td>
+  <td colspan=7 style='mso-ignore:colspan'></td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+  <td width=72 style='width:54pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

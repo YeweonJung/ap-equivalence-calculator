@@ -23,13 +23,23 @@ def test_leading_blank_lines_preserve_date_group_and_source_row(route):
     wb.close()
 
 
-@pytest.mark.parametrize('route', ['/upload','/api/longitudinal/inspect','/api/longitudinal/analyze'])
 @pytest.mark.parametrize('prefix', ['', '\n'])
-def test_duplicate_date_headers_are_rejected_in_csv(route,prefix):
+def test_duplicate_date_headers_are_rejected_in_csv(prefix):
     raw = (prefix+'HID,PRESCR_DATE,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,2026-09-15,Quetiapine 25mg tab,1\n').encode()
-    response = app.test_client().post(route,data={'file':(io.BytesIO(raw),'test.csv'),'ack':'yes'})
+    response = app.test_client().post('/upload',data={'file':(io.BytesIO(raw),'test.csv'),'ack':'yes'})
     assert response.status_code == 400
-    assert '중복' in response.get_data(as_text=True) or '중복' in response.json['error']
+    assert '중복' in response.get_data(as_text=True)
+
+
+@pytest.mark.parametrize('prefix', ['', '\n'])
+def test_duplicate_date_headers_on_hospital_page_are_listed_but_never_chosen(prefix):
+    raw = (prefix+'HID,PRESCR_DATE,PRESCR_DATE,DRUG,TABS_PER_DAY\n001,2026-09-01,2026-09-15,Quetiapine 25mg tab,1\n').encode()
+    client = app.test_client()
+    data = client.post('/api/longitudinal/inspect', data={'file':(io.BytesIO(raw),'test.csv')}).get_json()
+    assert data['columns'] == ['HID', 'PRESCR_DATE', 'PRESCR_DATE (2)', 'DRUG', 'TABS_PER_DAY']
+    assert data['mapping']['date'] == '' and data['recognized'] is False
+    response = client.post('/api/longitudinal/analyze', data={'file':(io.BytesIO(raw),'test.csv'),'ack':'yes'})
+    assert response.status_code == 400 and '처방일' in response.get_json()['error']
 
 
 @pytest.mark.parametrize('title_rows',[0,1])

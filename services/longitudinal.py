@@ -3,6 +3,7 @@ import csv
 import io
 import json
 import math
+import unicodedata
 import re
 import zipfile
 import tempfile
@@ -18,15 +19,15 @@ from services.exclusions import INGREDIENTS as EXCLUDED_INGREDIENTS, PRN_RE
 
 RULE_VERSION = 'prescription-date-2.1-lai'
 FIELDS = {
-    'patient': ['HID', 'patient_id', 'subject_id', '피험자ID', '환자ID', '연구번호', 'ID'],
+    'patient': ['HID', 'patient_id', 'subject_id', '피험자ID', '환자ID', '연구번호', 'ID', '등록번호', '환자번호', '병록번호', '차트번호', '가명번호'],
     'date': ['PRESCR_DATE', 'prescription_date', 'rx_date', '처방일', '처방일자'],
-    'drug': ['DRUG', 'drug_name', 'medication', '약물명', '성분명', 'ingredient', 'generic_name', '일반명', '성분', '약물', 'med'],
+    'drug': ['DRUG', 'drug_name', 'medication', '약물명', '성분명', 'ingredient', 'generic_name', '일반명', '성분', '약물', 'med', '약품명', '약명', '처방명'],
     'product': ['COMMERCIAL_DRUG', 'product_name', 'brand', '제품명', '상품명'],
     # Optional 9-digit insurance (EDI) product code: when it is in the public catalogue it fixes
     # the ingredient, strength and route instead of the drug name being read.
     'code': ['EDI_CODE', 'drug_code', 'insurance_code', '약품코드', '보험코드', 'EDI코드', '청구코드'],
     'daily': ['TABS_PER_DAY', 'tablets_per_day', 'daily_tablets', '일일정수', '하루정수', 'tabs_per_day', '1일정수', '하루복용정수'],
-    'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수', 'duration_days', '투여일수', '처방기간'],
+    'days': ['PRESCR_DAYS', 'days_supply', 'prescription_days', '처방일수', '투약일수', 'duration_days', '투여일수', '처방기간', '일수', '투약일'],
 }
 REQUIRED = ('patient', 'date', 'drug', 'daily', 'days')
 TARGETS = set(lookup.source_drug)
@@ -67,14 +68,14 @@ EXCEL_EPOCH = date(1899, 12, 30)
 def parse_date(value):
     if hasattr(value, 'year') and hasattr(value, 'month') and hasattr(value, 'day'):
         return date(value.year, value.month, value.day)
-    value = str(value).strip()
-    # Excel date cells and EMR timestamps: keep the date, drop the time of day.
-    value = re.sub(r'^(\d{4}[-./]\d{1,2}[-./]\d{1,2})(?:[ T]\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?$', r'\1', value)
-    korean = re.fullmatch(r'(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?', value)
-    if korean:
-        value = '-'.join(korean.groups())
+    value = unicodedata.normalize('NFKC', str(value)).strip()
+    # Excel date cells, EMR timestamps and Korean formats: '2024-01-02 09:30', '2024-01-02 오전 9:30:00',
+    # '2024. 1. 2.', '2024-01-02(화)', '2024년 1월 2일'. Keep the date, drop the time of day or weekday.
+    parts = re.fullmatch(r'(\d{4})\s*[-./년]\s*(\d{1,2})\s*[-./월]\s*(\d{1,2})\s*(?:일|\.)?(?:\s*\([^)]*\)|[ T].*)?', value)
+    if parts:
+        value = '-'.join(parts.groups())
     # A date cell read without its format arrives as an Excel serial number (e.g. 45293 = 2024-01-02).
-    if re.fullmatch(r'\d{5}(?:\.0+)?', value) and 20000 <= float(value) <= 80000:
+    if re.fullmatch(r'\d{5}(?:\.\d+)?', value) and 20000 <= float(value) <= 80000:
         return EXCEL_EPOCH + timedelta(days=int(float(value)))
     if re.fullmatch(r'\d{8}', value):
         value = value[:4] + '-' + value[4:6] + '-' + value[6:]
@@ -87,11 +88,18 @@ def parse_date(value):
         raise ValueError('유효하지 않은 날짜입니다.') from exc
 
 
+COUNT_UNIT = re.compile(r'\s*(정|알|캡슐|캅셀|캡|개|포|매|일|t|tab|tabs|tablet|tablets|c|cap|caps|capsule|capsules|ea|day|days)\.?$', re.I)
+
+
 def number(value):
+    # Tablet counts and day counts only: '2', '2정', '1T', '0.5 tab', '1/2', '½', '7일'. A dose in mg is not a count.
+    text = unicodedata.normalize('NFKC', str(value if value is not None else '')).strip().replace(',', '')
+    text = COUNT_UNIT.sub('', text).strip()
+    fraction = re.fullmatch(r'(\d+)\s*[/\u2044]\s*(\d+)', text)
     try:
-        n = float(value)
+        n = int(fraction.group(1)) / int(fraction.group(2)) if fraction and int(fraction.group(2)) else float(text)
         return n if math.isfinite(n) and n > 0 else None
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, ZeroDivisionError):
         return None
 
 
@@ -162,6 +170,9 @@ def prepare(frame, mapping, policy='review', provenance=None):
         r = {k: str(row.get(mapping.get(k), '')).strip() for k in FIELDS}
         r.update(source_row=index + 2 + int(frame.attrs.get('header_row', 0)), issues=[], adjustments=[], duplicate_of='', start=None, end=None, effective_end=None, daily_mg=None)
         r['source_sheet'] = ''
+        rows = frame.attrs.get('source_rows')
+        if provenance is None and rows and index < len(rows):
+            r['source_row'] = rows[index]
         if provenance is not None:
             r['source_sheet'], r['source_row'] = provenance[index]
         # Duplicate candidates are retained and block totals, not silently deleted.
@@ -272,6 +283,8 @@ def reference_pairs(records, mode, common_date='', reference_frame=None):
         raise ValueError('기준일 모드를 확인하세요.')
     if not pairs and mode == 'all_dates' and records:
         bad = next((str(r['date']).strip() for r in records if 'invalid_date' in r['issues'] and str(r['date']).strip()), '')
+        if re.fullmatch(r'#+', bad):
+            raise ValueError("처방일 칸이 '#####'로 저장되어 있어 날짜를 알 수 없습니다. Excel에서 처방일 열의 너비를 넓힌 뒤 Excel 통합 문서(.xlsx)로 저장해 올려 주세요.")
         raise ValueError('처방일을 하나도 읽지 못했습니다' + (f" (예: '{bad}')" if bad else '') + '. 처방일 열을 맞게 골랐는지 확인하고, 날짜는 2024-01-02처럼 연도 네 자리로 적어 주세요.')
     if not pairs or len(pairs) > 30000:
         raise ValueError('기준일 조합은 1~30,000개여야 합니다. 파일을 나눠 주세요.')

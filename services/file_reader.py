@@ -10,9 +10,11 @@ MAX_SHEETS = 5
 
 def validate_headers(columns):
     # Validate before pandas silently renames duplicate headers with .1 suffixes.
-    named = [str(c).strip().casefold() for c in columns if str(c).strip()]
-    if len(named) != len(set(named)):
-        raise ValueError('중복 열 이름을 구분한 뒤 다시 업로드하세요.')
+    named = [str(c).strip() for c in columns if str(c).strip()]
+    folded = [n.casefold() for n in named]
+    twice = list(dict.fromkeys(n for n, f in zip(named, folded) if folded.count(f) > 1))
+    if twice:
+        raise ValueError(f"열 이름이 중복되어 있습니다({', '.join(twice)}). 하나만 남기거나 이름을 서로 다르게 바꿔 주세요.")
 
 
 def csv_layout(text):

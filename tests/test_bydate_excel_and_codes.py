@@ -44,9 +44,14 @@ def test_inspect_reads_excel_and_lists_columns():
     assert data['mapping']['code'] == '약품코드'
 
 
-def test_excel_with_two_filled_sheets_is_refused():
-    response = post('/api/longitudinal/inspect', xlsx(EMR, pd.DataFrame({'a': [1]})), 'emr.xlsx')
+def test_excel_with_two_prescription_sheets_is_refused():
+    response = post('/api/longitudinal/inspect', xlsx(EMR, EMR), 'emr.xlsx')
     assert response.status_code == 400 and '시트 하나만' in response.get_json()['error']
+
+
+def test_a_help_sheet_next_to_the_prescriptions_is_ignored():
+    response = post('/api/longitudinal/inspect', xlsx(pd.DataFrame({'안내': ['이 파일은 처방 자료입니다', '문의: 전산실']}), EMR), 'emr.xlsx')
+    assert response.status_code == 200 and response.get_json()['columns'] == list(EMR.columns)
 
 
 def audit(response):

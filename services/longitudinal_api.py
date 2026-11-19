@@ -2,67 +2,37 @@
 import hashlib
 import io
 import json
+import re
 
 import pandas as pd
-from flask import Blueprint, jsonify, render_template, request, send_file
+from flask import Blueprint, current_app, jsonify, render_template, request, send_file
 
 from services.longitudinal import (FIELDS, analyze_export, detect_mapping,
                                   prepare, reference_pairs)
 from services.release import metadata
-from services.file_reader import csv_layout
 
 bp = Blueprint('longitudinal', __name__)
 MAX_BYTES = 15 * 1024 * 1024
 ROWS_MESSAGE = '한 번에 처방 2,000행까지 계산합니다(지금 {n}). 환자별로 파일을 나눠 차례로 올려 주세요.'
 # Measured on the hosted server: about 30 ms per row, and 3,000 rows ran it out of memory.
 MAX_ROWS = 2000
-
-
-def read_excel_upload(raw):
-    import tempfile
-    from services.file_reader import _read_excel_sheet
-    with tempfile.NamedTemporaryFile(suffix='.xlsx') as handle:
-        handle.write(raw); handle.flush()
-        try:
-            excel = pd.ExcelFile(handle.name)
-        except Exception as exc:
-            raise ValueError('Excel 파일을 열 수 없습니다. 파일이 손상되지 않았는지 확인하세요.') from exc
-        with excel:
-            sheets = [name for name in excel.sheet_names if not excel.parse(name, header=None, nrows=2).dropna(how='all').empty]
-            if not sheets:
-                raise ValueError('Excel 파일에 내용이 있는 시트가 없습니다.')
-            if len(sheets) > 1:
-                raise ValueError('내용이 있는 시트가 여러 개입니다(' + ', '.join(sheets) + '). 분석할 처방 시트 하나만 남겨 주세요.')
-            frame = _read_excel_sheet(excel, sheets[0])
-    if len(frame) > MAX_ROWS:
-        raise ValueError(ROWS_MESSAGE.format(n=len(frame)))
-    return frame.fillna('')
+UNEXPECTED = '파일을 처리하지 못했습니다. Excel에서 열어 Excel 통합 문서(.xlsx)로 다시 저장한 뒤 올려 주세요. 그래도 안 되면 파일 형식(확장자, 시트 수, 첫 몇 줄 모양)을 알려 주세요.'
 
 
 def read_csv_upload(upload):
+    from services.emr_reader import read_prescription_table
+    from services.longitudinal import norm
     name = upload.filename.lower() if upload and upload.filename else ''
-    if not name.endswith(('.csv', '.xlsx', '.xls')):
+    if not name:
+        raise ValueError('처방 파일을 선택하세요.')
+    if not name.endswith(('.csv', '.xlsx', '.xls', '.xlsm', '.txt', '.tsv', '.htm', '.html')):
         raise ValueError('CSV 또는 Excel 파일을 선택하세요.')
     raw = upload.read(MAX_BYTES + 1)
     if len(raw) > MAX_BYTES:
         raise ValueError('파일은 15MB 이하로 나눠 주세요.')
-    if not name.endswith('.csv'):
-        return read_excel_upload(raw), hashlib.sha256(raw).hexdigest()
-    for encoding in ('utf-8-sig', 'cp949', 'euc-kr'):
-        try:
-            text = raw.decode(encoding)
-        except UnicodeDecodeError:
-            continue
-        try:
-            delimiter, header_row = csv_layout(text)
-            frame = pd.read_csv(io.StringIO(text), sep=delimiter, dtype=str, keep_default_na=False, skip_blank_lines=False, skiprows=header_row, nrows=MAX_ROWS + 1)
-            frame.attrs['header_row'] = header_row
-            if len(frame) > MAX_ROWS:
-                raise ValueError(ROWS_MESSAGE.format(n=f'{MAX_ROWS:,}행 초과'))
-            return frame.fillna(''), hashlib.sha256(raw).hexdigest()
-        except (pd.errors.ParserError, pd.errors.EmptyDataError, IndexError) as exc:
-            raise ValueError('CSV 구조를 읽을 수 없습니다. 첫 행의 열 이름과 구분자를 확인하세요.') from exc
-    raise ValueError('CSV 인코딩을 확인하세요. UTF-8 또는 CP949를 지원합니다.')
+    aliases = {norm(a) for names in FIELDS.values() for a in names}
+    frame = read_prescription_table(raw, MAX_ROWS, aliases, {norm(a) for a in FIELDS['date']})
+    return frame, hashlib.sha256(raw).hexdigest()
 
 
 @bp.after_request
@@ -97,9 +67,17 @@ def inspect():
     try:
         frame, _ = read_csv_upload(request.files.get('file'))
         mapping = detect_mapping(frame.columns)
-        return jsonify(columns=list(frame.columns), mapping=mapping, rows=len(frame), recognized=all(mapping[k] for k in ('patient', 'date', 'drug', 'daily')))
+        # A name that occurs twice ('처방일', '처방일 (2)') is never chosen for the researcher.
+        duplicated = {base for base in (re.sub(r' \(\d+\)$', '', c) for c in frame.columns if re.search(r' \(\d+\)$', c)) if base in frame.columns}
+        mapping = {k: ('' if v in duplicated else v) for k, v in mapping.items()}
+        return jsonify(columns=list(frame.columns), mapping=mapping, rows=len(frame), duplicated=sorted(duplicated),
+                       recognized=all(mapping[k] for k in ('patient', 'date', 'drug', 'daily')))
     except ValueError as exc:
         return jsonify(error=str(exc)), 400
+    except Exception:
+        # Never a bare server error: log it and tell the researcher what to try.
+        current_app.logger.exception('hospital data upload failed')
+        return jsonify(error=UNEXPECTED), 400
 
 
 @bp.post('/api/longitudinal/analyze')
@@ -108,10 +86,15 @@ def calculate():
         if request.form.get('ack') != 'yes':
             raise ValueError('처방일과 일일 정 수의 의미를 확인하세요.')
         frame, digest = read_csv_upload(request.files.get('file'))
-        mapping = json.loads(request.form.get('mapping', '{}'))
+        try:
+            mapping = json.loads(request.form.get('mapping', '{}') or '{}')
+        except ValueError:
+            raise ValueError('열 연결 형식을 확인하세요.') from None
         if not isinstance(mapping, dict) or any(not isinstance(v, str) for v in mapping.values()) or set(mapping) - set(FIELDS):
             raise ValueError('열 연결 형식을 확인하세요.')
-        mapping = mapping or detect_mapping(frame.columns)
+        if not mapping:
+            duplicated = {re.sub(r' \(\d+\)$', '', c) for c in frame.columns if re.search(r' \(\d+\)$', c)}
+            mapping = {k: ('' if v in duplicated else v) for k, v in detect_mapping(frame.columns).items()}
         policy = 'prescription_date'
         mode = request.form.get('mode', 'all_dates')
         base_method = _base_method(request.form.get('base_method'))
@@ -130,3 +113,7 @@ def calculate():
         return send_file(out, as_attachment=True, download_name=FILENAME, mimetype=MIMETYPE)
     except (ValueError, TypeError) as exc:
         return jsonify(error=str(exc)), 400
+    except Exception:
+        # Never a bare server error: log it and tell the researcher what to try.
+        current_app.logger.exception('hospital data upload failed')
+        return jsonify(error=UNEXPECTED), 400
