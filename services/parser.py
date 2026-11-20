@@ -167,6 +167,40 @@ def _dose_to_mg(value, unit):
     return value
 
 
+def _outside_brackets(text):
+    """Bracketed notes ("(56정)", "(14일)") blanked with spaces; positions are kept."""
+    depth, chars = 0, []
+    for char in text:
+        if char in "([{（":
+            depth += 1
+        chars.append(" " if depth else char)
+        if char in ")]}）":
+            depth = max(0, depth - 1)
+    return "".join(chars)
+
+
+_LABEL_BEFORE = re.compile(
+    r"(?:일수|투약일|처방일|기간|처방량|수량|총량?|(?<![a-z])(?:days?|for|x|no|rx|pod|td|d)|[×*#])\s*[:=.]?\s*$", re.I)
+_UNIT_AFTER = re.compile(
+    r"\s*(?:days?|일|주|weeks?|wks?|개월|months?|시|분|hours?|hrs?|h\b|t\b|tabs?|tablets?|caps?|capsules?|"
+    r"정|캡슐|알|회|번|times?|x\b|×|mg|mcg|ug|μg|㎍|㎎|g\b|ml|cc|%)", re.I)
+
+
+def _unlabelled_number(tail):
+    """A number after the dose with no unit ("2mg 2 bid"): tablets, times or days? Returns it, or None.
+
+    A lone 1 is allowed (as tablets it changes nothing). Numbers in a-b-c schedules, dates, q12h,
+    '#28', 'x 28', '28일', '투약일수 28' and the like are labelled and pass.
+    """
+    for m in re.finditer(r"(?<![\w.,#/\-~:])(\d+(?:\.\d+)?)(?![\w.,%/\-~:])", tail):
+        if float(m.group(1)) == 1 or _UNIT_AFTER.match(tail, m.end()):
+            continue
+        if _LABEL_BEFORE.search(tail[:m.start()]) or re.search(r"[\-~]\s*$", tail[:m.start()]) or re.match(r"\s*[\-~]", tail[m.end():]):
+            continue
+        return m.group(1)
+    return None
+
+
 def parse_medication(text):
     original = "" if text is None else str(text).strip()
     if not original:
@@ -196,14 +230,25 @@ def parse_medication(text):
         raise ValueError("한 항목에 용량이 여러 개 있어 일일 용량을 확정할 수 없습니다. 약물별·복용시간별로 행을 분리해 주세요.")
     match = dose_matches[0]
     dose_mg = _dose_to_mg(float(match.group("dose")), match.group("unit"))
+    outside = _outside_brackets(original)
+    divided = re.search(r"(?:#|분)\s*[2-4](?![\d.])", original)
+    counts = {float(m.group("count")) for m in QUANTITY_RE.finditer(outside)}
+    if len(counts) > 1:
+        raise ValueError("정 수가 두 번 적혀 있어(예: 1T … 56T) 1회 정 수와 총 처방량을 구분할 수 없습니다. 1회 정 수만 남겨 주세요.")
     quantity_match = QUANTITY_RE.search(original)
     if quantity_match:
         quantity = float(quantity_match.group("count"))
         if not math.isfinite(quantity) or quantity <= 0:
             raise ValueError("정제/캡슐 수량은 0보다 커야 합니다.")
+        # More than 4 tablets a dose is usually the total dispensed (e.g. "bid 56T"), not one dose.
+        if quantity > (12 if divided else 4):
+            raise ValueError(f"정 수가 {quantity:g}정이라 1회 복용량인지 총 처방량인지 알 수 없습니다. 1회 정 수로 적어 주세요.")
         dose_mg *= quantity
-    if re.search(r"(?:#|분)\s*[2-4](?![\d.])", original) and not quantity_match:
+    if divided and not quantity_match:
         raise ValueError("분할 표기(#n·분n)만 있고 정 수가 없어 일일 용량을 확정할 수 없습니다.")
+    loose = _unlabelled_number(outside[match.end():])
+    if loose:
+        raise ValueError(f"용량 뒤에 단위 없는 숫자({loose})가 있어 정 수·횟수·일수 중 무엇인지 알 수 없습니다. 2T·1일 2회·28일처럼 단위를 붙여 주세요.")
     if not math.isfinite(dose_mg) or dose_mg <= 0:
         raise ValueError("용량은 0보다 커야 합니다.")
 
@@ -232,6 +277,11 @@ def parse_medication(text):
     frequency_matches = _frequency_matches(original)
     # QD with HS (or QAM) is one daily dose; only different daily counts conflict.
     distinct_frequencies = {per_day for _, per_day in frequency_matches}
+    if len(distinct_frequencies) > 1:
+        # "bid daily", "1일 2회 매일": a bare "daily" only says the drug is taken every day.
+        without_daily = re.sub(r"\b(?:daily|every\s+day)\b|매일", " ", original, flags=re.I)
+        frequency_matches = _frequency_matches(without_daily)
+        distinct_frequencies = {per_day for _, per_day in frequency_matches}
     if len(distinct_frequencies) > 1:
         raise ValueError("서로 다른 복용 빈도가 함께 있어 일일 용량을 확정할 수 없습니다.")
     if frequency_matches:

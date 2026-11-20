@@ -74,6 +74,11 @@ def _korean_frequency(text):
     text = re.sub(r'(?<=\d)\s*錠', 'T', text).replace('分', '#')  # 2錠 分2 = 2T#2
     # 1T씩 2회 / 1정씩 2회: n tablets each time, n times a day
     text = re.sub(r'씩\s*([1-4])\s*(?:회|번)(?!\s*/\s*(?:주|week))', lambda m: ' ' + FREQ_WORD[int(m.group(1))] + ' ', text)
+    # 1정 2회 / 1T 3번: n tablets, n times a day
+    text = re.sub(r'(\d(?:\.\d+)?\s*(?:정|알|캡슐|t|tabs?))\s*([1-4])\s*(?:회|번)(?!\s*/\s*(?:주|week))(?![가-힣a-z])(?!\s*(?:분복|분할|분\s*\d|에\s*나|로\s*나|나누|나눠))',
+                  lambda m: m.group(1) + ' ' + FREQ_WORD[int(m.group(2))] + ' ', text, flags=re.I)
+    # 총 56정: the amount dispensed, not a dose
+    text = re.sub(r'총\s*\d+\s*(?:정|알|캡슐|t|tabs?)(?![a-z])', ' ', text, flags=re.I)
     text = re.sub(r'(아침|점심|저녁)(?=점심|저녁|취침|자기)', r'\1 ', text)  # 아침저녁
     text = re.sub(r'(아침|점심|저녁)(?=점심|저녁|취침|자기)', r'\1 ', text)
     return text

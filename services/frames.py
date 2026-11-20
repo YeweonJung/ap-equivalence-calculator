@@ -204,7 +204,7 @@ def _segments(text):
                 continue
             if match.group().strip().casefold() not in {'lai', 'depot', 'injection', '주사', '지속형', 'q', 'every', '하루', '일', 'am', 'pm', 'qd', 'bid', 'tid', 'qid', 'qhs', 'hs', 'qam', 'mg', 'mcg', 'ug', 'g', 'tab', 'tabs', 'tablet', 'tablets', '정', '캡슐',
                     '아침', '점심', '저녁', '취침', '취침전', '자기전', '자기', '전', 'noon', 'morning', 'evening', 'night', 'bedtime',
-                    'mane', 'nocte', 'x', '분', '알', 'total', '하루', '1일', '일', 'per', 'ml', 'cc', '주', '씩', '회'} and not any(a <= match.start() < b for a, b, _ in mentions):
+                    'mane', 'nocte', 'x', '분', '알', 'total', '하루', '1일', '일', 'per', 'ml', 'cc', '주', '씩', '회'} | SIG_WORDS and not any(a <= match.start() < b for a, b, _ in mentions):
                 starts.add(match.start())
         starts = sorted(starts)
         if product_label:
@@ -218,6 +218,14 @@ def _segments(text):
             value = chunk[left:right].strip()
             actual = left + len(chunk[left:right]) - len(chunk[left:right].lstrip())
             yield offset + actual, offset + actual + len(value), value
+
+
+# Directions and dispensing notes that EMR exports write after the dose ("식후 30분", "원외 28일",
+# "투약일수 28"). They belong to the medication before them and are never a new drug.
+SIG_WORDS = {'식후', '식전', '매식후', '매식전', '식간', '공복', '원외', '원내', '총', '투약일수', '처방일수', '일수',
+             '투약', '투약일', '처방일', '경구', '밤', '오전', '오후', '새벽', 'for', 'at', '처방량', '수량', '총량',
+             '본인부담', '외래', '입원', '아침저녁', '아침점심저녁', '점심저녁', '아침점심', '저녁취침전', '아침취침전',
+             'days', 'day', '용법', 'sig', 'po', 'pod', 'rx', '변경', '기간'}
 
 
 _REGIMEN_RE = re.compile(r'(?<![\d.])([0-9](?:\.(?:25|5|75))?(?:\s*-\s*[0-9](?:\.(?:25|5|75))?){2,3})(?![\d.])')
@@ -470,6 +478,9 @@ def _same_length(text):
         text = pattern.sub(lambda m: replacement if replacement else ' ' * len(m.group()), text)
     # Numbered list markers "1) risperidone … 2) olanzapine …" are not brackets.
     text = re.sub(r'(?:^|(?<=\s))\d{1,2}\)(?=\s*[A-Za-z가-힣])', lambda m: ' ' * len(m.group()), text)
+    # "1. risperidone … 2. olanzapine …" (never "2. mg")
+    text = re.sub(r'(?:^|(?<=\s))\d{1,2}\.(?=\s+[A-Za-z가-힣])(?!\s+(?:mg|mcg|ug|g|t|tabs?|정|알|캡슐)(?![a-z가-힣]))',
+                  lambda m: ' ' * len(m.group()), text, flags=re.I)
     # French intervals ('toutes les 4 semaines') would otherwise split off 'les' as a second drug.
     text = re.sub(r'\b(?:toutes|tous)\s+les\s+(\d+)\s+(semaines|mois)\b',
                   lambda m: f"q{m[1]}{'w' if m[2] == 'semaines' else 'mo'}".rjust(len(m.group())), text, flags=re.I)

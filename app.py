@@ -56,6 +56,9 @@ def _compose_structured_medication(row, drug_text, dose_col, unit_col, frequency
         frequency = "QD"
     else:
         normalized_frequency = frequency.replace(".0", "")
+        times = re.fullmatch(r"(\d{1,2})\s*(?:회|번)(?:\s*/\s*일)?", normalized_frequency)
+        if times:
+            normalized_frequency = times.group(1)   # 횟수 열의 "2회"
         if normalized_frequency == "0.5":
             frequency = "QOD"
         elif normalized_frequency.isdigit():
