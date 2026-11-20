@@ -106,7 +106,30 @@ def health():
                     memory[line.split(':')[0]] = int(line.split()[1]) // 1024
     except OSError:
         pass
-    return {"status": "ok", "worker": os.getpid(), "memory_mb": memory.get('VmRSS'), "peak_memory_mb": memory.get('VmHWM')}
+    # Every process in the container with its memory, and the container total the 512 MB limit applies to.
+    processes = []
+    try:
+        for pid in filter(str.isdigit, os.listdir('/proc')):
+            try:
+                with open(f'/proc/{pid}/status') as status:
+                    fields = dict(line.split(':', 1) for line in status if ':' in line)
+                rss = int(fields.get('VmRSS', '0 kB').split()[0]) // 1024
+                if rss:
+                    processes.append({'pid': int(pid), 'ppid': int(fields['PPid']), 'name': fields['Name'].strip(), 'mb': rss})
+            except (OSError, ValueError, KeyError):
+                continue
+    except OSError:
+        pass
+    container = None
+    for path in ('/sys/fs/cgroup/memory.current', '/sys/fs/cgroup/memory/memory.usage_in_bytes'):
+        try:
+            with open(path) as handle:
+                container = int(handle.read()) // (1024 * 1024)
+                break
+        except (OSError, ValueError):
+            continue
+    return {"status": "ok", "worker": os.getpid(), "master": os.getppid(), "memory_mb": memory.get('VmRSS'),
+            "peak_memory_mb": memory.get('VmHWM'), "container_mb": container, "processes": processes}
 
 
 @app.get("/version")
